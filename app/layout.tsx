@@ -3,6 +3,7 @@ import { Cormorant_Garamond, Inter, JetBrains_Mono, Geist } from "next/font/goog
 import { ThemeProvider } from "@/components/ui/ThemeProvider";
 import Navbar from "@/components/ui/Navbar";
 import Footer from "@/components/ui/Footer";
+import RegisterSW from "@/components/RegisterSW";
 import "../styles/globals.css";
 import { cn } from "@/lib/utils";
 
@@ -30,6 +31,7 @@ const jetbrains = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "The God of Time",
   description: "A hub of utility time calculators and immersive relativistic cosmic experiences.",
+  manifest: "/manifest.json",
 };
 
 export default function RootLayout({
@@ -50,6 +52,7 @@ export default function RootLayout({
           enableSystem={false}
           disableTransitionOnChange
         >
+          <RegisterSW />
           <Navbar />
           <main className="flex-grow pt-14 md:pt-16">
             {children}
