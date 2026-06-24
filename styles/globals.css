@@ -1,0 +1,642 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* Dark Mode (Default) design tokens */
+  --bg-base: #06060A;
+  --bg-surface: #0D0D14;
+  --bg-card: #12121C;
+  --bg-card-hover: #16162A;
+  --border: #1E1E2E;
+  --border-subtle: #161622;
+  --text-primary: #E8E8F0;
+  --text-muted: #6B6B80;
+  --text-faint: #3A3A50;
+
+  /* Accent Colors (Same in Dark Mode) */
+  --accent-cosmos: #4B8EF1;
+  --accent-bio: #C9A84C;
+  --accent-scifi: #7B61FF;
+  --accent-whim: #3ABFBF;
+  --accent-destiny: #E09A3A;
+  --accent-utility-a: #52C4A0;
+  --accent-utility-b: #60A5D4;
+  --accent-utility-c: #9B8EF5;
+  --accent-utility-d: #F5A857;
+  --accent-utility-e: #E87C7C;
+
+  /* Darkened accents for Light Mode (contrast enhancement) */
+  --accent-cosmos-dark: #377CD8;
+  --accent-bio-dark: #B0913C;
+  --accent-scifi-dark: #664DE5;
+  --accent-whim-dark: #2CA8A8;
+  --accent-destiny-dark: #C9852C;
+  --accent-utility-a-dark: #43B08E;
+  --accent-utility-b-dark: #4F93C2;
+  --accent-utility-c-dark: #8577E3;
+  --accent-utility-d-dark: #E09548;
+  --accent-utility-e-dark: #D46969;
+
+  /* shadcn variable mappings — default (dark mode) */
+  --background: var(--bg-base);
+  --foreground: var(--text-primary);
+  --card: var(--bg-card);
+  --card-foreground: var(--text-primary);
+  --popover: var(--bg-card);
+  --popover-foreground: var(--text-primary);
+  --primary: var(--accent-utility-a);
+  --primary-foreground: #ffffff;
+  --secondary: var(--bg-surface);
+  --secondary-foreground: var(--text-primary);
+  --muted: var(--bg-surface);
+  --muted-foreground: var(--text-muted);
+  --accent: var(--bg-surface);
+  --accent-foreground: var(--text-primary);
+  --destructive: var(--accent-utility-e);
+  --destructive-foreground: #ffffff;
+  --border: var(--border);
+  --input: var(--bg-surface);
+  --ring: var(--accent-utility-a);
+  --radius: 0.5rem;
+}
+
+.light {
+  /* Light Mode design tokens */
+  --bg-base: #F4F3EF;
+  --bg-surface: #EDECEA;
+  --bg-card: #FFFFFF;
+  --bg-card-hover: #F7F6F2;
+  --border: #DDDBD5;
+  --border-subtle: #E8E6E0;
+  --text-primary: #1A1A2E;
+  --text-muted: #8A8A9A;
+  --text-faint: #C0BDB6;
+
+  /* Override standard accent tokens with slightly darkened equivalents */
+  --accent-cosmos: var(--accent-cosmos-dark);
+  --accent-bio: var(--accent-bio-dark);
+  --accent-scifi: var(--accent-scifi-dark);
+  --accent-whim: var(--accent-whim-dark);
+  --accent-destiny: var(--accent-destiny-dark);
+  --accent-utility-a: var(--accent-utility-a-dark);
+  --accent-utility-b: var(--accent-utility-b-dark);
+  --accent-utility-c: var(--accent-utility-c-dark);
+  --accent-utility-d: var(--accent-utility-d-dark);
+  --accent-utility-e: var(--accent-utility-e-dark);
+
+  /* shadcn variable mappings — light mode */
+  --background: var(--bg-base);
+  --foreground: var(--text-primary);
+  --card: var(--bg-card);
+  --card-foreground: var(--text-primary);
+  --popover: var(--bg-card);
+  --popover-foreground: var(--text-primary);
+  --primary: var(--accent-utility-a);
+  --primary-foreground: #ffffff;
+  --secondary: var(--bg-surface);
+  --secondary-foreground: var(--text-primary);
+  --muted: var(--bg-surface);
+  --muted-foreground: var(--text-muted);
+  --accent: var(--bg-surface);
+  --accent-foreground: var(--text-primary);
+  --destructive: var(--accent-utility-e);
+  --destructive-foreground: #ffffff;
+  --border: var(--border);
+  --input: var(--bg-surface);
+  --ring: var(--accent-utility-a);
+  --radius: 0.5rem;
+}
+
+.dark {
+  /* shadcn variable mappings — dark mode class compatibility */
+  --background: var(--bg-base);
+  --foreground: var(--text-primary);
+  --card: var(--bg-card);
+  --card-foreground: var(--text-primary);
+  --popover: var(--bg-card);
+  --popover-foreground: var(--text-primary);
+  --primary: var(--accent-utility-a);
+  --primary-foreground: #ffffff;
+  --secondary: var(--bg-surface);
+  --secondary-foreground: var(--text-primary);
+  --muted: var(--bg-surface);
+  --muted-foreground: var(--text-muted);
+  --accent: var(--bg-surface);
+  --accent-foreground: var(--text-primary);
+  --destructive: var(--accent-utility-e);
+  --destructive-foreground: #ffffff;
+  --border: var(--border);
+  --input: var(--bg-surface);
+  --ring: var(--accent-utility-a);
+  --radius: 0.5rem;
+}
+
+@theme {
+  /* Custom Tailwind v4 mappings */
+  --color-bg-base: var(--bg-base);
+  --color-bg-surface: var(--bg-surface);
+  --color-bg-card: var(--bg-card);
+  --color-bg-card-hover: var(--bg-card-hover);
+  --color-border: var(--border);
+  --color-border-subtle: var(--border-subtle);
+  --color-text-primary: var(--text-primary);
+  --color-text-muted: var(--text-muted);
+  --color-text-faint: var(--text-faint);
+
+  /* Accents */
+  --color-accent-cosmos: var(--accent-cosmos);
+  --color-accent-bio: var(--accent-bio);
+  --color-accent-scifi: var(--accent-scifi);
+  --color-accent-whim: var(--accent-whim);
+  --color-accent-destiny: var(--accent-destiny);
+  --color-accent-utility-a: var(--accent-utility-a);
+  --color-accent-utility-b: var(--accent-utility-b);
+  --color-accent-utility-c: var(--accent-utility-c);
+  --color-accent-utility-d: var(--accent-utility-d);
+  --color-accent-utility-e: var(--accent-utility-e);
+
+  /* Font mapping */
+  --font-display: var(--font-display), serif;
+  --font-sans: var(--font-ui), sans-serif;
+  --font-mono: var(--font-mono), monospace;
+}
+
+@theme inline {
+  --font-heading: var(--font-sans);
+  --font-sans: var(--font-sans);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+}
+
+/* Base Body Styles */
+body {
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  font-family: var(--font-ui), sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Utility to apply tabular numbers */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Reusable Tool Input & Output System Styling */
+
+.tool-input-field {
+  height: 48px;
+  width: 100%;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0 16px;
+  font-family: var(--font-ui), sans-serif;
+  font-size: 15px;
+  color: var(--text-primary);
+  transition: border-color 150ms, box-shadow 150ms;
+  outline: none;
+}
+
+.tool-input-field:focus {
+  border: 2px solid var(--group-accent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--group-accent) 12.5%, transparent);
+}
+
+.tool-input-label {
+  font-family: var(--font-ui), sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  display: block;
+  margin-bottom: 8px;
+}
+
+.tool-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.tool-inputs-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 767px) {
+  .tool-inputs-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Calculate Button Interaction Curve */
+.calculate-btn {
+  width: 100%;
+  height: 52px;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-family: var(--font-ui), sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: background-color 150ms, transform 100ms;
+  position: relative;
+}
+
+.calculate-btn:hover {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.08));
+}
+
+.calculate-btn:active {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15));
+  transform: scale(0.99);
+}
+
+.calculate-btn.btn-loading {
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+/* Copy & Share Pill Buttons */
+.btn-copy, .btn-share {
+  height: 36px;
+  padding: 0 16px;
+  background-color: transparent;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-family: var(--font-ui), sans-serif;
+  font-size: 13px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 150ms;
+  outline: none;
+}
+
+.btn-copy:hover, .btn-share:hover {
+  border-color: var(--group-accent);
+  color: var(--group-accent);
+}
+
+/* Section Divider Markup */
+.section-divider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.divider-line {
+  flex: 1;
+  height: 1px;
+  background-color: var(--border);
+}
+
+.divider-symbol {
+  font-size: 12px;
+  color: var(--text-faint);
+  flex-shrink: 0;
+}
+
+/* SEO Content Components styling */
+.seo-steps li::marker {
+  color: var(--group-accent);
+  font-weight: 600;
+}
+
+.seo-internal-link {
+  color: var(--group-accent);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  font-weight: 500;
+  transition: border-color 150ms;
+}
+
+.seo-internal-link:hover {
+  border-bottom-color: var(--group-accent);
+}
+
+/* Fade-in Animation keyframes */
+@keyframes toolFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* --- SHADCN COMPONENTS STYLE OVERRIDES --- */
+
+/* --- CALENDAR --- */
+.rdp {
+  --rdp-cell-size: 36px;
+  --rdp-accent-color: var(--accent-utility-a);
+  font-family: var(--font-ui);
+}
+
+.rdp-day_selected,
+.rdp-day_selected:hover {
+  background-color: var(--accent-utility-a);
+  color: #ffffff;
+  border-radius: 6px;
+}
+
+.rdp-day:hover:not(.rdp-day_selected) {
+  background-color: color-mix(in srgb, var(--accent-utility-a) 15%, transparent);
+  border-radius: 6px;
+}
+
+.rdp-day_today:not(.rdp-day_selected) {
+  border-bottom: 2px solid var(--accent-utility-a);
+  border-radius: 0;
+}
+
+.rdp-caption_label {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.rdp-head_cell {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+
+.rdp-nav_button {
+  color: var(--text-muted);
+  transition: color 150ms;
+}
+
+.rdp-nav_button:hover {
+  color: var(--text-primary);
+  background: transparent;
+}
+
+/* --- SELECT --- */
+[data-radix-select-trigger] {
+  height: 48px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0 16px;
+  font-family: var(--font-ui);
+  font-size: 15px;
+  color: var(--text-primary);
+  transition: border-color 150ms, box-shadow 150ms;
+}
+
+[data-radix-select-trigger]:focus {
+  border: 2px solid var(--accent-utility-a);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent-utility-a) 20%, transparent);
+  outline: none;
+}
+
+[data-radix-select-content] {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+  max-height: 280px;
+}
+
+[data-radix-select-item] {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  color: var(--text-primary);
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: background 100ms;
+}
+
+[data-radix-select-item]:hover,
+[data-radix-select-item][data-highlighted] {
+  background: var(--bg-card-hover);
+  outline: none;
+}
+
+[data-radix-select-item][data-state="checked"] {
+  color: var(--accent-utility-a);
+}
+
+[data-radix-select-separator] {
+  height: 1px;
+  background: var(--border-subtle);
+  margin: 4px 0;
+}
+
+[data-radix-select-label] {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  padding: 8px 16px 4px;
+}
+
+/* --- TOOLTIP --- */
+[data-radix-tooltip-content] {
+  background: var(--text-primary);
+  color: var(--bg-base);
+  font-family: var(--font-ui);
+  font-size: 13px;
+  line-height: 1.5;
+  padding: 8px 12px;
+  border-radius: 6px;
+  max-width: 220px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* --- SCROLL AREA --- */
+[data-radix-scroll-area-scrollbar] {
+  width: 4px;
+  padding: 0;
+}
+
+[data-radix-scroll-area-thumb] {
+  background: var(--border);
+  border-radius: 2px;
+  transition: background 150ms;
+}
+
+[data-radix-scroll-area-thumb]:hover {
+  background: var(--accent-utility-a);
+}
+
+/* --- TABS --- */
+[data-radix-tabs-list] {
+  display: inline-flex;
+  background: var(--bg-surface);
+  border-radius: 8px;
+  padding: 4px;
+  gap: 2px;
+}
+
+[data-radix-tabs-trigger] {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: all 150ms;
+  border-bottom: 2px solid transparent;
+}
+
+[data-radix-tabs-trigger][data-state="active"] {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border-bottom-color: var(--accent-utility-a);
+}
+
+/* --- DIALOG --- */
+[data-radix-dialog-overlay] {
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+}
+
+[data-radix-dialog-content] {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);
+  padding: 32px;
+  font-family: var(--font-ui);
+}
+
+/* --- SLIDER (for realm time dilation) --- */
+[data-radix-slider-track] {
+  background: var(--border);
+  height: 4px;
+  border-radius: 2px;
+}
+
+[data-radix-slider-range] {
+  background: var(--accent-cosmos);
+  border-radius: 2px;
+}
+
+[data-radix-slider-thumb] {
+  width: 20px;
+  height: 20px;
+  background: var(--accent-cosmos);
+  border: 2px solid var(--bg-card);
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  transition: transform 150ms;
+  cursor: grab;
+}
+
+[data-radix-slider-thumb]:hover {
+  transform: scale(1.15);
+}
+
+[data-radix-slider-thumb]:active {
+  cursor: grabbing;
+  transform: scale(1.1);
+}
+
+/* --- POPOVER --- */
+[data-radix-popover-content] {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  padding: 0;
+  overflow: hidden;
+}
+
+/* --- NAVIGATION MENU ANIMATIONS & CHEVRON --- */
+@keyframes enterFromLeft {
+  from { opacity: 0; transform: translateX(-50px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes enterFromRight {
+  from { opacity: 0; transform: translateX(50px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes exitToLeft {
+  from { opacity: 1; transform: translateX(0); }
+  to { opacity: 0; transform: translateX(-50px); }
+}
+@keyframes exitToRight {
+  from { opacity: 1; transform: translateX(0); }
+  to { opacity: 0; transform: translateX(50px); }
+}
+@keyframes fadeInTranslateY {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+[data-motion="from-start"] { animation: enterFromLeft 180ms ease; }
+[data-motion="from-end"] { animation: enterFromRight 180ms ease; }
+[data-motion="to-start"] { animation: exitToLeft 180ms ease; }
+[data-motion="to-end"] { animation: exitToRight 180ms ease; }
+
+.chevron-icon {
+  transition: transform 200ms ease;
+}
+[data-state="open"] > .chevron-icon {
+  transform: rotate(180deg);
+}
+
+[data-slot="navigation-menu-viewport"][data-state="open"] {
+  animation: fadeInTranslateY 180ms ease;
+}

@@ -1,0 +1,102 @@
+"use client";
+
+import React, { useState } from "react";
+import { CalendarIcon } from "lucide-react";
+import { useAccentColor } from "@/lib/context/AccentColorContext";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+
+interface DatePickerProps {
+  value: Date | undefined;
+  onChange: (date: Date | undefined) => void;
+  placeholder?: string;
+  label?: string;
+  accentColor?: string;
+  disabled?: boolean;
+  minDate?: Date;
+  maxDate?: Date;
+  id?: string;
+}
+
+export default function DatePicker({
+  value,
+  onChange,
+  placeholder = "Pick a date",
+  label,
+  accentColor,
+  disabled = false,
+  minDate,
+  maxDate,
+  id,
+}: DatePickerProps) {
+  const [open, setOpen] = useState(false);
+  const contextAccent = useAccentColor();
+  const activeAccent = accentColor || contextAccent || "#52C4A0";
+
+  // Date formatting options
+  const formatDate = (date: Date) => {
+    return new Intl.DateTimeFormat("en-US", {
+      weekday: "short",
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    }).format(date);
+  };
+
+  const triggerStyles: React.CSSProperties = {
+    "--local-accent": activeAccent,
+  } as React.CSSProperties;
+
+  return (
+    <div className="tool-input-group w-full font-sans">
+      {label && (
+        <label className="tool-input-label" htmlFor={id}>
+          {label}
+        </label>
+      )}
+      
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger asChild>
+          <button
+            id={id}
+            disabled={disabled}
+            style={triggerStyles}
+            className={`w-full h-12 bg-bg-surface border rounded-md px-4 flex items-center justify-between text-left font-sans text-sm transition-all focus:outline-none focus:ring-4 select-none cursor-pointer ${
+              open 
+                ? "border-2 border-[color:var(--local-accent)] ring-[color:color-mix(in_srgb,var(--local-accent)_12.5%,transparent)]" 
+                : "border-border hover:border-text-faint focus:border-2 focus:border-[color:var(--local-accent)] focus:ring-[color:color-mix(in_srgb,var(--local-accent)_12.5%,transparent)]"
+            } ${disabled ? "opacity-50 pointer-events-none" : ""}`}
+          >
+            {value ? (
+              <span className="text-text-primary">{formatDate(value)}</span>
+            ) : (
+              <span className="text-text-muted italic">{placeholder}</span>
+            )}
+            <CalendarIcon className="w-4 h-4 text-text-muted flex-shrink-0" />
+          </button>
+        </PopoverTrigger>
+        
+        <PopoverContent 
+          className="w-auto p-0 border border-border bg-bg-card rounded-[10px] shadow-[0_8px_32px_rgba(0,0,0,0.4)]"
+          align="start"
+        >
+          <div style={{ "--accent-utility-a": activeAccent } as React.CSSProperties}>
+            <Calendar
+              mode="single"
+              selected={value}
+              onSelect={(date) => {
+                onChange(date);
+                setOpen(false); // Auto close
+              }}
+              disabled={(date) => {
+                if (minDate && date < minDate) return true;
+                if (maxDate && date > maxDate) return true;
+                return false;
+              }}
+            />
+          </div>
+        </PopoverContent>
+      </Popover>
+    </div>
+  );
+}
