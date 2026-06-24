@@ -4100,9 +4100,2000 @@ export function calculateCampaignDeployment(
     campaignStartFormatted: backPlan.projectStartFormatted,
     totalPhaseDays: backPlan.totalProjectDays,
   };
-
 }
 
+// ----------------------------------------------------
+// NEW GROUP 4 CALCULATION FUNCTIONS (TOOLS 61-80)
+// ----------------------------------------------------
 
+export type TargetZoneTime = {
+  zoneName: string;
+  cityName: string;
+  currentTimeFormatted: string;
+  offsetString: string;
+  isNextDay: boolean;
+  isPastDay: boolean;
+};
 
+export type ZoneConverterResult = {
+  baseTimeFormatted: string;
+  convertedZones: TargetZoneTime[];
+  isValid: boolean;
+  errorMessage?: string;
+};
+
+export function getUTCFromLocalTime(
+  year: number,
+  month: number,
+  day: number,
+  hour: number,
+  minute: number,
+  ianaTimezone: string
+): Date {
+  let guess = new Date(Date.UTC(year, month, day, hour, minute, 0));
+  try {
+    const formatter = new Intl.DateTimeFormat("en-US", {
+      timeZone: ianaTimezone,
+      year: "numeric",
+      month: "numeric",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+      hour12: false,
+    });
+
+    for (let offsetMinutes = -840; offsetMinutes <= 840; offsetMinutes += 30) {
+      const testDate = new Date(guess.getTime() - offsetMinutes * 60000);
+      const parts = formatter.formatToParts(testDate);
+      const val = (type: string) => parseInt(parts.find((p) => p.type === type)!.value, 10);
+      
+      const fYear = val("year");
+      const fMonth = val("month") - 1;
+      const fDay = val("day");
+      const fHour = val("hour") === 24 ? 0 : val("hour");
+      const fMin = val("minute");
+
+      if (fYear === year && fMonth === month && fDay === day && fHour === hour && fMin === minute) {
+        return testDate;
+      }
+    }
+  } catch (e) {}
+  return new Date(year, month, day, hour, minute, 0);
+}
+
+export function getTzOffsetMinutes(timeZone: string, date: Date): number {
+  try {
+    const formatter = new Intl.DateTimeFormat("en-US", {
+      timeZone,
+      timeZoneName: "longOffset",
+    });
+    const parts = formatter.formatToParts(date);
+    const tzNamePart = parts.find((p) => p.type === "timeZoneName")?.value || "";
+    if (tzNamePart === "GMT" || tzNamePart === "UTC") return 0;
+    const match = tzNamePart.match(/GMT([+-])(\d+):(\d+)/);
+    if (match) {
+      const sign = match[1] === "+" ? 1 : -1;
+      const hours = parseInt(match[2], 10);
+      const mins = parseInt(match[3], 10);
+      return sign * (hours * 60 + mins);
+    }
+  } catch (e) {}
+  return 0;
+}
+
+export function calculateZoneTimes(
+  baseDateString: string,
+  baseTimeHoursMinutes: string,
+  sourceTimezoneIANA: string,
+  targetTimezonesIANA: string[]
+): ZoneConverterResult {
+  if (!baseDateString || !baseTimeHoursMinutes || !sourceTimezoneIANA) {
+    return { baseTimeFormatted: "", convertedZones: [], isValid: false, errorMessage: "Missing input details" };
+  }
+
+  const parts = baseDateString.split("-");
+  const timeParts = baseTimeHoursMinutes.split(":");
+  if (parts.length !== 3 || timeParts.length !== 2) {
+    return { baseTimeFormatted: "", convertedZones: [], isValid: false, errorMessage: "Invalid date or time format" };
+  }
+
+  const year = parseInt(parts[0], 10);
+  const month = parseInt(parts[1], 10) - 1;
+  const day = parseInt(parts[2], 10);
+  const hour = parseInt(timeParts[0], 10);
+  const min = parseInt(timeParts[1], 10);
+
+  const utcDate = getUTCFromLocalTime(year, month, day, hour, min, sourceTimezoneIANA);
+
+  const formatDate = (d: Date, tz: string) => {
+    return new Intl.DateTimeFormat("en-US", {
+      timeZone: tz,
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+    }).format(d);
+  };
+
+  const baseTimeFormatted = formatDate(utcDate, sourceTimezoneIANA);
+
+  const convertedZones = targetTimezonesIANA.map((tz) => {
+    const localStr = (d: Date) => d.toLocaleString("en-US", { timeZone: tz }).split(",")[0];
+    const sourceLocal = localStr(utcDate);
+    
+    const formatterLocal = new Intl.DateTimeFormat("en-US", { timeZone: tz, year: "numeric", month: "numeric", day: "numeric" });
+    const formatterSource = new Intl.DateTimeFormat("en-US", { timeZone: sourceTimezoneIANA, year: "numeric", month: "numeric", day: "numeric" });
+    
+    const parseFormatted = (f: Intl.DateTimeFormat, d: Date) => {
+      const p = f.formatToParts(d);
+      const val = (type: string) => parseInt(p.find(item => item.type === type)!.value, 10);
+      return new Date(val("year"), val("month") - 1, val("day"));
+    };
+
+    const targetDay = parseFormatted(formatterLocal, utcDate);
+    const sourceDay = parseFormatted(formatterSource, utcDate);
+
+    const dayDiff = Math.round((targetDay.getTime() - sourceDay.getTime()) / 86400000);
+
+    const offsetMinutes = getTzOffsetMinutes(tz, utcDate);
+    const sign = offsetMinutes >= 0 ? "+" : "-";
+    const absMins = Math.abs(offsetMinutes);
+    const offsetString = `GMT ${sign}${String(Math.floor(absMins / 60)).padStart(2, "0")}:${String(absMins % 60).padStart(2, "0")}`;
+
+    return {
+      zoneName: tz,
+      cityName: tz.split("/")[1]?.replace(/_/g, " ") || tz,
+      currentTimeFormatted: formatDate(utcDate, tz),
+      offsetString,
+      isNextDay: dayDiff > 0,
+      isPastDay: dayDiff < 0,
+    };
+  });
+
+  return {
+    baseTimeFormatted,
+    convertedZones,
+    isValid: true,
+  };
+}
+
+export type HourOverlapGrid = {
+  hourUTC: number;
+  timeStringUTC: string;
+  isOptimalAcrossAllZones: boolean;
+  zoneBreakdowns: {
+    zoneName: string;
+    localHour: number;
+    localTimeFormatted: string;
+    status: 'working' | 'personal' | 'sleeping';
+  }[];
+};
+
+export type MeetingPlannerResult = {
+  overlapMatrix: HourOverlapGrid[];
+  bestSuggestedHourUTC: number | null;
+  hasValidOverlap: boolean;
+};
+
+export function findMeetingSweetSpot(
+  targetDate: string,
+  participantTimezones: string[],
+  businessStartHour: number = 9,
+  businessEndHour: number = 17
+): MeetingPlannerResult {
+  if (!targetDate || !participantTimezones || participantTimezones.length === 0) {
+    return { overlapMatrix: [], bestSuggestedHourUTC: null, hasValidOverlap: false };
+  }
+
+  const parts = targetDate.split("-");
+  if (parts.length !== 3) {
+    return { overlapMatrix: [], bestSuggestedHourUTC: null, hasValidOverlap: false };
+  }
+  const year = parseInt(parts[0], 10);
+  const month = parseInt(parts[1], 10) - 1;
+  const day = parseInt(parts[2], 10);
+
+  const overlapMatrix: HourOverlapGrid[] = [];
+
+  for (let hourUTC = 0; hourUTC < 24; hourUTC++) {
+    const utcDate = new Date(Date.UTC(year, month, day, hourUTC, 0, 0));
+    
+    let isOptimal = true;
+    const zoneBreakdowns = participantTimezones.map((tz) => {
+      let localHour = 0;
+      let formatted = "";
+      try {
+        const parts = new Intl.DateTimeFormat("en-US", {
+          timeZone: tz,
+          hour: "numeric",
+          hour12: false,
+          minute: "2-digit"
+        }).formatToParts(utcDate);
+        localHour = parseInt(parts.find(p => p.type === "hour")!.value, 10) % 24;
+        formatted = `${String(localHour).padStart(2, "0")}:00`;
+      } catch (e) {
+        localHour = (hourUTC + 24) % 24;
+        formatted = `${String(localHour).padStart(2, "0")}:00`;
+      }
+
+      let status: 'working' | 'personal' | 'sleeping' = 'personal';
+      if (localHour >= businessStartHour && localHour < businessEndHour) {
+        status = 'working';
+      } else if (localHour >= 22 || localHour < 7) {
+        status = 'sleeping';
+      }
+
+      if (status !== 'working') {
+        isOptimal = false;
+      }
+
+      return {
+        zoneName: tz,
+        localHour,
+        localTimeFormatted: formatted,
+        status,
+      };
+    });
+
+    overlapMatrix.push({
+      hourUTC,
+      timeStringUTC: `${String(hourUTC).padStart(2, "0")}:00 UTC`,
+      isOptimalAcrossAllZones: isOptimal,
+      zoneBreakdowns,
+    });
+  }
+
+  let bestHour = 0;
+  let maxScore = -1;
+  overlapMatrix.forEach((grid) => {
+    let score = 0;
+    grid.zoneBreakdowns.forEach((zb) => {
+      if (zb.status === 'working') score += 3;
+      else if (zb.status === 'personal') score += 1;
+      else score -= 10;
+    });
+
+    if (score > maxScore) {
+      maxScore = score;
+      bestHour = grid.hourUTC;
+    }
+  });
+
+  const hasValidOverlap = overlapMatrix.some((m) => m.isOptimalAcrossAllZones);
+
+  return {
+    overlapMatrix,
+    bestSuggestedHourUTC: bestHour,
+    hasValidOverlap,
+  };
+}
+
+export function calculateUTCOffset(targetTimezoneIANA: string, targetDate: string): {
+  currentOffsetMinutes: number;
+  offsetStringFormatted: string;
+  currentZulutimeFormatted: string;
+  localTimeFormatted: string;
+  rawEpochSeconds: number;
+} {
+  const d = targetDate ? new Date(targetDate + "T12:00:00Z") : new Date();
+  const offsetMinutes = getTzOffsetMinutes(targetTimezoneIANA, d);
+  
+  const sign = offsetMinutes >= 0 ? "+" : "-";
+  const absMins = Math.abs(offsetMinutes);
+  const offsetStringFormatted = `UTC ${sign}${String(Math.floor(absMins / 60)).padStart(2, "0")}:${String(absMins % 60).padStart(2, "0")}`;
+
+  const formatOptions = (tz: string) => {
+    return new Intl.DateTimeFormat("en-US", {
+      timeZone: tz,
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+      hour12: false,
+    }).format(d);
+  };
+
+  return {
+    currentOffsetMinutes: offsetMinutes,
+    offsetStringFormatted,
+    currentZulutimeFormatted: formatOptions("UTC") + " Z",
+    localTimeFormatted: formatOptions(targetTimezoneIANA),
+    rawEpochSeconds: Math.round(d.getTime() / 1000),
+  };
+}
+
+export function convertMilitaryTime(
+  inputTime: string,
+  direction: 'toMilitary' | 'toStandard'
+): {
+  convertedTime: string;
+  hoursValue: number;
+  minutesValue: number;
+  phoneticPronunciation: string;
+} {
+  let convertedTime = "";
+  let hoursValue = 0;
+  let minutesValue = 0;
+
+  if (direction === 'toMilitary') {
+    const match = inputTime.match(/(\d+):(\d+)\s*(AM|PM)?/i);
+    if (match) {
+      let hrs = parseInt(match[1], 10);
+      const mins = parseInt(match[2], 10);
+      const ampm = match[3]?.toUpperCase();
+
+      if (ampm === "PM" && hrs < 12) hrs += 12;
+      if (ampm === "AM" && hrs === 12) hrs = 0;
+
+      hoursValue = hrs;
+      minutesValue = mins;
+      convertedTime = `${String(hrs).padStart(2, "0")}${String(mins).padStart(2, "0")}`;
+    }
+  } else {
+    const val = inputTime.replace(/\D/g, "");
+    if (val.length === 4) {
+      const hrs = parseInt(val.slice(0, 2), 10);
+      const mins = parseInt(val.slice(2, 4), 10);
+
+      hoursValue = hrs % 24;
+      minutesValue = mins % 60;
+
+      const ampm = hoursValue >= 12 ? "PM" : "AM";
+      const displayHrs = hoursValue % 12 === 0 ? 12 : hoursValue % 12;
+      convertedTime = `${String(displayHrs).padStart(2, "0")}:${String(minutesValue).padStart(2, "0")} ${ampm}`;
+    }
+  }
+
+  const speakNum = (n: number) => {
+    const list = ["Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten",
+                  "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen", "Twenty"];
+    if (n <= 20) return list[n];
+    const tens = ["", "", "Twenty", "Thirty", "Forty", "Fifty"];
+    const units = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"];
+    const t = Math.floor(n / 10);
+    const u = n % 10;
+    return `${tens[t]}${u > 0 ? " " + units[u] : ""}`;
+  };
+
+  let phoneticPronunciation = "";
+  if (hoursValue === 0 && minutesValue === 0) {
+    phoneticPronunciation = "Zero Zero Zero Zero Hours";
+  } else {
+    const hrPhonetic = hoursValue < 10 ? `Zero ${speakNum(hoursValue)}` : speakNum(hoursValue);
+    const minPhonetic = minutesValue === 0 ? "Hundred" : minutesValue < 10 ? `Zero ${speakNum(minutesValue)}` : speakNum(minutesValue);
+    phoneticPronunciation = `${hrPhonetic} ${minPhonetic} Hours`;
+  }
+
+  return {
+    convertedTime,
+    hoursValue,
+    minutesValue,
+    phoneticPronunciation,
+  };
+}
+
+export type DSTTransitionEvent = {
+  nextTransitionDate: Date;
+  nextTransitionFormatted: string;
+  typeOfShift: 'forward' | 'backward';
+  shiftAmountMinutes: number;
+  timezoneLabelAbbreviation: string;
+  daysRemaining: number;
+};
+
+export function calculateNextDSTTransition(timezoneIANA: string, currentBaseDate: string): {
+  hasDSTSystem: boolean;
+  activeTransition: DSTTransitionEvent | null;
+  currentStatusLabel: string;
+} {
+  const start = currentBaseDate ? new Date(currentBaseDate + "T12:00:00") : new Date();
+  const baseOffset = getTzOffsetMinutes(timezoneIANA, start);
+  
+  let current = new Date(start);
+  let hasDST = false;
+  let transitionDate: Date | null = null;
+  let targetOffset = baseOffset;
+
+  for (let m = 0; m < 12; m++) {
+    const nextMonth = new Date(current);
+    nextMonth.setMonth(current.getMonth() + 1);
+    const nextOffset = getTzOffsetMinutes(timezoneIANA, nextMonth);
+    if (nextOffset !== baseOffset) {
+      hasDST = true;
+      let dayScan = new Date(current);
+      while (dayScan < nextMonth) {
+        const dayOffset = getTzOffsetMinutes(timezoneIANA, dayScan);
+        if (dayOffset !== baseOffset) {
+          transitionDate = new Date(dayScan);
+          targetOffset = dayOffset;
+          break;
+        }
+        dayScan.setDate(dayScan.getDate() + 1);
+      }
+      break;
+    }
+    current = nextMonth;
+  }
+
+  if (!hasDST || !transitionDate) {
+    return {
+      hasDSTSystem: false,
+      activeTransition: null,
+      currentStatusLabel: "Standard time region (no DST transitions scheduled).",
+    };
+  }
+
+  const shiftAmountMinutes = Math.abs(targetOffset - baseOffset);
+  const typeOfShift = targetOffset > baseOffset ? "forward" : "backward";
+  
+  let timezoneLabelAbbreviation = "DST";
+  try {
+    const tzParts = new Intl.DateTimeFormat("en-US", { timeZone: timezoneIANA, timeZoneName: "short" }).formatToParts(transitionDate);
+    timezoneLabelAbbreviation = tzParts.find((p) => p.type === "timeZoneName")?.value || "DST";
+  } catch (e) {}
+
+  const daysRemaining = Math.max(0, Math.round((transitionDate.getTime() - start.getTime()) / 86400000));
+
+  const activeTransition: DSTTransitionEvent = {
+    nextTransitionDate: transitionDate,
+    nextTransitionFormatted: new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" }).format(transitionDate),
+    typeOfShift,
+    shiftAmountMinutes,
+    timezoneLabelAbbreviation,
+    daysRemaining,
+  };
+
+  return {
+    hasDSTSystem: true,
+    activeTransition,
+    currentStatusLabel: `Time zone shifts ${typeOfShift} by ${shiftAmountMinutes} minutes on ${activeTransition.nextTransitionFormatted}.`,
+  };
+}
+
+export type FlightDurationResult = {
+  rawTotalDurationMinutes: number;
+  formattedDurationString: string;
+  timezoneOffsetDeltaMinutes: number;
+  crossedDateLine: boolean;
+};
+
+export function calculateFlightDuration(
+  departureDateTimeStr: string,
+  departureZoneIANA: string,
+  arrivalDateTimeStr: string,
+  arrivalZoneIANA: string
+): FlightDurationResult {
+  const parseParts = (str: string) => {
+    const [dPart, tPart] = str.split("T");
+    const dp = dPart.split("-");
+    const tp = tPart.split(":");
+    return {
+      year: parseInt(dp[0], 10),
+      month: parseInt(dp[1], 10) - 1,
+      day: parseInt(dp[2], 10),
+      hour: parseInt(tp[0], 10),
+      minute: parseInt(tp[1], 10)
+    };
+  };
+
+  const dep = parseParts(departureDateTimeStr);
+  const arr = parseParts(arrivalDateTimeStr);
+
+  const depUTC = getUTCFromLocalTime(dep.year, dep.month, dep.day, dep.hour, dep.minute, departureZoneIANA);
+  const arrUTC = getUTCFromLocalTime(arr.year, arr.month, arr.day, arr.hour, arr.minute, arrivalZoneIANA);
+
+  const diffMs = arrUTC.getTime() - depUTC.getTime();
+  const rawTotalDurationMinutes = Math.round(diffMs / 60000);
+
+  const depOffset = getTzOffsetMinutes(departureZoneIANA, depUTC);
+  const arrOffset = getTzOffsetMinutes(arrivalZoneIANA, arrUTC);
+  const timezoneOffsetDeltaMinutes = arrOffset - depOffset;
+
+  const crossedDateLine = (depOffset > 300 && arrOffset < -300) || (depOffset < -300 && arrOffset > 300);
+
+  const hrs = Math.floor(rawTotalDurationMinutes / 60);
+  const mins = rawTotalDurationMinutes % 60;
+  const formattedDurationString = hrs > 0 ? `${hrs} hours ${mins} minutes` : `${mins} minutes`;
+
+  return {
+    rawTotalDurationMinutes: Math.max(0, rawTotalDurationMinutes),
+    formattedDurationString,
+    timezoneOffsetDeltaMinutes,
+    crossedDateLine,
+  };
+}
+
+export function lookupTimezoneByCoordinates(latitude: number, longitude: number): {
+  timezoneIANA: string;
+  currentOffsetFormatted: string;
+  countryCode: string;
+  rawUTCOffsetMinutes: number;
+} {
+  let timezoneIANA = "UTC";
+  let countryCode = "INT";
+
+  if (latitude >= 25 && latitude <= 49 && longitude >= -125 && longitude <= -67) {
+    countryCode = "US";
+    if (longitude < -114) timezoneIANA = "America/Los_Angeles";
+    else if (longitude < -102) timezoneIANA = "America/Denver";
+    else if (longitude < -88) timezoneIANA = "America/Chicago";
+    else timezoneIANA = "America/New_York";
+  } else if (latitude >= 30 && latitude <= 45 && longitude >= 130 && longitude <= 145) {
+    timezoneIANA = "Asia/Tokyo";
+    countryCode = "JP";
+  } else if (latitude >= 50 && latitude <= 60 && longitude >= -10 && longitude <= 2) {
+    timezoneIANA = "Europe/London";
+    countryCode = "GB";
+  } else if (latitude >= 35 && latitude <= 70 && longitude >= 2 && longitude <= 30) {
+    timezoneIANA = "Europe/Paris";
+    countryCode = "FR";
+  } else if (latitude >= 8 && latitude <= 37 && longitude >= 68 && longitude <= 97) {
+    timezoneIANA = "Asia/Kolkata";
+    countryCode = "IN";
+  } else if (latitude >= -43 && latitude <= -10 && longitude >= 113 && longitude <= 153) {
+    timezoneIANA = "Australia/Sydney";
+    countryCode = "AU";
+  } else {
+    const approxOffset = Math.round(longitude / 15);
+    const lookupList = [
+      { offset: -8, zone: "America/Los_Angeles", cc: "US" },
+      { offset: -5, zone: "America/New_York", cc: "US" },
+      { offset: 0, zone: "UTC", cc: "INT" },
+      { offset: 1, zone: "Europe/Paris", cc: "FR" },
+      { offset: 5, zone: "Asia/Kolkata", cc: "IN" },
+      { offset: 9, zone: "Asia/Tokyo", cc: "JP" },
+      { offset: 10, zone: "Australia/Sydney", cc: "AU" }
+    ];
+    const match = lookupList.find((l) => l.offset === approxOffset) || { zone: "UTC", cc: "INT" };
+    timezoneIANA = match.zone;
+    countryCode = match.cc;
+  }
+
+  const dummyDate = new Date();
+  const rawOffset = getTzOffsetMinutes(timezoneIANA, dummyDate);
+  const sign = rawOffset >= 0 ? "+" : "-";
+  const absMins = Math.abs(rawOffset);
+  const currentOffsetFormatted = `GMT ${sign}${String(Math.floor(absMins / 60)).padStart(2, "0")}:${String(absMins % 60).padStart(2, "0")}`;
+
+  return {
+    timezoneIANA,
+    currentOffsetFormatted,
+    countryCode,
+    rawUTCOffsetMinutes: rawOffset,
+  };
+}
+
+export function convertUnixTimestamp(
+  inputValue: string,
+  mode: 'epochToDate' | 'dateToEpoch'
+): {
+  secondsValue: number;
+  millisecondsValue: number;
+  humanReadableUTC: string;
+  humanReadableLocal: string;
+  isoString: string;
+} {
+  let dateObj = new Date();
+
+  if (mode === 'epochToDate') {
+    const val = parseInt(inputValue.replace(/\D/g, ""), 10) || 0;
+    if (val < 10000000000) {
+      dateObj = new Date(val * 1000);
+    } else {
+      dateObj = new Date(val);
+    }
+  } else {
+    const parts = inputValue.split("T");
+    const dParts = parts[0]?.split("-") || [];
+    if (dParts.length === 3) {
+      const year = parseInt(dParts[0], 10);
+      const month = parseInt(dParts[1], 10) - 1;
+      const day = parseInt(dParts[2], 10);
+      const tParts = parts[1]?.split(":") || ["00", "00"];
+      const hr = parseInt(tParts[0], 10);
+      const min = parseInt(tParts[1], 10);
+      dateObj = new Date(year, month, day, hr, min, 0);
+    }
+  }
+
+  const secondsValue = Math.round(dateObj.getTime() / 1000);
+  const millisecondsValue = dateObj.getTime();
+
+  const formatOpt = (tz: string) => {
+    return new Intl.DateTimeFormat("en-US", {
+      timeZone: tz,
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+      hour12: false,
+    }).format(dateObj);
+  };
+
+  return {
+    secondsValue,
+    millisecondsValue,
+    humanReadableUTC: formatOpt("UTC"),
+    humanReadableLocal: formatOpt(Intl.DateTimeFormat().resolvedOptions().timeZone),
+    isoString: dateObj.toISOString(),
+  };
+}
+
+export function simulateIDLCrossing(
+  departureDate: string,
+  direction: 'eastbound' | 'westbound',
+  transitDurationHours: number
+): {
+  calculatedArrivalDate: Date;
+  arrivalDateFormatted: string;
+  netDaysShifted: number;
+  simulationSummary: string;
+} {
+  const parts = departureDate.split("-");
+  const date = parts.length === 3
+    ? new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10))
+    : new Date();
+  
+  let calculatedArrivalDate = new Date(date);
+  calculatedArrivalDate.setHours(calculatedArrivalDate.getHours() + transitDurationHours);
+
+  const netDaysShifted = direction === 'eastbound' ? -1 : 1;
+  calculatedArrivalDate.setDate(calculatedArrivalDate.getDate() + netDaysShifted);
+
+  const formatDate = (d: Date) => {
+    return new Intl.DateTimeFormat("en-US", { weekday: "long", month: "short", day: "numeric", year: "numeric" }).format(d);
+  };
+
+  const directionLabel = direction === 'eastbound' ? "Eastbound (Asia to Americas)" : "Westbound (Americas to Asia)";
+  const shiftExplanation = direction === 'eastbound' 
+    ? "You gain/repeat a calendar day (-24 hour adjustment) upon crossing the Pacific meridian."
+    : "You lose/skip a calendar day (+24 hour adjustment) upon crossing the Pacific meridian.";
+
+  const simulationSummary = `Traveling ${directionLabel} with a ${transitDurationHours}-hour transit. ${shiftExplanation}`;
+
+  return {
+    calculatedArrivalDate,
+    arrivalDateFormatted: formatDate(calculatedArrivalDate),
+    netDaysShifted,
+    simulationSummary,
+  };
+}
+
+export function lookupAbbreviationDetails(abbrevCode: string): {
+  standardFullCodeName: string;
+  baseUTCOffsetFormatted: string;
+  appliesDaylightSaving: boolean;
+  associatedRegions: string[];
+} {
+  const dict: Record<string, { name: string; offset: string; dst: boolean; regions: string[] }> = {
+    PST: { name: "Pacific Standard Time", offset: "UTC -08:00", dst: false, regions: ["West Coast US", "British Columbia", "Baja California"] },
+    PDT: { name: "Pacific Daylight Time", offset: "UTC -07:00", dst: true, regions: ["West Coast US", "Canada (DST)", "Baja California (DST)"] },
+    EST: { name: "Eastern Standard Time", offset: "UTC -05:00", dst: false, regions: ["East Coast US", "Ontario/Quebec", "Panama", "Colombia"] },
+    EDT: { name: "Eastern Daylight Time", offset: "UTC -04:00", dst: true, regions: ["East Coast US (DST)", "Canada (DST)"] },
+    GMT: { name: "Greenwich Mean Time", offset: "UTC +00:00", dst: false, regions: ["United Kingdom", "Ireland", "Iceland", "West Africa"] },
+    CET: { name: "Central European Time", offset: "UTC +01:00", dst: false, regions: ["France", "Germany", "Italy", "Spain", "Poland"] },
+    CEST: { name: "Central European Summer Time", offset: "UTC +02:00", dst: true, regions: ["France (DST)", "Germany (DST)", "Italy (DST)"] },
+    JST: { name: "Japan Standard Time", offset: "UTC +09:00", dst: false, regions: ["Japan", "South Korea"] },
+    IST: { name: "India Standard Time", offset: "UTC +05:30", dst: false, regions: ["India", "Sri Lanka"] },
+    AEST: { name: "Australian Eastern Standard Time", offset: "UTC +10:00", dst: false, regions: ["Sydney", "Melbourne", "Brisbane"] },
+    AEDT: { name: "Australian Eastern Daylight Time", offset: "UTC +11:00", dst: true, regions: ["Sydney (DST)", "Melbourne (DST)"] },
+    UTC: { name: "Coordinated Universal Time", offset: "UTC +00:00", dst: false, regions: ["Global Baseline Meridians"] }
+  };
+
+  const match = dict[abbrevCode.toUpperCase()] || {
+    name: "Unknown Abbreviation",
+    offset: "UTC +00:00",
+    dst: false,
+    regions: ["International regions"]
+  };
+
+  return {
+    standardFullCodeName: match.name,
+    baseUTCOffsetFormatted: match.offset,
+    appliesDaylightSaving: match.dst,
+    associatedRegions: match.regions,
+  };
+}
+
+export function syncZuluTime(deviceLocalTime: string): {
+  zuluTimeFormatted: string;
+  zuluDateFormatted: string;
+  localTimeDifferenceMinutes: number;
+  isoStringNotation: string;
+} {
+  const d = deviceLocalTime ? new Date(deviceLocalTime) : new Date();
+  
+  const pad = (n: number) => String(n).padStart(2, "0");
+  const zuluTimeFormatted = `${pad(d.getUTCHours())}:${pad(d.getUTCMinutes())}:${pad(d.getUTCSeconds())} Z`;
+  
+  const zuluDateFormatted = new Intl.DateTimeFormat("en-US", {
+    timeZone: "UTC",
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+    year: "numeric"
+  }).format(d);
+
+  const localTimeDifferenceMinutes = d.getTimezoneOffset();
+
+  return {
+    zuluTimeFormatted,
+    zuluDateFormatted,
+    localTimeDifferenceMinutes,
+    isoStringNotation: d.toISOString(),
+  };
+}
+
+export function convertToInternetTime(hours: number, minutes: number, seconds: number): {
+  beatValueString: string;
+  bmtTimeFormatted: string;
+} {
+  const now = new Date();
+  const utcHours = now.getUTCHours();
+  const utcMins = now.getUTCMinutes();
+  const utcSecs = now.getUTCSeconds();
+
+  const bmtHours = (utcHours + 1) % 24;
+  const totalSecondsInBmt = bmtHours * 3600 + utcMins * 60 + utcSecs;
+  
+  const beats = Math.floor(totalSecondsInBmt / 86.4) % 1000;
+  
+  const pad = (n: number) => String(n).padStart(2, "0");
+
+  return {
+    beatValueString: `@${String(beats).padStart(3, "0")}`,
+    bmtTimeFormatted: `${pad(bmtHours)}:${pad(utcMins)}:${pad(utcSecs)} BMT`,
+  };
+}
+
+export function calculateGPSTimeCorrection(currentUTCStr: string): {
+  gpsSecondsValue: number;
+  totalAccumulatedLeapSeconds: number;
+  gpsTimeFormatted: string;
+  taiTimeFormatted: string;
+} {
+  const d = currentUTCStr ? new Date(currentUTCStr) : new Date();
+
+  const leapSeconds = 18;
+  const gpsMs = d.getTime() + leapSeconds * 1000;
+  const gpsDate = new Date(gpsMs);
+
+  const taiMs = d.getTime() + 37 * 1000;
+  const taiDate = new Date(taiMs);
+
+  const pad = (n: number) => String(n).padStart(2, "0");
+  const formatDate = (date: Date) => {
+    return `${pad(date.getUTCHours())}:${pad(date.getUTCMinutes())}:${pad(date.getUTCSeconds())}`;
+  };
+
+  return {
+    gpsSecondsValue: Math.round(gpsDate.getTime() / 1000),
+    totalAccumulatedLeapSeconds: leapSeconds,
+    gpsTimeFormatted: formatDate(gpsDate) + " GPS",
+    taiTimeFormatted: formatDate(taiDate) + " TAI",
+  };
+}
+
+export type LiveClockNode = {
+  id: string;
+  cityName: string;
+  timezoneIANA: string;
+  currentTimeStr: string;
+};
+
+export function updateClockGrid(selectedZones: { id: string; name: string; zone: string }[]): LiveClockNode[] {
+  const now = new Date();
+  return selectedZones.map((z) => {
+    let timeStr = "";
+    try {
+      timeStr = now.toLocaleTimeString("en-US", {
+        timeZone: z.zone,
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false,
+      });
+    } catch (e) {
+      timeStr = now.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+    }
+    return {
+      id: z.id,
+      cityName: z.name,
+      timezoneIANA: z.zone,
+      currentTimeStr: timeStr,
+    };
+  });
+}
+
+export function matchGlobalDeadlines(
+  targetDeadlineTime: string,
+  sourceZoneIANA: string,
+  targetZonesIANA: string[]
+): {
+  sourceDeadlineFormatted: string;
+  convertedTargetDeadlines: { zone: string; absoluteTimeFormatted: string; relativeDayShift: string }[];
+} {
+  const parts = targetDeadlineTime.split("T");
+  const dParts = parts[0]?.split("-") || [];
+  const tParts = (parts[1] || parts[0])?.split(":") || ["17", "00"];
+  
+  const today = new Date();
+  const year = dParts.length === 3 ? parseInt(dParts[0], 10) : today.getFullYear();
+  const month = dParts.length === 3 ? parseInt(dParts[1], 10) - 1 : today.getMonth();
+  const day = dParts.length === 3 ? parseInt(dParts[2], 10) : today.getDate();
+  const hrs = parseInt(tParts[0], 10);
+  const mins = parseInt(tParts[1], 10);
+
+  const utcDate = getUTCFromLocalTime(year, month, day, hrs, mins, sourceZoneIANA);
+
+  const formatDate = (d: Date, tz: string) => {
+    return new Intl.DateTimeFormat("en-US", {
+      timeZone: tz,
+      month: "short",
+      day: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
+    }).format(d);
+  };
+
+  const convertedTargetDeadlines = targetZonesIANA.map((tz) => {
+    const formattedDate = formatDate(utcDate, tz);
+    
+    const formatterLocal = new Intl.DateTimeFormat("en-US", { timeZone: tz, year: "numeric", month: "numeric", day: "numeric" });
+    const formatterSource = new Intl.DateTimeFormat("en-US", { timeZone: sourceZoneIANA, year: "numeric", month: "numeric", day: "numeric" });
+    
+    const parseFormatted = (f: Intl.DateTimeFormat, d: Date) => {
+      const p = f.formatToParts(d);
+      const val = (type: string) => parseInt(p.find(item => item.type === type)!.value, 10);
+      return new Date(val("year"), val("month") - 1, val("day"));
+    };
+
+    const targetDay = parseFormatted(formatterLocal, utcDate);
+    const sourceDay = parseFormatted(formatterSource, utcDate);
+    const dayDiff = Math.round((targetDay.getTime() - sourceDay.getTime()) / 86400000);
+
+    const relativeDayShift = dayDiff === 0 ? "Same Day" : dayDiff > 0 ? `+${dayDiff} Day` : `${dayDiff} Day`;
+
+    return {
+      zone: tz,
+      absoluteTimeFormatted: formattedDate,
+      relativeDayShift,
+    };
+  });
+
+  return {
+    sourceDeadlineFormatted: formatDate(utcDate, sourceZoneIANA),
+    convertedTargetDeadlines,
+  };
+}
+
+export function calculateRelativeDifferences(sourceZone: string, targetedZones: string[]): {
+  zoneName: string;
+  numericHourDifference: number;
+  differenceLabel: string;
+}[] {
+  const d = new Date();
+  const sourceOffset = getTzOffsetMinutes(sourceZone, d);
+
+  return targetedZones.map((tz) => {
+    const targetOffset = getTzOffsetMinutes(tz, d);
+    const diffMinutes = targetOffset - sourceOffset;
+    const numericHourDifference = parseFloat((diffMinutes / 60).toFixed(2));
+    
+    const diffLabel = numericHourDifference === 0 
+      ? "Coincident / Same Time"
+      : numericHourDifference > 0 
+        ? `${numericHourDifference} hours ahead` 
+        : `${Math.abs(numericHourDifference)} hours behind`;
+
+    return {
+      zoneName: tz,
+      numericHourDifference,
+      differenceLabel: diffLabel,
+    };
+  });
+}
+
+export function calculateSolarTimeVariance(longitude: number, datetimeStr: string): {
+  trueSolarTimeFormatted: string;
+  equationOfTimeMinutes: number;
+  netDeviationMinutes: number;
+} {
+  const parts = (datetimeStr || "").split("T");
+  const dParts = parts[0]?.split("-") || [];
+  const tParts = parts[1]?.split(":") || ["12", "00"];
+  
+  const today = new Date();
+  const year = dParts.length === 3 ? parseInt(dParts[0], 10) : today.getFullYear();
+  const month = dParts.length === 3 ? parseInt(dParts[1], 10) - 1 : today.getMonth();
+  const day = dParts.length === 3 ? parseInt(dParts[2], 10) : today.getDate();
+  const hrs = parseInt(tParts[0], 10);
+  const mins = parseInt(tParts[1], 10);
+
+  const localDate = new Date(year, month, day, hrs, mins, 0);
+
+  const start = new Date(localDate.getFullYear(), 0, 0);
+  const diff = localDate.getTime() - start.getTime() + ((start.getTimezoneOffset() - localDate.getTimezoneOffset()) * 60 * 1000);
+  const dayOfYear = Math.floor(diff / 86400000);
+
+  const b = (360 * (dayOfYear - 81)) / 365;
+  const bRad = (b * Math.PI) / 180;
+  const eot = 9.87 * Math.sin(2 * bRad) - 7.53 * Math.cos(bRad) - 1.5 * Math.sin(bRad);
+
+  const localClockMins = hrs * 60 + mins;
+  const longitudeCorrection = longitude * 4;
+  const netDeviationMinutes = parseFloat((longitudeCorrection + eot).toFixed(1));
+
+  const solarMinsTotal = (localClockMins + netDeviationMinutes + 1440) % 1440;
+  const sHrs = Math.floor(solarMinsTotal / 60);
+  const sMins = Math.round(solarMinsTotal % 60);
+
+  const pad = (n: number) => String(n).padStart(2, "0");
+  const trueSolarTimeFormatted = `${pad(sHrs)}:${pad(sMins)}`;
+
+  return {
+    trueSolarTimeFormatted,
+    equationOfTimeMinutes: parseFloat(eot.toFixed(2)),
+    netDeviationMinutes,
+  };
+}
+
+export function mockNTPLatencyAnalysis(
+  clientTimestamp: number,
+  serverReceiveTimestamp: number,
+  serverTransmitTimestamp: number,
+  clientResponseTimestamp: number
+): {
+  roundTripDelayMilliseconds: number;
+  localClockOffsetMilliseconds: number;
+  synchronizationStatus: string;
+} {
+  const t1 = clientTimestamp || Date.now();
+  const t2 = serverReceiveTimestamp || (t1 + 12);
+  const t3 = serverTransmitTimestamp || (t2 + 2);
+  const t4 = clientResponseTimestamp || (t3 + 14);
+
+  const roundTripDelayMilliseconds = Math.max(0, (t4 - t1) - (t3 - t2));
+  const localClockOffsetMilliseconds = Math.round(((t2 - t1) + (t3 - t4)) / 2);
+
+  let synchronizationStatus = "Synchronized";
+  if (Math.abs(localClockOffsetMilliseconds) > 1000) {
+    synchronizationStatus = "Drift Warning (Offset > 1s)";
+  } else if (roundTripDelayMilliseconds > 200) {
+    synchronizationStatus = "High Latency Warning";
+  }
+
+  return {
+    roundTripDelayMilliseconds,
+    localClockOffsetMilliseconds,
+    synchronizationStatus,
+  };
+}
+
+export function fetchLeapSecondLog(yearFilter: number): {
+  historicalEventDate: string;
+  totalCorrectionSecondsAtTime: number;
+  rotationalDeviationValue: number;
+}[] {
+  const events = [
+    { historicalEventDate: "Dec 31, 2016", totalCorrectionSecondsAtTime: 37, rotationalDeviationValue: -0.8 },
+    { historicalEventDate: "Jun 30, 2015", totalCorrectionSecondsAtTime: 36, rotationalDeviationValue: -0.6 },
+    { historicalEventDate: "Jun 30, 2012", totalCorrectionSecondsAtTime: 35, rotationalDeviationValue: -0.5 },
+    { historicalEventDate: "Dec 31, 2008", totalCorrectionSecondsAtTime: 34, rotationalDeviationValue: -0.4 },
+    { historicalEventDate: "Dec 31, 2005", totalCorrectionSecondsAtTime: 33, rotationalDeviationValue: -0.6 },
+    { historicalEventDate: "Dec 31, 1998", totalCorrectionSecondsAtTime: 32, rotationalDeviationValue: -0.3 },
+    { historicalEventDate: "Jun 30, 1997", totalCorrectionSecondsAtTime: 31, rotationalDeviationValue: -0.4 },
+    { historicalEventDate: "Dec 31, 1995", totalCorrectionSecondsAtTime: 30, rotationalDeviationValue: -0.5 },
+    { historicalEventDate: "Jun 30, 1994", totalCorrectionSecondsAtTime: 29, rotationalDeviationValue: -0.7 }
+  ];
+
+  if (yearFilter > 1900) {
+    return events.filter(e => new Date(e.historicalEventDate).getFullYear() === yearFilter);
+  }
+  return events;
+}
+
+export function calculateTrueSolarNoon(
+  targetDate: string,
+  latitude: number,
+  longitude: number
+): {
+  solarNoonTimeFormatted: string;
+  sunElevationAngleDegrees: number;
+  shadowLengthRatioFactor: number;
+} {
+  const parts = targetDate.split("-");
+  const date = parts.length === 3
+    ? new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10))
+    : new Date();
+
+  const start = new Date(date.getFullYear(), 0, 0);
+  const diff = date.getTime() - start.getTime() + ((start.getTimezoneOffset() - date.getTimezoneOffset()) * 60 * 1000);
+  const dayOfYear = Math.floor(diff / 86400000);
+
+  const b = (360 * (dayOfYear - 81)) / 365;
+  const bRad = (b * Math.PI) / 180;
+  const eot = 9.87 * Math.sin(2 * bRad) - 7.53 * Math.cos(bRad) - 1.5 * Math.sin(bRad);
+
+  const declination = 23.45 * Math.sin((360 * (284 + dayOfYear) / 365) * Math.PI / 180);
+
+  const longitudeCorrection = longitude * 4;
+  const netDeviationMinutes = longitudeCorrection + eot;
+
+  const noonMins = 720 - netDeviationMinutes;
+  const noonHrs = Math.floor((noonMins + 1440) % 1440 / 60);
+  const noonMinsRemainder = Math.round((noonMins + 1440) % 1440 % 60);
+
+  const pad = (n: number) => String(n).padStart(2, "0");
+  const solarNoonTimeFormatted = `${pad(noonHrs)}:${pad(noonMinsRemainder)}`;
+
+  const elevation = 90 - Math.abs(latitude - declination);
+  const sunElevationAngleDegrees = parseFloat(Math.min(90, Math.max(0, elevation)).toFixed(1));
+
+  const elevRad = (sunElevationAngleDegrees * Math.PI) / 180;
+  const shadowLengthRatioFactor = sunElevationAngleDegrees > 0 
+    ? parseFloat((1 / Math.tan(elevRad)).toFixed(2)) 
+    : 99.0;
+
+  return {
+    solarNoonTimeFormatted,
+    sunElevationAngleDegrees,
+    shadowLengthRatioFactor,
+  };
+}
+
+// ----------------------------------------------------
+// NEW GROUP 5 CALCULATION FUNCTIONS (TOOLS 81-100)
+// ----------------------------------------------------
+
+export type DueDateResult = {
+  estimatedDueDate: Date;
+  dueDateFormatted: string;
+  conceptionDateFormatted: string;
+  currentWeek: number;
+  currentDay: number;
+  daysRemaining: number;
+  progressPercentage: number;
+  isValid: boolean;
+  errorMessage?: string;
+};
+
+export function calculatePregnancyDates(
+  inputDate: string,
+  calculationMethod: 'lmp' | 'conception',
+  cycleLengthDays: number = 28
+): DueDateResult {
+  if (!inputDate) {
+    return {
+      estimatedDueDate: new Date(),
+      dueDateFormatted: "",
+      conceptionDateFormatted: "",
+      currentWeek: 0,
+      currentDay: 0,
+      daysRemaining: 0,
+      progressPercentage: 0,
+      isValid: false,
+      errorMessage: "Please select a date"
+    };
+  }
+
+  const parts = inputDate.split("-");
+  const base = parts.length === 3
+    ? new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10))
+    : new Date();
+  base.setHours(0, 0, 0, 0);
+
+  let estimatedDueDate = new Date(base);
+  let conceptionDate = new Date(base);
+
+  if (calculationMethod === 'lmp') {
+    estimatedDueDate.setDate(base.getDate() + 280 + (cycleLengthDays - 28));
+    conceptionDate.setDate(base.getDate() + 14 + (cycleLengthDays - 28));
+  } else {
+    estimatedDueDate.setDate(base.getDate() + 266);
+    conceptionDate = new Date(base);
+  }
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const startLine = new Date(estimatedDueDate);
+  startLine.setDate(estimatedDueDate.getDate() - 280);
+
+  const elapsedMs = today.getTime() - startLine.getTime();
+  const elapsedDays = Math.max(0, Math.round(elapsedMs / 86400000));
+
+  const totalGestationDays = Math.round((estimatedDueDate.getTime() - startLine.getTime()) / 86400000) || 280;
+
+  const currentWeek = Math.min(42, Math.floor(elapsedDays / 7));
+  const currentDay = elapsedDays % 7;
+  const daysRemaining = Math.max(0, Math.round((estimatedDueDate.getTime() - today.getTime()) / 86400000));
+  const progressPercentage = parseFloat(Math.min(100, Math.max(0, (elapsedDays / totalGestationDays) * 100)).toFixed(1));
+
+  const formatDate = (d: Date) => {
+    return new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" }).format(d);
+  };
+
+  return {
+    estimatedDueDate,
+    dueDateFormatted: formatDate(estimatedDueDate),
+    conceptionDateFormatted: formatDate(conceptionDate),
+    currentWeek,
+    currentDay,
+    daysRemaining,
+    progressPercentage,
+    isValid: true
+  };
+}
+
+export type MilestoneTrimester = {
+  name: string;
+  startDateFormatted: string;
+  endDateFormatted: string;
+  weeksRange: string;
+  keyDevelopmentalMarker: string;
+};
+
+export function calculateTrimesterMilestones(dueDateStr: string): {
+  trimesters: MilestoneTrimester[];
+  countdownDays: number;
+} {
+  const parts = (dueDateStr || "").split("-");
+  const due = parts.length === 3
+    ? new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10))
+    : new Date();
+  due.setHours(0, 0, 0, 0);
+
+  const lmp = new Date(due);
+  lmp.setDate(due.getDate() - 280);
+
+  const t1Start = new Date(lmp);
+  const t1End = new Date(lmp);
+  t1End.setDate(lmp.getDate() + 13 * 7 + 6); // end of week 13
+
+  const t2Start = new Date(t1End);
+  t2Start.setDate(t1End.getDate() + 1);
+  const t2End = new Date(lmp);
+  t2End.setDate(lmp.getDate() + 27 * 7 + 6); // end of week 27
+
+  const t3Start = new Date(t2End);
+  t3Start.setDate(t2End.getDate() + 1);
+  const t3End = new Date(due);
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const countdownDays = Math.max(0, Math.round((due.getTime() - today.getTime()) / 86400000));
+
+  const formatDate = (d: Date) => {
+    return new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" }).format(d);
+  };
+
+  return {
+    trimesters: [
+      {
+        name: "Trimester 1",
+        startDateFormatted: formatDate(t1Start),
+        endDateFormatted: formatDate(t1End),
+        weeksRange: "Weeks 1–13",
+        keyDevelopmentalMarker: "Heart begins to beat, major organs form, tiny limbs develop."
+      },
+      {
+        name: "Trimester 2",
+        startDateFormatted: formatDate(t2Start),
+        endDateFormatted: formatDate(t2End),
+        weeksRange: "Weeks 14–27",
+        keyDevelopmentalMarker: "Fetal movements felt, hair and nails grow, hearing develops."
+      },
+      {
+        name: "Trimester 3",
+        startDateFormatted: formatDate(t3Start),
+        endDateFormatted: formatDate(t3End),
+        weeksRange: "Weeks 28–40+",
+        keyDevelopmentalMarker: "Rapid weight gain, lungs mature, baby prepares for birth."
+      }
+    ],
+    countdownDays
+  };
+}
+
+export function calculateExactAge(birthDateTimeStr: string): {
+  years: number;
+  months: number;
+  weeks: number;
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+  totalDaysAlive: number;
+  nextBirthdayCountdownFormatted: string;
+} {
+  const birth = birthDateTimeStr ? new Date(birthDateTimeStr) : new Date();
+  const now = new Date();
+
+  const diffMs = now.getTime() - birth.getTime();
+  const totalDaysAlive = Math.max(0, Math.floor(diffMs / 86400000));
+
+  // Calendar difference
+  let years = now.getFullYear() - birth.getFullYear();
+  let months = now.getMonth() - birth.getMonth();
+  let days = now.getDate() - birth.getDate();
+  let hours = now.getHours() - birth.getHours();
+  let minutes = now.getMinutes() - birth.getMinutes();
+  let seconds = now.getSeconds() - birth.getSeconds();
+
+  if (seconds < 0) { seconds += 60; minutes--; }
+  if (minutes < 0) { minutes += 60; hours--; }
+  if (hours < 0) { hours += 24; days--; }
+  if (days < 0) {
+    const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+    days += prevMonth.getDate();
+    months--;
+  }
+  if (months < 0) {
+    months += 12;
+    years--;
+  }
+
+  const weeks = Math.floor(totalDaysAlive / 7);
+
+  // Next birthday countdown
+  let nextBday = new Date(now.getFullYear(), birth.getMonth(), birth.getDate(), birth.getHours(), birth.getMinutes(), birth.getSeconds());
+  if (nextBday < now) {
+    nextBday.setFullYear(now.getFullYear() + 1);
+  }
+  const nextDiffMs = nextBday.getTime() - now.getTime();
+  const nextDays = Math.floor(nextDiffMs / 86400000);
+  const nextHours = Math.floor((nextDiffMs % 86400000) / 3600000);
+  const nextMins = Math.floor((nextDiffMs % 3600000) / 60000);
+  const nextBirthdayCountdownFormatted = `${nextDays} days, ${nextHours} hours, ${nextMins} minutes`;
+
+  return {
+    years: Math.max(0, years),
+    months: Math.max(0, months),
+    weeks,
+    days: Math.max(0, days),
+    hours: Math.max(0, hours),
+    minutes: Math.max(0, minutes),
+    seconds: Math.max(0, seconds),
+    totalDaysAlive,
+    nextBirthdayCountdownFormatted
+  };
+}
+
+export function calculateSleepCycles(
+  timeStr: string,
+  mode: 'wakeUpAt' | 'goToBedAt'
+): {
+  optimalTimes: { cycleNumber: number; timeFormatted: string; score: 'good' | 'optimal' }[];
+  averageFallAsleepBufferMinutes: number;
+} {
+  const parts = (timeStr || "07:00").split(":");
+  const hours = parseInt(parts[0], 10) || 7;
+  const minutes = parseInt(parts[1], 10) || 0;
+
+  const baseDate = new Date();
+  baseDate.setHours(hours, minutes, 0, 0);
+
+  const fallAsleepBuffer = 14; // standard buffer in minutes
+  const optimalTimes: { cycleNumber: number; timeFormatted: string; score: 'good' | 'optimal' }[] = [];
+
+  const formatTime = (d: Date) => {
+    return d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", hour12: true });
+  };
+
+  if (mode === "wakeUpAt") {
+    // Subtract buffer and cycle lengths to find sleeping times
+    for (let c = 1; c <= 6; c++) {
+      const d = new Date(baseDate);
+      d.setMinutes(baseDate.getMinutes() - (c * 90) - fallAsleepBuffer);
+      
+      const score = (c === 5 || c === 6) ? "optimal" : "good";
+      optimalTimes.unshift({
+        cycleNumber: c,
+        timeFormatted: formatTime(d),
+        score
+      });
+    }
+  } else {
+    // Add buffer and cycle lengths to find wake up times
+    for (let c = 1; c <= 6; c++) {
+      const d = new Date(baseDate);
+      d.setMinutes(baseDate.getMinutes() + (c * 90) + fallAsleepBuffer);
+
+      const score = (c === 5 || c === 6) ? "optimal" : "good";
+      optimalTimes.push({
+        cycleNumber: c,
+        timeFormatted: formatTime(d),
+        score
+      });
+    }
+  }
+
+  return {
+    optimalTimes,
+    averageFallAsleepBufferMinutes: fallAsleepBuffer
+  };
+}
+
+export function calculateFertilityWindows(
+  lastPeriodDate: string,
+  cycleLengthDays: number
+): {
+  ovulationDateFormatted: string;
+  peakFertilityStartFormatted: string;
+  peakFertilityEndFormatted: string;
+  nextExpectedPeriodFormatted: string;
+  rollingSixMonthWindows: { start: string; end: string; ovulation: string }[];
+} {
+  const parts = (lastPeriodDate || "").split("-");
+  const base = parts.length === 3
+    ? new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10))
+    : new Date();
+  base.setHours(0, 0, 0, 0);
+
+  const ovulationDate = new Date(base);
+  ovulationDate.setDate(base.getDate() + cycleLengthDays - 14);
+
+  const peakFertilityStart = new Date(ovulationDate);
+  peakFertilityStart.setDate(ovulationDate.getDate() - 5);
+  const peakFertilityEnd = new Date(ovulationDate);
+
+  const nextExpectedPeriod = new Date(base);
+  nextExpectedPeriod.setDate(base.getDate() + cycleLengthDays);
+
+  const formatDate = (d: Date) => {
+    return new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" }).format(d);
+  };
+
+  // Generate 6-month cycles
+  const rollingSixMonthWindows = [];
+  let tempBase = new Date(base);
+  for (let i = 0; i < 6; i++) {
+    const o = new Date(tempBase);
+    o.setDate(tempBase.getDate() + cycleLengthDays - 14);
+    
+    const start = new Date(o);
+    start.setDate(o.getDate() - 5);
+    const end = new Date(o);
+
+    rollingSixMonthWindows.push({
+      start: formatDate(start),
+      end: formatDate(end),
+      ovulation: formatDate(o)
+    });
+    
+    tempBase.setDate(tempBase.getDate() + cycleLengthDays);
+  }
+
+  return {
+    ovulationDateFormatted: formatDate(ovulationDate),
+    peakFertilityStartFormatted: formatDate(peakFertilityStart),
+    peakFertilityEndFormatted: formatDate(peakFertilityEnd),
+    nextExpectedPeriodFormatted: formatDate(nextExpectedPeriod),
+    rollingSixMonthWindows
+  };
+}
+
+export function planFastingSchedule(
+  firstMealTimeStr: string,
+  protocol: '16:8' | '18:6' | '20:4' | '12:12'
+): {
+  eatingWindowStart: string;
+  eatingWindowEnd: string;
+  fastingWindowStart: string;
+  fastingWindowEnd: string;
+  autophagyActivationEstimateHours: number;
+} {
+  const parts = (firstMealTimeStr || "12:00").split(":");
+  const hr = parseInt(parts[0], 10) || 12;
+  const min = parseInt(parts[1], 10) || 0;
+
+  const start = new Date();
+  start.setHours(hr, min, 0, 0);
+
+  let eatHrs = 8;
+  let fastHrs = 16;
+  let autophagy = 14;
+
+  if (protocol === "18:6") { eatHrs = 6; fastHrs = 18; autophagy = 16; }
+  else if (protocol === "20:4") { eatHrs = 4; fastHrs = 20; autophagy = 18; }
+  else if (protocol === "12:12") { eatHrs = 12; fastHrs = 12; autophagy = 12; }
+
+  const end = new Date(start);
+  end.setHours(start.getHours() + eatHrs);
+
+  const fastStart = new Date(end);
+  const fastEnd = new Date(start);
+
+  const format = (d: Date) => {
+    const pad = (n: number) => String(n).padStart(2, "0");
+    return `${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  };
+
+  return {
+    eatingWindowStart: format(start),
+    eatingWindowEnd: format(end),
+    fastingWindowStart: format(fastStart),
+    fastingWindowEnd: format(fastEnd),
+    autophagyActivationEstimateHours: autophagy
+  };
+}
+
+export function scheduleMedicationIntervals(
+  firstDoseTimeStr: string,
+  frequencyHours: number,
+  totalDoses: number
+): {
+  doseTimeline: { doseNumber: number; plannedTimeStr: string; requireFoodNotice: boolean }[];
+  completionTimeStr: string;
+} {
+  const parts = (firstDoseTimeStr || "08:00").split(":");
+  const hr = parseInt(parts[0], 10) || 8;
+  const min = parseInt(parts[1], 10) || 0;
+
+  const base = new Date();
+  base.setHours(hr, min, 0, 0);
+
+  const doseTimeline = [];
+  let current = new Date(base);
+
+  const format = (d: Date) => {
+    const pad = (n: number) => String(n).padStart(2, "0");
+    return `${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  };
+
+  for (let i = 1; i <= totalDoses; i++) {
+    doseTimeline.push({
+      doseNumber: i,
+      plannedTimeStr: format(current),
+      requireFoodNotice: i % 2 === 1
+    });
+    current.setHours(current.getHours() + frequencyHours);
+  }
+
+  const comp = new Date(base);
+  comp.setHours(base.getHours() + (totalDoses - 1) * frequencyHours);
+
+  return {
+    doseTimeline,
+    completionTimeStr: format(comp)
+  };
+}
+
+export function calculateHabitMilestones(startDateStr: string): {
+  milestones: { targetDayCount: number; targetCalendarDateFormatted: string; psychologyPhase: string }[];
+  daysElapsedSinceStart: number;
+} {
+  const parts = (startDateStr || "").split("-");
+  const base = parts.length === 3
+    ? new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10))
+    : new Date();
+  base.setHours(0, 0, 0, 0);
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const daysElapsedSinceStart = Math.max(0, Math.round((today.getTime() - base.getTime()) / 86400000));
+
+  const milestonesList = [
+    { targetDayCount: 21, psychologyPhase: "Habit Formation (neurological footprint consolidation)" },
+    { targetDayCount: 66, psychologyPhase: "Neurological Automation (clinical habit integration)" },
+    { targetDayCount: 100, psychologyPhase: "Total Behavioral Integration (long-term sustainability)" }
+  ];
+
+  const formatDate = (d: Date) => {
+    return new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" }).format(d);
+  };
+
+  const milestones = milestonesList.map((m) => {
+    const d = new Date(base);
+    d.setDate(base.getDate() + m.targetDayCount);
+    return {
+      targetDayCount: m.targetDayCount,
+      targetCalendarDateFormatted: formatDate(d),
+      psychologyPhase: m.psychologyPhase
+    };
+  });
+
+  return {
+    milestones,
+    daysElapsedSinceStart
+  };
+}
+
+export function translatePetAge(
+  calendarAgeYears: number,
+  animalType: 'dog-small' | 'dog-large' | 'cat' | 'bird',
+  weightLbs?: number
+): {
+  equivalentHumanYears: number;
+  lifeStageClassification: 'juvenile' | 'adult' | 'senior' | 'geriatric';
+  wellnessRecommendation: string;
+} {
+  let equivalentHumanYears = 15;
+
+  if (animalType === "cat") {
+    if (calendarAgeYears <= 1) equivalentHumanYears = 15 * calendarAgeYears;
+    else if (calendarAgeYears <= 2) equivalentHumanYears = 15 + (calendarAgeYears - 1) * 9;
+    else equivalentHumanYears = 24 + (calendarAgeYears - 2) * 4;
+  } else if (animalType === "dog-small") {
+    if (calendarAgeYears <= 1) equivalentHumanYears = 15 * calendarAgeYears;
+    else if (calendarAgeYears <= 2) equivalentHumanYears = 15 + (calendarAgeYears - 1) * 9;
+    else equivalentHumanYears = 24 + (calendarAgeYears - 2) * 4;
+  } else if (animalType === "dog-large") {
+    let scale = 6;
+    if (weightLbs && weightLbs > 80) scale = 8;
+    if (calendarAgeYears <= 1) equivalentHumanYears = 14 * calendarAgeYears;
+    else if (calendarAgeYears <= 2) equivalentHumanYears = 14 + (calendarAgeYears - 1) * 10;
+    else equivalentHumanYears = 24 + (calendarAgeYears - 2) * scale;
+  } else {
+    // bird
+    equivalentHumanYears = Math.round(calendarAgeYears * 5.5);
+  }
+
+  let lifeStageClassification: 'juvenile' | 'adult' | 'senior' | 'geriatric' = 'adult';
+  let wellnessRecommendation = "General adult nutrition and exercise controls.";
+
+  if (equivalentHumanYears < 15) {
+    lifeStageClassification = "juvenile";
+    wellnessRecommendation = "Growth formulations, vaccinations, and training socialization.";
+  } else if (equivalentHumanYears >= 75) {
+    lifeStageClassification = "geriatric";
+    wellnessRecommendation = "Senior mobility panels, bi-annual renal audits, soft diets.";
+  } else if (equivalentHumanYears >= 50) {
+    lifeStageClassification = "senior";
+    wellnessRecommendation = "Joint supplements, senior metabolic checks, cognitive games.";
+  }
+
+  return {
+    equivalentHumanYears,
+    lifeStageClassification,
+    wellnessRecommendation
+  };
+}
+
+export function calculateCaffeineDecay(
+  consumptionTimeStr: string,
+  beverageType: 'espresso' | 'coffee' | 'energy' | 'tea',
+  targetBedtimeStr: string
+): {
+  initialMg: number;
+  bedtimeRemainingMg: number;
+  sleepDisruptionRiskScore: number;
+  hourlyDecayMatrix: { timeStr: string; remainingMg: number }[];
+} {
+  let initialMg = 120;
+  if (beverageType === "espresso") initialMg = 80;
+  else if (beverageType === "energy") initialMg = 160;
+  else if (beverageType === "tea") initialMg = 40;
+
+  const parseTime = (str: string) => {
+    const parts = (str || "12:00").split(":");
+    return (parseInt(parts[0], 10) || 12) + (parseInt(parts[1], 10) || 0) / 60;
+  };
+
+  const consumeHr = parseTime(consumptionTimeStr);
+  const bedHr = parseTime(targetBedtimeStr);
+
+  let elapsed = bedHr - consumeHr;
+  if (elapsed < 0) elapsed += 24; // midnight crossing
+
+  const halfLife = 5.0; // average hours
+  const bedtimeRemainingMg = parseFloat((initialMg * Math.pow(0.5, elapsed / halfLife)).toFixed(1));
+
+  let sleepDisruptionRiskScore = Math.min(100, Math.round((bedtimeRemainingMg / 100) * 100));
+
+  const hourlyDecayMatrix = [];
+  const pad = (n: number) => String(n).padStart(2, "0");
+
+  for (let i = 0; i <= 12; i++) {
+    const hr = (Math.floor(consumeHr) + i) % 24;
+    const rem = parseFloat((initialMg * Math.pow(0.5, i / halfLife)).toFixed(1));
+    hourlyDecayMatrix.push({
+      timeStr: `${pad(hr)}:00`,
+      remainingMg: rem
+    });
+  }
+
+  return {
+    initialMg,
+    bedtimeRemainingMg,
+    sleepDisruptionRiskScore,
+    hourlyDecayMatrix
+  };
+}
+
+export function calculateAlcoholClearance(
+  genderMultiplier: 'male' | 'female',
+  userWeightLbs: number,
+  standardUnitsConsumed: number,
+  hoursElapsedSinceFirstDrink: number
+): {
+  estimatedCurrentBAC: number;
+  hoursUntilZeroBAC: number;
+  clearanceTimeFormatted: string;
+  isSafeToDriveBaseline: boolean;
+} {
+  const r = genderMultiplier === "male" ? 0.68 : 0.55;
+  const alcoholGrams = standardUnitsConsumed * 14;
+  const weightGrams = userWeightLbs * 453.592;
+
+  // Widmark equation
+  let rawBAC = (alcoholGrams / (weightGrams * r)) * 100;
+  
+  // Subtract metabolism (average 0.015% per hour)
+  let estimatedCurrentBAC = rawBAC - 0.015 * hoursElapsedSinceFirstDrink;
+  estimatedCurrentBAC = parseFloat(Math.max(0, estimatedCurrentBAC).toFixed(3));
+
+  const hoursUntilZeroBAC = parseFloat((estimatedCurrentBAC / 0.015).toFixed(1));
+
+  const now = new Date();
+  now.setMinutes(now.getMinutes() + Math.round(hoursUntilZeroBAC * 60));
+  const clearanceTimeFormatted = now.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
+
+  const isSafeToDriveBaseline = estimatedCurrentBAC < 0.05;
+
+  return {
+    estimatedCurrentBAC,
+    hoursUntilZeroBAC,
+    clearanceTimeFormatted,
+    isSafeToDriveBaseline
+  };
+}
+
+export function calculateNicotineDetoxTimeline(quitDateTimeStr: string): {
+  hoursSinceQuit: number;
+  completedMilestones: { benefitLabel: string; timelineMarker: string; isAchieved: boolean; statusPercentage: number }[];
+} {
+  const quit = quitDateTimeStr ? new Date(quitDateTimeStr) : new Date();
+  const now = new Date();
+
+  const elapsedHrs = Math.max(0, parseFloat(((now.getTime() - quit.getTime()) / 3600000).toFixed(1)));
+
+  const milestonesList = [
+    { benefitLabel: "Heart rate & blood pressure normalize", hoursRequired: 0.33, marker: "20 Mins" },
+    { benefitLabel: "Carbon monoxide in blood drops to normal", hoursRequired: 12, marker: "12 Hours" },
+    { benefitLabel: "Circulation begins to recover & heart risk decreases", hoursRequired: 24, marker: "24 Hours" },
+    { benefitLabel: "Nerve endings regenerate, smell/taste improve", hoursRequired: 48, marker: "48 Hours" },
+    { benefitLabel: "Bronchial tubes relax, breathing ease climbs", hoursRequired: 72, marker: "72 Hours" },
+    { benefitLabel: "Physical withdrawal symptoms peak and taper", hoursRequired: 168, marker: "1 Week" }
+  ];
+
+  const completedMilestones = milestonesList.map((m) => {
+    const isAchieved = elapsedHrs >= m.hoursRequired;
+    const statusPercentage = Math.min(100, Math.round((elapsedHrs / m.hoursRequired) * 100));
+    return {
+      benefitLabel: m.benefitLabel,
+      timelineMarker: m.marker,
+      isAchieved,
+      statusPercentage
+    };
+  });
+
+  return {
+    hoursSinceQuit: elapsedHrs,
+    completedMilestones
+  };
+}
+
+export function adjustShiftWorkSleep(
+  currentWakeTimeStr: string,
+  targetNewWakeTimeStr: string,
+  transitionDaysAvailable: number
+): {
+  dailyScheduleAdjustments: { dayNumber: number; plannedSleepTime: string; plannedWakeTime: string; lightExposureWindow: string }[];
+} {
+  const parseTime = (str: string) => {
+    const parts = (str || "08:00").split(":");
+    return (parseInt(parts[0], 10) || 8) * 60 + (parseInt(parts[1], 10) || 0);
+  };
+
+  const startMins = parseTime(currentWakeTimeStr);
+  const endMins = parseTime(targetNewWakeTimeStr);
+
+  const days = Math.max(1, transitionDaysAvailable);
+  const diff = endMins - startMins;
+  
+  // Handle circular day math for schedule changes
+  const adjustedDiff = diff > 720 ? diff - 1440 : diff < -720 ? diff + 1440 : diff;
+  const shiftPerDay = adjustedDiff / days;
+
+  const dailyScheduleAdjustments = [];
+  const pad = (n: number) => String(n).padStart(2, "0");
+
+  const formatMins = (mins: number) => {
+    const normalized = (mins + 1440) % 1440;
+    return `${pad(Math.floor(normalized / 60))}:${pad(Math.round(normalized % 60))}`;
+  };
+
+  for (let i = 1; i <= days; i++) {
+    const currentWake = startMins + shiftPerDay * i;
+    const currentSleep = currentWake - 8 * 60; // assume 8h sleep
+
+    const lightStart = currentWake;
+    const lightEnd = currentWake + 4 * 60; // 4h light window
+
+    dailyScheduleAdjustments.push({
+      dayNumber: i,
+      plannedSleepTime: formatMins(currentSleep),
+      plannedWakeTime: formatMins(currentWake),
+      lightExposureWindow: `${formatMins(lightStart)} - ${formatMins(lightEnd)}`
+    });
+  }
+
+  return {
+    dailyScheduleAdjustments
+  };
+}
+
+export function generateVaccinationSchedule(birthDateStr: string): {
+  immunizationMilestones: { ageMilestone: string; targetDateFormatted: string; coreVaccinesList: string[] }[];
+} {
+  const parts = (birthDateStr || "").split("-");
+  const base = parts.length === 3
+    ? new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10))
+    : new Date();
+  base.setHours(0, 0, 0, 0);
+
+  const milestonesList = [
+    { milestoneMonths: 0, label: "Birth", list: ["Hepatitis B (HepB) - Dose 1"] },
+    { milestoneMonths: 2, label: "2 Months", list: ["HepB (Dose 2)", "DTaP", "PCV13", "IPV", "Rotavirus (RV)", "Hib"] },
+    { milestoneMonths: 4, label: "4 Months", list: ["DTaP (Dose 2)", "PCV13 (Dose 2)", "IPV (Dose 2)", "RV (Dose 2)", "Hib (Dose 2)"] },
+    { milestoneMonths: 6, label: "6 Months", list: ["HepB (Dose 3)", "DTaP (Dose 3)", "PCV13 (Dose 3)", "IPV (Dose 3)", "RV (Dose 3)", "Influenza (Annual)"] },
+    { milestoneMonths: 12, label: "12-15 Months", list: ["MMR (Dose 1)", "Varicella (Dose 1)", "HepA (Dose 1)", "Hib (Booster)", "PCV13 (Booster)"] },
+    { milestoneMonths: 60, label: "4-6 Years", list: ["DTaP (Booster)", "IPV (Booster)", "MMR (Dose 2)", "Varicella (Dose 2)"] }
+  ];
+
+  const formatDate = (d: Date) => {
+    return new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" }).format(d);
+  };
+
+  const immunizationMilestones = milestonesList.map((m) => {
+    const d = new Date(base);
+    d.setMonth(base.getMonth() + m.milestoneMonths);
+    return {
+      ageMilestone: m.label,
+      targetDateFormatted: formatDate(d),
+      coreVaccinesList: m.list
+    };
+  });
+
+  return {
+    immunizationMilestones
+  };
+}
+
+export function configureScreenTimePomodoro(dailyScreenHoursInput: number): {
+  recommendedBreakIntervalMinutes: number;
+  totalBreakIntervalsRequiredDaily: number;
+  estimatedEyeStrainReductionPercentage: number;
+} {
+  const hours = Math.max(0, dailyScreenHoursInput);
+  
+  // Standard 20-20-20 rule breaks
+  const recommendedBreakIntervalMinutes = 20;
+  const totalBreakIntervalsRequiredDaily = Math.round((hours * 60) / recommendedBreakIntervalMinutes);
+  
+  const reduction = Math.min(95, Math.round(totalBreakIntervalsRequiredDaily * 3.5));
+
+  return {
+    recommendedBreakIntervalMinutes,
+    totalBreakIntervalsRequiredDaily,
+    estimatedEyeStrainReductionPercentage: Math.max(0, reduction)
+  };
+}
+
+export function calculateLoanMaturity(
+  originationDateStr: string,
+  loanTermMonths: number
+): {
+  finalMaturityDate: Date;
+  maturityDateFormatted: string;
+  totalDaysInTerm: number;
+  remainingDaysUntilMaturity: number;
+} {
+  const parts = (originationDateStr || "").split("-");
+  const orig = parts.length === 3
+    ? new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10))
+    : new Date();
+  orig.setHours(0, 0, 0, 0);
+
+  const finalMaturityDate = new Date(orig);
+  finalMaturityDate.setMonth(orig.getMonth() + loanTermMonths);
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const totalDaysInTerm = Math.round((finalMaturityDate.getTime() - orig.getTime()) / 86400000);
+  const remainingDaysUntilMaturity = Math.max(0, Math.round((finalMaturityDate.getTime() - today.getTime()) / 86400000));
+
+  const formatDate = (d: Date) => {
+    return new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" }).format(d);
+  };
+
+  return {
+    finalMaturityDate,
+    maturityDateFormatted: formatDate(finalMaturityDate),
+    totalDaysInTerm,
+    remainingDaysUntilMaturity
+  };
+}
+
+export function calculateInterestDays(
+  startDateStr: string,
+  endDateStr: string,
+  convention: 'ACT/360' | 'ACT/365' | '30/360'
+): {
+  exactDayCount: number;
+  calculatedYearFraction: number;
+} {
+  const parse = (str: string) => {
+    const parts = (str || "").split("-");
+    return parts.length === 3
+      ? new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10))
+      : new Date();
+  };
+
+  const start = parse(startDateStr);
+  const end = parse(endDateStr);
+
+  const exactDayCount = Math.round((end.getTime() - start.getTime()) / 86400000);
+
+  let calculatedYearFraction = exactDayCount / 365.0;
+
+  if (convention === "ACT/360") {
+    calculatedYearFraction = exactDayCount / 360.0;
+  } else if (convention === "ACT/365") {
+    calculatedYearFraction = exactDayCount / 365.0;
+  } else if (convention === "30/360") {
+    // 30/360 NASD implementation
+    const d1 = Math.min(30, start.getDate());
+    let d2 = end.getDate();
+    if (d1 === 30 && d2 === 31) d2 = 30;
+
+    const y1 = start.getFullYear();
+    const y2 = end.getFullYear();
+    const m1 = start.getMonth() + 1;
+    const m2 = end.getMonth() + 1;
+
+    const days30 = 360 * (y2 - y1) + 30 * (m2 - m1) + (d2 - d1);
+    calculatedYearFraction = days30 / 360.0;
+  }
+
+  return {
+    exactDayCount,
+    calculatedYearFraction: parseFloat(calculatedYearFraction.toFixed(5))
+  };
+}
+
+export function planTenancyNotice(
+  desiredLeaseEndStr: string,
+  requiredNoticePeriodDays: number
+): {
+  latestValidNoticeDate: Date;
+  latestNoticeDateFormatted: string;
+  noticeBufferDaysRemaining: number;
+} {
+  const parts = (desiredLeaseEndStr || "").split("-");
+  const end = parts.length === 3
+    ? new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10))
+    : new Date();
+  end.setHours(0, 0, 0, 0);
+
+  const latestValidNoticeDate = new Date(end);
+  latestValidNoticeDate.setDate(end.getDate() - requiredNoticePeriodDays);
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const noticeBufferDaysRemaining = Math.max(0, Math.round((latestValidNoticeDate.getTime() - today.getTime()) / 86400000));
+
+  const formatDate = (d: Date) => {
+    return new Intl.DateTimeFormat("en-US", { weekday: "long", month: "short", day: "numeric", year: "numeric" }).format(d);
+  };
+
+  return {
+    latestValidNoticeDate,
+    latestNoticeDateFormatted: formatDate(latestValidNoticeDate),
+    noticeBufferDaysRemaining
+  };
+}
+
+export function calculateLightingWindows(
+  targetDateStr: string,
+  latitude: number,
+  longitude: number
+): {
+  morningBlueHourStart: string;
+  morningGoldenHourStart: string;
+  eveningGoldenHourStart: string;
+  eveningBlueHourStart: string;
+} {
+  // Simple geometric lighting projections based on latitude/longitude
+  const parts = (targetDateStr || "").split("-");
+  const today = parts.length === 3
+    ? new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10))
+    : new Date();
+
+  // Equation of Time approximation
+  const start = new Date(today.getFullYear(), 0, 0);
+  const diff = today.getTime() - start.getTime() + ((start.getTimezoneOffset() - today.getTimezoneOffset()) * 60 * 1000);
+  const dayOfYear = Math.floor(diff / 86400000);
+
+  const b = (360 * (dayOfYear - 81)) / 365;
+  const bRad = (b * Math.PI) / 180;
+  const eot = 9.87 * Math.sin(2 * bRad) - 7.53 * Math.cos(bRad) - 1.5 * Math.sin(bRad);
+
+  const longitudeCorrection = longitude * 4;
+  const solarNoonMins = 720 - longitudeCorrection - eot;
+
+  // Approximate sunrise/sunset window length based on latitude
+  // Equator has roughly 12h day. Higher latitudes vary seasonally.
+  const latFactor = Math.abs(latitude) / 90;
+  const seasonalMultiplier = Math.sin((360 * (dayOfYear - 80) / 365) * Math.PI / 180);
+  const halfDayMins = 360 + 120 * latFactor * seasonalMultiplier;
+
+  const sunriseMins = solarNoonMins - halfDayMins;
+  const sunsetMins = solarNoonMins + halfDayMins;
+
+  const formatMins = (mins: number) => {
+    const normalized = (mins + 1440) % 1440;
+    const hr = Math.floor(normalized / 60);
+    const min = Math.round(normalized % 60);
+    const ampm = hr >= 12 ? "PM" : "AM";
+    const displayHr = hr % 12 === 0 ? 12 : hr % 12;
+    return `${String(displayHr).padStart(2, "0")}:${String(min).padStart(2, "0")} ${ampm}`;
+  };
+
+  return {
+    morningBlueHourStart: formatMins(sunriseMins - 40),
+    morningGoldenHourStart: formatMins(sunriseMins - 10),
+    eveningGoldenHourStart: formatMins(sunsetMins - 30),
+    eveningBlueHourStart: formatMins(sunsetMins + 15)
+  };
+}
+
+export type CalendarMonthGrid = {
+  dayName: string;
+  dayNumber: number | null;
+  isWeekend: boolean;
+}[];
+
+export function generatePerpetualGrid(year: number, monthIndex: number): CalendarMonthGrid {
+  const firstDay = new Date(year, monthIndex, 1);
+  const lastDay = new Date(year, monthIndex + 1, 0);
+
+  // Day of week index: 0 = Sun, 1 = Mon, ..., 6 = Sat
+  const firstDayOfWeek = firstDay.getDay();
+  const totalDays = lastDay.getDate();
+
+  const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const grid: CalendarMonthGrid = [];
+
+  // Pad starting boxes
+  for (let i = 0; i < firstDayOfWeek; i++) {
+    grid.push({
+      dayName: daysOfWeek[i],
+      dayNumber: null,
+      isWeekend: i === 0 || i === 6
+    });
+  }
+
+  // Insert actual dates
+  for (let d = 1; d <= totalDays; d++) {
+    const dow = (firstDayOfWeek + d - 1) % 7;
+    grid.push({
+      dayName: daysOfWeek[dow],
+      dayNumber: d,
+      isWeekend: dow === 0 || dow === 6
+    });
+  }
+
+  return grid;
+}
 
