@@ -29,9 +29,30 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://thegodoftime.com"),
   title: "The God of Time",
   description: "A hub of utility time calculators and immersive relativistic cosmic experiences.",
   manifest: "/manifest.json",
+  icons: {
+    icon: "/icon.svg",
+    shortcut: "/icon.svg",
+    apple: "/icon.svg",
+  },
+  openGraph: {
+    title: "The God of Time",
+    description: "A hub of utility time calculators and immersive relativistic cosmic experiences.",
+    url: "https://thegodoftime.com",
+    siteName: "The God of Time",
+    type: "website",
+    images: [
+      {
+        url: "/icon.svg",
+        width: 512,
+        height: 512,
+        alt: "The God of Time Logo",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({

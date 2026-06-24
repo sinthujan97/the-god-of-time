@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <radialGradient id="bgGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#0f1118"/>
+      <stop offset="100%" stop-color="#07080a"/>
+    </radialGradient>
+    
+    <!-- Hourglass Flow Gradients -->
+    <linearGradient id="cyanGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#aefce4"/>
+      <stop offset="100%" stop-color="#52C4A0"/>
+    </linearGradient>
+    
+    <linearGradient id="redGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffb3b3"/>
+      <stop offset="100%" stop-color="#E87C7C"/>
+    </linearGradient>
+
+    <!-- Outer Rim Gradient -->
+    <linearGradient id="rimGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#52C4A0"/>
+      <stop offset="50%" stop-color="#9B8EF5"/>
+      <stop offset="100%" stop-color="#E87C7C"/>
+    </linearGradient>
+    
+    <!-- Glow Filters -->
+    <filter id="glowCyan" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    
+    <filter id="glowRed" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Background Layer -->
+  <rect width="512" height="512" rx="128" fill="url(#bgGrad)"/>
+  
+  <!-- Outer Clock Dial Rim -->
+  <circle cx="256" cy="256" r="220" fill="none" stroke="url(#rimGrad)" stroke-width="6" opacity="0.85"/>
+  <circle cx="256" cy="256" r="232" fill="none" stroke="url(#rimGrad)" stroke-width="1.5" opacity="0.3"/>
+
+  <!-- Dial Ticks (Minimalist lines at 12, 3, 6, 9) -->
+  <line x1="256" y1="48" x2="256" y2="60" stroke="#52C4A0" stroke-width="4" stroke-linecap="round"/>
+  <line x1="464" y1="256" x2="452" y2="256" stroke="#9B8EF5" stroke-width="4" stroke-linecap="round"/>
+  <line x1="256" y1="464" x2="256" y2="452" stroke="#E87C7C" stroke-width="4" stroke-linecap="round"/>
+  <line x1="48" y1="256" x2="60" y2="256" stroke="#52C4A0" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Hourglass Core Symbol -->
+  <!-- Glass Frame -->
+  <path d="M176,140 L336,140 L256,256 Z" fill="none" stroke="#ffffff" stroke-width="8" stroke-linejoin="round" opacity="0.9"/>
+  <path d="M176,372 L336,372 L256,256 Z" fill="none" stroke="#ffffff" stroke-width="8" stroke-linejoin="round" opacity="0.9"/>
+  
+  <!-- Top and Bottom caps -->
+  <line x1="160" y1="136" x2="352" y2="136" stroke="#ffffff" stroke-width="12" stroke-linecap="round"/>
+  <line x1="160" y1="376" x2="352" y2="376" stroke="#ffffff" stroke-width="12" stroke-linecap="round"/>
+
+  <!-- Sands in Top Bulb (Cyan) -->
+  <path d="M192,152 L320,152 L256,244 Z" fill="url(#cyanGrad)" filter="url(#glowCyan)"/>
+  
+  <!-- Falling stream of sand -->
+  <line x1="256" y1="240" x2="256" y2="340" stroke="url(#cyanGrad)" stroke-width="4" opacity="0.8"/>
+
+  <!-- Sands in Bottom Bulb (Red/Pink) -->
+  <path d="M224,312 L288,312 L320,360 L192,360 Z" fill="url(#redGrad)" filter="url(#glowRed)"/>
+</svg>
