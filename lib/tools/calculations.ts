@@ -98,7 +98,7 @@ export function calculateDaysBetween(
 
   const parts1 = startDateStr.split("-");
   const parts2 = endDateStr.split("-");
-  
+
   if (parts1.length !== 3 || parts2.length !== 3) {
     return {
       totalDays: 0,
@@ -117,7 +117,7 @@ export function calculateDaysBetween(
   const y1 = parseInt(parts1[0], 10);
   const m1 = parseInt(parts1[1], 10);
   const d1 = parseInt(parts1[2], 10);
-  
+
   const y2 = parseInt(parts2[0], 10);
   const m2 = parseInt(parts2[1], 10);
   const d2 = parseInt(parts2[2], 10);
@@ -181,7 +181,7 @@ export function calculateDaysBetween(
 
   let totalMonths = (calendarEnd.getFullYear() - tempStart.getFullYear()) * 12 + (calendarEnd.getMonth() - tempStart.getMonth());
   let checkDate = new Date(tempStart.getFullYear(), tempStart.getMonth() + totalMonths, tempStart.getDate());
-  
+
   if (checkDate > calendarEnd) {
     totalMonths--;
     checkDate = new Date(tempStart.getFullYear(), tempStart.getMonth() + totalMonths, tempStart.getDate());
@@ -659,13 +659,13 @@ export function calculateDateDifferenceDetail(targetDate: Date, referenceDate: D
   const diffMs = targetDate.getTime() - referenceDate.getTime();
   const isPast = diffMs < 0;
   const absDiff = Math.abs(diffMs);
-  
+
   const totalSeconds = Math.floor(absDiff / 1000);
   const days = Math.floor(totalSeconds / 86400);
   const hours = Math.floor((totalSeconds % 86400) / 3600);
   const minutes = Math.floor((totalSeconds % 3600) / 60);
   const seconds = totalSeconds % 60;
-  
+
   return { days, hours, minutes, seconds, isPast };
 }
 
@@ -689,23 +689,23 @@ export type LeapYearResult = {
 
 export function checkLeapYear(year: number): LeapYearResult {
   const isLeap = (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
-  
+
   let nextLeap = year + 1;
   while (!((nextLeap % 4 === 0 && nextLeap % 100 !== 0) || (nextLeap % 400 === 0))) {
     nextLeap++;
   }
-  
+
   let prevLeap = year - 1;
   while (prevLeap > 0 && !((prevLeap % 4 === 0 && prevLeap % 100 !== 0) || (prevLeap % 400 === 0))) {
     prevLeap--;
   }
 
-  const mathExplanation = year % 400 === 0 
-    ? `${year} is divisible by 400 (leap year).` 
-    : year % 100 === 0 
-      ? `${year} is divisible by 100 but not by 400 (not a leap year).` 
-      : year % 4 === 0 
-        ? `${year} is divisible by 4 but not by 100 (leap year).` 
+  const mathExplanation = year % 400 === 0
+    ? `${year} is divisible by 400 (leap year).`
+    : year % 100 === 0
+      ? `${year} is divisible by 100 but not by 400 (not a leap year).`
+      : year % 4 === 0
+        ? `${year} is divisible by 4 but not by 100 (leap year).`
         : `${year} is not divisible by 4 (not a leap year).`;
 
   return {
@@ -728,18 +728,18 @@ export type ISOWeekResult = {
 export function calculateISOWeekDetails(date: Date): ISOWeekResult {
   const tempDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
   const weekNumber = getISOWeekNumber(tempDate);
-  
+
   const dayNum = (tempDate.getDay() + 6) % 7; // Mon = 0
   const thursDate = new Date(tempDate);
   thursDate.setDate(tempDate.getDate() - dayNum + 3);
   const isoYear = thursDate.getFullYear();
-  
+
   const monday = new Date(tempDate);
   monday.setDate(tempDate.getDate() - dayNum);
-  
+
   const sunday = new Date(monday);
   sunday.setDate(monday.getDate() + 6);
-  
+
   const doy = getDayOfYear(date);
 
   return {
@@ -767,7 +767,7 @@ export function findDayOfWeekDetails(date: Date): DayOfWeekResult {
   const dayOfWeekISO = date.getDay() === 0 ? 7 : date.getDay();
   const dayOfYear = getDayOfYear(date);
   const weekNumber = getISOWeekNumber(date);
-  
+
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   const targetDayOfWeek = date.getDay();
@@ -805,13 +805,13 @@ export function calculateDateMidpoint(dateA: Date, dateB: Date): { midpointDate:
   const tB = dateB.getTime();
   const midpointMs = (tA + tB) / 2;
   const midpointDate = new Date(midpointMs);
-  
+
   const minTime = Math.min(tA, tB);
   const maxTime = Math.max(tA, tB);
-  
+
   const daysFromStart = Math.round((midpointMs - minTime) / 86400000);
   const daysToEnd = Math.round((maxTime - midpointMs) / 86400000);
-  
+
   return { midpointDate, daysFromStart, daysToEnd };
 }
 
@@ -845,7 +845,7 @@ export function calculateShiftsTotal(
 } {
   let totalSeconds = 0;
   let totalDaysLogged = 0;
-  
+
   const dayMinutesMap: Record<string, number> = {};
 
   shifts.forEach(shift => {
@@ -853,10 +853,10 @@ export function calculateShiftsTotal(
     const startSec = parseTimeToSeconds(shift.startTime);
     const endSec = parseTimeToSeconds(shift.endTime);
     if (startSec === null || endSec === null) return;
-    
+
     let diff = endSec - startSec;
     if (diff < 0) diff += 86400; // overnight
-    
+
     totalSeconds += diff;
     totalDaysLogged++;
 
@@ -913,7 +913,7 @@ export function calculateOvertimePay(
   const regularPay = regularHours * rate;
   const overtimePay = overtimeHours * rate * multiplier;
   const grossPay = regularPay + overtimePay;
-  
+
   return {
     regularHours: parseFloat(regularHours.toFixed(4)),
     overtimeHours: parseFloat(overtimeHours.toFixed(4)),
@@ -941,12 +941,12 @@ export function generatePayrollPeriods(
   const startYear = parseInt(parts[0], 10);
   const startMonth = parseInt(parts[1], 10) - 1;
   const startDay = parseInt(parts[2], 10);
-  
+
   let basePayDate = new Date(startYear, startMonth, startDay);
   if (isNaN(basePayDate.getTime())) return [];
-  
+
   const periods: PayrollPeriod[] = [];
-  
+
   for (let i = 1; i <= numberOfPeriods; i++) {
     let payDate = new Date(basePayDate);
     if (i > 1) {
@@ -973,10 +973,10 @@ export function generatePayrollPeriods(
         payDate = currentPeriodDate;
       }
     }
-    
+
     let periodStart = new Date(payDate);
     let periodEnd = new Date(payDate);
-    
+
     if (frequency === 'weekly') {
       periodEnd.setDate(payDate.getDate());
       periodStart.setDate(payDate.getDate() - 6);
@@ -995,7 +995,7 @@ export function generatePayrollPeriods(
         periodStart.setDate(16);
       }
     }
-    
+
     let finalPayDate = new Date(payDate);
     let weekendAdjusted = false;
     const dow = payDate.getDay();
@@ -1020,7 +1020,7 @@ export function generatePayrollPeriods(
       weekendAdjusted
     });
   }
-  
+
   return periods;
 }
 
@@ -1075,7 +1075,7 @@ export function calculateTimeCard(
 
   let totalHours = 0;
   let totalDays = 0;
-  
+
   const processedEntries = entries.map((entry) => {
     if (!entry.date || !entry.startTime || !entry.endTime) {
       return {
@@ -1774,17 +1774,17 @@ export function calculateRetainerBurndown(
 
   const startParts = periodStartDateStr.split("-");
   const endParts = periodEndDateStr.split("-");
-  
+
   let daysElapsed = 1;
   let daysRemaining = 1;
-  
+
   if (startParts.length === 3 && endParts.length === 3) {
     const startDate = new Date(parseInt(startParts[0], 10), parseInt(startParts[1], 10) - 1, parseInt(startParts[2], 10));
     const endDate = new Date(parseInt(endParts[0], 10), parseInt(endParts[1], 10) - 1, parseInt(endParts[2], 10));
-    
+
     const elapsedMs = today.getTime() - startDate.getTime();
     daysElapsed = Math.max(1, Math.round(elapsedMs / 86400000) + 1);
-    
+
     const remainingMs = endDate.getTime() - today.getTime();
     daysRemaining = Math.max(1, Math.round(remainingMs / 86400000));
   }
@@ -2550,7 +2550,7 @@ export function calculateSLACountdown(
     while (remainingMinutes > 0) {
       const currentHr = deadline.getHours();
       const currentMin = deadline.getMinutes();
-      
+
       const minutesLeftToday = (bhEnd - currentHr) * 60 - currentMin;
 
       if (remainingMinutes <= minutesLeftToday) {
@@ -2574,7 +2574,7 @@ export function calculateSLACountdown(
   const totalMinutesRemaining = Math.floor(absDiff / 60000);
   const hoursRemaining = Math.floor(totalMinutesRemaining / 60);
   const minutesRemaining = totalMinutesRemaining % 60;
-  
+
   const breachHoursAgo = isBreached ? parseFloat((absDiff / 3600000).toFixed(2)) : 0;
 
   const totalSlaMs = slaDurationHours * 3600000;
@@ -2643,7 +2643,7 @@ export function calculateLeadTime(
   excludeWeekends: boolean
 ): LeadTimeResult {
   const parts = orderDate.split("-");
-  const base = parts.length === 3 
+  const base = parts.length === 3
     ? new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10))
     : new Date();
 
@@ -2752,7 +2752,7 @@ export function calculateNoticePeriod(
   }
 
   const calendarDays = Math.round((noticeEndDate.getTime() - base.getTime()) / 86400000) + 1;
-  
+
   let businessDays = 0;
   let curr = new Date(base);
   while (curr <= noticeEndDate) {
@@ -2828,10 +2828,10 @@ export function calculateSubscriptionRenewal(
     start.setHours(0, 0, 0, 0);
 
     let renewal = new Date(start);
-    const monthsStep = s.billingCycle === 'monthly' ? 1 
+    const monthsStep = s.billingCycle === 'monthly' ? 1
       : s.billingCycle === 'quarterly' ? 3
-      : s.billingCycle === 'biannual' ? 6
-      : 12;
+        : s.billingCycle === 'biannual' ? 6
+          : 12;
 
     while (renewal < today) {
       renewal.setMonth(renewal.getMonth() + monthsStep);
@@ -3016,13 +3016,13 @@ export function calculateFiscalQuarter(
   } else {
     qStartYear = cYear;
   }
-  
+
   let qStart = new Date(qStartYear, qStartMonth, 1);
   if (qStart > date) {
     qStartYear--;
     qStart = new Date(qStartYear, qStartMonth, 1);
   }
-  
+
   let qEnd = new Date(qStart.getFullYear(), qStart.getMonth() + 3, 0);
   const fiscalYear = qStart.getFullYear();
 
@@ -3452,7 +3452,7 @@ export function calculateCourtDeadline(
   const getFederalHolidays = (year: number): Set<string> => {
     const holidays = new Set<string>();
     holidays.add(`${year}-01-01`);
-    
+
     let mlk = new Date(year, 0, 15);
     while (mlk.getDay() !== 1) mlk.setDate(mlk.getDate() - 1);
     holidays.add(`${year}-01-${String(mlk.getDate()).padStart(2, "0")}`);
@@ -3577,7 +3577,7 @@ export function calculateDeliverySlipRisk(
 ): DeliverySlipRiskResult {
   const parseDate = (str: string) => {
     const parts = str.split("-");
-    return parts.length === 3 
+    return parts.length === 3
       ? new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10))
       : new Date();
   };
@@ -3592,7 +3592,7 @@ export function calculateDeliverySlipRisk(
   const daysRemaining = Math.max(0, Math.round((planned.getTime() - current.getTime()) / 86400000));
 
   const timeElapsedPercent = (daysElapsed / totalProjectDays) * 100;
-  const velocityRatio = timeElapsedPercent > 0 
+  const velocityRatio = timeElapsedPercent > 0
     ? parseFloat((completionPercentage / timeElapsedPercent).toFixed(3))
     : 1.0;
 
@@ -4100,6 +4100,7 @@ export function calculateCampaignDeployment(
     campaignStartFormatted: backPlan.projectStartFormatted,
     totalPhaseDays: backPlan.totalProjectDays,
   };
+
 }
 
 
