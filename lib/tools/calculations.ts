@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars */
 /**
  * Shared mathematical and calendar calculation utilities for "The God of Time".
  */
@@ -942,7 +943,7 @@ export function generatePayrollPeriods(
   const startMonth = parseInt(parts[1], 10) - 1;
   const startDay = parseInt(parts[2], 10);
 
-  let basePayDate = new Date(startYear, startMonth, startDay);
+  const basePayDate = new Date(startYear, startMonth, startDay);
   if (isNaN(basePayDate.getTime())) return [];
 
   const periods: PayrollPeriod[] = [];
@@ -974,8 +975,8 @@ export function generatePayrollPeriods(
       }
     }
 
-    let periodStart = new Date(payDate);
-    let periodEnd = new Date(payDate);
+    const periodStart = new Date(payDate);
+    const periodEnd = new Date(payDate);
 
     if (frequency === 'weekly') {
       periodEnd.setDate(payDate.getDate());
@@ -996,7 +997,7 @@ export function generatePayrollPeriods(
       }
     }
 
-    let finalPayDate = new Date(payDate);
+    const finalPayDate = new Date(payDate);
     let weekendAdjusted = false;
     const dow = payDate.getDay();
     if (dow === 6) {
@@ -2031,14 +2032,14 @@ export function calculateBackPlan(
     const totalDays = duration + buffer;
     totalBufferDays += buffer;
 
-    let endDate = new Date(currentEnd);
+    const endDate = new Date(currentEnd);
     if (excludeWeekends) {
       while (endDate.getDay() === 0 || endDate.getDay() === 6) {
         endDate.setDate(endDate.getDate() - 1);
       }
     }
 
-    let startDate = new Date(endDate);
+    const startDate = new Date(endDate);
     let remaining = totalDays;
     while (remaining > 0) {
       startDate.setDate(startDate.getDate() - 1);
@@ -2069,8 +2070,8 @@ export function calculateBackPlan(
     };
 
     let businessDays = 0;
-    let curr = new Date(startDate);
-    let endLimit = new Date(endDate);
+    const curr = new Date(startDate);
+    const endLimit = new Date(endDate);
     while (curr <= endLimit) {
       const dow = curr.getDay();
       if (dow !== 0 && dow !== 6) {
@@ -2244,7 +2245,7 @@ export function calculateGanttDates(
   };
 
   const addDaysHelper = (base: Date, days: number, isWeekendExclusion: boolean): Date => {
-    let current = new Date(base);
+    const current = new Date(base);
     if (isWeekendExclusion) {
       while (current.getDay() === 0 || current.getDay() === 6) {
         current.setDate(current.getDate() + 1);
@@ -2397,14 +2398,14 @@ export function calculateSprintCalendar(
   };
 
   for (let i = 1; i <= numberOfSprints; i++) {
-    let startDate = new Date(nextStart);
+    const startDate = new Date(nextStart);
     if (startDate.getDay() === 6) {
       startDate.setDate(startDate.getDate() + 2);
     } else if (startDate.getDay() === 0) {
       startDate.setDate(startDate.getDate() + 1);
     }
 
-    let endDate = new Date(startDate);
+    const endDate = new Date(startDate);
     endDate.setDate(startDate.getDate() + (sprintLengthWeeks * 7) - 1);
 
     if (endDate.getDay() === 6) {
@@ -2414,7 +2415,7 @@ export function calculateSprintCalendar(
     }
 
     let workingDays = 0;
-    let curr = new Date(startDate);
+    const curr = new Date(startDate);
     while (curr <= endDate) {
       const dow = curr.getDay();
       const dateStr = `${curr.getFullYear()}-${String(curr.getMonth() + 1).padStart(2, "0")}-${String(curr.getDate()).padStart(2, "0")}`;
@@ -2518,7 +2519,7 @@ export function calculateSLACountdown(
     let remainingMinutes = slaDurationHours * 60;
 
     const adjustToBusinessWindow = (d: Date) => {
-      let temp = new Date(d);
+      const temp = new Date(d);
       while (true) {
         const dayOfWeek = temp.getDay();
         const currentHr = temp.getHours();
@@ -2648,7 +2649,7 @@ export function calculateLeadTime(
     : new Date();
 
   const addDaysHelper = (startDate: Date, days: number): Date => {
-    let current = new Date(startDate);
+    const current = new Date(startDate);
     let rem = days;
     while (rem > 0) {
       current.setDate(current.getDate() + 1);
@@ -2722,12 +2723,12 @@ export function calculateNoticePeriod(
     ? new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10))
     : new Date();
 
-  let start = new Date(base);
+  const start = new Date(base);
   if (!includeStartDay) {
     start.setDate(start.getDate() + 1);
   }
 
-  let noticeEndDate = new Date(start);
+  const noticeEndDate = new Date(start);
   let rem = noticePeriodDays - 1;
   if (rem < 0) rem = 0;
 
@@ -2754,7 +2755,7 @@ export function calculateNoticePeriod(
   const calendarDays = Math.round((noticeEndDate.getTime() - base.getTime()) / 86400000) + 1;
 
   let businessDays = 0;
-  let curr = new Date(base);
+  const curr = new Date(base);
   while (curr <= noticeEndDate) {
     const dow = curr.getDay();
     if (dow !== 0 && dow !== 6) {
@@ -2763,7 +2764,7 @@ export function calculateNoticePeriod(
     curr.setDate(curr.getDate() + 1);
   }
 
-  let lastWorkingDay = new Date(noticeEndDate);
+  const lastWorkingDay = new Date(noticeEndDate);
   while (lastWorkingDay.getDay() === 0 || lastWorkingDay.getDay() === 6) {
     lastWorkingDay.setDate(lastWorkingDay.getDate() - 1);
   }
@@ -2827,7 +2828,7 @@ export function calculateSubscriptionRenewal(
       : new Date();
     start.setHours(0, 0, 0, 0);
 
-    let renewal = new Date(start);
+    const renewal = new Date(start);
     const monthsStep = s.billingCycle === 'monthly' ? 1
       : s.billingCycle === 'quarterly' ? 3
         : s.billingCycle === 'biannual' ? 6
@@ -2942,8 +2943,8 @@ export function calculateEventBackTimer(
     const buffer = s.bufferMinutes || 0;
     totalSetupMinutes += duration + buffer;
 
-    let endTime = new Date(currentStart);
-    let startTime = new Date(endTime);
+    const endTime = new Date(currentStart);
+    const startTime = new Date(endTime);
     startTime.setMinutes(endTime.getMinutes() - (duration + buffer));
 
     resultStages.unshift({
@@ -3023,7 +3024,7 @@ export function calculateFiscalQuarter(
     qStart = new Date(qStartYear, qStartMonth, 1);
   }
 
-  let qEnd = new Date(qStart.getFullYear(), qStart.getMonth() + 3, 0);
+  const qEnd = new Date(qStart.getFullYear(), qStart.getMonth() + 3, 0);
   const fiscalYear = qStart.getFullYear();
 
   const daysIntoQuarter = Math.round((date.getTime() - qStart.getTime()) / 86400000) + 1;
@@ -3111,7 +3112,7 @@ export function calculateRetentionExpiry(
   jurisdictionExtension: number
 ): RetentionExpiryResult {
   const parts = recordDate.split("-");
-  let expiry = parts.length === 3
+  const expiry = parts.length === 3
     ? new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10))
     : new Date();
 
@@ -3295,7 +3296,7 @@ export function generateRRULE(
   const nextOccurrencesFormatted: string[] = [];
 
   const parts = startDate.split("-");
-  let current = parts.length === 3
+  const current = parts.length === 3
     ? new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10))
     : new Date();
   current.setHours(0, 0, 0, 0);
@@ -3453,32 +3454,32 @@ export function calculateCourtDeadline(
     const holidays = new Set<string>();
     holidays.add(`${year}-01-01`);
 
-    let mlk = new Date(year, 0, 15);
+    const mlk = new Date(year, 0, 15);
     while (mlk.getDay() !== 1) mlk.setDate(mlk.getDate() - 1);
     holidays.add(`${year}-01-${String(mlk.getDate()).padStart(2, "0")}`);
 
-    let pres = new Date(year, 1, 15);
+    const pres = new Date(year, 1, 15);
     while (pres.getDay() !== 1) pres.setDate(pres.getDate() - 1);
     holidays.add(`${year}-02-${String(pres.getDate()).padStart(2, "0")}`);
 
-    let mem = new Date(year, 4, 31);
+    const mem = new Date(year, 4, 31);
     while (mem.getDay() !== 1) mem.setDate(mem.getDate() - 1);
     holidays.add(`${year}-05-${String(mem.getDate()).padStart(2, "0")}`);
 
     holidays.add(`${year}-06-19`);
     holidays.add(`${year}-07-04`);
 
-    let lab = new Date(year, 8, 1);
+    const lab = new Date(year, 8, 1);
     while (lab.getDay() !== 1) lab.setDate(lab.getDate() + 1);
     holidays.add(`${year}-09-${String(lab.getDate()).padStart(2, "0")}`);
 
-    let col = new Date(year, 9, 8);
+    const col = new Date(year, 9, 8);
     while (col.getDay() !== 1) col.setDate(col.getDate() + 1);
     holidays.add(`${year}-10-${String(col.getDate()).padStart(2, "0")}`);
 
     holidays.add(`${year}-11-11`);
 
-    let tbg = new Date(year, 10, 22);
+    const tbg = new Date(year, 10, 22);
     while (tbg.getDay() !== 4) tbg.setDate(tbg.getDate() + 1);
     holidays.add(`${year}-11-${String(tbg.getDate()).padStart(2, "0")}`);
 
@@ -3487,7 +3488,7 @@ export function calculateCourtDeadline(
     return holidays;
   };
 
-  let deadline = new Date(base);
+  const deadline = new Date(base);
   let rem = deadlineDays;
 
   const isBusiness = deadlineType === 'business';
@@ -3508,7 +3509,7 @@ export function calculateCourtDeadline(
     }
   }
 
-  let adjustedDeadline = new Date(deadline);
+  const adjustedDeadline = new Date(deadline);
   let isAdjusted = false;
   let adjustmentReason = "";
 
@@ -3665,7 +3666,7 @@ export function calculatePomodoroSchedule(
     mins = parseInt(parts[1], 10);
   }
 
-  let current = new Date();
+  const current = new Date();
   current.setHours(hrs, mins, 0, 0);
 
   const segments: PomodoroSegment[] = [];
@@ -3883,7 +3884,7 @@ export function calculateTeamAvailability(
   });
 
   let bestMeetingTime = "No overlapping availability";
-  let hasOverlap = finalWindows.length > 0;
+  const hasOverlap = finalWindows.length > 0;
 
   if (hasOverlap) {
     finalWindows.sort((a, b) => b.durationMinutes - a.durationMinutes);
@@ -4130,7 +4131,7 @@ export function getUTCFromLocalTime(
   minute: number,
   ianaTimezone: string
 ): Date {
-  let guess = new Date(Date.UTC(year, month, day, hour, minute, 0));
+  const guess = new Date(Date.UTC(year, month, day, hour, minute, 0));
   try {
     const formatter = new Intl.DateTimeFormat("en-US", {
       timeZone: ianaTimezone,
@@ -4502,7 +4503,7 @@ export function calculateNextDSTTransition(timezoneIANA: string, currentBaseDate
     const nextOffset = getTzOffsetMinutes(timezoneIANA, nextMonth);
     if (nextOffset !== baseOffset) {
       hasDST = true;
-      let dayScan = new Date(current);
+      const dayScan = new Date(current);
       while (dayScan < nextMonth) {
         const dayOffset = getTzOffsetMinutes(timezoneIANA, dayScan);
         if (dayOffset !== baseOffset) {
@@ -4738,7 +4739,7 @@ export function simulateIDLCrossing(
     ? new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10))
     : new Date();
   
-  let calculatedArrivalDate = new Date(date);
+  const calculatedArrivalDate = new Date(date);
   calculatedArrivalDate.setHours(calculatedArrivalDate.getHours() + transitDurationHours);
 
   const netDaysShifted = direction === 'eastbound' ? -1 : 1;
@@ -5188,7 +5189,7 @@ export function calculatePregnancyDates(
     : new Date();
   base.setHours(0, 0, 0, 0);
 
-  let estimatedDueDate = new Date(base);
+  const estimatedDueDate = new Date(base);
   let conceptionDate = new Date(base);
 
   if (calculationMethod === 'lmp') {
@@ -5342,7 +5343,7 @@ export function calculateExactAge(birthDateTimeStr: string): {
   const weeks = Math.floor(totalDaysAlive / 7);
 
   // Next birthday countdown
-  let nextBday = new Date(now.getFullYear(), birth.getMonth(), birth.getDate(), birth.getHours(), birth.getMinutes(), birth.getSeconds());
+  const nextBday = new Date(now.getFullYear(), birth.getMonth(), birth.getDate(), birth.getHours(), birth.getMinutes(), birth.getSeconds());
   if (nextBday < now) {
     nextBday.setFullYear(now.getFullYear() + 1);
   }
@@ -5452,7 +5453,7 @@ export function calculateFertilityWindows(
 
   // Generate 6-month cycles
   const rollingSixMonthWindows = [];
-  let tempBase = new Date(base);
+  const tempBase = new Date(base);
   for (let i = 0; i < 6; i++) {
     const o = new Date(tempBase);
     o.setDate(tempBase.getDate() + cycleLengthDays - 14);
@@ -5540,7 +5541,7 @@ export function scheduleMedicationIntervals(
   base.setHours(hr, min, 0, 0);
 
   const doseTimeline = [];
-  let current = new Date(base);
+  const current = new Date(base);
 
   const format = (d: Date) => {
     const pad = (n: number) => String(n).padStart(2, "0");
@@ -5686,7 +5687,7 @@ export function calculateCaffeineDecay(
   const halfLife = 5.0; // average hours
   const bedtimeRemainingMg = parseFloat((initialMg * Math.pow(0.5, elapsed / halfLife)).toFixed(1));
 
-  let sleepDisruptionRiskScore = Math.min(100, Math.round((bedtimeRemainingMg / 100) * 100));
+  const sleepDisruptionRiskScore = Math.min(100, Math.round((bedtimeRemainingMg / 100) * 100));
 
   const hourlyDecayMatrix = [];
   const pad = (n: number) => String(n).padStart(2, "0");
@@ -5724,7 +5725,7 @@ export function calculateAlcoholClearance(
   const weightGrams = userWeightLbs * 453.592;
 
   // Widmark equation
-  let rawBAC = (alcoholGrams / (weightGrams * r)) * 100;
+  const rawBAC = (alcoholGrams / (weightGrams * r)) * 100;
   
   // Subtract metabolism (average 0.015% per hour)
   let estimatedCurrentBAC = rawBAC - 0.015 * hoursElapsedSinceFirstDrink;
