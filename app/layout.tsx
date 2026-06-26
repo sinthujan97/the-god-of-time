@@ -66,7 +66,7 @@ export default function RootLayout({
       className={cn("h-full", "antialiased", cormorant.variable, inter.variable, jetbrains.variable, "font-sans", geist.variable)}
       suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col bg-bg-base text-text-primary">
+      <body className="min-h-full flex flex-col bg-bg-base text-text-primary" suppressHydrationWarning>
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
