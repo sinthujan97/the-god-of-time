@@ -130,6 +130,7 @@ export default function RealmCard({ realm, wide = false }: RealmCardProps) {
           right: 0,
           zIndex: 20,
           padding: 28,
+          textAlign: "left",
         }}
       >
         <span

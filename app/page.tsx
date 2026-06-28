@@ -3,6 +3,7 @@ import { Metadata } from "next";
 import HeroSection from "@/components/homepage/HeroSection";
 import FeaturedToolsStrip from "@/components/homepage/FeaturedToolsStrip";
 import RealmsSection from "@/components/homepage/RealmsSection";
+import GamesSection from "@/components/homepage/GamesSection";
 import TransitionDivider from "@/components/homepage/TransitionDivider";
 import UtilitySection from "@/components/homepage/UtilitySection";
 import HomepageFooter from "@/components/homepage/HomepageFooter";
@@ -31,7 +32,10 @@ export default function Home() {
       {/* 3. Cosmic Realms grid */}
       <RealmsSection />
 
-      {/* 4. Tonal Transition Divider */}
+      {/* 4. Daily Games */}
+      <GamesSection />
+
+      {/* 5. Tonal Transition Divider */}
       <TransitionDivider />
 
       {/* 5. Utility Calculators tabs grid */}

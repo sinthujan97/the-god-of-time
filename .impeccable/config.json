@@ -1,0 +1,178 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [
+      "styles/globals.css"
+    ],
+    "ignoreValues": [
+      {
+        "rule": "design-system-color",
+        "value": "#9e9e9e",
+        "reason": "Mercury planet color in Solar System Age SVG — intentional astronomical data encoding",
+        "createdAt": "2026-06-27T15:30:01.129Z"
+      },
+      {
+        "rule": "design-system-color",
+        "value": "#e8c97f",
+        "reason": "Venus planet color in Solar System Age SVG — intentional astronomical data encoding",
+        "createdAt": "2026-06-27T15:30:01.239Z"
+      },
+      {
+        "rule": "design-system-color",
+        "value": "#c1440e",
+        "reason": "Mars planet color in Solar System Age SVG — intentional astronomical data encoding",
+        "createdAt": "2026-06-27T15:30:01.349Z"
+      },
+      {
+        "rule": "design-system-color",
+        "value": "#c9a06b",
+        "reason": "Jupiter planet color in Solar System Age SVG — intentional astronomical data encoding",
+        "createdAt": "2026-06-27T15:30:01.495Z"
+      },
+      {
+        "rule": "design-system-color",
+        "value": "#e8d191",
+        "reason": "Saturn planet color in Solar System Age SVG — intentional astronomical data encoding",
+        "createdAt": "2026-06-27T15:30:01.629Z"
+      },
+      {
+        "rule": "design-system-color",
+        "value": "#7de8e8",
+        "reason": "Uranus planet color in Solar System Age SVG — intentional astronomical data encoding",
+        "createdAt": "2026-06-27T15:30:01.781Z"
+      },
+      {
+        "rule": "design-system-color",
+        "value": "#3f54ba",
+        "reason": "Neptune planet color in Solar System Age SVG — intentional astronomical data encoding",
+        "createdAt": "2026-06-27T15:30:01.908Z"
+      },
+      {
+        "rule": "design-system-color",
+        "value": "rgba(0, 0, 0, 0.08)",
+        "reason": "Standard hover overlay tint on buttons — intentional",
+        "createdAt": "2026-06-27T15:58:40.261Z"
+      },
+      {
+        "rule": "design-system-color",
+        "value": "rgba(0, 0, 0, 0.15)",
+        "reason": "Standard shadow overlay — intentional",
+        "createdAt": "2026-06-27T15:58:40.388Z"
+      },
+      {
+        "rule": "design-system-radius",
+        "value": "10px",
+        "reason": "Standard border-radius value — intentional",
+        "createdAt": "2026-06-27T15:58:40.504Z"
+      },
+      {
+        "rule": "design-system-color",
+        "value": "rgba(0, 0, 0, 0.4)",
+        "reason": "Standard overlay — intentional",
+        "createdAt": "2026-06-27T15:58:40.636Z"
+      },
+      {
+        "rule": "design-system-color",
+        "value": "rgba(0, 0, 0, 0.3)",
+        "reason": "Standard overlay — intentional",
+        "createdAt": "2026-06-27T15:58:40.741Z"
+      },
+      {
+        "rule": "design-system-color",
+        "value": "#f0a830",
+        "reason": "Game accent color — new intentional design system token for games section",
+        "createdAt": "2026-06-27T15:58:40.875Z"
+      },
+      {
+        "rule": "design-system-color",
+        "value": "#d9921e",
+        "reason": "Game accent dark — darkened variant for light mode, new design system token",
+        "createdAt": "2026-06-27T15:58:40.988Z"
+      },
+      {
+        "rule": "design-system-radius",
+        "value": "2px",
+        "reason": "Micro radius for UI accents — intentional",
+        "createdAt": "2026-06-27T15:59:37.988Z"
+      },
+      {
+        "rule": "design-system-radius",
+        "value": "8px",
+        "reason": "Standard small radius — intentional",
+        "createdAt": "2026-06-27T15:59:38.099Z"
+      },
+      {
+        "rule": "design-system-color",
+        "value": "rgba(0, 0, 0, 0.7)",
+        "reason": "Standard dark overlay — intentional",
+        "createdAt": "2026-06-27T15:59:38.203Z"
+      },
+      {
+        "rule": "design-system-color",
+        "value": "rgba(0, 0, 0, 0.5)",
+        "reason": "Standard semi-transparent overlay — intentional",
+        "createdAt": "2026-06-27T15:59:38.321Z"
+      },
+      {
+        "rule": "design-system-color",
+        "value": "#cd7f32",
+        "reason": "Bronze badge color — intentional game badge system, real-world bronze metal hue",
+        "createdAt": "2026-06-27T16:09:27.054Z"
+      },
+      {
+        "rule": "design-system-color",
+        "value": "#b8b8c8",
+        "reason": "Silver badge color — intentional game badge system, real-world silver metal hue",
+        "createdAt": "2026-06-27T16:09:27.197Z"
+      },
+      {
+        "rule": "design-system-color",
+        "value": "#ffd700",
+        "reason": "Gold badge color — intentional game badge system, real-world gold metal hue",
+        "createdAt": "2026-06-27T16:09:27.338Z"
+      },
+      {
+        "rule": "design-system-color",
+        "value": "#c8d8ff",
+        "reason": "Platinum badge color — intentional game badge system, platinum metal hue",
+        "createdAt": "2026-06-27T16:09:27.473Z"
+      },
+      {
+        "rule": "design-system-color",
+        "value": "rgba(240,168,48,0.18)",
+        "reason": "FREEZE button pulse glow derived from --accent-game (#F0A830) — intentional",
+        "createdAt": "2026-06-27T16:09:27.616Z"
+      },
+      {
+        "rule": "design-system-color",
+        "value": "rgba(240,168,48,0.09)",
+        "reason": "Low-opacity ambient glow derived from --accent-game (#F0A830) — intentional hero atmosphere tint",
+        "createdAt": "2026-06-27T16:22:43.229Z"
+      },
+      {
+        "rule": "design-system-color",
+        "value": "rgba(240,168,48,0.12)",
+        "reason": "Radial glow tint derived from --accent-game (#F0A830) used in GamesSection card preview — intentional",
+        "createdAt": "2026-06-27T16:27:15.299Z"
+      },
+      {
+        "rule": "design-system-color",
+        "value": "rgba(240,168,48,0.35)",
+        "reason": "Intentional ambient glow variant of --accent-game (#F0A830) for drop button pulse and box-shadows across game components",
+        "createdAt": "2026-06-27T17:47:15.593Z"
+      },
+      {
+        "rule": "design-system-color",
+        "value": "rgba(240,168,48,0.2)",
+        "reason": "Intentional soft glow variant of --accent-game (#F0A830) for keyframe pulse animations in game components",
+        "createdAt": "2026-06-27T17:52:47.847Z"
+      },
+      {
+        "rule": "design-system-color",
+        "value": "rgba(0,0,0,0.55)",
+        "reason": "Functional readability overlay for stage badge label rendered on top of SVG tree (variable-color background — green through gold)",
+        "createdAt": "2026-06-27T18:40:40.823Z"
+      }
+    ]
+  }
+}

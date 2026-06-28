@@ -49,10 +49,10 @@ export default function FeaturedToolsStrip() {
   return (
     <section ref={ref as React.RefObject<HTMLDivElement>} className="w-full bg-bg-surface py-20 px-6">
       <div className="max-w-[1280px] mx-auto">
-        {/* Section Eyebrow */}
-        <span className="block font-ui text-[11px] font-semibold uppercase tracking-[0.2em] text-text-muted mb-12">
-          FEATURED TOOLS
-        </span>
+        {/* Section header — no eyebrow, direct heading */}
+        <h2 className="font-display font-light text-[28px] md:text-[36px] text-text-primary mb-12 leading-tight">
+          Start here.
+        </h2>
 
         {/* Staggered Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -60,29 +60,23 @@ export default function FeaturedToolsStrip() {
             <Link
               key={tool.slug}
               href={`/tools/${tool.slug}`}
-              className={`group block relative bg-bg-card border border-border rounded-lg p-7 min-h-[220px] flex flex-col cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(0,0,0,0.2)] hover:z-10 ${
+              className={`group block relative bg-bg-card border border-border rounded-lg p-7 min-h-[220px] flex flex-col cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:z-10 ${
                 isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
               }`}
               style={{
-                borderColor: "var(--border)",
                 transitionDelay: `${idx * 100}ms`,
                 transitionProperty: "opacity, transform, border-color, box-shadow, background-color",
               }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = tool.accent;
+                e.currentTarget.style.boxShadow = `4px 4px 0px 0px ${tool.accent}`;
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = "var(--border)";
+                e.currentTarget.style.boxShadow = "none";
+              }}
             >
-              {/* Custom hovering border accent overlay */}
-              <style jsx>{`
-                a:hover {
-                  border-color: ${tool.accent} !important;
-                }
-              `}</style>
-
-              {/* Top Accent Line */}
-              <div
-                className="absolute top-0 left-0 right-0 h-[3px] rounded-t-lg"
-                style={{ backgroundColor: tool.accent }}
-              />
-
-              {/* Category Eyebrow */}
+              {/* Category label */}
               <span
                 className="font-ui text-[10px] md:text-[11px] font-semibold uppercase tracking-wider mb-3.5 block"
                 style={{ color: tool.accent }}

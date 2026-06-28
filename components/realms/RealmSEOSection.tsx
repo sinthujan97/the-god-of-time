@@ -27,7 +27,7 @@ export function RealmSEOSection({ realm }: RealmSEOSectionProps) {
 
   return (
     <section 
-      className="w-full bg-bg-surface border-t border-border-subtle"
+      className="w-full bg-bg-base border-t border-border-subtle"
       style={{ "--realm-accent": realm.accent } as React.CSSProperties}
     >
       {/* Schema Injection */}

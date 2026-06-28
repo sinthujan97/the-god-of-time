@@ -22,6 +22,8 @@
   --accent-scifi: #7B61FF;
   --accent-whim: #3ABFBF;
   --accent-destiny: #E09A3A;
+  --accent-game: #F0A830;
+  --accent-game-dark: #D9921E;
   --accent-utility-a: #52C4A0;
   --accent-utility-b: #60A5D4;
   --accent-utility-c: #9B8EF5;
@@ -81,6 +83,7 @@
   --accent-scifi: var(--accent-scifi-dark);
   --accent-whim: var(--accent-whim-dark);
   --accent-destiny: var(--accent-destiny-dark);
+  --accent-game: var(--accent-game-dark);
   --accent-utility-a: var(--accent-utility-a-dark);
   --accent-utility-b: var(--accent-utility-b-dark);
   --accent-utility-c: var(--accent-utility-c-dark);
@@ -152,6 +155,7 @@
   --color-accent-scifi: var(--accent-scifi);
   --color-accent-whim: var(--accent-whim);
   --color-accent-destiny: var(--accent-destiny);
+  --color-accent-game: var(--accent-game);
   --color-accent-utility-a: var(--accent-utility-a);
   --color-accent-utility-b: var(--accent-utility-b);
   --color-accent-utility-c: var(--accent-utility-c);
@@ -641,85 +645,130 @@ body {
   animation: fadeInTranslateY 180ms ease;
 }
 
-/* ─── NEW REALM PAGE LAYOUT WITH SPLIT SIDEBAR & HIDDEN SCROLLBARS ─── */
+
+
+/* Restore native thin scrollbars globally */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-faint);
+}
+
+/* ─── REALM PAGE LAYOUT — CONTENT + STICKY SIDEBAR ─── */
 .realm-page-wrapper {
   display: flex;
+  flex-direction: column;
   width: 100%;
   min-height: calc(100vh - 64px);
   overflow-x: hidden;
-  align-items: flex-start;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE/Edge */
-}
-.realm-page-wrapper::-webkit-scrollbar {
-  display: none; /* Safari and Chrome */
+  background: var(--bg-base);
 }
 
-/* Hide scrollbars globally on HTML/Body when a realm is active, or sitewide */
-html, body {
-  scrollbar-width: none !important;
-  -ms-overflow-style: none !important;
-  overflow-y: scroll; /* Keep page scrollable natively */
-}
-html::-webkit-scrollbar, body::-webkit-scrollbar {
-  display: none !important;
-}
-
-.realm-main-content {
-  flex: 1;
-  min-width: 0;
+/* Full-width header */
+.realm-page-header {
   display: flex;
   flex-direction: column;
-}
-
-.realm-page-header {
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  padding: 48px 24px 32px;
+  padding: 40px 24px 28px;
   background: var(--bg-base);
+  border-bottom: 1px solid var(--border);
 }
 
 .realm-page-eyebrow {
   font-family: var(--font-ui);
-  font-size: 11px;
-  font-weight: 500;
+  font-size: 10px;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.15em;
-  color: var(--accent-cosmos);
-  display: block;
-  margin-bottom: 16px;
+  letter-spacing: 0.18em;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 12px;
+  border-radius: 999px;
+  background: color-mix(in srgb, currentColor 10%, transparent);
+  border: 1px solid color-mix(in srgb, currentColor 25%, transparent);
+  margin-bottom: 14px;
 }
 
 .realm-page-title {
   font-family: var(--font-display);
-  font-size: clamp(36px, 6vw, 72px);
+  font-size: clamp(28px, 4vw, 52px);
   font-weight: 300;
   color: var(--text-primary);
-  line-height: 1.05;
-  margin-bottom: 16px;
+  line-height: 1.08;
+  margin-bottom: 10px;
+  letter-spacing: -0.01em;
 }
 
 .realm-page-description {
   font-family: var(--font-ui);
-  font-size: 16px;
+  font-size: 14px;
   color: var(--text-muted);
-  max-width: 560px;
+  max-width: 580px;
   margin: 0 auto;
   line-height: 1.65;
 }
 
-.realm-input-zone {
-  max-width: 720px;
+/* ─── BODY: main (1fr) + sticky right sidebar (300px) ─── */
+.realm-body-layout {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 0;
+  max-width: 1280px;
   margin: 0 auto;
-  padding: 0 24px 48px;
+  width: 100%;
+  padding: 32px 24px;
+  align-items: start;
+  box-sizing: border-box;
+}
+
+/* Main column */
+.realm-main-column {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  padding-right: 32px;
+  border-right: 1px solid var(--border);
+}
+
+/* Input zone above canvas */
+.realm-input-zone {
+  width: 100%;
+  padding-bottom: 24px;
+}
+
+/* Canvas/experience — brutalist bordered card */
+.realm-canvas-zone {
+  position: relative;
+  background: var(--bg-card);
+  border: 2px solid var(--text-primary);
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 65vh;
+  box-shadow: 4px 4px 0px 0px var(--border);
   width: 100%;
 }
 
-.realm-canvas-zone {
+.realm-canvas-zone > * {
+  flex: 1;
   width: 100%;
-  min-height: 70vh;
-  position: relative;
-  background: var(--bg-base);
-  overflow: hidden;
+  min-height: 65vh;
 }
 
 .realm-canvas-zone canvas {
@@ -728,124 +777,228 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   display: block;
 }
 
+/* Results zone below canvas */
 .realm-results-zone {
   width: 100%;
-  background: var(--bg-surface);
-  padding: 48px 24px;
+  padding: 32px 0;
+  margin-top: 24px;
 }
 
 .realm-results-inner {
-  max-width: 1280px;
-  margin: 0 auto;
-}
-
-/* Sidebar */
-.realm-sidebar {
-  width: 320px;
-  flex-shrink: 0;
-  border-left: 1px solid var(--border);
-  background: var(--bg-surface);
-  position: sticky;
-  top: 64px;
-  height: calc(100vh - 64px);
-  overflow-y: auto;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-.realm-sidebar::-webkit-scrollbar {
-  display: none;
-}
-
-.realm-sidebar-sticky-container {
-  padding: 24px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-/* Ad Banners */
-.realm-ad-banner {
   width: 100%;
-  background: var(--bg-surface);
-  padding: 12px 24px;
-  text-align: center;
-  border-top: 1px solid var(--border-subtle);
-  border-bottom: 1px solid var(--border-subtle);
+}
+
+/* Leaderboard ad between canvas/results and SEO */
+.realm-leaderboard-ad {
+  width: 100%;
+  margin: 32px 0 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 6px;
 }
 
-.realm-ad-banner.sidebar-top, .realm-ad-banner.sidebar-bottom {
-  border: none;
-  background: transparent;
-  padding: 0;
-}
-
-.realm-ad-banner .ad-label {
+.realm-leaderboard-ad-label {
   font-family: var(--font-ui);
-  font-size: 10px;
-  font-weight: 500;
+  font-size: 9px;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.12em;
   color: var(--text-faint);
+  align-self: flex-start;
 }
 
-.realm-ad-container {
+.realm-leaderboard-ad-container {
+  width: 100%;
+  max-width: 728px;
+  height: 90px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  width: 100%;
-  min-height: 90px;
-  max-width: 970px;
-}
-
-.realm-ad-banner.sidebar-top .realm-ad-container,
-.realm-ad-banner.sidebar-bottom .realm-ad-container {
-  min-height: 250px;
-  max-width: 300px;
-  margin: 0 auto;
-}
-
-.ad-placeholder-text {
-  font-family: var(--font-ui);
-  font-size: 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
   color: var(--text-faint);
 }
 
-/* Related Realms Section */
-.related-realms-section {
-  background: transparent;
-  width: 100%;
+/* ─── RIGHT SIDEBAR ─── */
+.realm-right-sidebar {
+  padding-left: 28px;
 }
 
-.related-realms-inner {
-  width: 100%;
+.realm-sidebar-inner {
+  position: sticky;
+  top: 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
 }
 
-.related-realms-title {
-  font-family: var(--font-display);
-  font-size: 20px;
-  font-weight: 400;
-  color: var(--text-primary);
-  margin-bottom: 16px;
+/* Sidebar ad slots — 300×250 */
+.realm-sidebar-ad {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.realm-sidebar-ad-label {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.12em;
+  color: var(--text-faint);
 }
 
+.realm-sidebar-ad-container {
+  width: 100%;
+  height: 250px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-faint);
+}
+
+/* Sidebar realm suggestions panel */
+.realm-sidebar-suggestions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.realm-sidebar-suggestions-title {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--text-muted);
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 2px;
+}
+
+.realm-sidebar-suggestion-card {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  text-decoration: none;
+  transition: border-color 150ms ease, background 150ms ease;
+}
+
+.realm-sidebar-suggestion-card:hover {
+  border-color: var(--text-muted);
+  background: var(--bg-card-hover);
+}
+
+.realm-sidebar-suggestion-cat {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.realm-sidebar-suggestion-name {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 300;
+  color: var(--text-primary);
+  line-height: 1.3;
+}
+
+.realm-sidebar-suggestion-desc {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-top: 2px;
+}
+
+.realm-sidebar-coming-soon {
+  padding: 20px 14px;
+  background: var(--bg-surface);
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.realm-sidebar-coming-soon-mark {
+  font-family: var(--font-display);
+  font-size: 24px;
+  color: var(--text-faint);
+  font-style: italic;
+}
+
+.realm-sidebar-coming-soon-text {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  color: var(--text-faint);
+  line-height: 1.6;
+  text-align: center;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 1100px) {
+  .realm-body-layout {
+    grid-template-columns: 1fr 260px;
+  }
+}
+
+@media (max-width: 820px) {
+  .realm-body-layout {
+    grid-template-columns: 1fr;
+    padding: 20px 16px;
+  }
+  .realm-main-column {
+    padding-right: 0;
+    border-right: none;
+  }
+  .realm-right-sidebar {
+    display: none;
+  }
+  .realm-leaderboard-ad-container {
+    height: 50px;
+  }
+}
+
+/* Legacy ad banner — hidden, kept for backward compat */
+.realm-ad-banner,
+.realm-ad-container,
+.ad-placeholder-text,
+.desktop-ad-label,
+.mobile-ad-label {
+  display: none !important;
+}
+
+/* Legacy related realms section (now in sidebar) */
+.related-realms-section {
+  display: none;
+}
+
+.related-realms-inner,
+.related-realms-title,
 .related-realms-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 16px;
+  display: none;
 }
 
 .view-all-realms-link {
   font-family: var(--font-ui);
-  font-size: 13px;
+  font-size: 14px;
   color: var(--accent-cosmos);
   text-decoration: none;
 }
@@ -854,16 +1007,260 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   text-decoration: underline;
 }
 
-/* Mobile responsive stacked layout */
-@media (max-width: 1024px) {
-  .realm-page-wrapper {
-    flex-direction: column;
-  }
-  .realm-sidebar {
-    display: none; /* Hide sidebar on mobile */
+/* Mobile responsive styling */
+@media (max-width: 768px) {
+  .related-realms-grid {
+    grid-template-columns: 1fr;
   }
   .realm-ad-container {
     max-width: 320px;
     min-height: 50px;
+  }
+  .desktop-ad-label {
+    display: none !important;
+  }
+  .mobile-ad-label {
+    display: inline-block !important;
+  }
+}
+
+/* ─── NEW REALM PAGE LAYOUT CLASS ADDITIONS ─── */
+.realm-input-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 32px;
+  margin-bottom: 24px;
+}
+
+.realm-canvas-zone {
+  width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  position: relative;
+}
+
+.realm-canvas-zone canvas {
+  display: block;
+  width: 100%;
+}
+
+.realm-controls-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 28px 32px;
+  margin-top: 16px;
+}
+
+.realm-page {
+  width: 100%;
+}
+
+.realm-two-col-zone {
+  display: flex;
+  gap: 48px;
+  align-items: flex-start;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.realm-main-col {
+  width: 840px;
+  flex-shrink: 0;
+  min-width: 0;
+  padding-top: 16px;
+  padding-bottom: 64px;
+}
+
+.realm-controls-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 32px;
+  margin-bottom: 0;
+}
+
+.realm-section-divider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 32px 0;
+}
+
+.realm-canvas-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+
+.realm-sidebar {
+  width: 320px;
+  flex-shrink: 0;
+}
+
+.sidebar-more-section {
+  margin-top: 24px;
+}
+
+.sidebar-realm-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border-subtle);
+  text-decoration: none;
+  transition: all 150ms;
+}
+
+.sidebar-realm-link:hover .sidebar-tool-name {
+  color: var(--text-primary);
+}
+@media (max-width: 1240px) {
+  .realm-two-col-zone {
+    flex-direction: column;
+    padding: 0 16px;
+  }
+  .realm-main-col {
+    width: 100%;
+  }
+  .realm-sidebar {
+    width: 100%;
+    position: relative !important;
+    top: auto !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .realm-controls-card {
+    padding: 20px;
+  }
+}
+
+/* Absurd Clocks styles */
+.absurd-clock-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: all 200ms ease-out;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+.absurd-clock-card:hover {
+  border-color: var(--accent-whim);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  transform: translateY(-2px);
+}
+.clock-label {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+}
+.clock-value {
+  font-family: var(--font-mono);
+  font-size: 26px;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+}
+.clock-subtext {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  color: var(--text-faint);
+  line-height: 1.5;
+}
+.clock-fact {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  color: var(--text-faint);
+  font-style: italic;
+  line-height: 1.5;
+  padding-top: 8px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+/* Pop-up message transitions */
+.msg-enter {
+  opacity: 0;
+  transform: translate(-50%, 8px);
+}
+.msg-show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+  transition: all 500ms ease-out;
+}
+.msg-exit {
+  opacity: 0;
+  transform: translate(-50%, -12px);
+  transition: all 400ms ease-in;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .msg-enter,
+  .msg-show,
+  .msg-exit {
+    transition: opacity 100ms linear;
+    transform: translate(-50%, 0);
+  }
+  .msg-enter { opacity: 0; }
+  .msg-show  { opacity: 1; }
+  .msg-exit  { opacity: 0; }
+}
+
+/* Keyframe animations for Absurd Clocks */
+@keyframes eyeBlink {
+  0%, 90%, 100% {
+    transform: scaleY(1);
+  }
+  95% {
+    transform: scaleY(0.05);
+  }
+}
+
+@keyframes heartbeat {
+  0% { transform: scale(1); }
+  14% { transform: scale(1.3); }
+  28% { transform: scale(1); }
+  42% { transform: scale(1.15); }
+  70% { transform: scale(1); }
+}
+
+@keyframes steam {
+  0% {
+    transform: translateY(0) scaleX(1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-12px) scaleX(1.2);
+    opacity: 0;
+  }
+}
+
+@keyframes ramenPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+}
+
+@keyframes confettiPop {
+  0% {
+    transform: translate(0, 0) scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--tx), var(--ty)) scale(1);
+    opacity: 0;
   }
 }

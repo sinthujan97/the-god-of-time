@@ -1,102 +1,124 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { Realm } from "@/lib/data/realmsRegistry";
-import { RealmSEOSection } from "./RealmSEOSection";
-import { RelatedRealmsGrid } from "./RelatedRealmsGrid";
-import { RealmAdBanner } from "./RealmAdBanner";
-import { RealmProvider } from "@/lib/context/RealmContext";
+import { RealmBreadcrumb } from "./RealmBreadcrumb";
+import { RealmHeader } from "./RealmHeader";
+import { RealmSEOContent } from "./RealmSEOContent";
 
 interface RealmLayoutProps {
   realm: Realm;
-  children: React.ReactNode;
-  hasInputZone?: boolean;
-  inputZone?: React.ReactNode;
-  resultsZone?: React.ReactNode;
+  controlsSection: React.ReactNode;
+  canvasSection: React.ReactNode;
 }
 
-const CATEGORY_ACCENTS: Record<string, string> = {
-  cosmos: "var(--accent-cosmos)",
-  physics: "var(--accent-cosmos)",
-  biology: "var(--accent-bio)",
-  scifi: "var(--accent-scifi)",
-  whimsical: "var(--accent-whim)",
-  destiny: "var(--accent-destiny)",
-};
-
-function RealmShell({
+export function RealmLayout({
   realm,
-  children,
-  hasInputZone = false,
-  inputZone,
-  resultsZone,
+  controlsSection,
+  canvasSection,
 }: RealmLayoutProps) {
-  const accentColor = CATEGORY_ACCENTS[realm.category] ?? "var(--accent-cosmos)";
-
   return (
-    <div className="realm-page-wrapper">
-      {/* LEFT COLUMN: MAIN CONTENT STACK */}
-      <main className="realm-main-content">
-        {/* REALM HEADER */}
-        <div className="realm-page-header">
-          <span className="realm-page-eyebrow" style={{ color: accentColor }}>
-            ✦ {realm.category.toUpperCase()}
-          </span>
-          <h1 className="realm-page-title">{realm.name}</h1>
-          <p className="realm-page-description">{realm.description}</p>
-        </div>
+    <div className="realm-page">
+      <div className="realm-two-col-zone">
+        <main className="realm-main-col">
+          <RealmBreadcrumb realm={realm} />
+          <RealmHeader realm={realm} />
 
-        {/* INPUT ZONE — only if realm needs it */}
-        {hasInputZone && inputZone && (
-          <div className="realm-input-zone">{inputZone}</div>
-        )}
+          <div className="realm-controls-card">{controlsSection}</div>
 
-        {/* AD SLOT 1 — before canvas */}
-        <RealmAdBanner position="top" />
-
-        {/* MAIN CANVAS / EXPERIENCE */}
-        <div className="realm-canvas-zone">{children}</div>
-
-        {/* RESULTS ZONE — only if realm has results */}
-        {resultsZone && (
-          <div className="realm-results-zone">
-            <div className="realm-results-inner">{resultsZone}</div>
+          <div className="realm-section-divider">
+            <div className="divider-line" />
+            <span className="divider-symbol">✦</span>
+            <div className="divider-line" />
           </div>
-        )}
 
-        {/* AD SLOT 2 — after canvas/results */}
-        <RealmAdBanner position="middle" />
+          <div className="realm-canvas-card">{canvasSection}</div>
 
-        {/* SEO CONTENT */}
-        <RealmSEOSection realm={realm} />
+          {/* Inline Section Divider before SEO */}
+          <div className="realm-section-divider">
+            <div className="divider-line" />
+            <span className="divider-symbol">✦</span>
+            <div className="divider-line" />
+          </div>
 
-        {/* AD SLOT 3 — bottom of left content */}
-        <RealmAdBanner position="bottom" />
-      </main>
+          {/* SEO Content Zone - Blends into main column */}
+          <div className="realm-seo-inline-container pb-16">
+            <RealmSEOContent realm={realm} />
+          </div>
+        </main>
 
-      {/* RIGHT COLUMN: STICKY SIDEBAR */}
-      <aside className="realm-sidebar">
-        <div className="realm-sidebar-sticky-container">
-          {/* SIDEBAR AD SLOT A */}
-          <RealmAdBanner position="sidebar-top" />
+        <aside
+          className="w-full lg:w-[320px] flex-shrink-0 lg:sticky lg:top-[80px] space-y-6 self-start"
+        >
+          {/* 1. SIDEBAR AD SLOT 1 */}
+          <div className="sidebar-ad-slot">
+            <span className="ad-label text-[10px] font-sans font-medium uppercase tracking-[0.1em] text-text-faint block text-center mb-1">
+              ADVERTISEMENT
+            </span>
+            <div className="sidebar-ad-container w-[300px] h-[250px] mx-auto bg-bg-surface border border-border rounded-md flex items-center justify-center text-text-faint text-xs font-mono">
+              [Ad Container - 300×250]
+            </div>
+          </div>
 
-          {/* RELATED REALMS */}
-          <RelatedRealmsGrid currentSlug={realm.slug} category={realm.category} />
+          {/* 2. SIDEBAR RELATED PRODUCTS */}
+          <div className="sidebar-related bg-bg-card/30 border border-border/50 rounded-xl p-5">
+            <span className="sidebar-section-label text-[11px] font-sans font-medium uppercase tracking-[0.1em] text-text-muted block mb-4">
+              MORE IN THIS REALM
+            </span>
+            <div className="flex flex-col">
+              <Link
+                href="/realms"
+                className="sidebar-tool-link flex items-center gap-3 py-3 border-b border-border-subtle last:border-b-0 group transition-all"
+              >
+                <span
+                  className="sidebar-tool-accent-bar w-[2px] h-4 rounded-sm flex-shrink-0 transition-colors"
+                  style={{ backgroundColor: realm.accent }}
+                />
+                <span className="sidebar-tool-name font-sans text-sm text-text-muted group-hover:text-text-primary transition-colors truncate">
+                  Browse All Realms
+                </span>
+              </Link>
 
-          {/* SIDEBAR AD SLOT B */}
-          <RealmAdBanner position="sidebar-bottom" />
-        </div>
-      </aside>
+              <Link
+                href="/tools"
+                className="sidebar-tool-link flex items-center gap-3 py-3 border-b border-border-subtle last:border-b-0 group transition-all"
+              >
+                <span
+                  className="sidebar-tool-accent-bar w-[2px] h-4 rounded-sm flex-shrink-0 transition-colors"
+                  style={{ backgroundColor: realm.accent }}
+                />
+                <span className="sidebar-tool-name font-sans text-sm text-text-muted group-hover:text-text-primary transition-colors truncate">
+                  Utility Tools
+                </span>
+              </Link>
+
+              <Link
+                href="/tools/days-between-dates"
+                className="sidebar-tool-link flex items-center gap-3 py-3 border-b border-border-subtle last:border-b-0 group transition-all"
+              >
+                <span
+                  className="sidebar-tool-accent-bar w-[2px] h-4 rounded-sm flex-shrink-0 transition-colors"
+                  style={{ backgroundColor: realm.accent }}
+                />
+                <span className="sidebar-tool-name font-sans text-sm text-text-muted group-hover:text-text-primary transition-colors truncate">
+                  Days Between Dates
+                </span>
+              </Link>
+            </div>
+          </div>
+
+          {/* 3. SIDEBAR AD SLOT 2 */}
+          <div className="sidebar-ad-slot">
+            <span className="ad-label text-[10px] font-sans font-medium uppercase tracking-[0.1em] text-text-faint block text-center mb-1">
+              ADVERTISEMENT
+            </span>
+            <div className="sidebar-ad-container w-[300px] h-[250px] mx-auto bg-bg-surface border border-border rounded-md flex items-center justify-center text-text-faint text-xs font-mono">
+              [Ad Container - 300×250]
+            </div>
+          </div>
+        </aside>
+      </div>
     </div>
   );
 }
-
-export function RealmLayout(props: RealmLayoutProps) {
-  return (
-    <RealmProvider { ...{ realm: props.realm } as any }>
-      <RealmShell {...props} />
-    </RealmProvider>
-  );
-}
-
-export default RealmLayout;

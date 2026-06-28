@@ -8,11 +8,11 @@ import RealmsGrid from "@/components/realms/RealmsGrid";
 export const metadata: Metadata = {
   title: "Realms | The God of Time",
   description:
-    "Immersive cosmic time experiences. Black holes, wormholes, alternate histories, and the fabric of spacetime — all interactive.",
+    "Explore the Paint Dry Simulator — a scientifically accurate 4-hour paint drying timer with philosophical meditations on time.",
   openGraph: {
     title: "Realms | The God of Time",
     description:
-      "Immersive cosmic time experiences. Black holes, wormholes, alternate histories, and the fabric of spacetime — all interactive.",
+      "Explore the Paint Dry Simulator — a scientifically accurate 4-hour paint drying timer with philosophical meditations on time.",
     url: "https://thegodoftime.com/realms",
   },
 };

@@ -1,405 +1,460 @@
 "use client";
 
-import React, { useEffect, useRef, useState, useCallback } from "react";
-import FloatingPanel, { PanelSlider, PanelToggle, PanelDisplay, PanelDivider } from "@/components/realms/FloatingPanel";
-import { prefersReducedMotion, getCSSVar } from "@/lib/realms/physics";
+import React, { useState, useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 import { RealmLayout } from "@/components/realms/RealmLayout";
 import { realmsRegistry } from "@/lib/data/realmsRegistry";
-import { useCanvasSize } from "@/lib/realms/useCanvasSize";
 
-const realm = realmsRegistry.find((r) => r.slug === "solar-system-age")!;
+// ─── Planet definitions ───────────────────────────────────────────────────────
 
-// ─── Planet Data ──────────────────────────────────────────────────────────────
-const PLANETS = [
-  { name: "Mercury", orbitalPeriodDays: 87.97,    color: "#A0A0A0", radius: 4,  orbitRadius: 72,  icon: "☿", isDwarfPlanet: false },
-  { name: "Venus",   orbitalPeriodDays: 224.7,    color: "#E8C080", radius: 6,  orbitRadius: 108, icon: "♀", isDwarfPlanet: false },
-  { name: "Earth",   orbitalPeriodDays: 365.25,   color: "#4B8EF1", radius: 6,  orbitRadius: 148, icon: "♁", isDwarfPlanet: false },
-  { name: "Mars",    orbitalPeriodDays: 686.97,   color: "#C1440E", radius: 5,  orbitRadius: 193, icon: "♂", isDwarfPlanet: false },
-  { name: "Jupiter", orbitalPeriodDays: 4332.59,  color: "#C88B3A", radius: 14, orbitRadius: 250, icon: "♃", isDwarfPlanet: false },
-  { name: "Saturn",  orbitalPeriodDays: 10759.22, color: "#E4D191", radius: 12, orbitRadius: 303, icon: "♄", isDwarfPlanet: false },
-  { name: "Uranus",  orbitalPeriodDays: 30688.5,  color: "#7DE8E8", radius: 9,  orbitRadius: 350, icon: "♅", isDwarfPlanet: false },
-  { name: "Neptune", orbitalPeriodDays: 60182.0,  color: "#4060FF", radius: 8,  orbitRadius: 392, icon: "♆", isDwarfPlanet: false },
-  { name: "Pluto",   orbitalPeriodDays: 90560.0,  color: "#A0907A", radius: 3,  orbitRadius: 428, icon: "♇", isDwarfPlanet: true  },
+type Planet = {
+  name: string;
+  period: number;    // Earth years per orbit (J2000 mean values)
+  orbitR: number;    // SVG orbit radius — visual only, not to scale
+  size: number;      // SVG planet circle radius
+  color: string;
+  hasRings: boolean;
+  fact: string;
+};
+
+const PLANETS: Planet[] = [
+  { name: "Mercury", period: 0.2408467,   orbitR: 42,  size: 3.5,  color: "#9E9E9E", hasRings: false, fact: "One orbit every 88 Earth days — the fastest planet." },
+  { name: "Venus",   period: 0.61519726,  orbitR: 64,  size: 5.5,  color: "#E8C97F", hasRings: false, fact: "A Venusian day is longer than its year." },
+  { name: "Earth",   period: 1.0,          orbitR: 88,  size: 6.0,  color: "#4B8EF1", hasRings: false, fact: "Your home planet. The reference for all measurement." },
+  { name: "Mars",    period: 1.8808476,   orbitR: 114, size: 4.5,  color: "#C1440E", hasRings: false, fact: "One Mars year is 687 Earth days — nearly two of ours." },
+  { name: "Jupiter", period: 11.862615,   orbitR: 149, size: 10.5, color: "#C9A06B", hasRings: false, fact: "The largest planet. Almost 12 Earth years per orbit." },
+  { name: "Saturn",  period: 29.457159,   orbitR: 182, size: 8.5,  color: "#E8D191", hasRings: true,  fact: "The ringed giant. Nearly 30 Earth years per orbit." },
+  { name: "Uranus",  period: 84.016846,   orbitR: 212, size: 7.0,  color: "#7DE8E8", hasRings: false, fact: "Ice giant. 84 Earth years to complete one orbit." },
+  { name: "Neptune", period: 164.79132,   orbitR: 241, size: 7.0,  color: "#3F54BA", hasRings: false, fact: "The farthest planet. One orbit takes 165 Earth years." },
 ];
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
-function calcPlanetaryAge(birthDate: Date, planet: typeof PLANETS[0]) {
-  const msAlive = Date.now() - birthDate.getTime();
-  const daysAlive = msAlive / 86400000;
-  const age = daysAlive / planet.orbitalPeriodDays;
-  const orbitsCompleted = Math.floor(age);
-  const fractional = age - orbitsCompleted;
-  const daysUntilNext = (1 - fractional) * planet.orbitalPeriodDays;
+// Visual animation — seconds per full screen orbit (not physically accurate)
+const VISUAL_SPEEDS: Record<string, number> = {
+  Mercury: 5, Venus: 9, Earth: 14, Mars: 22,
+  Jupiter: 35, Saturn: 52, Uranus: 72, Neptune: 98,
+};
+
+// ─── SVG constants ────────────────────────────────────────────────────────────
+
+const SVG_W  = 580;
+const SVG_H  = 296;
+const CX     = SVG_W / 2;
+const CY     = SVG_H / 2;
+const TILT   = 0.38; // Y-axis compression for perspective ellipses
+
+// Deterministic star field using LCG hash — never regenerates
+const STAR_FIELD = Array.from({ length: 68 }, (_, i) => {
+  const h  = ((i + 1) * 2654435761) >>> 0;
+  const h2 = (h  * 1664525 + 1013904223) >>> 0;
+  const h3 = (h2 * 1664525 + 1013904223) >>> 0;
   return {
-    age, ageFormatted: age.toFixed(4),
-    nextBirthdayDays: Math.round(daysUntilNext),
-    orbitsCompleted,
-    currentOrbitalAngle: fractional * Math.PI * 2,
-    earthDaysAlive: daysAlive,
+    x: ((h  % 10000) / 10000) * SVG_W,
+    y: ((h2 % 10000) / 10000) * SVG_H,
+    r: 0.4 + ((h3 % 100) / 100) * 0.7,
+    o: 0.1 + ((h  % 100) / 100) * 0.42,
+  };
+});
+
+// ─── Border classes for the 2-col mobile / 4-col desktop planet grid ─────────
+// Pre-computed for each of the 8 planet cells
+const PLANET_BORDERS = [
+  "border-r border-b",                       // 0 Mercury
+  "border-b md:border-r",                    // 1 Venus
+  "border-r border-b",                       // 2 Earth
+  "border-b",                                // 3 Mars
+  "border-r border-b md:border-b-0",         // 4 Jupiter
+  "border-b md:border-r md:border-b-0",      // 5 Saturn
+  "border-r",                                // 6 Uranus
+  "",                                        // 7 Neptune
+];
+
+// ─── Calculations ─────────────────────────────────────────────────────────────
+
+function calcAges(birthDateStr: string) {
+  const birth = new Date(birthDateStr + "T00:00:00");
+  const now   = new Date();
+  const ms    = Math.max(0, now.getTime() - birth.getTime());
+  const secs  = ms / 1000;
+  const days  = ms / 86_400_000;
+  const years = days / 365.25;
+
+  return {
+    years,
+    days:         Math.floor(days),
+    hours:        Math.floor(secs / 3600),
+    planetary:    PLANETS.map(p => ({ ...p, ageOnPlanet: years / p.period })),
+    galacticFrac: years / 225_000_000,
+    universePerc: (years / 13_800_000_000) * 100,
+    lightYears:   (secs * 251) / 9_460_730_472_580.8,
+    birthPhotons: years,
+    moonOrbits:   Math.floor(days / 27.32166),
+    heartbeats:   Math.floor(days * 24 * 60 * 80),
   };
 }
 
-function unitName(planet: typeof PLANETS[0]) {
-  const map: Record<string, string> = {
-    Mercury: "MERCURIAN YEARS", Venus: "VENUSIAN YEARS", Earth: "EARTH YEARS",
-    Mars: "MARTIAN YEARS", Jupiter: "JOVIAN YEARS", Saturn: "SATURNIAN YEARS",
-    Uranus: "URANIAN YEARS", Neptune: "NEPTUNIAN YEARS", Pluto: "PLUTONIAN YEARS",
-  };
-  return map[planet.name] ?? "YEARS";
+type Ages = ReturnType<typeof calcAges>;
+
+function fmtPlanetAge(n: number): string {
+  if (n < 0.001) return "<0.001";
+  if (n < 1)     return n.toFixed(3);
+  if (n < 10)    return n.toFixed(2);
+  if (n < 1000)  return n.toFixed(1);
+  return n.toFixed(0);
+}
+
+function fmtBig(n: number): string {
+  if (n >= 1_000_000_000) return (n / 1_000_000_000).toFixed(2) + "B";
+  if (n >= 1_000_000)     return (n / 1_000_000).toFixed(2) + "M";
+  return n.toLocaleString(undefined, { maximumFractionDigits: 0 });
 }
 
 // ─── Component ────────────────────────────────────────────────────────────────
+
+type PlanetRefs = { planet: SVGCircleElement | null; ring: SVGEllipseElement | null };
+
 export default function SolarSystemAge() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const rafRef = useRef<number | null>(null);
-  const renderRef = useRef<(ts: number) => void>(() => {});
-  const sizeRef = useRef({ w: 0, h: 0 });
-  const timeRef = useRef(0);
-  const orbitSpeedRef = useRef(1);
-  const reducedRef = useRef(false);
+  const pathname = usePathname();
+  const slug  = pathname.split("/").pop() ?? "solar-system-age";
+  const realm = realmsRegistry.find(r => r.slug === slug) ?? realmsRegistry[0];
 
-  const [birthDate, setBirthDate] = useState<Date | null>(null);
-  const [showPluto, setShowPluto] = useState(true);
-  const [showOrbits, setShowOrbits] = useState(true);
-  const [orbitSpeed, setOrbitSpeed] = useState(1);
-  const [daysAlive, setDaysAlive] = useState(0);
-  const [planetData, setPlanetData] = useState<ReturnType<typeof calcPlanetaryAge>[]>([]);
-  const [distanceTraveled, setDistanceTraveled] = useState("0.00e0");
+  const [birthDate, setBirthDate] = useState("");
+  const [ages,      setAges]      = useState<Ages | null>(null);
+  const [error,     setError]     = useState("");
 
-  const showOrbitsRef = useRef(true);
-  const showPlutoRef = useRef(true);
-
-  // Sync refs to avoid re-triggering canvas updates
-  useEffect(() => {
-    showOrbitsRef.current = showOrbits;
-  }, [showOrbits]);
+  // Direct DOM refs for animation — zero re-renders per frame
+  const domRefs = useRef<Record<string, PlanetRefs>>({});
+  const animRef = useRef<number>(0);
+  const t0Ref   = useRef(0);
 
   useEffect(() => {
-    showPlutoRef.current = showPluto;
-  }, [showPluto]);
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced) return;
 
-  useCanvasSize(canvasRef, useCallback((w: number, h: number) => {
-    sizeRef.current = { w, h };
-  }, []));
+    t0Ref.current = Date.now();
 
-  const render = useCallback((ts: number) => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-    const { w, h } = sizeRef.current;
-    const reduced = reducedRef.current;
-
-    if (w === 0 || h === 0) {
-      rafRef.current = requestAnimationFrame(renderRef.current);
-      return;
-    }
-
-    if (!reduced) timeRef.current = ts * 0.00005 * orbitSpeedRef.current;
-
-    const cx = w / 2;
-    const cy = h / 2;
-
-    const isDark = !document.documentElement.classList.contains("light");
-
-    ctx.fillStyle = getCSSVar("--bg-base") || "#06060A";
-    ctx.fillRect(0, 0, w, h);
-
-    // Stars
-    ctx.save();
-    for (let i = 0; i < 80; i++) {
-      const sx = ((i * 137.5) % w);
-      const sy = ((i * 97.3) % h);
-      ctx.beginPath();
-      ctx.arc(sx, sy, 0.5, 0, Math.PI * 2);
-      ctx.fillStyle = isDark ? "rgba(255,255,255,0.18)" : "rgba(26,26,46,0.07)";
-      ctx.fill();
-    }
-    ctx.restore();
-
-    // Sun pulse
-    const pulse = Math.sin(ts * 0.001) * 2;
-    const sunGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, 32 + pulse);
-    sunGrad.addColorStop(0, "#FFF5C0");
-    sunGrad.addColorStop(0.3, "#FDB813");
-    sunGrad.addColorStop(0.7, "#E87020");
-    sunGrad.addColorStop(1, "rgba(253,184,19,0)");
-    ctx.beginPath();
-    ctx.arc(cx, cy, 32 + pulse, 0, Math.PI * 2);
-    ctx.fillStyle = sunGrad;
-    ctx.fill();
-
-    const visiblePlanets = showPlutoRef.current ? PLANETS : PLANETS.slice(0, 8);
-
-    visiblePlanets.forEach((planet, idx) => {
-      // Scale orbits so they fit within the 60vh container nicely
-      const minDimension = Math.min(w, h);
-      const scale = (minDimension / 950) * 0.95;
-      const orbitRad = planet.orbitRadius * scale;
-
-      // Draw Orbit Path
-      if (showOrbitsRef.current) {
-        ctx.beginPath();
-        ctx.arc(cx, cy, orbitRad, 0, Math.PI * 2);
-        ctx.strokeStyle = isDark ? "rgba(255,255,255,0.04)" : "rgba(26,26,46,0.03)";
-        ctx.lineWidth = 1;
-        ctx.stroke();
+    const tick = () => {
+      const t = (Date.now() - t0Ref.current) / 1000;
+      for (const p of PLANETS) {
+        const refs = domRefs.current[p.name];
+        if (!refs) continue;
+        const angle = (t / VISUAL_SPEEDS[p.name]) * Math.PI * 2;
+        const px    = (CX + Math.cos(angle) * p.orbitR).toFixed(2);
+        const py    = (CY + Math.sin(angle) * p.orbitR * TILT).toFixed(2);
+        refs.planet?.setAttribute("cx", px);
+        refs.planet?.setAttribute("cy", py);
+        refs.ring?.setAttribute("cx", px);
+        refs.ring?.setAttribute("cy", py);
       }
-
-      // Orbit math
-      const baseSpeed = 1 / (planet.orbitalPeriodDays / 365.25);
-      const angle = timeRef.current * baseSpeed;
-
-      const px = cx + Math.cos(angle) * orbitRad;
-      const py = cy + Math.sin(angle) * orbitRad;
-
-      // Orbit label
-      ctx.font = "9px var(--font-mono)";
-      ctx.fillStyle = "var(--text-faint)";
-      ctx.textAlign = "center";
-      if (showOrbitsRef.current && orbitRad > 40) {
-        ctx.fillText(planet.name.toUpperCase(), cx, cy - orbitRad - 4);
-      }
-
-      // Planet body
-      ctx.beginPath();
-      ctx.arc(px, py, planet.radius, 0, Math.PI * 2);
-      ctx.fillStyle = planet.color;
-      ctx.fill();
-
-      // Shadow overlay on planet (simple dark crescent phase)
-      ctx.beginPath();
-      ctx.arc(px, py, planet.radius, angle - Math.PI / 2, angle + Math.PI / 2);
-      ctx.fillStyle = "rgba(0,0,0,0.4)";
-      ctx.fill();
-
-      // Glow on active/hovered state simulation if birthday completes
-      if (birthDate) {
-        const birthdayPulse = Math.sin(ts * 0.005 + idx) * 3;
-        ctx.beginPath();
-        ctx.arc(px, py, planet.radius + 3 + birthdayPulse, 0, Math.PI * 2);
-        ctx.strokeStyle = `rgba(${hexToRgb(planet.color)}, 0.15)`;
-        ctx.lineWidth = 2;
-        ctx.stroke();
-      }
-    });
-
-    rafRef.current = requestAnimationFrame(renderRef.current);
-  }, [birthDate]);
-
-  useEffect(() => {
-    renderRef.current = render;
-    reducedRef.current = prefersReducedMotion();
-    rafRef.current = requestAnimationFrame(render);
-    return () => {
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      animRef.current = requestAnimationFrame(tick);
     };
-  }, [render]);
 
-  // Recalculate planet data when birth date changes
-  useEffect(() => {
-    if (!birthDate) return;
-    const update = () => {
-      const data = PLANETS.map(p => calcPlanetaryAge(birthDate, p));
-      setPlanetData(data);
-      setDaysAlive(Math.floor(data[2].earthDaysAlive));
-    };
-    update();
-    const interval = setInterval(update, 60000);
-    return () => clearInterval(interval);
-  }, [birthDate]);
+    animRef.current = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(animRef.current);
+  }, []);
 
-  // Real-time live scientific notation space travel counter
-  useEffect(() => {
-    if (!birthDate) return;
-    const interval = setInterval(() => {
-      const secAlive = (Date.now() - birthDate.getTime()) / 1000;
-      const kmTraveled = secAlive * 29.78;
-      setDistanceTraveled(kmTraveled.toExponential(4));
-    }, 100);
-    return () => clearInterval(interval);
-  }, [birthDate]);
+  const today = new Date().toISOString().split("T")[0];
 
-  const visiblePlanets = showPluto ? PLANETS : PLANETS.slice(0, 8);
+  const handleCalculate = () => {
+    if (!birthDate) { setError("Please enter your birth date."); return; }
+    if (birthDate > today) { setError("Birth date cannot be in the future."); return; }
+    setError("");
+    setAges(calcAges(birthDate));
+  };
 
-  const upcomingBirthdays = birthDate && planetData.length > 0
-    ? PLANETS
-        .map((p, idx) => ({ planet: p, data: planetData[idx] }))
-        .filter(item => item.data && item.data.nextBirthdayDays <= 30)
-    : [];
-
-  const hexToRgb = (hex: string): string => {
-    const clean = hex.replace("#", "");
-    const bigint = parseInt(clean, 16);
-    const r = (bigint >> 16) & 255;
-    const g = (bigint >> 8) & 255;
-    const b = bigint & 255;
-    return `${r}, ${g}, ${b}`;
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") handleCalculate();
   };
 
   return (
     <RealmLayout
       realm={realm}
-      hasInputZone={true}
-      inputZone={
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10, width: "100%" }}>
-          <p style={{ fontFamily: "var(--font-ui)", fontSize: 13, color: "var(--text-muted)", margin: 0 }}>
-            Enter your birthdate to see your age across the solar system
-          </p>
-          <input
-            type="date"
-            max={new Date().toISOString().slice(0, 10)}
-            value={birthDate ? birthDate.toISOString().slice(0, 10) : ""}
-            onChange={e => setBirthDate(e.target.value ? new Date(e.target.value) : null)}
-            style={{
-              background: "color-mix(in srgb, var(--bg-card) 90%, transparent)",
-              border: "1px solid var(--border)",
-              borderRadius: 8,
-              padding: "8px 16px",
-              fontFamily: "var(--font-mono)",
-              fontSize: 14,
-              color: "var(--text-primary)",
-              cursor: "pointer",
-              backdropFilter: "blur(12px)",
-              outline: "none"
-            }}
-          />
+      controlsSection={
+        <div className="flex flex-col gap-5">
+
+          {/* Date input */}
+          <div className="flex flex-col gap-2">
+            <label
+              htmlFor="ssa-birth"
+              className="text-[10px] font-sans font-semibold tracking-wider text-text-muted uppercase"
+            >
+              Your Birth Date
+            </label>
+            <input
+              id="ssa-birth"
+              type="date"
+              value={birthDate}
+              min="1900-01-01"
+              max={today}
+              onChange={e => { setBirthDate(e.target.value); setError(""); }}
+              onKeyDown={handleKeyDown}
+              className="tool-input-field"
+              style={{ colorScheme: "dark" }}
+            />
+            {error && (
+              <p className="text-[11px] font-sans text-accent-utility-e mt-0.5">{error}</p>
+            )}
+          </div>
+
+          {/* CTA */}
+          <button
+            onClick={handleCalculate}
+            disabled={!birthDate}
+            className="calculate-btn disabled:opacity-40 disabled:cursor-not-allowed shadow-[3px_3px_0px_0px_var(--border)] hover:shadow-[3px_3px_0px_0px_var(--accent-cosmos)] active:translate-y-px"
+            style={{ backgroundColor: "var(--accent-cosmos)" }}
+          >
+            Reveal My Cosmic Age
+          </button>
+
+          {/* Baseline stats (post-calculation) */}
+          {ages && (
+            <div className="flex flex-col gap-2 border-t border-border pt-5 mt-1">
+              <p className="text-[10px] font-sans font-semibold tracking-wider text-text-muted uppercase mb-1">
+                Baseline
+              </p>
+              {(
+                [
+                  ["Earth years",   ages.years.toFixed(4)],
+                  ["Earth days",    ages.days.toLocaleString()],
+                  ["Earth hours",   ages.hours.toLocaleString()],
+                  ["Moon orbits",   ages.moonOrbits.toLocaleString()],
+                  ["Heartbeats",    fmtBig(ages.heartbeats)],
+                ] as [string, string][]
+              ).map(([label, value]) => (
+                <div key={label} className="flex justify-between items-center text-xs">
+                  <span className="text-text-muted font-sans">{label}</span>
+                  <span className="font-mono text-text-primary font-semibold tabular-nums">{value}</span>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       }
-      resultsZone={
-        birthDate && planetData.length > 0 ? (
-          <div className="solar-results" style={{ display: "flex", flexDirection: "column", gap: 32, width: "100%" }}>
-            <style jsx>{`
-              .solar-results-grid {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-                gap: 16px;
-                width: 100%;
-              }
-              .solar-planet-card {
-                background: var(--bg-card);
-                border: 1px solid var(--border);
-                border-radius: 10px;
-                padding: 16px;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-              }
-              .solar-chart-box {
-                background: var(--bg-card);
-                border: 1px solid var(--border);
-                border-radius: 12px;
-                padding: 24px;
-                box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-                width: 100%;
-                box-sizing: border-box;
-              }
-            `}</style>
-            
-            {/* Comparison Chart */}
-            <div className="solar-chart-box">
-              <h4 style={{ margin: "0 0 16px 0", fontFamily: "var(--font-display)", fontSize: 16, fontWeight: 500, color: "var(--text-primary)", letterSpacing: "0.08em", textTransform: "uppercase" }}>
-                Planetary Age Comparison
-              </h4>
-              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                {visiblePlanets.map((p, idx) => {
-                  const ageVal = planetData[idx]?.age || 0;
-                  const maxAge = Math.max(...planetData.map(d => d?.age || 1));
-                  const pct = (ageVal / maxAge) * 100;
-                  return (
-                    <div key={p.name} style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-                      <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, fontFamily: "var(--font-ui)", color: "var(--text-muted)" }}>
-                        <span>{p.name}</span>
-                        <span style={{ color: p.color, fontFamily: "var(--font-mono)", fontWeight: 600 }}>{ageVal.toFixed(2)} years</span>
-                      </div>
-                      <div style={{ height: 8, background: "var(--border)", borderRadius: 4, overflow: "hidden" }}>
-                        <div
-                          style={{
-                            height: "100%",
-                            width: `${pct}%`,
-                            background: p.color,
-                            borderRadius: 4,
-                            transition: "width 300ms ease"
-                          }}
-                        />
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
+      canvasSection={
+        <div className="flex flex-col w-full">
 
-            {/* Age Cards Grid */}
-            <div>
-              <h4 style={{ margin: "0 0 16px 0", fontFamily: "var(--font-display)", fontSize: 16, fontWeight: 500, color: "var(--text-primary)", letterSpacing: "0.08em", textTransform: "uppercase" }}>
-                Planetary Age Breakdown
-              </h4>
-              <div className="solar-results-grid">
-                {visiblePlanets.map((planet, i) => (
-                  <div key={planet.name} className="solar-planet-card">
-                    <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
-                      <span style={{ fontSize: 18, color: planet.color }}>{planet.icon}</span>
-                      <span style={{ fontFamily: "var(--font-ui)", fontSize: 13, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 600 }}>{planet.name}</span>
-                    </div>
-                    <div style={{ fontFamily: "var(--font-mono)", fontSize: 24, color: "var(--text-primary)", fontWeight: "bold" }}>
-                      {planetData[i]?.ageFormatted ?? "—"}
-                    </div>
-                    <div style={{ fontFamily: "var(--font-ui)", fontSize: 11, color: "var(--text-muted)", textTransform: "uppercase", marginTop: 4 }}>
-                      {unitName(planet)}
-                    </div>
-                    <div style={{ fontFamily: "var(--font-ui)", fontSize: 12, color: "var(--text-faint)", marginTop: 6 }}>
-                      Next Bday: {planetData[i]?.nextBirthdayDays ?? 0} Earth days
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        ) : null
-      }
-    >
-      <div style={{ position: "relative", width: "100%", height: "100%" }}>
-        <canvas ref={canvasRef} style={{ width: "100%", height: "100%", display: "block" }} />
-
-        {/* Birthday Alert Banner */}
-        {birthDate && upcomingBirthdays.length > 0 && (
+          {/* ── Solar System Visualization ──────────────────────────────── */}
           <div
-            style={{
-              position: "absolute",
-              top: 30,
-              left: "50%",
-              transform: "translateX(-50%)",
-              background: "rgba(228, 209, 145, 0.15)",
-              border: "1px solid #e4d191",
-              borderRadius: 20,
-              padding: "8px 20px",
-              zIndex: 10,
-              fontFamily: "var(--font-ui)",
-              fontSize: 12,
-              color: "#e4d191",
-              backdropFilter: "blur(6px)",
-              textAlign: "center",
-              boxShadow: "0 4px 15px rgba(0,0,0,0.2)",
-              animation: "bannerPulse 2s infinite"
-            }}
+            className="relative w-full overflow-hidden"
+            style={{ background: "#06060A", aspectRatio: `${SVG_W} / ${SVG_H}` }}
           >
-            <style>{`
-              @keyframes bannerPulse {
-                0%, 100% { border-color: rgba(228, 209, 145, 0.4); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
-                50% { border-color: #e4d191; box-shadow: 0 4px 20px rgba(228, 209, 145, 0.25); }
-              }
-            `}</style>
-            🎉 **PLANETARY BIRTHDAY ALERT**: {upcomingBirthdays.map(b => `${b.planet.name} (${b.data.nextBirthdayDays}d)`).join(", ")} approaching!
-          </div>
-        )}
-      </div>
+            <svg
+              viewBox={`0 0 ${SVG_W} ${SVG_H}`}
+              className="w-full h-full"
+              aria-label="Animated top-down diagram of the solar system"
+              role="img"
+            >
+              <defs>
+                <radialGradient id="ssa-sun" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%"   stopColor="#FFFDE7" />
+                  <stop offset="40%"  stopColor="#FFD740" />
+                  <stop offset="100%" stopColor="#FF8F00" stopOpacity="0" />
+                </radialGradient>
+              </defs>
 
-      <FloatingPanel id="solar-controls" title="SOLAR SYSTEM" defaultPosition="top-right">
-        <PanelSlider label="Orbit Speed" min={0} max={10} step={0.5} value={orbitSpeed} onChange={v => { setOrbitSpeed(v); orbitSpeedRef.current = v; }} unit="×" />
-        <PanelToggle label="Show Pluto" value={showPluto} onChange={v => { setShowPluto(v); showPlutoRef.current = v; }} />
-        <PanelToggle label="Show Orbit Paths" value={showOrbits} onChange={v => { setShowOrbits(v); showOrbitsRef.current = v; }} />
-        <PanelDivider />
-        <PanelDisplay label="EARTH DAYS LIVED" value={birthDate ? daysAlive.toLocaleString() : "—"} large />
-        <PanelDisplay label="DISTANCE TRAVELED" value={birthDate ? `${distanceTraveled} km` : "—"} />
-      </FloatingPanel>
-    </RealmLayout>
+              {/* Void background */}
+              <rect width={SVG_W} height={SVG_H} fill="#06060A" />
+
+              {/* Stars */}
+              {STAR_FIELD.map((s, i) => (
+                <circle key={i} cx={s.x} cy={s.y} r={s.r} fill="white" opacity={s.o} />
+              ))}
+
+              {/* Orbital ellipses */}
+              {PLANETS.map(p => (
+                <ellipse
+                  key={`orb-${p.name}`}
+                  cx={CX} cy={CY}
+                  rx={p.orbitR} ry={p.orbitR * TILT}
+                  fill="none"
+                  stroke="rgba(255,255,255,0.055)"
+                  strokeWidth="1"
+                />
+              ))}
+
+              {/* Sun — glow halo + core */}
+              <circle cx={CX} cy={CY} r={30} fill="url(#ssa-sun)" />
+              <circle cx={CX} cy={CY} r={11} fill="#FFD740" />
+              <text
+                x={CX} y={CY + 24}
+                textAnchor="middle"
+                fontSize="7"
+                fill="rgba(255,215,64,0.4)"
+                fontFamily="var(--font-ui)"
+              >
+                Sol
+              </text>
+
+              {/* Planets — initial positions at angle 0 (right side of orbit) */}
+              {PLANETS.map(p => {
+                const initX = CX + p.orbitR;
+                const initY = CY;
+                return (
+                  <g key={p.name}>
+                    {/* Saturn's rings drawn behind the planet body */}
+                    {p.hasRings && (
+                      <ellipse
+                        ref={el => {
+                          if (!domRefs.current[p.name])
+                            domRefs.current[p.name] = { planet: null, ring: null };
+                          domRefs.current[p.name].ring = el;
+                        }}
+                        cx={initX} cy={initY}
+                        rx={p.size * 2.3} ry={p.size * 0.55}
+                        fill="none"
+                        stroke="#C9B87A"
+                        strokeWidth="2.5"
+                        opacity="0.72"
+                      />
+                    )}
+                    {/* Planet body */}
+                    <circle
+                      ref={el => {
+                        if (!domRefs.current[p.name])
+                          domRefs.current[p.name] = { planet: null, ring: null };
+                        domRefs.current[p.name].planet = el;
+                      }}
+                      cx={initX} cy={initY}
+                      r={p.size}
+                      fill={p.color}
+                    />
+                  </g>
+                );
+              })}
+            </svg>
+          </div>
+
+          {/* ── Results ─────────────────────────────────────────────────── */}
+          {ages ? (
+            <>
+              {/* Planet ages — unified instrument panel */}
+              <div className="border-t border-b border-border bg-bg-card">
+                <div className="grid grid-cols-2 md:grid-cols-4">
+                  {ages.planetary.map((p, i) => (
+                    <div
+                      key={p.name}
+                      className={`p-4 flex flex-col gap-1.5 ${PLANET_BORDERS[i]} border-border`}
+                    >
+                      <div className="flex items-center gap-2">
+                        <span
+                          className="w-2.5 h-2.5 rounded-full flex-shrink-0"
+                          style={{ backgroundColor: p.color }}
+                        />
+                        <span className="text-[9px] font-sans font-semibold tracking-wider text-text-faint uppercase">
+                          {p.name}
+                        </span>
+                      </div>
+                      <div className="font-mono text-[1.2rem] text-text-primary tabular-nums leading-none">
+                        {fmtPlanetAge(p.ageOnPlanet)}
+                      </div>
+                      <div className="text-[10px] font-sans text-text-faint leading-snug">
+                        {p.ageOnPlanet < 1
+                          ? "of a year old"
+                          : p.ageOnPlanet < 2
+                          ? "year old"
+                          : "years old"}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Planet facts strip */}
+              <div className="border-b border-border bg-bg-surface/60">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+                  {ages.planetary.slice(0, 4).map((p, i) => (
+                    <div
+                      key={`fact-${p.name}`}
+                      className={`px-4 py-3 ${i < 3 ? "sm:border-r border-border" : ""}`}
+                    >
+                      <p className="text-[10px] font-sans text-text-faint italic leading-snug">
+                        {p.fact}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Cosmic perspectives */}
+              <div className="px-4 md:px-5 pt-8 pb-8">
+                <p
+                  className="font-display font-light italic text-text-primary leading-[1.1] mb-6 text-balance"
+                  style={{
+                    fontSize: "clamp(1.35rem, 3vw, 2rem)",
+                    letterSpacing: "-0.01em",
+                  }}
+                >
+                  Your Position in the Cosmos
+                </p>
+
+                <div className="flex flex-col">
+                  {(
+                    [
+                      {
+                        label: "Fraction of a galactic year",
+                        value: ages.galacticFrac.toExponential(3),
+                        note:  "The Sun orbits the Milky Way centre once every ~225 million Earth years. This is called a cosmic year.",
+                      },
+                      {
+                        label: "Percentage of the universe's age",
+                        value: `${ages.universePerc.toExponential(3)}%`,
+                        note:  "The universe is approximately 13.8 billion years old. You arrived very recently.",
+                      },
+                      {
+                        label: "Light-years traveled with the Sun",
+                        value: `${ages.lightYears.toFixed(2)} ly`,
+                        note:  "The Sun moves at ~251 km/s through the galaxy. Everything on Earth — including you — travels that distance too.",
+                      },
+                      {
+                        label: "Light-years your birth photons have escaped",
+                        value: `${ages.birthPhotons.toFixed(2)} ly`,
+                        note:  "Light emitted the moment you were born has now traveled this far from your birthplace into the universe.",
+                      },
+                      {
+                        label: "Moon orbits you have witnessed",
+                        value: ages.moonOrbits.toLocaleString(),
+                        note:  "The Moon completes one sidereal orbit every 27.32 Earth days.",
+                      },
+                      {
+                        label: "Approximate heartbeats lived",
+                        value: fmtBig(ages.heartbeats),
+                        note:  "Estimated at an average of 80 beats per minute across a human lifetime.",
+                      },
+                    ] as { label: string; value: string; note: string }[]
+                  ).map(({ label, value, note }) => (
+                    <div key={label} className="py-4 border-b border-border-subtle last:border-b-0">
+                      <div className="flex justify-between items-baseline gap-4 mb-1">
+                        <span className="font-sans text-xs text-text-muted">{label}</span>
+                        <span className="font-mono text-sm text-text-primary font-semibold tabular-nums flex-shrink-0">
+                          {value}
+                        </span>
+                      </div>
+                      <p className="text-[10px] font-sans text-text-faint italic leading-relaxed">
+                        {note}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </>
+          ) : (
+            /* Empty state */
+            <div className="px-5 py-14 flex flex-col items-center text-center border-t border-border">
+              <p
+                className="font-display font-light italic text-text-muted leading-[1.2] mb-3 text-balance"
+                style={{
+                  fontSize: "clamp(1.2rem, 2.5vw, 1.75rem)",
+                  letterSpacing: "-0.01em",
+                }}
+              >
+                How old are you on Neptune?
+              </p>
+              <p className="font-sans text-sm text-text-faint max-w-[52ch] leading-relaxed">
+                Enter your birth date to discover your age across every planet in the solar system — then see just how small your existence looks from a galactic scale.
+              </p>
+            </div>
+          )}
+        </div>
+      }
+    />
   );
 }

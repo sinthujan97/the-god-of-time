@@ -194,37 +194,32 @@ export default function FloatingPanel({
 
   const [position, setPosition] = useState<{ top: number; left: number } | null>(null);
 
-  // Compute initial absolute position from defaultPosition on mount
-  useEffect(() => {
-    if (!panelRef.current) return;
-    const panelH = panelRef.current.offsetHeight || 300;
-    const winW = window.innerWidth;
-    const winH = window.innerHeight;
-    const preset = INITIAL_POSITIONS[defaultPosition];
-
-    const top = preset.top ?? (winH - panelH - (preset.bottom ?? 0));
-    const left = preset.left ?? (winW - width - (preset.right ?? 0));
-
-    setPosition({ top, left });
-  }, [defaultPosition, width]);
-
   const clampPosition = useCallback(
     (x: number, y: number) => {
       const panelH = panelRef.current?.offsetHeight ?? 200;
+      const parentW = panelRef.current?.offsetParent?.clientWidth ?? window.innerWidth;
+      const parentH = panelRef.current?.offsetParent?.clientHeight ?? window.innerHeight;
       return {
-        left: Math.max(0, Math.min(window.innerWidth - width, x)),
-        top: Math.max(0, Math.min(window.innerHeight - panelH, y)),
+        left: Math.max(0, Math.min(parentW - width, x)),
+        top: Math.max(0, Math.min(parentH - panelH, y)),
       };
     },
     [width]
   );
 
   const onHeaderMouseDown = (e: React.MouseEvent) => {
-    if (!position) return;
+    if (!panelRef.current) return;
+    const rect = panelRef.current.getBoundingClientRect();
+    const parentRect = panelRef.current.offsetParent?.getBoundingClientRect() || { left: 0, top: 0 };
+    
     isDraggingRef.current = true;
+    const currentLeft = rect.left - parentRect.left;
+    const currentTop = rect.top - parentRect.top;
+    
+    setPosition({ top: currentTop, left: currentLeft });
     dragOffsetRef.current = {
-      x: e.clientX - position.left,
-      y: e.clientY - position.top,
+      x: e.clientX - currentLeft,
+      y: e.clientY - currentTop,
     };
     e.preventDefault();
   };
@@ -246,11 +241,18 @@ export default function FloatingPanel({
 
   // Touch support
   const onHeaderTouchStart = (e: React.TouchEvent) => {
-    if (!position) return;
+    if (!panelRef.current) return;
+    const rect = panelRef.current.getBoundingClientRect();
+    const parentRect = panelRef.current.offsetParent?.getBoundingClientRect() || { left: 0, top: 0 };
+    
     isDraggingRef.current = true;
+    const currentLeft = rect.left - parentRect.left;
+    const currentTop = rect.top - parentRect.top;
+    
+    setPosition({ top: currentTop, left: currentLeft });
     dragOffsetRef.current = {
-      x: e.touches[0].clientX - position.left,
-      y: e.touches[0].clientY - position.top,
+      x: e.touches[0].clientX - currentLeft,
+      y: e.touches[0].clientY - currentTop,
     };
   };
 
@@ -274,13 +276,24 @@ export default function FloatingPanel({
     };
   }, [clampPosition]);
 
+  // Get initial CSS layout styles before any drag event occurs
+  const getLayoutStyles = (): React.CSSProperties => {
+    if (position) {
+      return {
+        top: position.top,
+        left: position.left,
+      };
+    }
+
+    return INITIAL_POSITIONS[defaultPosition];
+  };
+
   return (
     <div
       ref={panelRef}
       style={{
         position: "absolute",
-        top: position?.top ?? -1000,
-        left: position?.left ?? -1000,
+        ...getLayoutStyles(),
         width,
         zIndex: 60,
         background: "color-mix(in srgb, var(--bg-card) 88%, transparent)",
@@ -290,7 +303,7 @@ export default function FloatingPanel({
         borderRadius: 10,
         boxShadow: "0 8px 32px rgba(0,0,0,0.4)",
         overflow: "hidden",
-        transition: position ? "none" : "top 0ms, left 0ms",
+        transition: position ? "none" : "top 200ms ease, left 200ms ease, right 200ms ease, bottom 200ms ease",
       }}
     >
       {/* Header */}

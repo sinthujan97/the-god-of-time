@@ -23,10 +23,10 @@ export default function RealmsHero() {
         <p
           style={{
             fontFamily: "var(--font-ui)",
-            fontSize: 12,
-            fontWeight: 600,
+            fontSize: 10,
+            fontWeight: 700,
             textTransform: "uppercase",
-            letterSpacing: "0.25em",
+            letterSpacing: "0.18em",
             color: "var(--accent-cosmos)",
             marginBottom: 24,
           }}
@@ -60,8 +60,7 @@ export default function RealmsHero() {
             lineHeight: 1.6,
           }}
         >
-          25 immersive experiences where physics bends, time distorts, and
-          curiosity is the only instrument you need.
+          A single interactive experience where time stretches, physics stands still, and paint drying is the center of the universe.
         </p>
 
         {/* Stats row */}
@@ -77,9 +76,9 @@ export default function RealmsHero() {
           }}
         >
           {[
-            { num: "25", label: "Realms" },
-            { num: "9", label: "AI-Powered" },
-            { num: "∞", label: "Discoveries" },
+            { num: "1", label: "Realm" },
+            { num: "0", label: "AI" },
+            { num: "∞", label: "Minutes Wasted" },
           ].map((stat, i) => (
             <React.Fragment key={stat.label}>
               {i > 0 && (
