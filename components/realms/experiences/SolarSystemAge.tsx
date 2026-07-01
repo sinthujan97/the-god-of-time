@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { RealmLayout } from "@/components/realms/RealmLayout";
 import { realmsRegistry } from "@/lib/data/realmsRegistry";
+import { BirthDatePicker } from "@/components/ui";
 
 // ─── Planet definitions ───────────────────────────────────────────────────────
 
@@ -70,8 +71,7 @@ const PLANET_BORDERS = [
 
 // ─── Calculations ─────────────────────────────────────────────────────────────
 
-function calcAges(birthDateStr: string) {
-  const birth = new Date(birthDateStr + "T00:00:00");
+function calcAges(birth: Date) {
   const now   = new Date();
   const ms    = Math.max(0, now.getTime() - birth.getTime());
   const secs  = ms / 1000;
@@ -117,7 +117,7 @@ export default function SolarSystemAge() {
   const slug  = pathname.split("/").pop() ?? "solar-system-age";
   const realm = realmsRegistry.find(r => r.slug === slug) ?? realmsRegistry[0];
 
-  const [birthDate, setBirthDate] = useState("");
+  const [birthDate, setBirthDate] = useState<Date | undefined>(undefined);
   const [ages,      setAges]      = useState<Ages | null>(null);
   const [error,     setError]     = useState("");
 
@@ -152,17 +152,12 @@ export default function SolarSystemAge() {
     return () => cancelAnimationFrame(animRef.current);
   }, []);
 
-  const today = new Date().toISOString().split("T")[0];
-
   const handleCalculate = () => {
     if (!birthDate) { setError("Please enter your birth date."); return; }
+    const today = new Date();
     if (birthDate > today) { setError("Birth date cannot be in the future."); return; }
     setError("");
     setAges(calcAges(birthDate));
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") handleCalculate();
   };
 
   return (
@@ -173,22 +168,11 @@ export default function SolarSystemAge() {
 
           {/* Date input */}
           <div className="flex flex-col gap-2">
-            <label
-              htmlFor="ssa-birth"
-              className="text-[10px] font-sans font-semibold tracking-wider text-text-muted uppercase"
-            >
-              Your Birth Date
-            </label>
-            <input
+            <BirthDatePicker
               id="ssa-birth"
-              type="date"
+              label="Your Birth Date"
               value={birthDate}
-              min="1900-01-01"
-              max={today}
-              onChange={e => { setBirthDate(e.target.value); setError(""); }}
-              onKeyDown={handleKeyDown}
-              className="tool-input-field"
-              style={{ colorScheme: "dark" }}
+              onChange={val => { setBirthDate(val); setError(""); }}
             />
             {error && (
               <p className="text-[11px] font-sans text-accent-utility-e mt-0.5">{error}</p>
