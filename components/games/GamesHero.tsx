@@ -56,11 +56,22 @@ export default function GamesHero() {
           ✦ DAILY GAMES
         </p>
 
-        <h1
-          className="font-display font-light italic text-text-primary leading-[1.05] mb-6 text-balance"
-          style={{ fontSize: "clamp(52px, 8vw, 88px)" }}
-        >
-          Play with Time
+        <h1 className="poster-head poster-head--center mb-6">
+          <span
+            className="poster-head-sm"
+            style={{ fontSize: "clamp(0.8rem, 2vw, 1.1rem)", color: "var(--text-muted)" }}
+          >
+            Play with
+          </span>
+          <span
+            className="poster-head-lg poster-head-accent"
+            style={{
+              fontSize: "clamp(3.5rem, 9vw, 7rem)",
+              ["--poster-accent" as string]: "var(--accent-game)",
+            }}
+          >
+            Time
+          </span>
         </h1>
 
         <p

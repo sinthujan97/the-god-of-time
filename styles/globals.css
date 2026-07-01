@@ -333,6 +333,53 @@ body {
   transform: translate(-1px, -1px);
 }
 
+/* ── Poster / editorial headline system ── */
+.poster-head {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+
+.poster-head--center {
+  align-items: center;
+  text-align: center;
+}
+
+/* Small label line above the impact words */
+.poster-head-sm {
+  font-family: var(--font-ui), sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--text-muted);
+  line-height: 1;
+}
+
+/* Heavy impact word — bold, stroked, shadowed */
+.poster-head-lg {
+  font-family: var(--font-ui), sans-serif;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.03em;
+  line-height: 0.88;
+  color: var(--text-primary);
+  /* -webkit-text-stroke: 2px var(--border); */
+  text-shadow: 5px 5px 0 var(--shadow-color);
+}
+
+/* Accent override — lime fill, keeps stroke + shadow from .poster-head-lg */
+.poster-head-accent {
+  color: var(--poster-accent, var(--section-tools-accent));
+}
+
+/* Outline variant — transparent fill, stroke only */
+.poster-head-outline {
+  color: transparent;
+  -webkit-text-stroke: 3px var(--text-primary);
+  text-shadow: none;
+}
+
 /* ── Global 3D treatment for all native form controls ── */
 @layer base {
 
@@ -1890,7 +1937,7 @@ html {
 .sidebar-tool-card,
 .sidebar-realm-card,
 .sidebar-ad-slot,
-.sidebar-sticky-inner > * {
+.sidebar-sticky-inner>* {
   border: var(--border-width) solid var(--border);
 }
 

@@ -37,10 +37,10 @@ function LiveClock() {
   }, []);
 
   const units = [
-    { label: "HR",  value: h,  sm: false },
-    { label: "MIN", value: m,  sm: false },
-    { label: "SEC", value: s,  sm: false },
-    { label: "MS",  value: ms, sm: true  },
+    { label: "HR", value: h, sm: false },
+    { label: "MIN", value: m, sm: false },
+    { label: "SEC", value: s, sm: false },
+    { label: "MS", value: ms, sm: true },
   ];
 
   return (
@@ -147,8 +147,8 @@ function LiveClock() {
       >
         {[
           { n: "100+", label: "Tools" },
-          { n: "3",    label: "Games" },
-          { n: "1",    label: "Realm" },
+          { n: "3", label: "Games" },
+          { n: "1", label: "Realm" },
         ].map(({ n, label }, i) => (
           <div
             key={label}
@@ -189,6 +189,22 @@ function LiveClock() {
 }
 
 export default function HeroSection() {
+  const words = ["CALCULATOR.", "SIMULATOR.", "PLAYGROUND.", "OBSESSION.", "EVERYTHING."];
+  const [wordIndex, setWordIndex] = useState(0);
+  const [fade, setFade] = useState(true);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setFade(false);
+      setTimeout(() => {
+        setWordIndex((prev) => (prev + 1) % words.length);
+        setFade(true);
+      }, 800); // 800ms transition for a slow crossfade
+    }, 8000); // every 8 seconds
+
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <section
       className="relative w-full bg-bg-base overflow-hidden select-none"
@@ -214,8 +230,8 @@ export default function HeroSection() {
               userSelect: "none",
               lineHeight: 1,
               fontSize: `clamp(5rem, ${9 + i * 3}vw, 16rem)`,
-              top:  ["8%",  "48%", "72%", "18%", "62%"][i],
-              left: ["8%",  "62%", "28%", "82%", "48%"][i],
+              top: ["8%", "48%", "72%", "18%", "62%"][i],
+              left: ["8%", "62%", "28%", "82%", "48%"][i],
               transform: "translate(-50%, -50%)",
             }}
           >
@@ -250,16 +266,38 @@ export default function HeroSection() {
 
             {/* Headline */}
             <h1
-              className="font-display font-light italic text-text-primary leading-[0.93] mt-6 animate-in fade-in slide-in-from-bottom-4 duration-600 ease-out fill-mode-both"
-              style={{
-                fontSize: "clamp(2.8rem, 7vw, 5rem)",
-                letterSpacing: "-0.025em",
-                animationDelay: "120ms",
-              }}
+              className="poster-head mt-6 animate-in fade-in slide-in-from-bottom-4 duration-600 ease-out fill-mode-both"
+              style={{ animationDelay: "120ms" }}
             >
-              Every second
-              <br />
-              <span style={{ color: ACCENT }}>accounted for.</span>
+              <span
+                className="poster-head-lg poster-head-accent"
+                style={{
+                  fontSize: "clamp(2.8rem, 7.5vw, 5.5rem)",
+                }}
+              >
+                EVERY SECOND
+              </span>
+              <span
+                className="poster-head-lg poster-head-accent"
+                style={{
+                  fontSize: "clamp(2.8rem, 7.5vw, 5.5rem)",
+                }}
+              >
+                HAS A
+              </span>
+              <span
+                className="poster-head-lg poster-head-accent"
+                style={{
+                  fontSize: "clamp(2.8rem, 7.5vw, 5.5rem)",
+                  ["--poster-accent" as string]: ACCENT,
+                  opacity: fade ? 1 : 0,
+                  transition: "opacity 800ms ease-in-out",
+                  display: "inline-block",
+                  color: "#00b415ff",
+                }}
+              >
+                {words[wordIndex]}
+              </span>
             </h1>
 
             {/* Sub */}

@@ -35,18 +35,22 @@ export default function RealmsHero() {
         </p>
 
         {/* Headline */}
-        <h1
-          style={{
-            fontFamily: "var(--font-display)",
-            fontSize: "clamp(56px, 8vw, 96px)",
-            fontWeight: 300,
-            fontStyle: "italic",
-            color: "var(--text-primary)",
-            marginBottom: 24,
-            lineHeight: 1.05,
-          }}
-        >
-          Enter a Realm
+        <h1 className="poster-head poster-head--center" style={{ marginBottom: 24 }}>
+          <span
+            className="poster-head-sm"
+            style={{ fontSize: "clamp(0.8rem, 2vw, 1.1rem)", color: "var(--text-muted)" }}
+          >
+            Enter a
+          </span>
+          <span
+            className="poster-head-lg poster-head-accent"
+            style={{
+              fontSize: "clamp(3.5rem, 9vw, 7rem)",
+              ["--poster-accent" as string]: "var(--accent-cosmos)",
+            }}
+          >
+            Realm
+          </span>
         </h1>
 
         {/* Subheadline */}
