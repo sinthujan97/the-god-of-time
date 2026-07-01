@@ -5,7 +5,7 @@ export const payrollPeriodPlannerData: ToolPageData = {
   name: "Payroll Period Planner",
   group: "utility-a",
   groupName: "Standard Time & Date",
-  groupAccent: "#52C4A0",
+  groupAccent: "#C5F135",
   description: "Generate and review dates for standard weekly, bi-weekly, or monthly pay cycles.",
   
   seo: {

@@ -5,7 +5,7 @@ export const courtDeadlineCalculatorData: ToolPageData = {
   name: "Court Deadline & Legal Calendar Calculator",
   group: "project-management",
   groupName: "Project Management & Business",
-  groupAccent: "#9B8EF5",
+  groupAccent: "#8BA812",
   description: "Calculate legal filing deadlines, accounting for business days, court holidays, and weekend rules.",
   
   seo: {

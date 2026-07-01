@@ -5,7 +5,7 @@ export const tenancyNoticeData: ToolPageData = {
   name: "Statutory Tenancy Notice Planner",
   group: "health-lifecycle",
   groupName: "Health & Lifecycle",
-  groupAccent: "#E87C7C",
+  groupAccent: "#B2D828",
   description: "Find legal dates for giving notice to terminate standard residential lease periods without breach.",
   
   seo: {

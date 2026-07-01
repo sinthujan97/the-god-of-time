@@ -5,7 +5,7 @@ export const alcoholClearanceData: ToolPageData = {
   name: "Alcohol Metabolism Clearance Clock",
   group: "health-lifecycle",
   groupName: "Health & Lifecycle",
-  groupAccent: "#E87C7C",
+  groupAccent: "#B2D828",
   description: "Estimate approximate time required for your system to metabolize alcohol intake based on standard Widmark BAC metrics.",
   
   seo: {

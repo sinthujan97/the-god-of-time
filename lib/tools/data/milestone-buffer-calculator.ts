@@ -5,7 +5,7 @@ export const milestoneBufferCalculatorData: ToolPageData = {
   name: "Milestone Buffer & Risk Calculator",
   group: "project-management",
   groupName: "Project Management & Business",
-  groupAccent: "#9B8EF5",
+  groupAccent: "#8BA812",
   description: "Calculate required safety buffers for critical milestones based on task count, complexity, and team experience.",
   
   seo: {

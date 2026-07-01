@@ -18,7 +18,7 @@ export const toolsRegistry: ToolGroup[] = [
   {
     id: "standard-time",
     name: "Standard Time & Date",
-    accent: "#52C4A0", // --accent-utility-a
+    accent: "#C5F135", // --tools-group-a
     tools: [
       {
         id: "days-between-dates",
@@ -166,7 +166,7 @@ export const toolsRegistry: ToolGroup[] = [
   {
     id: "hr-payroll",
     name: "HR, Payroll & Freelance",
-    accent: "#60A5D4", // --accent-utility-b
+    accent: "#A8CC1C", // --tools-group-b
     tools: [
       {
         id: "time-card-calculator",
@@ -313,7 +313,7 @@ export const toolsRegistry: ToolGroup[] = [
   {
     id: "project-management",
     name: "Project Management & Business",
-    accent: "#9B8EF5", // --accent-utility-c
+    accent: "#8BA812", // --tools-group-c
     tools: [
       {
         id: "project-back-planner",
@@ -460,7 +460,7 @@ export const toolsRegistry: ToolGroup[] = [
   {
     id: "global-time",
     name: "Global Time & Time Zones",
-    accent: "#F5A857", // --accent-utility-d
+    accent: "#D8F870", // --tools-group-d
     tools: [
       {
         id: "world-time-converter",
@@ -607,7 +607,7 @@ export const toolsRegistry: ToolGroup[] = [
   {
     id: "health-lifecycle",
     name: "Health & Lifecycle",
-    accent: "#E87C7C", // --accent-utility-e
+    accent: "#B2D828", // --tools-group-e
     tools: [
       {
         id: "pregnancy-due-date",

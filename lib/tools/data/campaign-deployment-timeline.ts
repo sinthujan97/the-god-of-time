@@ -5,7 +5,7 @@ export const campaignDeploymentTimelineData: ToolPageData = {
   name: "Campaign Deployment Timeline Planner",
   group: "project-management",
   groupName: "Project Management & Business",
-  groupAccent: "#9B8EF5",
+  groupAccent: "#8BA812",
   description: "Map marketing phases (content, design, ads) backward from launch date and assign operational channels.",
   
   seo: {

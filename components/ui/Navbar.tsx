@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { ChevronDown, Menu, X } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { ChevronDown, ChevronRight, Menu, X } from "lucide-react";
 import { toolsRegistry } from "@/lib/data/toolsRegistry";
 import { realmsRegistry } from "@/lib/data/realmsRegistry";
 import { gamesRegistry } from "@/lib/data/gamesRegistry";
@@ -152,21 +153,44 @@ function getEmoji(id: string, isRealm: boolean): string {
 }
 
 const UTILITY_CATEGORIES = [
-  { id: "standard-time", name: "Standard Time & Date", accent: "#52C4A0" },
-  { id: "hr-payroll", name: "HR, Payroll & Freelance", accent: "#60A5D4" },
-  { id: "project-management", name: "Project Management", accent: "#9B8EF5" },
-  { id: "global-time", name: "Global Time & Zones", accent: "#F5A857" },
-  { id: "health-lifecycle", name: "Health & Lifecycle", accent: "#E87C7C" }
+  { id: "standard-time", name: "Standard Time & Date", accent: "#C5F135", tagline: "Dates, durations & calendars" },
+  { id: "hr-payroll", name: "HR, Payroll & Freelance", accent: "#A8CC1C", tagline: "Pay, hours & freelance tools" },
+  { id: "project-management", name: "Project Management", accent: "#8BA812", tagline: "Plan, track & deliver on time" },
+  { id: "global-time", name: "Global Time & Zones", accent: "#D8F870", tagline: "Time zones across the globe" },
+  { id: "health-lifecycle", name: "Health & Lifecycle", accent: "#B2D828", tagline: "Health milestones & life tracking" }
 ];
 
 const REALM_CATEGORIES = [
-  { id: "cosmos", name: "Space & Cosmos", accent: "#4B8EF1" },
-  { id: "biology", name: "Biology & History", accent: "#C9A84C" },
-  { id: "scifi", name: "Sci-Fi & Paradox", accent: "#7B61FF" },
-  { id: "whimsical", name: "Whimsical & Absurd", accent: "#3ABFBF" },
-  { id: "destiny", name: "Personal Destiny", accent: "#E09A3A" },
-  { id: "physics", name: "Physics Playground", accent: "#4B8EF1" }
+  { id: "cosmos", name: "Space & Cosmos", accent: "#C5F135", tagline: "Space & cosmic scale" },
+  { id: "biology", name: "Biology & History", accent: "#D8F870", tagline: "Life, history & deep time" },
+  { id: "scifi", name: "Sci-Fi & Paradox", accent: "#B2D828", tagline: "Paradoxes & sci-fi thought experiments" },
+  { id: "whimsical", name: "Whimsical & Absurd", accent: "#A8CC1C", tagline: "Absurd & pointless fun" },
+  { id: "destiny", name: "Personal Destiny", accent: "#8BA812", tagline: "Your personal cosmic stats" },
+  { id: "physics", name: "Physics Playground", accent: "#D8F870", tagline: "Play with the laws of physics" }
 ];
+
+type NavSection = "tools" | "realms" | "games" | "default";
+
+function sectionFromPathname(pathname: string): NavSection {
+  if (pathname.startsWith("/tools")) return "tools";
+  if (pathname.startsWith("/realms")) return "realms";
+  if (pathname.startsWith("/games")) return "games";
+  return "default";
+}
+
+const SECTION_CTA_LABEL: Record<NavSection, string> = {
+  tools: "Explore Tools →",
+  realms: "Enter Realm →",
+  games: "Play Now →",
+  default: "Get Started →",
+};
+
+const SECTION_CTA_HREF: Record<NavSection, string> = {
+  tools: "/tools",
+  realms: "/realms",
+  games: "/games",
+  default: "/tools",
+};
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -174,6 +198,8 @@ export default function Navbar() {
   const [activeDropdown, setActiveDropdown] = useState<'tools' | 'realms' | 'games' | null>(null);
   const { setTheme, resolvedTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
+  const pathname = usePathname();
+  const section = sectionFromPathname(pathname || "/");
 
   // Scroll handler to make navbar background frosted on scroll
   useEffect(() => {
@@ -186,26 +212,39 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? "h-14 md:h-16 bg-bg-surface/80 backdrop-blur-[12px] border-b border-border shadow-md"
-          : "h-14 md:h-16 bg-transparent border-b border-border/20"
+      className={`navbar-brutal fixed top-0 left-0 right-0 z-50 transition-all duration-150 h-14 md:h-16 ${
+        isScrolled ? "shadow-md" : ""
       }`}
+      style={{
+        "--accent-color":
+          section === "tools" ? "var(--section-tools-accent)"
+          : section === "realms" ? "var(--section-realms-accent)"
+          : section === "games" ? "var(--section-games-accent)"
+          : "var(--section-tools-accent)",
+        "--accent-color-dark":
+          section === "tools" ? "var(--section-tools-accent-dark)"
+          : section === "realms" ? "var(--section-realms-accent-dark)"
+          : section === "games" ? "var(--section-games-accent-dark)"
+          : "var(--section-tools-accent-dark)",
+        "--text-on-accent":
+          section === "games" ? "var(--section-games-text-on-accent)" : "#1A1A1A",
+      } as React.CSSProperties}
     >
-      <div className="max-w-7xl mx-auto h-full px-4 flex items-center justify-between">
-        
+      <div className="max-w-7xl mx-auto h-full px-4 flex items-center justify-between gap-4">
+
         {/* Left: Logo */}
         <div className="flex items-center">
-          <Link href="/" className="flex items-center cursor-pointer select-none">
-            <span className="font-display font-light text-lg md:text-[18px] tracking-[0.25em] text-text-primary transition-opacity hover:opacity-80">
-              ✦ GOD OF TIME
+          <Link href="/" className="flex items-center gap-2.5 cursor-pointer select-none">
+            <span className="logo-icon-box">✦</span>
+            <span className="font-headline font-extrabold text-base md:text-[17px] tracking-[0.02em] text-text-primary transition-opacity hover:opacity-80">
+              GOD OF <span style={{ color: "var(--accent-color)" }}>TIME</span>
             </span>
           </Link>
         </div>
 
         {/* Center: Desktop Navigation Links */}
-        <nav 
-          className="hidden md:flex items-center gap-6 h-full"
+        <nav
+          className="hidden md:flex items-center gap-3 h-full"
           onMouseLeave={() => setActiveDropdown(null)}
         >
           {/* Utility Tools */}
@@ -215,75 +254,59 @@ export default function Navbar() {
               onClick={() => setActiveDropdown(activeDropdown === 'tools' ? null : 'tools')}
               aria-expanded={activeDropdown === 'tools'}
               aria-haspopup="true"
-              className="flex items-center gap-1.5 px-3 py-1.5 h-9 text-text-muted hover:text-text-primary font-sans font-medium rounded-md cursor-pointer transition-colors border-none outline-none select-none"
+              className="nav-dropdown-trigger h-9 text-text-primary font-sans select-none"
             >
               Utility Tools
               <ChevronDown className={`w-4 h-4 text-text-muted transition-transform duration-200 ${activeDropdown === 'tools' ? 'rotate-180' : ''}`} />
             </button>
 
             {activeDropdown === 'tools' && (
-              <div 
-                className="absolute top-full left-0 right-0 w-full bg-bg-card border-b-2 border-text-primary shadow-[0_15px_30px_rgba(0,0,0,0.15)] dark:shadow-[0_15px_30px_rgba(0,0,0,0.5)] z-50 py-6 animate-in fade-in-0 slide-in-from-top-1 duration-200"
+              <div
+                className="absolute top-full left-0 right-0 w-full bg-bg-card border-b-[length:var(--border-width-thick)] border-border shadow-[var(--shadow-offset-lg)_var(--shadow-color)] z-50 py-5 animate-in fade-in-0 slide-in-from-top-1 duration-150"
                 onMouseEnter={() => setActiveDropdown('tools')}
               >
-                <div className="max-w-7xl mx-auto px-6 flex flex-col gap-6">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {UTILITY_CATEGORIES.map((cat) => {
+                <div className="max-w-7xl mx-auto px-6 flex flex-col gap-4">
+                  <div className="grid grid-cols-5 gap-4">
+                    {UTILITY_CATEGORIES.map((cat, idx) => {
                       const catTools = toolsRegistry.find((g) => g.id === cat.id)?.tools || [];
-                      const displayedTools = catTools.slice(0, 5);
-                      const remaining = catTools.length - displayedTools.length;
+                      const displayedTools = catTools.slice(0, 6);
                       return (
                         <div
                           key={cat.id}
-                          style={{ "--category-accent": cat.accent } as React.CSSProperties}
-                          className="group/card flex flex-col p-5 bg-bg-surface hover:bg-bg-card-hover border-2 border-border hover:border-[var(--category-accent)] rounded-2xl transition-all duration-200 shadow-[4px_4px_0px_0px_var(--border)] hover:shadow-[6px_6px_0px_0px_var(--category-accent)]"
+                          style={{
+                            "--category-accent": cat.accent,
+                            animationDelay: `${idx * 40}ms`,
+                          } as React.CSSProperties}
+                          className="dropdown-category-box animate-in fade-in slide-in-from-bottom-2 fill-mode-both duration-200"
                         >
+                          <div className="dropdown-category-box__header">
+                            <span className="dropdown-category-box__name">{cat.name}</span>
+                            <span className="dropdown-category-box__count">{catTools.length}</span>
+                          </div>
+                          <p className="dropdown-category-box__tagline">{cat.tagline}</p>
+                          <ol className="dropdown-category-box__list">
+                            {displayedTools.map((tool, i) => (
+                              <li key={tool.id}>
+                                <Link
+                                  href={`/tools/${tool.slug}`}
+                                  onClick={() => setActiveDropdown(null)}
+                                  className="dropdown-category-box__row"
+                                >
+                                  <span className="dropdown-category-box__row-num">{i + 1}.</span>
+                                  <span className="dropdown-category-box__row-icon">{getEmoji(tool.id, false)}</span>
+                                  <span className="dropdown-category-box__row-name">{tool.name}</span>
+                                  <ChevronRight className="dropdown-category-box__row-chevron" />
+                                </Link>
+                              </li>
+                            ))}
+                          </ol>
                           <Link
                             href={`/tools#${cat.id}`}
                             onClick={() => setActiveDropdown(null)}
-                            className="font-sans font-semibold text-[13px] text-text-primary hover:text-[var(--category-accent)] mb-3 text-left transition-colors block"
+                            className="dropdown-category-box__viewall"
                           >
-                            {cat.name}
+                            View all {catTools.length} →
                           </Link>
-                          
-                          <div className="flex items-center justify-between w-full mt-auto">
-                            <div className="flex -space-x-2 overflow-hidden">
-                              {displayedTools.map((tool) => (
-                                <div key={tool.id} className="relative group/tooltip">
-                                  <Link
-                                    href={`/tools/${tool.slug}`}
-                                    onClick={() => setActiveDropdown(null)}
-                                    className="w-8 h-8 rounded-full flex items-center justify-center bg-bg-card border-2 border-text-primary text-base shadow-[1px_1px_0px_0px_var(--border)] hover:scale-120 hover:-translate-y-1 hover:z-20 transition-all select-none cursor-pointer"
-                                  >
-                                    {getEmoji(tool.id, false)}
-                                  </Link>
-                                  {/* CSS Tooltip */}
-                                  <div className="invisible group-hover/tooltip:visible opacity-0 group-hover/tooltip:opacity-100 transition-all duration-150 absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2.5 py-1 text-[10px] font-sans font-semibold tracking-wide text-bg-base bg-text-primary rounded-md whitespace-nowrap shadow-md pointer-events-none z-30">
-                                    {tool.name}
-                                    <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-text-primary" />
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
-
-                            {remaining > 0 ? (
-                              <Link 
-                                href={`/tools#${cat.id}`}
-                                onClick={() => setActiveDropdown(null)}
-                                className="h-8 px-2 rounded-full flex items-center justify-center border-2 border-text-primary bg-bg-card text-[10px] font-bold font-mono text-text-primary shadow-[1px_1px_0px_0px_var(--border)] group-hover/card:shadow-[1px_1px_0px_0px_var(--category-accent)] hover:scale-105 transition-all select-none"
-                              >
-                                +{remaining}
-                              </Link>
-                            ) : (
-                              <Link 
-                                href={`/tools#${cat.id}`}
-                                onClick={() => setActiveDropdown(null)}
-                                className="h-8 w-8 rounded-full flex items-center justify-center border-2 border-text-primary bg-bg-card text-xs text-text-primary shadow-[1px_1px_0px_0px_var(--border)] group-hover/card:shadow-[1px_1px_0px_0px_var(--category-accent)] hover:scale-105 transition-all select-none"
-                              >
-                                →
-                              </Link>
-                            )}
-                          </div>
                         </div>
                       );
                     })}
@@ -330,75 +353,59 @@ export default function Navbar() {
               onClick={() => setActiveDropdown(activeDropdown === 'realms' ? null : 'realms')}
               aria-expanded={activeDropdown === 'realms'}
               aria-haspopup="true"
-              className="flex items-center gap-1.5 px-3 py-1.5 h-9 text-text-muted hover:text-text-primary font-sans font-medium rounded-md cursor-pointer transition-colors border-none outline-none select-none"
+              className="nav-dropdown-trigger h-9 text-text-primary font-sans select-none"
             >
               Fun Realms
               <ChevronDown className={`w-4 h-4 text-text-muted transition-transform duration-200 ${activeDropdown === 'realms' ? 'rotate-180' : ''}`} />
             </button>
 
             {activeDropdown === 'realms' && (
-              <div 
-                className="absolute top-full left-0 right-0 w-full bg-bg-card border-b-2 border-text-primary shadow-[0_15px_30px_rgba(0,0,0,0.15)] dark:shadow-[0_15px_30px_rgba(0,0,0,0.5)] z-50 py-6 animate-in fade-in-0 slide-in-from-top-1 duration-200"
+              <div
+                className="absolute top-full left-0 right-0 w-full bg-bg-card border-b-[length:var(--border-width-thick)] border-border shadow-[var(--shadow-offset-lg)_var(--shadow-color)] z-50 py-5 animate-in fade-in-0 slide-in-from-top-1 duration-150"
                 onMouseEnter={() => setActiveDropdown('realms')}
               >
-                <div className="max-w-7xl mx-auto px-6 flex flex-col gap-6">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {REALM_CATEGORIES.filter((cat) => realmsRegistry.some((r) => r.category === cat.id)).map((cat) => {
+                <div className="max-w-7xl mx-auto px-6 flex flex-col gap-4">
+                  <div className="grid grid-cols-3 gap-4">
+                    {REALM_CATEGORIES.filter((cat) => realmsRegistry.some((r) => r.category === cat.id)).map((cat, idx) => {
                       const catRealms = realmsRegistry.filter((r) => r.category === cat.id) || [];
-                      const displayedRealms = catRealms.slice(0, 5);
-                      const remaining = catRealms.length - displayedRealms.length;
+                      const displayedRealms = catRealms.slice(0, 6);
                       return (
                         <div
                           key={cat.id}
-                          style={{ "--category-accent": cat.accent } as React.CSSProperties}
-                          className="group/card flex flex-col p-5 bg-bg-surface hover:bg-bg-card-hover border-2 border-border hover:border-[var(--category-accent)] rounded-xl transition-all duration-200 shadow-[4px_4px_0px_0px_var(--border)] hover:shadow-[4px_4px_0px_0px_var(--category-accent)]"
+                          style={{
+                            "--category-accent": cat.accent,
+                            animationDelay: `${idx * 40}ms`,
+                          } as React.CSSProperties}
+                          className="dropdown-category-box animate-in fade-in slide-in-from-bottom-2 fill-mode-both duration-200"
                         >
+                          <div className="dropdown-category-box__header">
+                            <span className="dropdown-category-box__name">{cat.name}</span>
+                            <span className="dropdown-category-box__count">{catRealms.length}</span>
+                          </div>
+                          <p className="dropdown-category-box__tagline">{cat.tagline}</p>
+                          <ol className="dropdown-category-box__list">
+                            {displayedRealms.map((realm, i) => (
+                              <li key={realm.id}>
+                                <Link
+                                  href={`/realms/${realm.slug}`}
+                                  onClick={() => setActiveDropdown(null)}
+                                  className="dropdown-category-box__row"
+                                >
+                                  <span className="dropdown-category-box__row-num">{i + 1}.</span>
+                                  <span className="dropdown-category-box__row-icon">{getEmoji(realm.id, true)}</span>
+                                  <span className="dropdown-category-box__row-name">{realm.name}</span>
+                                  <ChevronRight className="dropdown-category-box__row-chevron" />
+                                </Link>
+                              </li>
+                            ))}
+                          </ol>
                           <Link
                             href={`/realms#${cat.id}`}
                             onClick={() => setActiveDropdown(null)}
-                            className="font-sans font-semibold text-[13px] text-text-primary hover:text-[var(--category-accent)] mb-3 text-left transition-colors block"
+                            className="dropdown-category-box__viewall"
                           >
-                            {cat.name}
+                            View all {catRealms.length} →
                           </Link>
-                          
-                          <div className="flex items-center justify-between w-full mt-auto">
-                            <div className="flex -space-x-2 overflow-hidden">
-                              {displayedRealms.map((realm) => (
-                                <div key={realm.id} className="relative group/tooltip">
-                                  <Link
-                                    href={`/realms/${realm.slug}`}
-                                    onClick={() => setActiveDropdown(null)}
-                                    className="w-8 h-8 rounded-full flex items-center justify-center bg-bg-card border-2 border-text-primary text-base shadow-[1px_1px_0px_0px_var(--border)] hover:scale-120 hover:-translate-y-1 hover:z-20 transition-all select-none cursor-pointer"
-                                  >
-                                    {getEmoji(realm.id, true)}
-                                  </Link>
-                                  {/* CSS Tooltip */}
-                                  <div className="invisible group-hover/tooltip:visible opacity-0 group-hover/tooltip:opacity-100 transition-all duration-150 absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2.5 py-1 text-[10px] font-sans font-semibold tracking-wide text-bg-base bg-text-primary rounded-md whitespace-nowrap shadow-md pointer-events-none z-30">
-                                    {realm.name}
-                                    <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-text-primary" />
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
-
-                            {remaining > 0 ? (
-                              <Link 
-                                href={`/realms#${cat.id}`}
-                                onClick={() => setActiveDropdown(null)}
-                                className="h-8 px-2 rounded-full flex items-center justify-center border-2 border-text-primary bg-bg-card text-[10px] font-bold font-mono text-text-primary shadow-[1px_1px_0px_0px_var(--border)] group-hover/card:shadow-[1px_1px_0px_0px_var(--category-accent)] hover:scale-105 transition-all select-none"
-                              >
-                                +{remaining}
-                              </Link>
-                            ) : (
-                              <Link 
-                                href={`/realms#${cat.id}`}
-                                onClick={() => setActiveDropdown(null)}
-                                className="h-8 w-8 rounded-full flex items-center justify-center border-2 border-text-primary bg-bg-card text-xs text-text-primary shadow-[1px_1px_0px_0px_var(--border)] group-hover/card:shadow-[1px_1px_0px_0px_var(--category-accent)] hover:scale-105 transition-all select-none"
-                              >
-                                →
-                              </Link>
-                            )}
-                          </div>
                         </div>
                       );
                     })}
@@ -445,7 +452,7 @@ export default function Navbar() {
               onClick={() => setActiveDropdown(activeDropdown === 'games' ? null : 'games')}
               aria-expanded={activeDropdown === 'games'}
               aria-haspopup="true"
-              className="flex items-center gap-1.5 px-3 py-1.5 h-9 text-text-muted hover:text-text-primary font-sans font-medium rounded-md cursor-pointer transition-colors border-none outline-none select-none"
+              className="nav-dropdown-trigger h-9 text-text-primary font-sans select-none"
             >
               Games
               <ChevronDown className={`w-4 h-4 text-text-muted transition-transform duration-200 ${activeDropdown === 'games' ? 'rotate-180' : ''}`} />
@@ -453,52 +460,47 @@ export default function Navbar() {
 
             {activeDropdown === 'games' && (
               <div
-                className="absolute top-full left-0 right-0 w-full bg-bg-card border-b-2 border-text-primary shadow-[0_15px_30px_rgba(0,0,0,0.15)] dark:shadow-[0_15px_30px_rgba(0,0,0,0.5)] z-50 py-6 animate-in fade-in-0 slide-in-from-top-1 duration-200"
+                className="absolute top-full left-0 right-0 w-full bg-bg-card border-b-[length:var(--border-width-thick)] border-border shadow-[var(--shadow-offset-lg)_var(--shadow-color)] z-50 py-5 animate-in fade-in-0 slide-in-from-top-1 duration-150"
                 onMouseEnter={() => setActiveDropdown('games')}
               >
-                <div className="max-w-7xl mx-auto px-6 flex flex-col gap-6">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {gamesRegistry.map((game) => (
-                      <div
-                        key={game.id}
-                        style={{ "--category-accent": game.accent } as React.CSSProperties}
-                        className="group/card flex flex-col p-5 bg-bg-surface hover:bg-bg-card-hover border-2 border-border hover:border-[var(--category-accent)] rounded-xl transition-all duration-200 shadow-[4px_4px_0px_0px_var(--border)] hover:shadow-[4px_4px_0px_0px_var(--category-accent)]"
-                      >
-                        <div className="flex items-start justify-between gap-2 mb-2">
-                          <Link
-                            href={`/games/${game.slug}`}
-                            onClick={() => setActiveDropdown(null)}
-                            className="font-sans font-semibold text-[13px] text-text-primary hover:text-[var(--category-accent)] transition-colors"
-                          >
-                            {game.name}
-                          </Link>
-                          <span
-                            className="px-2 py-0.5 rounded font-mono text-[8px] font-bold uppercase tracking-wider flex-shrink-0"
-                            style={{
-                              background: `color-mix(in srgb, ${game.accent} 12%, transparent)`,
-                              color: game.accent,
-                            }}
-                          >
-                            Daily
-                          </span>
-                        </div>
-                        <p className="font-sans text-[11px] text-text-muted leading-snug mb-4">
-                          {game.tagline}
-                        </p>
-                        <div className="flex items-center justify-between mt-auto">
-                          <div className="flex gap-1 text-sm opacity-60 select-none">
-                            {game.badgeEmojis.map((b, i) => <span key={i}>{b}</span>)}
-                          </div>
-                          <Link
-                            href={`/games/${game.slug}`}
-                            onClick={() => setActiveDropdown(null)}
-                            className="h-8 px-3 rounded-full flex items-center justify-center border-2 border-text-primary bg-bg-card text-[10px] font-bold font-sans text-text-primary shadow-[1px_1px_0px_0px_var(--border)] group-hover/card:shadow-[1px_1px_0px_0px_var(--category-accent)] hover:scale-105 transition-all select-none"
-                          >
-                            Play →
-                          </Link>
-                        </div>
+                <div className="max-w-7xl mx-auto px-6 flex flex-col gap-4">
+                  <div className="grid grid-cols-3 gap-4">
+                    <div
+                      style={{ "--category-accent": "var(--section-games-accent)" } as React.CSSProperties}
+                      className="dropdown-category-box animate-in fade-in slide-in-from-bottom-2 fill-mode-both duration-200"
+                    >
+                      <div className="dropdown-category-box__header">
+                        <span className="dropdown-category-box__name">Daily Games</span>
+                        <span className="dropdown-category-box__count">{gamesRegistry.length}</span>
                       </div>
-                    ))}
+                      <p className="dropdown-category-box__tagline">One shot. Every day.</p>
+                      <ol className="dropdown-category-box__list">
+                        {gamesRegistry.map((game, i) => (
+                          <li key={game.id}>
+                            <Link
+                              href={`/games/${game.slug}`}
+                              onClick={() => setActiveDropdown(null)}
+                              className="dropdown-category-box__row"
+                            >
+                              <span className="dropdown-category-box__row-num">{i + 1}.</span>
+                              <span className="dropdown-category-box__row-icon">{game.badgeEmojis[0]}</span>
+                              <span className="dropdown-category-box__row-name">{game.name}</span>
+                              <span className="dropdown-category-box__row-tag" style={{ color: game.accent }}>
+                                {game.difficulty}
+                              </span>
+                              <ChevronRight className="dropdown-category-box__row-chevron" />
+                            </Link>
+                          </li>
+                        ))}
+                      </ol>
+                      <Link
+                        href="/games"
+                        onClick={() => setActiveDropdown(null)}
+                        className="dropdown-category-box__viewall"
+                      >
+                        View all games →
+                      </Link>
+                    </div>
                   </div>
 
                   <div className="w-full border-t-2 border-dashed border-border/80 my-1" />
@@ -517,8 +519,14 @@ export default function Navbar() {
 
         </nav>
 
-        {/* Right: Theme Toggle & Mobile Menu Hamburger */}
+        {/* Right: Status Badge, CTA, Theme Toggle & Mobile Menu Hamburger */}
         <div className="flex items-center gap-3">
+          <span className="nav-status-badge hidden lg:inline-flex">✦ 100+ Free Tools</span>
+
+          <Link href={SECTION_CTA_HREF[section]} className="nav-cta hidden sm:inline-flex">
+            {SECTION_CTA_LABEL[section]}
+          </Link>
+
           <ThemeToggle />
 
           <button
@@ -533,8 +541,8 @@ export default function Navbar() {
 
       {/* Mobile Menu Drawer */}
       {isMobileMenuOpen && (
-        <div className="md:hidden absolute top-full left-0 right-0 bg-bg-surface border-b border-border shadow-xl p-4 max-h-[calc(100vh-60px)] overflow-y-auto z-40 flex flex-col gap-4 animate-in slide-in-from-top duration-300">
-          
+        <div className="md:hidden absolute top-full left-0 right-0 bg-bg-surface border-b-[length:var(--border-width)] border-border shadow-[var(--shadow-offset-lg)_var(--shadow-color)] p-4 max-h-[calc(100vh-60px)] overflow-y-auto z-40 flex flex-col gap-4 animate-in slide-in-from-top duration-300">
+
           {/* Utility Tools Section */}
           <div>
             <h4 className="text-xs font-sans uppercase tracking-wider text-text-muted mb-2 font-semibold">
@@ -542,7 +550,7 @@ export default function Navbar() {
             </h4>
             <div className="flex flex-col gap-2 pl-2">
               {UTILITY_CATEGORIES.map((cat) => (
-                <div key={cat.id} className="border-l border-border pl-3 py-1">
+                <div key={cat.id} className="border-l-[length:var(--border-width)] border-border pl-3 py-1">
                   <div className="flex items-center gap-2 mb-1.5">
                     <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: cat.accent }} />
                     <span className="text-xs font-sans font-medium text-text-primary">
@@ -553,20 +561,23 @@ export default function Navbar() {
                     {toolsRegistry
                       .find((g) => g.id === cat.id)
                       ?.tools.slice(0, 5) // Show top 5 on mobile to keep compact
-                      .map((tool) => (
+                      .map((tool, i) => (
                         <Link
                           key={tool.id}
                           href={`/tools/${tool.slug}`}
                           onClick={() => setIsMobileMenuOpen(false)}
-                          className="text-[11px] font-sans text-text-muted hover:text-text-primary py-0.5 truncate"
+                          className="flex items-center gap-1.5 text-[11px] font-sans text-text-muted hover:text-text-primary py-0.5 truncate"
                         >
-                          {tool.name}
+                          <span className="font-mono text-text-faint">{i + 1}.</span>
+                          <span>{getEmoji(tool.id, false)}</span>
+                          <span className="truncate">{tool.name}</span>
                         </Link>
                       ))}
                     <Link
                       href="/tools"
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className="text-[10px] font-sans text-accent-cosmos hover:underline py-0.5"
+                      className="text-[10px] font-sans font-bold hover:underline py-0.5"
+                      style={{ color: cat.accent }}
                     >
                       View all tools ›
                     </Link>
@@ -582,10 +593,11 @@ export default function Navbar() {
               Games
             </h4>
             <div className="flex flex-col gap-2 pl-2">
-              {gamesRegistry.map((game) => (
-                <div key={game.id} className="border-l border-border pl-3 py-1">
+              {gamesRegistry.map((game, i) => (
+                <div key={game.id} className="border-l-[length:var(--border-width)] border-border pl-3 py-1">
                   <div className="flex items-center gap-2 mb-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: game.accent }} />
+                    <span className="font-mono text-[10px] text-text-faint">{i + 1}.</span>
+                    <span>{game.badgeEmojis[0]}</span>
                     <span className="text-xs font-sans font-medium text-text-primary">{game.name}</span>
                   </div>
                   <div className="flex flex-col gap-1">
@@ -599,7 +611,7 @@ export default function Navbar() {
                     <Link
                       href="/games"
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className="text-[10px] font-sans hover:underline py-0.5"
+                      className="text-[10px] font-sans font-bold hover:underline py-0.5"
                       style={{ color: game.accent }}
                     >
                       All games ›
@@ -617,7 +629,7 @@ export default function Navbar() {
             </h4>
             <div className="flex flex-col gap-2 pl-2">
               {REALM_CATEGORIES.filter((cat) => realmsRegistry.some((r) => r.category === cat.id)).map((cat) => (
-                <div key={cat.id} className="border-l border-border pl-3 py-1">
+                <div key={cat.id} className="border-l-[length:var(--border-width)] border-border pl-3 py-1">
                   <div className="flex items-center gap-2 mb-1.5">
                     <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: cat.accent }} />
                     <span className="text-xs font-sans font-medium text-text-primary">
@@ -628,14 +640,16 @@ export default function Navbar() {
                     {realmsRegistry
                       .filter((r) => r.category === cat.id)
                       .slice(0, 4) // Show top 4 on mobile
-                      .map((realm) => (
+                      .map((realm, i) => (
                         <Link
                           key={realm.id}
                           href={`/realms/${realm.slug}`}
                           onClick={() => setIsMobileMenuOpen(false)}
-                          className="text-[11px] font-sans text-text-muted hover:text-text-primary py-0.5 truncate"
+                          className="flex items-center gap-1.5 text-[11px] font-sans text-text-muted hover:text-text-primary py-0.5 truncate"
                         >
-                          {realm.name}
+                          <span className="font-mono text-text-faint">{i + 1}.</span>
+                          <span>{getEmoji(realm.id, true)}</span>
+                          <span className="truncate">{realm.name}</span>
                         </Link>
                       ))}
                   </div>

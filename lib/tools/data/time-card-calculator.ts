@@ -5,7 +5,7 @@ export const timeCardCalculatorData: ToolPageData = {
   name: "Time Card Calculator",
   group: "hr-payroll",
   groupName: "HR, Payroll & Freelance",
-  groupAccent: "#60A5D4",
+  groupAccent: "#A8CC1C",
   description: "Calculate daily and weekly hours worked, including overtime and breaks, from clock-in/out times.",
   
   seo: {

@@ -5,7 +5,7 @@ export const hourlyToSalaryData: ToolPageData = {
   name: "Hourly to Salary Converter",
   group: "hr-payroll",
   groupName: "HR, Payroll & Freelance",
-  groupAccent: "#60A5D4",
+  groupAccent: "#A8CC1C",
   description: "Convert an hourly wage into equivalent weekly, bi-weekly, semi-monthly, monthly, and annual salaries.",
   
   seo: {

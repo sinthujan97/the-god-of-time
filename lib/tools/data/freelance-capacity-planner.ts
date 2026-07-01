@@ -5,7 +5,7 @@ export const freelanceCapacityPlannerData: ToolPageData = {
   name: "Freelance Project Capacity Planner",
   group: "hr-payroll",
   groupName: "HR, Payroll & Freelance",
-  groupAccent: "#60A5D4",
+  groupAccent: "#A8CC1C",
   description: "Plan your freelance business: calculate how many billable hours you need to hit your target monthly revenue.",
   
   seo: {

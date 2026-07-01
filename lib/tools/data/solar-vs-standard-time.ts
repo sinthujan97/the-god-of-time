@@ -5,7 +5,7 @@ export const solarVsStandardTimeData: ToolPageData = {
   name: "Solar Time vs Standard Time Tracker",
   group: "global-time",
   groupName: "Global Time & Time Zones",
-  groupAccent: "#F5A857",
+  groupAccent: "#D8F870",
   description: "Compare solar tracking time to standard legal timezone representations using longitude and the Equation of Time.",
   
   seo: {

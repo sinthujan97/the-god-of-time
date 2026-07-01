@@ -5,7 +5,7 @@ export const sleepCalculatorData: ToolPageData = {
   name: "Circadian Rhythm Sleep Calculator",
   group: "health-lifecycle",
   groupName: "Health & Lifecycle",
-  groupAccent: "#E87C7C",
+  groupAccent: "#B2D828",
   description: "Calculate optimal times to sleep or wake up based on natural 90-minute sleep cycles.",
   
   seo: {

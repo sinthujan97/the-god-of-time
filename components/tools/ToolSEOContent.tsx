@@ -125,13 +125,25 @@ export default function ToolSEOContent({
           </h2>
           <div className="space-y-6">
             {faqs.map((faq, idx) => (
-              <div key={idx} className="faq-item">
-                <h3 className="seo-h3 text-lg font-medium text-text-primary mt-6 mb-2 font-sans">
-                  {faq.question}
-                </h3>
-                <p className="seo-body text-base leading-relaxed text-text-primary font-sans font-light">
-                  {faq.answer}
-                </p>
+              <div key={idx} className="faq-item flex gap-3">
+                <span
+                  className="flex-shrink-0 w-7 h-7 mt-6 flex items-center justify-center font-mono text-xs font-bold"
+                  style={{
+                    border: "var(--border-width-thin) solid var(--border)",
+                    borderRadius: "var(--radius-sm)",
+                    color: groupAccent,
+                  }}
+                >
+                  {String(idx + 1).padStart(2, "0")}
+                </span>
+                <div>
+                  <h3 className="seo-h3 text-lg font-medium text-text-primary mt-6 mb-2 font-sans">
+                    {faq.question}
+                  </h3>
+                  <p className="seo-body text-base leading-relaxed text-text-primary font-sans font-light">
+                    {faq.answer}
+                  </p>
+                </div>
               </div>
             ))}
           </div>

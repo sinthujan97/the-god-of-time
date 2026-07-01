@@ -159,7 +159,7 @@ export function IceMeltCountdown() {
               style={{
                 width: `${Math.max(4, 32 * (1 - fraction))}px`,
                 height: `${Math.max(4, 32 * (1 - fraction))}px`,
-                borderRadius: `${6 * fraction}px`,
+                borderRadius: 0,
                 background: "linear-gradient(135deg, rgba(180,220,255,0.85), rgba(100,160,255,0.6))",
               }}
             />

@@ -5,7 +5,7 @@ export const leapSecondLogData: ToolPageData = {
   name: "Leap Second History Log",
   group: "global-time",
   groupName: "Global Time & Time Zones",
-  groupAccent: "#F5A857",
+  groupAccent: "#D8F870",
   description: "Browse historical logs of leap seconds introduced into standard UTC time to keep sync with Earth's rotation.",
   
   seo: {

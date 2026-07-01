@@ -108,7 +108,7 @@ export default function RealmFooterStrip({ realm, navVisible, isMobile }: RealmF
           color: "var(--text-muted)",
           background: "transparent",
           border: "1px solid var(--border)",
-          borderRadius: 100,
+          borderRadius: 0,
           padding: "4px 14px",
           height: 28,
           cursor: "pointer",

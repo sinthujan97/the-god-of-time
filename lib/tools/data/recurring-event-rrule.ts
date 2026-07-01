@@ -5,7 +5,7 @@ export const recurringEventRruleData: ToolPageData = {
   name: "Recurring Event RRule Generator",
   group: "project-management",
   groupName: "Project Management & Business",
-  groupAccent: "#9B8EF5",
+  groupAccent: "#8BA812",
   description: "Generate standard RFC 5545 iCalendar Recurrence Rules (RRule) and preview upcoming occurrence dates.",
   
   seo: {

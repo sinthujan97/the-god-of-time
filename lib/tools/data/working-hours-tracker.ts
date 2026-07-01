@@ -5,7 +5,7 @@ export const workingHoursTrackerData: ToolPageData = {
   name: "Working Hours Tracker",
   group: "utility-a",
   groupName: "Standard Time & Date",
-  groupAccent: "#52C4A0",
+  groupAccent: "#C5F135",
   description: "Log and calculate the sum of working hours across customized date ranges.",
   
   seo: {

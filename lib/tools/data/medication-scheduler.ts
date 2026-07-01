@@ -5,7 +5,7 @@ export const medicationSchedulerData: ToolPageData = {
   name: "Medication Interval Scheduler",
   group: "health-lifecycle",
   groupName: "Health & Lifecycle",
-  groupAccent: "#E87C7C",
+  groupAccent: "#B2D828",
   description: "Generate structured intake reminders based on hourly intervals and daily dosage quantities.",
   
   seo: {

@@ -5,7 +5,7 @@ export const timeDurationCalculatorData: ToolPageData = {
   name: "Time Duration Calculator",
   group: "utility-a",
   groupName: "Standard Time & Date",
-  groupAccent: "#52C4A0",
+  groupAccent: "#C5F135",
   description: "Calculate the exact hours, minutes, and seconds between any two times of day.",
   
   seo: {

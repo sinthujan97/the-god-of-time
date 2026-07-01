@@ -5,7 +5,7 @@ export const ageCalculatorData: ToolPageData = {
   name: "Age Calculator (Down to the Second)",
   group: "health-lifecycle",
   groupName: "Health & Lifecycle",
-  groupAccent: "#E87C7C",
+  groupAccent: "#B2D828",
   description: "Calculate your exact age down to the second, minute, and day, tracking your total days alive.",
   
   seo: {

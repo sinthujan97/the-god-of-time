@@ -5,7 +5,7 @@ export const invoiceDueDateCalculatorData: ToolPageData = {
   name: "Invoice Due Date & Aging Calculator",
   group: "project-management",
   groupName: "Project Management & Business",
-  groupAccent: "#9B8EF5",
+  groupAccent: "#8BA812",
   description: "Calculate payment deadlines based on issue date and net terms, and track overdue aging buckets.",
   
   seo: {

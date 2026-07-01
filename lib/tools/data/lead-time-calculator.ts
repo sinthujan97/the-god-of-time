@@ -5,7 +5,7 @@ export const leadTimeCalculatorData: ToolPageData = {
   name: "Lead Time & Cycle Time Calculator",
   group: "project-management",
   groupName: "Project Management & Business",
-  groupAccent: "#9B8EF5",
+  groupAccent: "#8BA812",
   description: "Track and calculate manufacturing, software development, or service delivery lead times and process efficiency.",
   
   seo: {

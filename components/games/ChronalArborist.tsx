@@ -673,16 +673,16 @@ export default function ChronalArborist() {
           <>
             <AdSlot height={56} className="mb-6" />
 
-            <div className="w-full mb-5 rounded-xl border border-border overflow-hidden"
-                 style={{ background: "var(--bg-card)", height: 260 }}>
+            <div className="w-full mb-5 rounded-[var(--radius-md)] border-[length:var(--border-width-thick)] border-border overflow-hidden"
+                 style={{ background: "var(--bg-card)", height: 260, boxShadow: "var(--shadow-offset-lg) var(--shadow-color)" }}>
               <TreeSVG stage={0} appleCount={0} />
             </div>
 
             {hydrated && saved.history.length > 0 && (
               <div className="w-full mb-5 flex gap-2 flex-wrap">
                 {saved.history.slice(0, 8).map((r, i) => (
-                  <div key={i} className="flex flex-col items-center gap-0.5 px-2.5 py-2 rounded-lg border border-border text-center"
-                       style={{ background: "var(--bg-card)" }}
+                  <div key={i} className="flex flex-col items-center gap-0.5 px-2.5 py-2 rounded-[var(--radius-sm)] border-[length:var(--border-width)] border-border text-center"
+                       style={{ background: "var(--bg-card)", boxShadow: "var(--shadow-offset-sm) var(--shadow-color)" }}
                        title={`Run #${r.runNumber} · ${r.apples} apples`}>
                     <span className="text-base">{r.stageReached >= 9 ? "🌳" : "🌱"}</span>
                     <span className="font-mono text-[9px] text-text-faint tabular-nums">{r.apples}🍎</span>
@@ -692,8 +692,12 @@ export default function ChronalArborist() {
             )}
 
             <button onClick={startGame}
-                    className="w-full h-16 rounded-xl font-sans font-bold text-base uppercase tracking-[0.12em] cursor-pointer select-none transition-all active:scale-[0.98] mb-4"
-                    style={{ background: GREEN, color: "#06060A", boxShadow: "4px 4px 0px 0px rgba(82,196,160,0.35)" }}>
+                    className="w-full h-16 rounded-[var(--radius-md)] border-[length:var(--border-width-thick)] border-border font-sans font-bold text-base uppercase tracking-[0.12em] cursor-pointer select-none mb-4"
+                    style={{ background: GREEN, color: "#06060A", boxShadow: "var(--shadow-offset-lg) var(--shadow-color)", transition: "transform 120ms ease, box-shadow 120ms ease" }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.transform = "translate(-3px,-3px)"; (e.currentTarget as HTMLButtonElement).style.boxShadow = "var(--shadow-offset-xl) var(--shadow-color)"; }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.transform = ""; (e.currentTarget as HTMLButtonElement).style.boxShadow = "var(--shadow-offset-lg) var(--shadow-color)"; }}
+                    onMouseDown={e => { (e.currentTarget as HTMLButtonElement).style.transform = "translate(2px,2px)"; (e.currentTarget as HTMLButtonElement).style.boxShadow = "2px 2px 0px var(--shadow-color)"; }}
+                    onMouseUp={e => { (e.currentTarget as HTMLButtonElement).style.transform = ""; (e.currentTarget as HTMLButtonElement).style.boxShadow = "var(--shadow-offset-lg) var(--shadow-color)"; }}>
               Plant the Seed
             </button>
 
@@ -741,7 +745,7 @@ export default function ChronalArborist() {
                   {fmt(timeLeft)}
                 </span>
                 {isHarvest && (
-                  <span className="px-2.5 py-0.5 rounded-full font-sans text-[9px] font-bold uppercase tracking-wider"
+                  <span className="px-2.5 py-0.5 rounded-none font-sans text-[9px] font-bold uppercase tracking-wider"
                         style={{ background: `color-mix(in srgb, ${GOLD} 15%, transparent)`, color: GOLD, border: `1px solid color-mix(in srgb, ${GOLD} 30%, transparent)` }}>
                     🌟 Harvest Unlocked
                   </span>
@@ -756,11 +760,11 @@ export default function ChronalArborist() {
             </div>
 
             {/* Tree */}
-            <div className="w-full rounded-xl border border-border overflow-hidden mb-3 relative"
-                 style={{ background: "var(--bg-card)", height: 280 }}>
+            <div className="w-full rounded-[var(--radius-md)] border-[length:var(--border-width-thick)] border-border overflow-hidden mb-3 relative"
+                 style={{ background: "var(--bg-card)", height: 280, boxShadow: "var(--shadow-offset-lg) var(--shadow-color)" }}>
               <TreeSVG stage={stage} appleCount={apples} />
               <div className="absolute bottom-2 left-0 right-0 flex justify-center pointer-events-none">
-                <span className="px-3 py-1 rounded-full font-sans text-[9px] font-bold uppercase tracking-wider"
+                <span className="px-3 py-1 rounded-none font-sans text-[9px] font-bold uppercase tracking-wider"
                       style={{ background: "rgba(0,0,0,0.55)", color: stageColor, backdropFilter: "blur(4px)" }}>
                   {STAGE_NAMES[stage]}
                 </span>
@@ -788,7 +792,7 @@ export default function ChronalArborist() {
               <div className="flex flex-col gap-1.5">
                 {arrangement.map((eventIdx, pos) => (
                   <div key={`${qIdx}-${pos}`}
-                       className="flex items-center gap-3 px-4 py-3.5 rounded-xl border transition-colors duration-150"
+                       className="flex items-center gap-3 px-4 py-3.5 rounded-[var(--radius-md)] border-[length:var(--border-width-thick)] transition-colors duration-150"
                        style={{
                          background: feedback === "correct"
                            ? `color-mix(in srgb, ${GREEN} 9%, var(--bg-card))`
@@ -796,6 +800,7 @@ export default function ChronalArborist() {
                            ? `color-mix(in srgb, ${RED} 9%, var(--bg-card))`
                            : "var(--bg-card)",
                          borderColor: feedback === "correct" ? GREEN : feedback === "wrong" ? RED : "var(--border)",
+                         boxShadow: "var(--shadow-offset-sm) var(--shadow-color)",
                        }}>
                     <span className="font-mono text-[10px] font-bold flex-shrink-0 w-5 text-center"
                           style={{ color: pos === 0 ? "var(--text-faint)" : pos === 2 ? stageColor : "var(--text-faint)" }}>
@@ -823,13 +828,18 @@ export default function ChronalArborist() {
 
             {/* Submit */}
             <button onClick={submitPuzzle} disabled={!!feedback}
-                    className="w-full h-14 rounded-xl font-sans font-black text-base uppercase tracking-[0.15em] cursor-pointer transition-transform active:scale-[0.97] disabled:opacity-50 disabled:cursor-default select-none"
+                    className="w-full h-14 rounded-[var(--radius-md)] border-[length:var(--border-width-thick)] border-border font-sans font-black text-base uppercase tracking-[0.15em] cursor-pointer disabled:opacity-50 disabled:cursor-default select-none"
                     style={{
-                      background:  feedback === "correct" ? GREEN : feedback === "wrong" ? RED : stageColor,
-                      color:       "#06060A",
-                      boxShadow:   `4px 4px 0px 0px ${isHarvest ? "rgba(240,168,48,0.35)" : "rgba(82,196,160,0.35)"}`,
-                      animation:   !feedback ? "ca-pulse 1.8s ease-in-out infinite" : "none",
-                    }}>
+                      background: feedback === "correct" ? GREEN : feedback === "wrong" ? RED : stageColor,
+                      color: "#06060A",
+                      boxShadow: "var(--shadow-offset-lg) var(--shadow-color)",
+                      animation: !feedback ? "ca-pulse 1.8s ease-in-out infinite" : "none",
+                      transition: "transform 120ms ease, box-shadow 120ms ease",
+                    }}
+                    onMouseEnter={e => { if (!feedback) { (e.currentTarget as HTMLButtonElement).style.transform = "translate(-3px,-3px)"; (e.currentTarget as HTMLButtonElement).style.boxShadow = "var(--shadow-offset-xl) var(--shadow-color)"; } }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.transform = ""; (e.currentTarget as HTMLButtonElement).style.boxShadow = "var(--shadow-offset-lg) var(--shadow-color)"; }}
+                    onMouseDown={e => { if (!feedback) { (e.currentTarget as HTMLButtonElement).style.transform = "translate(2px,2px)"; (e.currentTarget as HTMLButtonElement).style.boxShadow = "2px 2px 0px var(--shadow-color)"; } }}
+                    onMouseUp={e => { (e.currentTarget as HTMLButtonElement).style.transform = ""; (e.currentTarget as HTMLButtonElement).style.boxShadow = "var(--shadow-offset-lg) var(--shadow-color)"; }}>
               {feedback === "correct" ? "✓ Perfect Order!" : feedback === "wrong" ? "✗ Wrong Order!" : "⚡ Lock In Order"}
             </button>
           </>
@@ -846,8 +856,8 @@ export default function ChronalArborist() {
       {showModal && saved.history[0] && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4"
              style={{ background: "rgba(6,6,10,0.88)", backdropFilter: "blur(8px)" }}>
-          <div className="w-full max-w-md rounded-2xl border border-border overflow-hidden"
-               style={{ background: "var(--bg-card)", boxShadow: `0 0 60px rgba(82,196,160,0.12), 4px 4px 0px 0px var(--border)` }}>
+          <div className="w-full max-w-md rounded-[var(--radius-md)] border-[length:var(--border-width-thick)] border-border overflow-hidden"
+               style={{ background: "var(--bg-card)", boxShadow: "var(--shadow-offset-xl) var(--shadow-color)" }}>
             <div className="px-6 pt-6 pb-4 border-b border-border text-center"
                  style={{ background: `color-mix(in srgb, ${stageColor} 5%, var(--bg-card))` }}>
               <div className="text-5xl mb-2">{saved.history[0].stageReached >= 9 ? "🌳" : "🌱"}</div>
@@ -868,8 +878,8 @@ export default function ChronalArborist() {
                 { label: "Correct",        value: `${saved.history[0].solved}/${saved.history[0].attempted}`, emoji: "⚡" },
                 { label: "Stage Reached",  value: `${saved.history[0].stageReached + 1}/10`, emoji: "🌿" },
               ].map(({ label, value, emoji }) => (
-                <div key={label} className="flex flex-col items-center gap-0.5 py-3 rounded-lg"
-                     style={{ background: "var(--bg-surface)" }}>
+                <div key={label} className="flex flex-col items-center gap-0.5 py-3 rounded-[var(--radius-sm)] border-[length:var(--border-width)] border-border"
+                     style={{ background: "var(--bg-surface)", boxShadow: "var(--shadow-offset-sm) var(--shadow-color)" }}>
                   <span className="text-lg">{emoji}</span>
                   <span className="font-mono text-base font-bold text-text-primary tabular-nums">{value}</span>
                   <span className="font-sans text-[9px] text-text-faint uppercase tracking-wider">{label}</span>
@@ -891,13 +901,21 @@ export default function ChronalArborist() {
 
             <div className="px-6 pb-6 flex flex-col gap-2">
               <button onClick={handleShare}
-                      className="w-full h-11 rounded-xl border border-border font-sans font-semibold text-sm cursor-pointer transition-all hover:border-text-muted"
-                      style={{ background: "var(--bg-surface)", boxShadow: "2px 2px 0px 0px var(--border)" }}>
+                      className="w-full h-11 rounded-[var(--radius-md)] border-[length:var(--border-width-thick)] border-border font-sans font-semibold text-sm cursor-pointer"
+                      style={{ background: "var(--bg-surface)", boxShadow: "var(--shadow-offset-lg) var(--shadow-color)", transition: "transform 120ms ease, box-shadow 120ms ease" }}
+                      onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.transform = "translate(-3px,-3px)"; (e.currentTarget as HTMLButtonElement).style.boxShadow = "var(--shadow-offset-xl) var(--shadow-color)"; }}
+                      onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.transform = ""; (e.currentTarget as HTMLButtonElement).style.boxShadow = "var(--shadow-offset-lg) var(--shadow-color)"; }}
+                      onMouseDown={e => { (e.currentTarget as HTMLButtonElement).style.transform = "translate(2px,2px)"; (e.currentTarget as HTMLButtonElement).style.boxShadow = "2px 2px 0px var(--shadow-color)"; }}
+                      onMouseUp={e => { (e.currentTarget as HTMLButtonElement).style.transform = ""; (e.currentTarget as HTMLButtonElement).style.boxShadow = "var(--shadow-offset-lg) var(--shadow-color)"; }}>
                 {copied ? "Copied to clipboard ✓" : "Share result →"}
               </button>
               <button onClick={() => { setShowModal(false); setPhase("idle"); }}
-                      className="w-full h-11 rounded-xl font-sans font-bold text-sm cursor-pointer transition-all active:scale-[0.98]"
-                      style={{ background: GREEN, color: "#06060A", boxShadow: "2px 2px 0px 0px rgba(82,196,160,0.35)" }}>
+                      className="w-full h-11 rounded-[var(--radius-md)] border-[length:var(--border-width-thick)] border-border font-sans font-bold text-sm cursor-pointer"
+                      style={{ background: GREEN, color: "#06060A", boxShadow: "var(--shadow-offset-lg) var(--shadow-color)", transition: "transform 120ms ease, box-shadow 120ms ease" }}
+                      onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.transform = "translate(-3px,-3px)"; (e.currentTarget as HTMLButtonElement).style.boxShadow = "var(--shadow-offset-xl) var(--shadow-color)"; }}
+                      onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.transform = ""; (e.currentTarget as HTMLButtonElement).style.boxShadow = "var(--shadow-offset-lg) var(--shadow-color)"; }}
+                      onMouseDown={e => { (e.currentTarget as HTMLButtonElement).style.transform = "translate(2px,2px)"; (e.currentTarget as HTMLButtonElement).style.boxShadow = "2px 2px 0px var(--shadow-color)"; }}
+                      onMouseUp={e => { (e.currentTarget as HTMLButtonElement).style.transform = ""; (e.currentTarget as HTMLButtonElement).style.boxShadow = "var(--shadow-offset-lg) var(--shadow-color)"; }}>
                 Plant Again
               </button>
             </div>

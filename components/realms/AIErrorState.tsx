@@ -13,7 +13,7 @@ export default function AIErrorState({ message, onRetry }: AIErrorStateProps) {
       style={{
         background: "var(--bg-card)",
         border: "1px solid var(--border)",
-        borderRadius: 10,
+        borderRadius: 0,
         padding: 32,
         width: "100%",
         display: "flex",
@@ -68,7 +68,7 @@ export default function AIErrorState({ message, onRetry }: AIErrorStateProps) {
         onClick={onRetry}
         style={{
           padding: "10px 24px",
-          borderRadius: 8,
+          borderRadius: 0,
           border: "1px solid var(--accent-scifi)",
           background: "transparent",
           color: "var(--accent-scifi)",

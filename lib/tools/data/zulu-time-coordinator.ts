@@ -5,7 +5,7 @@ export const zuluTimeCoordinatorData: ToolPageData = {
   name: "Zulu Time Coordinator",
   group: "global-time",
   groupName: "Global Time & Time Zones",
-  groupAccent: "#F5A857",
+  groupAccent: "#D8F870",
   description: "Dedicated military and aviation Zulu time tracking portal with instant sync.",
   
   seo: {

@@ -5,7 +5,7 @@ export const ptoAccrualCalculatorData: ToolPageData = {
   name: "PTO Accrual Calculator",
   group: "hr-payroll",
   groupName: "HR, Payroll & Freelance",
-  groupAccent: "#60A5D4",
+  groupAccent: "#A8CC1C",
   description: "Calculate accumulated Paid Time Off (PTO) based on accrual rates, periods, caps, and planned usages.",
   
   seo: {

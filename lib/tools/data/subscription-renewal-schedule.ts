@@ -5,7 +5,7 @@ export const subscriptionRenewalScheduleData: ToolPageData = {
   name: "Subscription Renewal & Runway Calculator",
   group: "project-management",
   groupName: "Project Management & Business",
-  groupAccent: "#9B8EF5",
+  groupAccent: "#8BA812",
   description: "Track subscription payment intervals (monthly/annual) and project cash runway based on recurring costs.",
   
   seo: {

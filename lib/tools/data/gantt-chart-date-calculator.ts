@@ -5,7 +5,7 @@ export const ganttChartDateCalculatorData: ToolPageData = {
   name: "Gantt Chart Date Calculator",
   group: "project-management",
   groupName: "Project Management & Business",
-  groupAccent: "#9B8EF5",
+  groupAccent: "#8BA812",
   description: "Map out project tasks with durations and dependencies to calculate start/end dates and visualize overlap.",
   
   seo: {

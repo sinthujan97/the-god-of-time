@@ -32,7 +32,7 @@ export default function AILoadingShimmer({
       style={{
         background: "var(--bg-card)",
         border: "1px solid var(--border)",
-        borderRadius: 10,
+        borderRadius: 0,
         padding: 32,
         width: "100%",
         display: "flex",
@@ -87,7 +87,7 @@ export default function AILoadingShimmer({
               style={{
                 height: 16,
                 width: isLast ? "60%" : "100%",
-                borderRadius: 4,
+                borderRadius: 0,
                 background: hasAnimation
                   ? "linear-gradient(90deg, var(--border) 0%, var(--bg-card-hover) 50%, var(--border) 100%)"
                   : "var(--border)",

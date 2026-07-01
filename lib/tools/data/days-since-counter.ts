@@ -5,7 +5,7 @@ export const daysSinceCounterData: ToolPageData = {
   name: "Days Since Counter",
   group: "utility-a",
   groupName: "Standard Time & Date",
-  groupAccent: "#52C4A0",
+  groupAccent: "#C5F135",
   description: "Track the days, hours, minutes, and seconds elapsed since a past historical event or life milestone.",
   
   seo: {

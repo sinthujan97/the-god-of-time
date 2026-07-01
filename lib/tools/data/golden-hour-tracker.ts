@@ -5,7 +5,7 @@ export const goldenHourTrackerData: ToolPageData = {
   name: "Golden Hour & Blue Hour Tracker",
   group: "health-lifecycle",
   groupName: "Health & Lifecycle",
-  groupAccent: "#E87C7C",
+  groupAccent: "#B2D828",
   description: "Identify daily morning and evening photography lighting windows based on target date and geographic coordinates.",
   
   seo: {

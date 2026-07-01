@@ -5,7 +5,7 @@ export const dayOfWeekFinderData: ToolPageData = {
   name: "Day of the Week Finder",
   group: "utility-a",
   groupName: "Standard Time & Date",
-  groupAccent: "#52C4A0",
+  groupAccent: "#C5F135",
   description: "Determine which day of the week a specific historical or future date falls on.",
   
   seo: {

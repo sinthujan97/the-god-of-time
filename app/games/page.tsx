@@ -1,7 +1,5 @@
 import React from "react";
 import type { Metadata } from "next";
-import Navbar from "@/components/ui/Navbar";
-import Footer from "@/components/ui/Footer";
 import GamesHero from "@/components/games/GamesHero";
 import GamesGrid from "@/components/games/GamesGrid";
 
@@ -19,12 +17,8 @@ export const metadata: Metadata = {
 export default function GamesPage() {
   return (
     <>
-      <Navbar />
-      <main style={{ paddingTop: 56 }}>
-        <GamesHero />
-        <GamesGrid />
-      </main>
-      <Footer />
+      <GamesHero />
+      <GamesGrid />
     </>
   );
 }

@@ -5,7 +5,7 @@ export const breakDeductorData: ToolPageData = {
   name: "Daily Break Deductor Tool",
   group: "hr-payroll",
   groupName: "HR, Payroll & Freelance",
-  groupAccent: "#60A5D4",
+  groupAccent: "#A8CC1C",
   description: "Deduct lunch and rest breaks from your total hours, applying paid break allowances dynamically.",
   
   seo: {

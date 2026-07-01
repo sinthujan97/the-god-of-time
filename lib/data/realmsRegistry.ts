@@ -23,7 +23,7 @@ export const realmsRegistry: Realm[] = [
     description:
       "Watch paint dry in real time. Absurdist messages appear as the paint dries. Scientifically accurate. Completely pointless. Deeply satisfying.",
     category: "whimsical",
-    accent: "#3ABFBF",
+    accent: "#A8CC1C",
     needsAI: false,
     seo: {
       introText:
@@ -65,7 +65,7 @@ export const realmsRegistry: Realm[] = [
     description:
       "Enter your birth date and discover how old you are on every planet in the solar system — then see just how vanishingly small your existence looks from a galactic scale.",
     category: "cosmos",
-    accent: "#4B8EF1",
+    accent: "#C5F135",
     needsAI: false,
     seo: {
       introText:
@@ -107,7 +107,7 @@ export const realmsRegistry: Realm[] = [
     description:
       "Watch paint dry in real time. Absurdist messages appear as the paint dries. Scientifically accurate. Completely pointless. Deeply satisfying.",
     category: "whimsical",
-    accent: "#3ABFBF",
+    accent: "#A8CC1C",
     needsAI: false,
     seo: {
       introText:

@@ -5,7 +5,7 @@ export const documentRetentionExpiryData: ToolPageData = {
   name: "Document Retention Expiry Calculator",
   group: "project-management",
   groupName: "Project Management & Business",
-  groupAccent: "#9B8EF5",
+  groupAccent: "#8BA812",
   description: "Calculate document disposal and archiving dates based on creation dates and regulatory compliance periods.",
   
   seo: {

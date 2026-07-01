@@ -5,7 +5,7 @@ export const addSubtractTimeData: ToolPageData = {
   name: "Add/Subtract Time Calculator",
   group: "utility-a",
   groupName: "Standard Time & Date",
-  groupAccent: "#52C4A0",
+  groupAccent: "#C5F135",
   description: "Add or subtract hours, minutes, and seconds from any time of day to find a precise result time.",
   
   seo: {

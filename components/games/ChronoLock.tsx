@@ -4,8 +4,8 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
-const ACCENT      = "#F0A830";
-const ACCENT_GLOW = "rgba(240,168,48,0.35)";
+const ACCENT      = "#C5F135";
+const ACCENT_GLOW = "rgba(197,241,53,0.35)";
 const BLUE        = "#4B8EF1";
 const RED         = "#E87C7C";
 const GREEN       = "#52C4A0";
@@ -451,7 +451,7 @@ export default function ChronoLock() {
           {isTrainingMode ? (
             <div className="flex items-center gap-2">
               <span
-                className="px-3 py-1 rounded-full font-sans text-[10px] font-bold uppercase tracking-wider border"
+                className="px-3 py-1 rounded-none font-sans text-[10px] font-bold uppercase tracking-wider border"
                 style={{
                   background: `color-mix(in srgb, ${GREEN} 12%, transparent)`,
                   borderColor: `color-mix(in srgb, ${GREEN} 30%, transparent)`,
@@ -487,7 +487,7 @@ export default function ChronoLock() {
       <div className="flex-1 flex flex-col items-center px-4 pt-8 pb-20 max-w-xl mx-auto w-full">
 
         {/* Mode toggle */}
-        <div className="w-full mb-6 flex items-center gap-1 p-1 rounded-xl border border-border" style={{ background: "var(--bg-card)" }}>
+        <div className="w-full mb-6 flex items-center gap-1 p-1 rounded-[var(--radius-md)] border-[length:var(--border-width-thick)] border-border" style={{ background: "var(--bg-card)", boxShadow: "var(--shadow-offset-md) var(--shadow-color)" }}>
           {(["daily", "training"] as const).map(m => (
             <button
               key={m}
@@ -530,12 +530,11 @@ export default function ChronoLock() {
 
         {/* Target display */}
         <div
-          className="w-full mb-3 px-5 py-3 rounded-lg border flex items-center justify-between gap-4"
+          className="w-full mb-3 px-5 py-3 rounded-[var(--radius-md)] border-[length:var(--border-width-thick)] flex items-center justify-between gap-4"
           style={{
             background: "var(--bg-card)",
-            borderColor: isTrainingMode
-              ? `color-mix(in srgb, ${GREEN} 28%, var(--border))`
-              : "var(--border)",
+            borderColor: isTrainingMode ? GREEN : "var(--border)",
+            boxShadow: `var(--shadow-offset-md) ${isTrainingMode ? GREEN : "var(--shadow-color)"}`,
           }}
         >
           <span className="font-sans text-[10px] font-semibold uppercase tracking-wider text-text-faint">
@@ -554,8 +553,8 @@ export default function ChronoLock() {
 
         {/* ── Clock display ────────────────────────────────────────────── */}
         <div
-          className="w-full mb-3 rounded-xl border border-border overflow-hidden"
-          style={{ background: "var(--bg-card)" }}
+          className="w-full mb-3 rounded-[var(--radius-md)] border-[length:var(--border-width-thick)] border-border overflow-hidden"
+          style={{ background: "var(--bg-card)", boxShadow: "var(--shadow-offset-lg) var(--shadow-color)" }}
         >
           <div className="grid grid-cols-4 divide-x divide-border">
             {PHASES.map((ph, i) => {
@@ -622,14 +621,29 @@ export default function ChronoLock() {
         {gameState === "playing" && !flashResult && (
           <button
             onClick={handleFreeze}
-            className="w-full h-[72px] rounded-xl font-sans font-black text-xl uppercase tracking-[0.18em] cursor-pointer transition-transform active:scale-[0.97] active:translate-y-0.5 select-none"
+            className="w-full h-[72px] rounded-[var(--radius-md)] font-sans font-black text-xl uppercase tracking-[0.18em] cursor-pointer select-none border-[length:var(--border-width-thick)] border-border"
             style={{
               background: isTrainingMode ? GREEN : ACCENT,
               color: "#06060A",
-              boxShadow: isTrainingMode
-                ? "4px 4px 0px 0px rgba(82,196,160,0.35)"
-                : `4px 4px 0px 0px ${ACCENT_GLOW}`,
+              boxShadow: "var(--shadow-offset-lg) var(--shadow-color)",
               animation: isTrainingMode ? "cl-pulse-green 1.8s ease-in-out infinite" : "cl-pulse 1.8s ease-in-out infinite",
+              transition: "transform 120ms ease, box-shadow 120ms ease",
+            }}
+            onMouseEnter={e => {
+              (e.currentTarget as HTMLButtonElement).style.transform = "translate(-3px,-3px)";
+              (e.currentTarget as HTMLButtonElement).style.boxShadow = "var(--shadow-offset-xl) var(--shadow-color)";
+            }}
+            onMouseLeave={e => {
+              (e.currentTarget as HTMLButtonElement).style.transform = "";
+              (e.currentTarget as HTMLButtonElement).style.boxShadow = "var(--shadow-offset-lg) var(--shadow-color)";
+            }}
+            onMouseDown={e => {
+              (e.currentTarget as HTMLButtonElement).style.transform = "translate(2px,2px)";
+              (e.currentTarget as HTMLButtonElement).style.boxShadow = "2px 2px 0px var(--shadow-color)";
+            }}
+            onMouseUp={e => {
+              (e.currentTarget as HTMLButtonElement).style.transform = "";
+              (e.currentTarget as HTMLButtonElement).style.boxShadow = "var(--shadow-offset-lg) var(--shadow-color)";
             }}
             aria-label="Freeze current clock unit"
           >
@@ -639,13 +653,14 @@ export default function ChronoLock() {
 
         {gameState === "playing" && flashResult && (
           <div
-            className="w-full h-[72px] rounded-xl font-sans font-bold text-xl uppercase tracking-[0.12em] flex items-center justify-center select-none"
+            className="w-full h-[72px] rounded-[var(--radius-md)] font-sans font-bold text-xl uppercase tracking-[0.12em] flex items-center justify-center select-none"
             style={{
               background: flashResult === "correct"
                 ? `color-mix(in srgb, ${BLUE} 12%, var(--bg-card))`
                 : `color-mix(in srgb, ${RED} 12%, var(--bg-card))`,
-              border: `2px solid ${flashResult === "correct" ? BLUE : RED}`,
-              color:  flashResult === "correct" ? BLUE : RED,
+              border: `var(--border-width-thick) solid ${flashResult === "correct" ? BLUE : RED}`,
+              boxShadow: `var(--shadow-offset-md) ${flashResult === "correct" ? BLUE : RED}`,
+              color: flashResult === "correct" ? BLUE : RED,
             }}
           >
             {flashResult === "correct" ? "✓ LOCKED" : "✗ MISSED"}
@@ -655,23 +670,28 @@ export default function ChronoLock() {
         {gameState === "idle" && !alreadyPlayed && (
           <button
             onClick={startGame}
-            className="w-full h-16 rounded-xl font-sans font-bold text-base uppercase tracking-[0.12em] cursor-pointer select-none transition-all active:scale-[0.98]"
+            className="w-full h-16 rounded-[var(--radius-md)] font-sans font-bold text-base uppercase tracking-[0.12em] cursor-pointer select-none border-[length:var(--border-width-thick)] border-border"
             style={{
-              background:  isTrainingMode ? GREEN : ACCENT,
-              color:       "#06060A",
-              boxShadow:   isTrainingMode
-                ? "4px 4px 0px 0px rgba(82,196,160,0.35)"
-                : `4px 4px 0px 0px ${ACCENT_GLOW}`,
+              background: isTrainingMode ? GREEN : ACCENT,
+              color: "#06060A",
+              boxShadow: "var(--shadow-offset-lg) var(--shadow-color)",
+              transition: "transform 120ms ease, box-shadow 120ms ease",
             }}
             onMouseEnter={e => {
-              (e.currentTarget as HTMLButtonElement).style.boxShadow = isTrainingMode
-                ? "6px 6px 0px 0px rgba(82,196,160,0.5)"
-                : `6px 6px 0px 0px ${ACCENT_GLOW}`;
+              (e.currentTarget as HTMLButtonElement).style.transform = "translate(-3px,-3px)";
+              (e.currentTarget as HTMLButtonElement).style.boxShadow = "var(--shadow-offset-xl) var(--shadow-color)";
             }}
             onMouseLeave={e => {
-              (e.currentTarget as HTMLButtonElement).style.boxShadow = isTrainingMode
-                ? "4px 4px 0px 0px rgba(82,196,160,0.35)"
-                : `4px 4px 0px 0px ${ACCENT_GLOW}`;
+              (e.currentTarget as HTMLButtonElement).style.transform = "";
+              (e.currentTarget as HTMLButtonElement).style.boxShadow = "var(--shadow-offset-lg) var(--shadow-color)";
+            }}
+            onMouseDown={e => {
+              (e.currentTarget as HTMLButtonElement).style.transform = "translate(2px,2px)";
+              (e.currentTarget as HTMLButtonElement).style.boxShadow = "2px 2px 0px var(--shadow-color)";
+            }}
+            onMouseUp={e => {
+              (e.currentTarget as HTMLButtonElement).style.transform = "";
+              (e.currentTarget as HTMLButtonElement).style.boxShadow = "var(--shadow-offset-lg) var(--shadow-color)";
             }}
           >
             {isTrainingMode ? "Start Training" : "Start Freeze"}
@@ -681,8 +701,8 @@ export default function ChronoLock() {
         {/* Already played — daily only */}
         {gameState === "idle" && alreadyPlayed && todayResult && (
           <div
-            className="w-full rounded-xl border border-border p-6 text-center"
-            style={{ background: "var(--bg-card)" }}
+            className="w-full rounded-[var(--radius-md)] border-[length:var(--border-width-thick)] border-border p-6 text-center"
+            style={{ background: "var(--bg-card)", boxShadow: "var(--shadow-offset-lg) var(--shadow-color)" }}
           >
             {todayResult.badge !== "failed" ? (
               <>
@@ -706,16 +726,24 @@ export default function ChronoLock() {
               {todayResult.badge !== "failed" && (
                 <button
                   onClick={() => handleShare(false)}
-                  className="h-9 px-5 rounded-lg border border-border font-sans font-semibold text-xs text-text-primary cursor-pointer transition-all hover:border-text-muted"
-                  style={{ background: "var(--bg-surface)", boxShadow: "2px 2px 0px 0px var(--border)" }}
+                  className="h-9 px-5 rounded-[var(--radius-sm)] border-[length:var(--border-width)] border-border font-sans font-semibold text-xs text-text-primary cursor-pointer"
+                  style={{ background: "var(--bg-surface)", boxShadow: "var(--shadow-offset-sm) var(--shadow-color)", transition: "transform 120ms ease, box-shadow 120ms ease" }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.transform = "translate(-1px,-1px)"; (e.currentTarget as HTMLButtonElement).style.boxShadow = "var(--shadow-offset-md) var(--shadow-color)"; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.transform = ""; (e.currentTarget as HTMLButtonElement).style.boxShadow = "var(--shadow-offset-sm) var(--shadow-color)"; }}
+                  onMouseDown={e => { (e.currentTarget as HTMLButtonElement).style.transform = "translate(1px,1px)"; (e.currentTarget as HTMLButtonElement).style.boxShadow = "1px 1px 0px var(--shadow-color)"; }}
+                  onMouseUp={e => { (e.currentTarget as HTMLButtonElement).style.transform = ""; (e.currentTarget as HTMLButtonElement).style.boxShadow = "var(--shadow-offset-sm) var(--shadow-color)"; }}
                 >
                   {copied ? "Copied ✓" : "Share result →"}
                 </button>
               )}
               <button
                 onClick={() => switchMode("training")}
-                className="h-9 px-5 rounded-lg border border-border font-sans font-semibold text-xs cursor-pointer transition-all hover:border-text-muted"
-                style={{ background: "var(--bg-surface)", color: GREEN, boxShadow: "2px 2px 0px 0px var(--border)" }}
+                className="h-9 px-5 rounded-[var(--radius-sm)] border-[length:var(--border-width)] border-border font-sans font-semibold text-xs cursor-pointer"
+                style={{ background: "var(--bg-surface)", color: GREEN, boxShadow: "var(--shadow-offset-sm) var(--shadow-color)", transition: "transform 120ms ease, box-shadow 120ms ease" }}
+                onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.transform = "translate(-1px,-1px)"; (e.currentTarget as HTMLButtonElement).style.boxShadow = "var(--shadow-offset-md) var(--shadow-color)"; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.transform = ""; (e.currentTarget as HTMLButtonElement).style.boxShadow = "var(--shadow-offset-sm) var(--shadow-color)"; }}
+                onMouseDown={e => { (e.currentTarget as HTMLButtonElement).style.transform = "translate(1px,1px)"; (e.currentTarget as HTMLButtonElement).style.boxShadow = "1px 1px 0px var(--shadow-color)"; }}
+                onMouseUp={e => { (e.currentTarget as HTMLButtonElement).style.transform = ""; (e.currentTarget as HTMLButtonElement).style.boxShadow = "var(--shadow-offset-sm) var(--shadow-color)"; }}
               >
                 Switch to Training →
               </button>
@@ -729,8 +757,8 @@ export default function ChronoLock() {
 
             {/* Badge card */}
             <div
-              className="w-full rounded-xl border border-border p-6 text-center"
-              style={{ background: "var(--bg-card)" }}
+              className="w-full rounded-[var(--radius-md)] border-[length:var(--border-width-thick)] border-border p-6 text-center"
+              style={{ background: "var(--bg-card)", boxShadow: "var(--shadow-offset-lg) var(--shadow-color)" }}
             >
               {activeResult && activeResult.badge !== "failed" ? (
                 <>
@@ -771,13 +799,14 @@ export default function ChronoLock() {
                   return (
                     <div
                       key={ph.key}
-                      className="flex flex-col items-center gap-1 py-3 rounded-lg"
+                      className="flex flex-col items-center gap-1 py-3 rounded-[var(--radius-sm)] border-[length:var(--border-width)] border-border"
                       style={{
                         background: fv === null
                           ? "var(--bg-surface)"
                           : ok
                           ? `color-mix(in srgb, ${BLUE} 10%, var(--bg-surface))`
                           : `color-mix(in srgb, ${RED} 10%, var(--bg-surface))`,
+                        boxShadow: `var(--shadow-offset-sm) var(--shadow-color)`,
                       }}
                     >
                       <span className="font-sans text-[8px] font-semibold uppercase tracking-widest text-text-faint">
@@ -821,12 +850,17 @@ export default function ChronoLock() {
                   setGameState("playing");
                   startPhase(0);
                 }}
-                className="w-full h-12 rounded-xl font-sans font-bold text-sm uppercase tracking-wider cursor-pointer select-none transition-all active:scale-[0.98]"
+                className="w-full h-12 rounded-[var(--radius-md)] border-[length:var(--border-width-thick)] border-border font-sans font-bold text-sm uppercase tracking-wider cursor-pointer select-none"
                 style={{
-                  background:  GREEN,
-                  color:       "#06060A",
-                  boxShadow:   "3px 3px 0px 0px rgba(82,196,160,0.3)",
+                  background: GREEN,
+                  color: "#06060A",
+                  boxShadow: "var(--shadow-offset-lg) var(--shadow-color)",
+                  transition: "transform 120ms ease, box-shadow 120ms ease",
                 }}
+                onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.transform = "translate(-3px,-3px)"; (e.currentTarget as HTMLButtonElement).style.boxShadow = "var(--shadow-offset-xl) var(--shadow-color)"; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.transform = ""; (e.currentTarget as HTMLButtonElement).style.boxShadow = "var(--shadow-offset-lg) var(--shadow-color)"; }}
+                onMouseDown={e => { (e.currentTarget as HTMLButtonElement).style.transform = "translate(2px,2px)"; (e.currentTarget as HTMLButtonElement).style.boxShadow = "2px 2px 0px var(--shadow-color)"; }}
+                onMouseUp={e => { (e.currentTarget as HTMLButtonElement).style.transform = ""; (e.currentTarget as HTMLButtonElement).style.boxShadow = "var(--shadow-offset-lg) var(--shadow-color)"; }}
               >
                 Play Again — New Target
               </button>
@@ -834,8 +868,12 @@ export default function ChronoLock() {
               activeResult && activeResult.badge !== "failed" && (
                 <button
                   onClick={() => handleShare(false)}
-                  className="w-full h-11 rounded-lg border border-border font-sans font-semibold text-sm text-text-primary cursor-pointer transition-all hover:border-text-muted"
-                  style={{ background: "var(--bg-card)", boxShadow: "3px 3px 0px 0px var(--border)" }}
+                  className="w-full h-11 rounded-[var(--radius-md)] border-[length:var(--border-width-thick)] border-border font-sans font-semibold text-sm text-text-primary cursor-pointer"
+                  style={{ background: "var(--bg-card)", boxShadow: "var(--shadow-offset-lg) var(--shadow-color)", transition: "transform 120ms ease, box-shadow 120ms ease" }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.transform = "translate(-3px,-3px)"; (e.currentTarget as HTMLButtonElement).style.boxShadow = "var(--shadow-offset-xl) var(--shadow-color)"; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.transform = ""; (e.currentTarget as HTMLButtonElement).style.boxShadow = "var(--shadow-offset-lg) var(--shadow-color)"; }}
+                  onMouseDown={e => { (e.currentTarget as HTMLButtonElement).style.transform = "translate(2px,2px)"; (e.currentTarget as HTMLButtonElement).style.boxShadow = "2px 2px 0px var(--shadow-color)"; }}
+                  onMouseUp={e => { (e.currentTarget as HTMLButtonElement).style.transform = ""; (e.currentTarget as HTMLButtonElement).style.boxShadow = "var(--shadow-offset-lg) var(--shadow-color)"; }}
                 >
                   {copied ? "Copied to clipboard ✓" : "Share your result →"}
                 </button>
@@ -846,8 +884,12 @@ export default function ChronoLock() {
             {isTrainingMode && activeResult && activeResult.badge !== "failed" && (
               <button
                 onClick={() => handleShare(true)}
-                className="w-full h-10 rounded-lg border border-border font-sans text-xs font-semibold text-text-muted cursor-pointer transition-all hover:border-text-muted"
-                style={{ background: "var(--bg-surface)" }}
+                className="w-full h-10 rounded-[var(--radius-sm)] border-[length:var(--border-width)] border-border font-sans text-xs font-semibold text-text-muted cursor-pointer"
+                style={{ background: "var(--bg-surface)", boxShadow: "var(--shadow-offset-sm) var(--shadow-color)", transition: "transform 120ms ease, box-shadow 120ms ease" }}
+                onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.transform = "translate(-1px,-1px)"; (e.currentTarget as HTMLButtonElement).style.boxShadow = "var(--shadow-offset-md) var(--shadow-color)"; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.transform = ""; (e.currentTarget as HTMLButtonElement).style.boxShadow = "var(--shadow-offset-sm) var(--shadow-color)"; }}
+                onMouseDown={e => { (e.currentTarget as HTMLButtonElement).style.transform = "translate(1px,1px)"; (e.currentTarget as HTMLButtonElement).style.boxShadow = "1px 1px 0px var(--shadow-color)"; }}
+                onMouseUp={e => { (e.currentTarget as HTMLButtonElement).style.transform = ""; (e.currentTarget as HTMLButtonElement).style.boxShadow = "var(--shadow-offset-sm) var(--shadow-color)"; }}
               >
                 {copied ? "Copied ✓" : "Share training result →"}
               </button>

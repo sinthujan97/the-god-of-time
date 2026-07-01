@@ -5,7 +5,7 @@ export const dstTrackerData: ToolPageData = {
   name: "Daylight Saving Time Transition Tracker",
   group: "global-time",
   groupName: "Global Time & Time Zones",
-  groupAccent: "#F5A857",
+  groupAccent: "#D8F870",
   description: "See upcoming DST clock shift dates and countdowns across various global locations.",
   
   seo: {

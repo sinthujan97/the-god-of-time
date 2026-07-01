@@ -5,7 +5,7 @@ export const retainerBurndownData: ToolPageData = {
   name: "Retainer Time Burner",
   group: "hr-payroll",
   groupName: "HR, Payroll & Freelance",
-  groupAccent: "#60A5D4",
+  groupAccent: "#A8CC1C",
   description: "Track hours consumed vs. remaining balance for monthly retainer clients, projecting burn rates and depletion dates.",
   
   seo: {

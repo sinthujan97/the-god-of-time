@@ -5,7 +5,7 @@ export const businessDaysWithHolidaysData: ToolPageData = {
   name: "Business Days + Custom Holidays",
   group: "utility-a",
   groupName: "Standard Time & Date",
-  groupAccent: "#52C4A0",
+  groupAccent: "#C5F135",
   description: "Calculate business days factoring in custom national or corporate holidays.",
   
   seo: {

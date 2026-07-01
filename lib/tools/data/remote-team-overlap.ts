@@ -5,7 +5,7 @@ export const remoteTeamOverlapData: ToolPageData = {
   name: "Remote Team Time Zone Overlap Finder",
   group: "project-management",
   groupName: "Project Management & Business",
-  groupAccent: "#9B8EF5",
+  groupAccent: "#8BA812",
   description: "Find overlapping work hours and optimal meeting times for distributed teams across multiple time zones.",
   
   seo: {

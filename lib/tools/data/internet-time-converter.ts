@@ -5,7 +5,7 @@ export const internetTimeConverterData: ToolPageData = {
   name: "Internet Time Converter",
   group: "global-time",
   groupName: "Global Time & Time Zones",
-  groupAccent: "#F5A857",
+  groupAccent: "#D8F870",
   description: "Convert standard clocks into Swatch Internet Time beats (@000 to @999).",
   
   seo: {

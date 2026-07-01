@@ -5,7 +5,7 @@ export const annualWorkHoursData: ToolPageData = {
   name: "Annual Work Hours Counter",
   group: "hr-payroll",
   groupName: "HR, Payroll & Freelance",
-  groupAccent: "#60A5D4",
+  groupAccent: "#A8CC1C",
   description: "Calculate gross and net annual working hours, subtracting vacation weeks and public holidays.",
   
   seo: {

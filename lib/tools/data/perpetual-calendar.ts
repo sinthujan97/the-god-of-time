@@ -5,7 +5,7 @@ export const perpetualCalendarData: ToolPageData = {
   name: "Perpetual Wall Calendar Blueprint",
   group: "health-lifecycle",
   groupName: "Health & Lifecycle",
-  groupAccent: "#E87C7C",
+  groupAccent: "#B2D828",
   description: "Examine dates in any year from antiquity to the far future using multi-millennial perpetual grid algorithms.",
   
   seo: {

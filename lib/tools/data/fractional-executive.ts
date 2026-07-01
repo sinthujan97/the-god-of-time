@@ -5,7 +5,7 @@ export const fractionalExecutiveData: ToolPageData = {
   name: "Fractional Executive Hours Allocator",
   group: "hr-payroll",
   groupName: "HR, Payroll & Freelance",
-  groupAccent: "#60A5D4",
+  groupAccent: "#A8CC1C",
   description: "Allocate weekly hours, track revenues, and monitor capacity utilization across multiple client portfolios.",
   
   seo: {

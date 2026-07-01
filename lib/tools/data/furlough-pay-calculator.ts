@@ -5,7 +5,7 @@ export const furloughPayCalculatorData: ToolPageData = {
   name: "Furlough Pay Impact Calculator",
   group: "hr-payroll",
   groupName: "HR, Payroll & Freelance",
-  groupAccent: "#60A5D4",
+  groupAccent: "#A8CC1C",
   description: "Calculate the monthly and total financial impact of unpaid leaves, furlough days, or temporary work suspensions.",
   
   seo: {

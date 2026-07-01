@@ -5,7 +5,7 @@ export const shiftDifferentialPayData: ToolPageData = {
   name: "Shift Differential Pay Tool",
   group: "hr-payroll",
   groupName: "HR, Payroll & Freelance",
-  groupAccent: "#60A5D4",
+  groupAccent: "#A8CC1C",
   description: "Calculate shift differential earnings using hourly rate premiums, flat rates, or percentage-based bonuses.",
   
   seo: {

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { DatePicker } from "@/components/ui";
+import { BirthDatePicker } from "@/components/ui";
 import CalculatorCard from "../CalculatorCard";
 import { generateVaccinationSchedule } from "@/lib/tools/calculations";
 
@@ -74,7 +74,7 @@ export default function VaccinationTrackerInputs({ groupAccent }: VaccinationTra
       <div className="space-y-6" style={{ "--group-accent": groupAccent } as React.CSSProperties}>
         {/* Child Birth Date */}
         <div className="flex flex-col">
-          <DatePicker
+          <BirthDatePicker
             id="birth-date-vaccine"
             label="Date of Birth"
             value={birthDate}

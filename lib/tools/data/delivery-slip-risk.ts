@@ -5,7 +5,7 @@ export const deliverySlipRiskData: ToolPageData = {
   name: "Delivery Slip Risk Calculator",
   group: "project-management",
   groupName: "Project Management & Business",
-  groupAccent: "#9B8EF5",
+  groupAccent: "#8BA812",
   description: "Evaluate project delivery risk and slip probability by tracking velocity against target completion dates.",
   
   seo: {

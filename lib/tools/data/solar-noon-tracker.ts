@@ -5,7 +5,7 @@ export const solarNoonTrackerData: ToolPageData = {
   name: "True Solar Noon Precision Tracker",
   group: "global-time",
   groupName: "Global Time & Time Zones",
-  groupAccent: "#F5A857",
+  groupAccent: "#D8F870",
   description: "Calculate the exact moment of daily solar noon, sun elevation angles, and shadow ratios for any coordinates.",
   
   seo: {

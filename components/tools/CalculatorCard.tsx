@@ -31,8 +31,8 @@ export default function CalculatorCard({
   children,
 }: CalculatorCardProps) {
   return (
-    <div 
-      className="w-full bg-bg-card border border-border rounded-[10px] p-6 md:p-8 shadow-lg"
+    <div
+      className="card-brutal-static w-full p-6 md:p-8"
       style={{ "--group-accent": groupAccent } as React.CSSProperties}
     >
       
@@ -50,7 +50,6 @@ export default function CalculatorCard({
           className={`calculate-btn flex items-center justify-center cursor-pointer select-none ${
             isLoading ? "btn-loading" : ""
           }`}
-          style={{ backgroundColor: groupAccent }}
         >
           {isLoading ? (
             <div className="flex items-center justify-center gap-1.5">

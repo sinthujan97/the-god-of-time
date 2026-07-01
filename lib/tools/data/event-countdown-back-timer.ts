@@ -5,7 +5,7 @@ export const eventCountdownBackTimerData: ToolPageData = {
   name: "Event Back-Timer & Milestone Planner",
   group: "project-management",
   groupName: "Project Management & Business",
-  groupAccent: "#9B8EF5",
+  groupAccent: "#8BA812",
   description: "Plan hour-by-hour schedules backward from event start times, including setup, presentations, and breaks.",
   
   seo: {

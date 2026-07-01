@@ -5,7 +5,7 @@ export const multiJobIncomeSyncData: ToolPageData = {
   name: "Multi-Job Income Sync Clocks",
   group: "hr-payroll",
   groupName: "HR, Payroll & Freelance",
-  groupAccent: "#60A5D4",
+  groupAccent: "#A8CC1C",
   description: "Track combined income, hourly rates, and schedules across multiple concurrent jobs or contracts.",
   
   seo: {

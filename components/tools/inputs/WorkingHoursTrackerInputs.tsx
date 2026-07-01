@@ -172,7 +172,7 @@ export default function WorkingHoursTrackerInputs({ groupAccent }: WorkingHoursT
                         type="time"
                         value={s.startTime}
                         onChange={(e) => handleFieldChange(s.id, "startTime", e.target.value)}
-                        className="h-10 px-3 bg-bg-card border border-border rounded-md font-sans text-xs focus:outline-none focus:ring-2 w-full text-text-primary"
+                        className="h-12 px-4 bg-bg-card border border-border rounded-[var(--radius-sm)] font-sans text-xs focus:outline-none focus:ring-2 w-full text-text-primary"
                         style={{ "--local-accent": groupAccent } as React.CSSProperties}
                       />
                     </td>
@@ -181,7 +181,7 @@ export default function WorkingHoursTrackerInputs({ groupAccent }: WorkingHoursT
                         type="time"
                         value={s.endTime}
                         onChange={(e) => handleFieldChange(s.id, "endTime", e.target.value)}
-                        className="h-10 px-3 bg-bg-card border border-border rounded-md font-sans text-xs focus:outline-none focus:ring-2 w-full text-text-primary"
+                        className="h-12 px-4 bg-bg-card border border-border rounded-[var(--radius-sm)] font-sans text-xs focus:outline-none focus:ring-2 w-full text-text-primary"
                         style={{ "--local-accent": groupAccent } as React.CSSProperties}
                       />
                     </td>
@@ -189,7 +189,7 @@ export default function WorkingHoursTrackerInputs({ groupAccent }: WorkingHoursT
                       <button
                         type="button"
                         onClick={() => handleRemoveShift(s.id)}
-                        className="h-9 px-3 border border-border hover:border-accent-utility-e hover:text-accent-utility-e rounded-md font-sans text-xs text-text-muted cursor-pointer transition-all"
+                        className="h-12 px-4 border border-border hover:border-accent-utility-e hover:text-accent-utility-e rounded-[var(--radius-sm)] font-sans text-xs text-text-muted cursor-pointer transition-all"
                       >
                         Remove
                       </button>
@@ -229,7 +229,7 @@ export default function WorkingHoursTrackerInputs({ groupAccent }: WorkingHoursT
                         type="time"
                         value={s.startTime}
                         onChange={(e) => handleFieldChange(s.id, "startTime", e.target.value)}
-                        className="h-10 px-3 bg-bg-card border border-border rounded-md font-sans text-xs focus:outline-none focus:ring-2 text-text-primary"
+                        className="h-12 px-4 bg-bg-card border border-border rounded-[var(--radius-sm)] font-sans text-xs focus:outline-none focus:ring-2 text-text-primary"
                         style={{ "--local-accent": groupAccent } as React.CSSProperties}
                       />
                     </div>
@@ -239,7 +239,7 @@ export default function WorkingHoursTrackerInputs({ groupAccent }: WorkingHoursT
                         type="time"
                         value={s.endTime}
                         onChange={(e) => handleFieldChange(s.id, "endTime", e.target.value)}
-                        className="h-10 px-3 bg-bg-card border border-border rounded-md font-sans text-xs focus:outline-none focus:ring-2 text-text-primary"
+                        className="h-12 px-4 bg-bg-card border border-border rounded-[var(--radius-sm)] font-sans text-xs focus:outline-none focus:ring-2 text-text-primary"
                         style={{ "--local-accent": groupAccent } as React.CSSProperties}
                       />
                     </div>
@@ -254,7 +254,7 @@ export default function WorkingHoursTrackerInputs({ groupAccent }: WorkingHoursT
             <button
               type="button"
               onClick={handleAddShift}
-              className="w-full h-11 border border-dashed border-border hover:border-text-faint rounded-md font-sans text-xs text-text-muted hover:text-text-primary cursor-pointer transition-all flex items-center justify-center gap-1.5"
+              className="w-full h-12 border border-dashed border-border hover:border-text-faint rounded-[var(--radius-sm)] font-sans text-xs text-text-muted hover:text-text-primary cursor-pointer transition-all flex items-center justify-center gap-1.5"
             >
               + Add Shift
             </button>
@@ -289,7 +289,7 @@ export default function WorkingHoursTrackerInputs({ groupAccent }: WorkingHoursT
               max="168"
               value={isNaN(otThreshold) ? "" : otThreshold}
               onChange={(e) => setOtThreshold(parseFloat(e.target.value))}
-              className="h-10 w-[120px] px-3 bg-bg-surface border border-border rounded-md font-sans text-xs focus:outline-none focus:ring-2 text-text-primary"
+              className="h-12 w-[120px] px-4 bg-bg-surface border border-border rounded-[var(--radius-sm)] font-sans text-xs focus:outline-none focus:ring-2 text-text-primary"
               style={{ "--local-accent": groupAccent } as React.CSSProperties}
             />
           </div>

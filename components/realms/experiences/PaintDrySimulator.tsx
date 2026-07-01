@@ -521,13 +521,13 @@ export default function PaintDrySimulator() {
           <div className="flex gap-3 mt-4 border-t border-border pt-4">
             <button
               onClick={handlePaintAgain}
-              className="flex-1 h-11 border border-border hover:border-accent-whim hover:text-accent-whim text-text-muted text-xs font-semibold rounded-md transition-all select-none cursor-pointer shadow-[3px_3px_0px_0px_var(--border)] hover:shadow-[3px_3px_0px_0px_var(--accent-whim)] active:translate-y-px active:shadow-[2px_2px_0px_0px_var(--accent-whim)]"
+              className="flex-1 h-11 border-2 border-border hover:border-accent-whim hover:text-accent-whim text-text-muted text-xs font-bold rounded-[var(--radius-sm)] transition-transform duration-150 select-none cursor-pointer shadow-[var(--shadow-offset-sm)_var(--shadow-color)] hover:shadow-[var(--shadow-offset-md)_var(--shadow-color)] hover:-translate-y-0.5 hover:-translate-x-0.5 active:translate-y-0.5 active:translate-x-0.5 active:shadow-none"
             >
               Paint Again
             </button>
             <button
               onClick={handleShare}
-              className="flex-1 h-11 border border-border hover:border-accent-whim hover:text-accent-whim text-text-muted text-xs font-semibold rounded-md transition-all select-none cursor-pointer shadow-[3px_3px_0px_0px_var(--border)] hover:shadow-[3px_3px_0px_0px_var(--accent-whim)] active:translate-y-px active:shadow-[2px_2px_0px_0px_var(--accent-whim)]"
+              className="flex-1 h-11 border-2 border-border hover:border-accent-whim hover:text-accent-whim text-text-muted text-xs font-bold rounded-[var(--radius-sm)] transition-transform duration-150 select-none cursor-pointer shadow-[var(--shadow-offset-sm)_var(--shadow-color)] hover:shadow-[var(--shadow-offset-md)_var(--shadow-color)] hover:-translate-y-0.5 hover:-translate-x-0.5 active:translate-y-0.5 active:translate-x-0.5 active:shadow-none"
             >
               {shareText}
             </button>
@@ -539,16 +539,16 @@ export default function PaintDrySimulator() {
           {/* Paint Canvas — framed within card for shadow room */}
           <div className="p-4 md:p-5">
           <div
-            className="relative w-full h-[440px] max-md:h-[300px] overflow-hidden rounded-xl bg-bg-card transition-shadow duration-200"
+            className="relative w-full h-[440px] max-md:h-[300px] overflow-hidden rounded-xl bg-bg-card transition-shadow duration-150"
             style={{
-              border: "2px solid rgba(232, 232, 240, 0.15)",
-              boxShadow: "4px 4px 0px 0px var(--border)",
+              border: "var(--border-width) solid var(--border)",
+              boxShadow: "var(--shadow-offset-md) var(--shadow-color)",
             }}
             onMouseEnter={(e) => {
-              (e.currentTarget as HTMLDivElement).style.boxShadow = "4px 4px 0px 0px var(--accent-whim)";
+              (e.currentTarget as HTMLDivElement).style.boxShadow = "var(--shadow-offset-lg) var(--accent-whim)";
             }}
             onMouseLeave={(e) => {
-              (e.currentTarget as HTMLDivElement).style.boxShadow = "4px 4px 0px 0px var(--border)";
+              (e.currentTarget as HTMLDivElement).style.boxShadow = "var(--shadow-offset-md) var(--shadow-color)";
             }}
           >
             {/* Canvas Wrapper */}

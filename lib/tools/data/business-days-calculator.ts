@@ -5,7 +5,7 @@ export const businessDaysCalculatorData: ToolPageData = {
   name: "Business Days Calculator",
   group: "utility-a",
   groupName: "Standard Time & Date",
-  groupAccent: "#52C4A0",
+  groupAccent: "#C5F135",
   description: "Count the exact number of working days between two dates, excluding Saturdays and Sundays.",
   
   seo: {

@@ -5,7 +5,7 @@ export const multiCityClockData: ToolPageData = {
   name: "Multi-City Desktop Grid Clock",
   group: "global-time",
   groupName: "Global Time & Time Zones",
-  groupAccent: "#F5A857",
+  groupAccent: "#D8F870",
   description: "Pin multiple active clocks to a customized grid to watch live time zones simultaneously.",
   
   seo: {

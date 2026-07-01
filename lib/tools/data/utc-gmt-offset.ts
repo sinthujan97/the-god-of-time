@@ -5,7 +5,7 @@ export const utcGmtOffsetData: ToolPageData = {
   name: "UTC/GMT Offset Finder",
   group: "global-time",
   groupName: "Global Time & Time Zones",
-  groupAccent: "#F5A857",
+  groupAccent: "#D8F870",
   description: "Identify current offsets and UTC/GMT representations for standard time zones.",
   
   seo: {

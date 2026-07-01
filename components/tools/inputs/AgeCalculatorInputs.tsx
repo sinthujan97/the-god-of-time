@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { DatePicker } from "@/components/ui";
+import { BirthDatePicker } from "@/components/ui";
 import CalculatorCard from "../CalculatorCard";
 import { calculateExactAge } from "@/lib/tools/calculations";
 
@@ -106,7 +106,7 @@ export default function AgeCalculatorInputs({ groupAccent }: AgeCalculatorInputs
         {/* Row 1: Date & Time of Birth */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="flex flex-col">
-            <DatePicker
+            <BirthDatePicker
               id="birth-date"
               label="Date of Birth"
               value={birthDate}

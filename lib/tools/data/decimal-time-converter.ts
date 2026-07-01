@@ -5,7 +5,7 @@ export const decimalTimeConverterData: ToolPageData = {
   name: "Decimal Time Converter",
   group: "utility-a",
   groupName: "Standard Time & Date",
-  groupAccent: "#52C4A0",
+  groupAccent: "#C5F135",
   description: "Convert standard hours and minutes into decimal format and vice versa.",
   
   seo: {

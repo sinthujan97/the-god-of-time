@@ -5,7 +5,7 @@ export const crossBorderDeadlineData: ToolPageData = {
   name: "Cross-Border Deadline Matcher",
   group: "global-time",
   groupName: "Global Time & Time Zones",
-  groupAccent: "#F5A857",
+  groupAccent: "#D8F870",
   description: "Compare operational and transactional deadlines across international boundaries to avoid late submissions.",
   
   seo: {

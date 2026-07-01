@@ -5,7 +5,7 @@ export const trimesterCalendarData: ToolPageData = {
   name: "Trimester Milestone Calendar",
   group: "health-lifecycle",
   groupName: "Health & Lifecycle",
-  groupAccent: "#E87C7C",
+  groupAccent: "#B2D828",
   description: "Map out the exact start and end dates for your pregnancy trimesters based on your clinical due date.",
   
   seo: {

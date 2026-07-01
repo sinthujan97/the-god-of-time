@@ -5,7 +5,7 @@ export const habitStreakPlannerData: ToolPageData = {
   name: "Habit Streak Milestone Planner",
   group: "health-lifecycle",
   groupName: "Health & Lifecycle",
-  groupAccent: "#E87C7C",
+  groupAccent: "#B2D828",
   description: "Chart timeline targets (e.g., 21 days, 66 days, 100 days) to form solid routines based on psychological neuroscience.",
   
   seo: {

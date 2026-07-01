@@ -5,7 +5,7 @@ export const projectBackPlannerData: ToolPageData = {
   name: "Project Deadline Back-Planner",
   group: "project-management",
   groupName: "Project Management & Business",
-  groupAccent: "#9B8EF5",
+  groupAccent: "#8BA812",
   description: "Work backward from a deadline to calculate start dates and milestones, incorporating buffer and weekend rules.",
   
   seo: {

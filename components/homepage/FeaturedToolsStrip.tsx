@@ -60,20 +60,35 @@ export default function FeaturedToolsStrip() {
             <Link
               key={tool.slug}
               href={`/tools/${tool.slug}`}
-              className={`group block relative bg-bg-card border border-border rounded-lg p-7 min-h-[220px] flex flex-col cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:z-10 ${
+              className={`group block relative bg-bg-card p-7 min-h-[220px] flex flex-col cursor-pointer ${
                 isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
               }`}
               style={{
+                border: "var(--border-width) solid var(--border)",
+                boxShadow: "var(--shadow-offset-md) var(--shadow-color)",
                 transitionDelay: `${idx * 100}ms`,
-                transitionProperty: "opacity, transform, border-color, box-shadow, background-color",
+                transitionProperty: "opacity, transform, box-shadow",
+                transition: "opacity 300ms, transform 300ms, box-shadow 120ms ease",
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = tool.accent;
-                e.currentTarget.style.boxShadow = `4px 4px 0px 0px ${tool.accent}`;
+                const el = e.currentTarget as HTMLElement;
+                el.style.transform = "translate(-3px, -3px)";
+                el.style.boxShadow = "var(--shadow-offset-xl) var(--shadow-color)";
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = "var(--border)";
-                e.currentTarget.style.boxShadow = "none";
+                const el = e.currentTarget as HTMLElement;
+                el.style.transform = "";
+                el.style.boxShadow = "var(--shadow-offset-md) var(--shadow-color)";
+              }}
+              onMouseDown={(e) => {
+                const el = e.currentTarget as HTMLElement;
+                el.style.transform = "translate(1px, 1px)";
+                el.style.boxShadow = "1px 1px 0px var(--shadow-color)";
+              }}
+              onMouseUp={(e) => {
+                const el = e.currentTarget as HTMLElement;
+                el.style.transform = "";
+                el.style.boxShadow = "var(--shadow-offset-md) var(--shadow-color)";
               }}
             >
               {/* Category label */}

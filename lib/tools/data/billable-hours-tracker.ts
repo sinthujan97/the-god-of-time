@@ -5,7 +5,7 @@ export const billableHoursTrackerData: ToolPageData = {
   name: "Billable Hours Tracker",
   group: "hr-payroll",
   groupName: "HR, Payroll & Freelance",
-  groupAccent: "#60A5D4",
+  groupAccent: "#A8CC1C",
   description: "Log working hours across multiple clients and projects, and generate clear, invoice-ready financial summaries.",
   
   seo: {

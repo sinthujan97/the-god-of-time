@@ -5,7 +5,7 @@ import Link from "next/link";
 import { gamesRegistry } from "@/lib/data/gamesRegistry";
 import { useIntersectionFade } from "@/lib/animations/useIntersectionFade";
 
-const ACCENT = "#F0A830";
+const ACCENT = "#C5F135";
 
 export default function GamesSection() {
   const { ref, isVisible } = useIntersectionFade({ once: true, threshold: 0.05 });
@@ -40,8 +40,8 @@ export default function GamesSection() {
 
           <Link
             href="/games"
-            className="font-sans text-sm font-semibold lg:mb-2 shrink-0 inline-flex items-center gap-1.5 hover:underline"
-            style={{ color: ACCENT }}
+            className="btn-brutal shrink-0"
+            style={{ "--accent-color": ACCENT } as React.CSSProperties}
           >
             All games →
           </Link>
@@ -50,17 +50,24 @@ export default function GamesSection() {
         {/* Featured game card */}
         <Link
           href={`/games/${game.slug}`}
-          className={`group relative flex flex-col md:flex-row overflow-hidden rounded-xl border border-border bg-bg-card cursor-pointer transition-all duration-300 ${
+          className={`group relative flex flex-col md:flex-row overflow-hidden bg-bg-card cursor-pointer transition-all duration-150 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
           }`}
-          style={{ textDecoration: "none", transitionProperty: "opacity, transform, border-color" }}
+          style={{
+            textDecoration: "none",
+            transitionProperty: "opacity, transform, box-shadow",
+            border: "var(--border-width) solid var(--border)",
+            boxShadow: "var(--shadow-offset-lg) var(--shadow-color)",
+          }}
           onMouseEnter={e => {
             const el = e.currentTarget as HTMLElement;
-            el.style.borderColor = ACCENT;
+            el.style.transform = "translate(-3px, -3px)";
+            el.style.boxShadow = "var(--shadow-offset-xl) var(--shadow-color)";
           }}
           onMouseLeave={e => {
             const el = e.currentTarget as HTMLElement;
-            el.style.borderColor = "var(--border)";
+            el.style.transform = "translate(0, 0)";
+            el.style.boxShadow = "var(--shadow-offset-lg) var(--shadow-color)";
           }}
         >
           {/* Left: clock visualisation */}
@@ -102,8 +109,9 @@ export default function GamesSection() {
               className="relative z-10 px-6 py-2 rounded-lg font-sans font-bold text-xs uppercase tracking-[0.14em] select-none"
               style={{
                 background: ACCENT,
-                color: "#06060A",
-                boxShadow: `3px 3px 0px 0px rgba(240,168,48,0.3)`,
+                color: "var(--section-games-text-on-accent)",
+                border: "var(--border-width) solid var(--border)",
+                boxShadow: "var(--shadow-offset-sm) var(--shadow-color)",
               }}
             >
               ⏸ FREEZE
@@ -122,19 +130,25 @@ export default function GamesSection() {
             {/* Tags */}
             <div className="flex gap-2 mb-5">
               <span
-                className="px-2.5 py-0.5 rounded-full font-sans text-[9px] font-semibold tracking-wider uppercase border"
+                className="px-2.5 py-0.5 rounded-none font-sans text-[9px] font-bold tracking-wider uppercase"
                 style={{
-                  color:           ACCENT,
-                  backgroundColor: "rgba(240,168,48,0.08)",
-                  borderColor:     "rgba(240,168,48,0.25)",
+                  color: "var(--section-games-text-on-accent)",
+                  background: ACCENT,
+                  border: "var(--border-width-thin) solid var(--border)",
                 }}
               >
                 Brutal
               </span>
-              <span className="px-2.5 py-0.5 rounded-full font-sans text-[9px] font-semibold tracking-wider uppercase border border-border text-text-faint">
+              <span
+                className="px-2.5 py-0.5 rounded-none font-sans text-[9px] font-bold tracking-wider uppercase text-text-faint bg-bg-card"
+                style={{ border: "var(--border-width-thin) solid var(--border)" }}
+              >
                 Daily
               </span>
-              <span className="px-2.5 py-0.5 rounded-full font-sans text-[9px] font-semibold tracking-wider uppercase border border-border text-text-faint">
+              <span
+                className="px-2.5 py-0.5 rounded-none font-sans text-[9px] font-bold tracking-wider uppercase text-text-faint bg-bg-card"
+                style={{ border: "var(--border-width-thin) solid var(--border)" }}
+              >
                 ~1 min
               </span>
             </div>

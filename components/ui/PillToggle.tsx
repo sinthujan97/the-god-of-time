@@ -25,7 +25,7 @@ export default function PillToggle({
   accentColor,
 }: PillToggleProps) {
   const contextAccent = useAccentColor();
-  const activeAccent = accentColor || contextAccent || "#52C4A0";
+  const activeAccent = accentColor || contextAccent || "#C5F135";
 
   return (
     <div className="pill-toggle-group flex flex-col gap-2 mt-4 font-sans">
@@ -49,14 +49,16 @@ export default function PillToggle({
             <ToggleGroupItem
               key={opt.value}
               value={opt.value}
-              className={`pill-option h-9 px-4 rounded-full font-sans text-xs border transition-all cursor-pointer select-none focus:outline-none ${
+              className={`pill-option h-9 px-4 rounded-[var(--radius-pill)] font-sans text-xs font-bold border-[length:var(--border-width)] border-border transition-transform duration-150 cursor-pointer select-none focus:outline-none hover:-translate-x-px hover:-translate-y-px active:translate-x-px active:translate-y-px ${
                 isSelected
-                  ? "text-white hover:text-white"
-                  : "bg-bg-surface text-text-muted border-border hover:bg-bg-card-hover hover:text-text-primary"
+                  ? "hover:text-[var(--section-tools-text-on-accent)]"
+                  : "bg-bg-surface text-text-muted hover:bg-bg-card-hover hover:text-text-primary"
               }`}
               style={{
                 backgroundColor: isSelected ? activeAccent : undefined,
                 borderColor: isSelected ? activeAccent : undefined,
+                color: isSelected ? "var(--section-tools-text-on-accent)" : undefined,
+                boxShadow: "var(--shadow-offset-sm) var(--shadow-color)",
               }}
             >
               {opt.label}

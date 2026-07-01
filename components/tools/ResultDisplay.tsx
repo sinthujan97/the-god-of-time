@@ -91,28 +91,28 @@ export default function ResultDisplay({
       <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
         
         {/* Left Side: Primary Result */}
-        <div className="result-primary flex-1">
-          <span 
-            ref={numRef} 
-            id="result-number" 
+        <div className="result-box-brutal result-primary flex-1">
+          <span
+            ref={numRef}
+            id="result-number"
             className={`result-number text-[36px] md:text-[52px] font-normal text-text-primary block leading-none tracking-tight ${fontClass || "font-mono tabular-nums"}`}
           >
             —
           </span>
-          
+
           {/* Error Message underneath the result-number if invalid */}
           {errorMessage ? (
             <div className="text-[14px] italic text-text-muted font-sans mt-2">
               {errorMessage}
             </div>
           ) : (
-            <span 
+            <span
               key={`unit-${animationKey}`}
-              id="result-unit" 
+              id="result-unit"
               className={`result-unit text-xs font-sans font-medium uppercase tracking-wider block mt-2 ${animClass}`}
-              style={{ 
+              style={{
                 color: groupAccent,
-                animationDelay: animationKey > 0 && !prefersReduced ? "300ms" : undefined 
+                animationDelay: animationKey > 0 && !prefersReduced ? "300ms" : undefined
               }}
             >
               {unit}

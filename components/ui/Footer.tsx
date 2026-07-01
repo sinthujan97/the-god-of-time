@@ -3,11 +3,11 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="w-full py-6 mt-auto border-t border-border bg-bg-surface text-center text-text-muted text-xs font-sans">
+    <footer className="footer-brutal w-full py-6 mt-auto text-center text-text-muted text-xs font-sans">
       <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
         <div>
           <span>© {new Date().getFullYear()} </span>
-          <span className="font-display tracking-widest uppercase font-light">✦ God of Time</span>
+          <span className="font-headline tracking-tight uppercase font-black text-text-primary">✦ God of Time</span>
           <span>. All rights reserved.</span>
         </div>
         <div className="flex gap-4">

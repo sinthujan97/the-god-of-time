@@ -5,7 +5,7 @@ export const timezoneMapFinderData: ToolPageData = {
   name: "Time Zone Finder by Map Click",
   group: "global-time",
   groupName: "Global Time & Time Zones",
-  groupAccent: "#F5A857",
+  groupAccent: "#D8F870",
   description: "Click anywhere on the interactive world map coordinates to identify the local timezone.",
   
   seo: {

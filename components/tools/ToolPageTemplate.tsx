@@ -85,7 +85,7 @@ export default function ToolPageTemplate({ data, InputsComponent }: ToolPageTemp
               >
                 {data.groupName}
               </span>
-              <h1 className="text-3xl md:text-[32px] font-sans font-semibold text-text-primary mt-1 leading-tight">
+              <h1 className="text-3xl md:text-[36px] font-headline font-extrabold text-text-primary mt-1 leading-tight">
                 {data.name}
               </h1>
               <p className="text-sm md:text-base text-text-muted mt-2 font-sans font-light max-w-2xl leading-relaxed">

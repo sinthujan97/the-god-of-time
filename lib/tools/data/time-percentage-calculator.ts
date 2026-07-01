@@ -5,7 +5,7 @@ export const timePercentageCalculatorData: ToolPageData = {
   name: "Time Percentage Calculator",
   group: "utility-a",
   groupName: "Standard Time & Date",
-  groupAccent: "#52C4A0",
+  groupAccent: "#C5F135",
   description: "Calculate how much of a day or year has elapsed.",
   
   seo: {

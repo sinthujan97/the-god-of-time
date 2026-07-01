@@ -65,7 +65,7 @@ export default function Breadcrumb({
           <span className="mx-2 select-none text-text-muted">›</span>
         </React.Fragment>
       ))}
-      <span className="text-text-primary truncate max-w-[200px] sm:max-w-xs md:max-w-none">
+      <span className="breadcrumb-current-brutal text-text-primary truncate max-w-[200px] sm:max-w-xs md:max-w-none">
         {toolName}
       </span>
     </nav>

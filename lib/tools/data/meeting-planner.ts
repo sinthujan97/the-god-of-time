@@ -5,7 +5,7 @@ export const meetingPlannerData: ToolPageData = {
   name: "Meeting Planner Sweet-Spot Finder",
   group: "global-time",
   groupName: "Global Time & Time Zones",
-  groupAccent: "#F5A857",
+  groupAccent: "#D8F870",
   description: "Find the optimal overlapping hours for international conference calls and meetings.",
   
   seo: {

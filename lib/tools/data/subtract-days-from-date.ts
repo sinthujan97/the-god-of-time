@@ -5,7 +5,7 @@ export const subtractDaysFromDateData: ToolPageData = {
   name: "Subtract Days from Date Tool",
   group: "utility-a",
   groupName: "Standard Time & Date",
-  groupAccent: "#52C4A0",
+  groupAccent: "#C5F135",
   description: "Find any past date by subtracting days, weeks, months, or years from a start date instantly.",
   
   seo: {

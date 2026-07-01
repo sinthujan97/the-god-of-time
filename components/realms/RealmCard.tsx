@@ -29,25 +29,26 @@ export default function RealmCard({ realm, wide = false }: RealmCardProps) {
       style={{
         display: "block",
         position: "relative",
-        borderRadius: 12,
-        border: "1px solid var(--border)",
+        borderRadius: 0,
+        border: "var(--border-width) solid var(--border)",
         background: "var(--bg-card)",
         overflow: "hidden",
         cursor: "pointer",
         height: wide ? 400 : 320,
         gridColumn: wide ? "span 2" : "span 1",
-        transition: "transform 300ms, border-color 300ms",
+        transition: "transform 150ms ease, box-shadow 150ms ease",
         textDecoration: "none",
+        boxShadow: "var(--shadow-offset-md) var(--shadow-color)",
       }}
       onMouseEnter={(e) => {
         const el = e.currentTarget;
-        el.style.transform = "scale(1.01)";
-        el.style.borderColor = realm.accent;
+        el.style.transform = "translate(-3px, -3px)";
+        el.style.boxShadow = "var(--shadow-offset-xl) var(--shadow-color)";
       }}
       onMouseLeave={(e) => {
         const el = e.currentTarget;
-        el.style.transform = "scale(1)";
-        el.style.borderColor = "var(--border)";
+        el.style.transform = "translate(0, 0)";
+        el.style.boxShadow = "var(--shadow-offset-md) var(--shadow-color)";
       }}
     >
       {/* Background gradient */}
@@ -81,15 +82,15 @@ export default function RealmCard({ realm, wide = false }: RealmCardProps) {
             left: 20,
             zIndex: 20,
             padding: "2px 10px",
-            borderRadius: 100,
+            borderRadius: 0,
             fontFamily: "var(--font-ui)",
             fontSize: 9,
             fontWeight: 600,
             letterSpacing: "0.15em",
             textTransform: "uppercase",
-            background: "color-mix(in srgb, var(--accent-scifi) 10%, transparent)",
-            border: "1px solid color-mix(in srgb, var(--accent-scifi) 30%, transparent)",
-            color: "var(--accent-scifi)",
+            background: "var(--section-realms-accent)",
+            border: "var(--border-width-thin) solid var(--border)",
+            color: "var(--section-realms-text-on-accent)",
           }}
         >
           ✦ AI Powered
@@ -105,17 +106,16 @@ export default function RealmCard({ realm, wide = false }: RealmCardProps) {
           right: 20,
           zIndex: 20,
           padding: "6px 14px",
-          borderRadius: 100,
+          borderRadius: 0,
           fontFamily: "var(--font-ui)",
           fontSize: 12,
-          fontWeight: 500,
-          color: "var(--text-primary)",
-          background: "color-mix(in srgb, var(--bg-card) 80%, transparent)",
-          border: "1px solid color-mix(in srgb, var(--border) 60%, transparent)",
-          backdropFilter: "blur(8px)",
+          fontWeight: 700,
+          color: "var(--section-realms-text-on-accent)",
+          background: "var(--section-realms-accent)",
+          border: "var(--border-width-thin) solid var(--border)",
           opacity: 0,
           transform: "translateX(8px)",
-          transition: "opacity 300ms, transform 300ms",
+          transition: "opacity 150ms ease, transform 150ms ease",
         }}
       >
         Enter →
@@ -137,15 +137,15 @@ export default function RealmCard({ realm, wide = false }: RealmCardProps) {
           style={{
             display: "inline-block",
             padding: "2px 10px",
-            borderRadius: 100,
+            borderRadius: 0,
             fontFamily: "var(--font-ui)",
             fontSize: 10,
-            fontWeight: 600,
+            fontWeight: 700,
             letterSpacing: "0.15em",
             textTransform: "uppercase",
-            color: realm.accent,
-            background: `color-mix(in srgb, ${realm.accent} 12%, transparent)`,
-            border: `1px solid color-mix(in srgb, ${realm.accent} 30%, transparent)`,
+            color: "var(--section-realms-text-on-accent)",
+            background: realm.accent,
+            border: "var(--border-width-thin) solid var(--border)",
             marginBottom: 12,
           }}
         >

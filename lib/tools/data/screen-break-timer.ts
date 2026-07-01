@@ -5,7 +5,7 @@ export const screenBreakTimerData: ToolPageData = {
   name: "Screen Time Break Timer",
   group: "health-lifecycle",
   groupName: "Health & Lifecycle",
-  groupAccent: "#E87C7C",
+  groupAccent: "#B2D828",
   description: "Configure screen breaks based on the 20-20-20 rule to prevent digital eye strain.",
   
   seo: {

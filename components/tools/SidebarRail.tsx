@@ -23,13 +23,13 @@ export default function SidebarRail({
         <span className="ad-label text-[10px] font-sans font-medium uppercase tracking-[0.1em] text-text-faint block text-center mb-1">
           ADVERTISEMENT
         </span>
-        <div className="sidebar-ad-container w-[300px] h-[250px] mx-auto bg-bg-surface border border-border rounded-md flex items-center justify-center text-text-faint text-xs font-mono">
+        <div className="sidebar-ad-container w-[300px] h-[250px] mx-auto bg-bg-surface border-[length:var(--border-width)] border-border flex items-center justify-center text-text-faint text-xs font-mono">
           [Ad Container - 300×250]
         </div>
       </div>
 
       {/* 2. SIDEBAR RELATED TOOLS */}
-      <div className="sidebar-related bg-bg-card/30 border border-border/50 rounded-xl p-5">
+      <div className="sidebar-related bg-bg-card border-[length:var(--border-width)] border-border p-5" style={{ boxShadow: "var(--shadow-offset-sm) var(--shadow-color)" }}>
         <span className="sidebar-section-label text-[11px] font-sans font-medium uppercase tracking-[0.1em] text-text-muted block mb-4">
           MORE IN THIS GROUP
         </span>
@@ -58,7 +58,7 @@ export default function SidebarRail({
         <span className="ad-label text-[10px] font-sans font-medium uppercase tracking-[0.1em] text-text-faint block text-center mb-1">
           ADVERTISEMENT
         </span>
-        <div className="sidebar-ad-container w-[300px] h-[250px] mx-auto bg-bg-surface border border-border rounded-md flex items-center justify-center text-text-faint text-xs font-mono">
+        <div className="sidebar-ad-container w-[300px] h-[250px] mx-auto bg-bg-surface border-[length:var(--border-width)] border-border flex items-center justify-center text-text-faint text-xs font-mono">
           [Ad Container - 300×250]
         </div>
       </div>
@@ -68,7 +68,8 @@ export default function SidebarRail({
         <div className="sidebar-realm-link">
           <Link
             href={`/realms/${realmSlug}`}
-            className="block p-4 bg-bg-card border border-border hover:border-accent-cosmos rounded-lg transition-all"
+            className="block p-4 bg-bg-card border-[length:var(--border-width)] border-border hover:border-accent-cosmos transition-all"
+            style={{ boxShadow: "var(--shadow-offset-sm) var(--shadow-color)" }}
           >
             <span className="realm-link-eyebrow text-[11px] font-sans font-medium uppercase tracking-[0.1em] text-accent-cosmos block mb-1">
               ✦ EXPLORE THE REALM

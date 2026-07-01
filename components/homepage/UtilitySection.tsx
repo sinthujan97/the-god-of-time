@@ -5,6 +5,14 @@ import Link from "next/link";
 import { toolsRegistry, ToolGroup } from "@/lib/data/toolsRegistry";
 import { useIntersectionFade } from "@/lib/animations/useIntersectionFade";
 
+const GROUP_ICON: Record<string, string> = {
+  "standard-time": "⏱",
+  "hr-payroll": "💰",
+  "project-management": "📋",
+  "global-time": "🌐",
+  "health-lifecycle": "❤",
+};
+
 export default function UtilitySection() {
   const [activeGroup, setActiveGroup] = useState<string>("standard-time");
   const { ref, isVisible } = useIntersectionFade({ once: true, threshold: 0.05 });
@@ -57,14 +65,14 @@ export default function UtilitySection() {
                   key={group.id}
                   type="button"
                   onClick={() => setActiveGroup(group.id)}
-                  className="font-ui text-xs font-semibold px-5 h-[38px] rounded-full border border-transparent select-none cursor-pointer transition-all duration-150 focus:outline-none"
+                  className="font-ui text-xs font-semibold px-5 h-[38px] rounded-none border border-transparent select-none cursor-pointer transition-all duration-150 focus:outline-none"
                   style={{
                     backgroundColor: isActive ? "var(--bg-card)" : "transparent",
                     color: isActive ? "var(--text-primary)" : "var(--text-muted)",
                     borderColor: isActive ? "var(--border)" : "transparent",
-                    boxShadow: isActive ? "0 4px 12px rgba(0,0,0,0.08)" : undefined,
+                    boxShadow: isActive ? "2px 2px 0px 0px var(--shadow-color)" : undefined,
                     borderBottom: isActive ? `2px solid ${group.accent}` : undefined,
-                    borderRadius: isActive ? "6px 6px 0 0" : "100px",
+                    borderRadius: 0,
                   }}
                 >
                   {group.name}
@@ -84,17 +92,16 @@ export default function UtilitySection() {
             <Link
               key={tool.slug}
               href={`/tools/${tool.slug}`}
-              className="group block bg-bg-card border border-border rounded-lg p-5 pl-6 transition-all duration-150 hover:bg-bg-card-hover hover:shadow-[0_4px_16px_rgba(0,0,0,0.1)] relative"
-              style={{
-                borderLeft: `3px solid ${currentAccent}`,
-              }}
+              className="tool-card-brutal group"
+              style={{ "--group-accent": currentAccent } as React.CSSProperties}
             >
+              <div className="card-icon-box">{GROUP_ICON[activeGroup] ?? "⏱"}</div>
               <div className="flex items-start justify-between gap-4">
-                <h3 className="font-ui text-[15px] font-medium text-text-primary leading-tight group-hover:text-text-primary">
+                <h3 className="font-ui text-[15px] font-bold text-text-primary leading-tight">
                   {tool.name}
                 </h3>
-                <span 
-                  className="font-ui text-[15px] font-semibold opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-150 shrink-0"
+                <span
+                  className="font-ui text-[15px] font-semibold opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-transform duration-150 shrink-0"
                   style={{ color: currentAccent }}
                 >
                   →

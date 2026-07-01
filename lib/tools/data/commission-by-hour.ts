@@ -5,7 +5,7 @@ export const commissionByHourData: ToolPageData = {
   name: "Commission-by-Hour Matrix",
   group: "hr-payroll",
   groupName: "HR, Payroll & Freelance",
-  groupAccent: "#60A5D4",
+  groupAccent: "#A8CC1C",
   description: "Convert sales commissions into hourly rate equivalents and evaluate combined compensation structures.",
   
   seo: {

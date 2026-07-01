@@ -269,15 +269,17 @@ export default function ToolsGrid() {
           display: flex;
           align-items: center;
           gap: 8px;
-          background: var(--bg-surface);
-          border: 1.5px solid var(--border);
-          border-radius: 8px;
+          background: var(--bg-card);
+          border: var(--border-width) solid var(--border);
+          border-radius: 0;
           padding: 0 12px;
-          height: 40px;
-          transition: border-color 150ms;
+          height: 44px;
+          box-shadow: var(--shadow-offset-sm) var(--shadow-color);
+          transition: box-shadow 150ms, transform 150ms;
         }
         .tools-index-search:focus-within {
-          border-color: var(--text-primary);
+          box-shadow: var(--shadow-offset-md) var(--shadow-color);
+          transform: translate(-1px, -1px);
         }
         .tools-index-search__icon {
           font-size: 18px;
@@ -287,8 +289,10 @@ export default function ToolsGrid() {
         }
         .tools-index-search__input {
           flex: 1;
-          border: none;
-          background: transparent;
+          border: none !important;
+          box-shadow: none !important;
+          background: transparent !important;
+          transform: none !important;
           font-family: var(--font-ui);
           font-size: 14px;
           color: var(--text-primary);
@@ -316,14 +320,14 @@ export default function ToolsGrid() {
         .tools-index-tab {
           font-family: var(--font-ui);
           font-size: 12px;
-          font-weight: 500;
+          font-weight: 700;
           padding: 5px 14px;
-          border-radius: 999px;
-          border: 1.5px solid transparent;
+          border-radius: var(--radius-pill);
+          border: var(--border-width-thin) solid transparent;
           background: transparent;
           color: var(--text-muted);
           cursor: pointer;
-          transition: all 140ms;
+          transition: border-color 140ms, color 140ms, background 140ms;
           white-space: nowrap;
         }
         .tools-index-tab:hover {
@@ -376,32 +380,37 @@ export default function ToolsGrid() {
           margin-left: auto;
         }
 
-        /* 3-column grid */
+        /* 3-column grid — individual cards with gaps */
         .tools-index-grid {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
-          gap: 1px;
-          background: var(--border);
-          border: 1px solid var(--border);
-          border-radius: 12px;
-          overflow: hidden;
+          gap: 24px;
         }
 
-        /* Tool card */
+        /* Tool card — individual neubrutalist 3D pop style */
         .tool-index-card {
           display: flex;
-          align-items: center;
+          align-items: flex-start;
           gap: 14px;
-          padding: 16px 18px;
+          padding: 20px;
           background: var(--bg-card);
+          border: var(--border-width) solid var(--border);
+          border-radius: 0;
+          box-shadow: var(--shadow-offset-md) var(--shadow-color);
           text-decoration: none;
-          transition: background 140ms;
+          transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
           position: relative;
-          min-height: 80px;
+          min-height: 88px;
         }
         .tool-index-card:hover {
-          background: var(--bg-card-hover, color-mix(in srgb, var(--card-accent, var(--border)) 6%, var(--bg-card)));
+          background: color-mix(in srgb, var(--card-accent, var(--text-primary)) 4%, var(--bg-card));
+          transform: translate(-4px, -4px);
+          box-shadow: var(--shadow-offset-lg) var(--shadow-color);
           z-index: 1;
+        }
+        .tool-index-card:active {
+          transform: translate(2px, 2px);
+          box-shadow: 2px 2px 0px var(--shadow-color);
         }
         .tool-index-card:hover .tool-index-card__name {
           color: var(--card-accent, var(--text-primary));
@@ -411,22 +420,18 @@ export default function ToolsGrid() {
           transform: translateX(0);
         }
 
-        /* Icon box */
+        /* Icon box — square, accented bg */
         .tool-index-card__icon {
-          width: 48px;
-          height: 48px;
+          width: 46px;
+          height: 46px;
           flex-shrink: 0;
           background: var(--bg-surface);
-          border: 1.5px solid var(--border);
-          border-radius: 10px;
+          border: var(--border-width) solid var(--border);
+          border-radius: 0;
           display: flex;
           align-items: center;
           justify-content: center;
           font-size: 22px;
-          transition: border-color 140ms;
-        }
-        .tool-index-card:hover .tool-index-card__icon {
-          border-color: var(--card-accent, var(--border));
         }
 
         /* Text body */
@@ -437,7 +442,7 @@ export default function ToolsGrid() {
         .tool-index-card__name {
           font-family: var(--font-ui);
           font-size: 13.5px;
-          font-weight: 600;
+          font-weight: 700;
           color: var(--text-primary);
           margin: 0 0 3px;
           line-height: 1.3;
@@ -492,11 +497,13 @@ export default function ToolsGrid() {
         @media (max-width: 960px) {
           .tools-index-grid {
             grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
           }
         }
         @media (max-width: 600px) {
           .tools-index-grid {
             grid-template-columns: 1fr;
+            gap: 12px;
           }
           .tools-index-filterbar__inner {
             padding: 12px 16px;

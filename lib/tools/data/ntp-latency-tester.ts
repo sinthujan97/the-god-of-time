@@ -5,7 +5,7 @@ export const ntpLatencyTesterData: ToolPageData = {
   name: "NTP Server Latency Tester",
   group: "global-time",
   groupName: "Global Time & Time Zones",
-  groupAccent: "#F5A857",
+  groupAccent: "#D8F870",
   description: "Measure local system offset versus network reference clocks to test drift and sync speed.",
   
   seo: {

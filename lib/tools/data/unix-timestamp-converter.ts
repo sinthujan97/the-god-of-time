@@ -5,7 +5,7 @@ export const unixTimestampConverterData: ToolPageData = {
   name: "Unix Timestamp Converter",
   group: "global-time",
   groupName: "Global Time & Time Zones",
-  groupAccent: "#F5A857",
+  groupAccent: "#D8F870",
   description: "Convert Unix epoch timestamps (seconds or milliseconds) to human-readable dates and vice versa.",
   
   seo: {

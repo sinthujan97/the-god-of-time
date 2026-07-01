@@ -5,7 +5,7 @@ export const vaccinationTrackerData: ToolPageData = {
   name: "Vaccination Tracker Timeline",
   group: "health-lifecycle",
   groupName: "Health & Lifecycle",
-  groupAccent: "#E87C7C",
+  groupAccent: "#B2D828",
   description: "Chart pediatric or travel immunization schedules based on birth date milestones.",
   
   seo: {

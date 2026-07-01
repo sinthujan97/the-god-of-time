@@ -24,10 +24,10 @@ export default function HomepageFooter() {
   ];
 
   return (
-    <section className="w-full bg-gradient-to-b from-bg-surface to-bg-base pt-28 pb-20 px-6">
+    <section className="footer-brutal w-full pt-28 pb-20 px-6">
       <div className="max-w-[800px] mx-auto text-center">
         {/* Logo Repeated */}
-        <h2 className="font-display font-light italic text-[40px] md:text-[48px] text-text-primary tracking-wide mb-6">
+        <h2 className="font-headline font-black text-[32px] md:text-[40px] text-text-primary tracking-tight mb-6">
           ✦ GOD OF TIME
         </h2>
         

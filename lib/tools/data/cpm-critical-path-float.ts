@@ -5,7 +5,7 @@ export const cpmCriticalPathFloatData: ToolPageData = {
   name: "Critical Path Method Float Calculator",
   group: "project-management",
   groupName: "Project Management & Business",
-  groupAccent: "#9B8EF5",
+  groupAccent: "#8BA812",
   description: "Calculate early/late start and finish dates, identify the critical path, and compute task float (slack).",
   
   seo: {

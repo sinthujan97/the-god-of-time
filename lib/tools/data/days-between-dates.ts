@@ -5,7 +5,7 @@ export const daysBetweenDatesData: ToolPageData = {
   name: "Days Between Dates Calculator",
   group: "utility-a",
   groupName: "Standard Time & Date",
-  groupAccent: "#52C4A0",
+  groupAccent: "#C5F135",
   description: "Calculate the exact number of days, weeks, and months between any two dates instantly.",
   
   seo: {

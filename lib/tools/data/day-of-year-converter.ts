@@ -5,7 +5,7 @@ export const dayOfYearConverterData: ToolPageData = {
   name: "Day of the Year Ordinal Converter",
   group: "utility-a",
   groupName: "Standard Time & Date",
-  groupAccent: "#52C4A0",
+  groupAccent: "#C5F135",
   description: "Convert any date to its ordinal day of the year (1-366) and vice versa.",
   
   seo: {

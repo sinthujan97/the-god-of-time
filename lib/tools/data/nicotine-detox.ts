@@ -5,7 +5,7 @@ export const nicotineDetoxData: ToolPageData = {
   name: "Nicotine Detox Health Timeline",
   group: "health-lifecycle",
   groupName: "Health & Lifecycle",
-  groupAccent: "#E87C7C",
+  groupAccent: "#B2D828",
   description: "Track cellular, vascular, and physiological recovery stages starting from the first hour of quitting smoking or vaping.",
   
   seo: {

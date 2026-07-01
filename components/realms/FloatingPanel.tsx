@@ -78,7 +78,7 @@ export function PanelToggle({
         style={{
           width: 36,
           height: 18,
-          borderRadius: 9,
+          borderRadius: 0,
           border: "1px solid var(--border)",
           background: value ? "var(--tool-accent, var(--accent-cosmos))" : "var(--bg-surface)",
           cursor: "pointer",
@@ -300,8 +300,8 @@ export default function FloatingPanel({
         backdropFilter: "blur(16px)",
         WebkitBackdropFilter: "blur(16px)",
         border: "1px solid var(--border)",
-        borderRadius: 10,
-        boxShadow: "0 8px 32px rgba(0,0,0,0.4)",
+        borderRadius: 0,
+        boxShadow: "var(--shadow-offset-lg) var(--shadow-color)",
         overflow: "hidden",
         transition: position ? "none" : "top 200ms ease, left 200ms ease, right 200ms ease, bottom 200ms ease",
       }}
@@ -338,7 +338,7 @@ export default function FloatingPanel({
           style={{
             width: 20,
             height: 20,
-            borderRadius: 4,
+            borderRadius: 0,
             background: "transparent",
             border: "none",
             color: "var(--text-faint)",

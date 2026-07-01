@@ -5,7 +5,7 @@ export const leapYearCheckerData: ToolPageData = {
   name: "Leap Year Checker",
   group: "utility-a",
   groupName: "Standard Time & Date",
-  groupAccent: "#52C4A0",
+  groupAccent: "#C5F135",
   description: "Check if a given year is a leap year according to the Gregorian calendar.",
   
   seo: {

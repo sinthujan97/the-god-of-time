@@ -5,7 +5,7 @@ export const fiscalQuarterCalculatorData: ToolPageData = {
   name: "Fiscal Quarter & Year Calculator",
   group: "project-management",
   groupName: "Project Management & Business",
-  groupAccent: "#9B8EF5",
+  groupAccent: "#8BA812",
   description: "Map any calendar date to its corresponding corporate fiscal quarter and fiscal year, supporting custom starts.",
   
   seo: {

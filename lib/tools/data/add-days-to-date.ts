@@ -5,7 +5,7 @@ export const addDaysToDateData: ToolPageData = {
   name: "Add Days to Date Tool",
   group: "utility-a",
   groupName: "Standard Time & Date",
-  groupAccent: "#52C4A0",
+  groupAccent: "#C5F135",
   description: "Find any future or past date by adding or subtracting days, weeks, months, or years from a start date.",
   
   seo: {

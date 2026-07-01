@@ -62,7 +62,7 @@ const WORD_BANK: HistoricalWord[] = [
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
-const ACCENT      = "#F0A830";
+const ACCENT      = "#C5F135";
 const GREEN       = "#52C4A0";
 const RED         = "#E87C7C";
 const LS_KEY      = "temporal-anchor-v1";
@@ -320,7 +320,7 @@ export default function TemporalAnchor() {
         </div>
 
         {/* Clue card */}
-        <div className="w-full mb-5 px-5 py-4 rounded-xl border border-border" style={{ background: "var(--bg-card)" }}>
+        <div className="w-full mb-5 px-5 py-4 rounded-[var(--radius-md)] border-[length:var(--border-width-thick)] border-border" style={{ background: "var(--bg-card)", boxShadow: "var(--shadow-offset-md) var(--shadow-color)" }}>
           <div className="flex items-start gap-3">
             <span className="text-2xl mt-0.5 flex-shrink-0">{daily.emoji}</span>
             <div className="min-w-0">
@@ -372,8 +372,8 @@ export default function TemporalAnchor() {
             </div>
 
             {/* Letter track */}
-            <div className="w-full rounded-xl border overflow-hidden transition-colors duration-200"
-                 style={{ background: "var(--bg-card)", borderColor: borderColor }}>
+            <div className="w-full rounded-[var(--radius-md)] border-[length:var(--border-width-thick)] overflow-hidden transition-colors duration-200"
+                 style={{ background: "var(--bg-card)", borderColor: borderColor, boxShadow: "var(--shadow-offset-lg) var(--shadow-color)" }}>
               <div className="flex items-center justify-center py-5 gap-0">
                 {windowLetters.map((ltr, i) => {
                   const d       = ltr.distFromCenter;
@@ -430,7 +430,7 @@ export default function TemporalAnchor() {
             {/* Stability fracture pips */}
             <div className="mt-2 flex justify-center gap-1.5">
               {[0, 1, 2, 3].map(i => (
-                <div key={i} className="rounded-full transition-all duration-300"
+                <div key={i} className="rounded-none transition-all duration-300"
                      style={{ width: 28, height: 5, background: stability > i * 25 ? stabColor : "var(--border)" }} />
               ))}
             </div>
@@ -448,8 +448,12 @@ export default function TemporalAnchor() {
         {phase === "playing" && (
           <button
             onClick={handleDrop}
-            className="w-full h-[72px] rounded-xl font-sans font-black text-xl uppercase tracking-[0.18em] cursor-pointer transition-transform active:scale-[0.97] active:translate-y-0.5 select-none mb-5"
-            style={{ background: ACCENT, color: "#06060A", animation: "ta-pulse 1.8s ease-in-out infinite" }}
+            className="w-full h-[72px] rounded-[var(--radius-md)] border-[length:var(--border-width-thick)] border-border font-sans font-black text-xl uppercase tracking-[0.18em] cursor-pointer select-none mb-5"
+            style={{ background: ACCENT, color: "#06060A", animation: "ta-pulse 1.8s ease-in-out infinite", boxShadow: "var(--shadow-offset-lg) var(--shadow-color)", transition: "transform 120ms ease, box-shadow 120ms ease" }}
+            onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.transform = "translate(-3px,-3px)"; (e.currentTarget as HTMLButtonElement).style.boxShadow = "var(--shadow-offset-xl) var(--shadow-color)"; }}
+            onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.transform = ""; (e.currentTarget as HTMLButtonElement).style.boxShadow = "var(--shadow-offset-lg) var(--shadow-color)"; }}
+            onMouseDown={e => { (e.currentTarget as HTMLButtonElement).style.transform = "translate(2px,2px)"; (e.currentTarget as HTMLButtonElement).style.boxShadow = "2px 2px 0px var(--shadow-color)"; }}
+            onMouseUp={e => { (e.currentTarget as HTMLButtonElement).style.transform = ""; (e.currentTarget as HTMLButtonElement).style.boxShadow = "var(--shadow-offset-lg) var(--shadow-color)"; }}
           >
             ⚡ DROP
           </button>
@@ -459,16 +463,20 @@ export default function TemporalAnchor() {
         {phase === "idle" && !alreadyPlayed && (
           <button
             onClick={startGame}
-            className="w-full h-16 rounded-xl font-sans font-bold text-base uppercase tracking-[0.12em] cursor-pointer select-none transition-all active:scale-[0.98] mb-5"
-            style={{ background: ACCENT, color: "#06060A", boxShadow: "4px 4px 0px 0px rgba(240,168,48,0.35)" }}
+            className="w-full h-16 rounded-[var(--radius-md)] border-[length:var(--border-width-thick)] border-border font-sans font-bold text-base uppercase tracking-[0.12em] cursor-pointer select-none mb-5"
+            style={{ background: ACCENT, color: "#06060A", boxShadow: "var(--shadow-offset-lg) var(--shadow-color)", transition: "transform 120ms ease, box-shadow 120ms ease" }}
+            onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.transform = "translate(-3px,-3px)"; (e.currentTarget as HTMLButtonElement).style.boxShadow = "var(--shadow-offset-xl) var(--shadow-color)"; }}
+            onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.transform = ""; (e.currentTarget as HTMLButtonElement).style.boxShadow = "var(--shadow-offset-lg) var(--shadow-color)"; }}
+            onMouseDown={e => { (e.currentTarget as HTMLButtonElement).style.transform = "translate(2px,2px)"; (e.currentTarget as HTMLButtonElement).style.boxShadow = "2px 2px 0px var(--shadow-color)"; }}
+            onMouseUp={e => { (e.currentTarget as HTMLButtonElement).style.transform = ""; (e.currentTarget as HTMLButtonElement).style.boxShadow = "var(--shadow-offset-lg) var(--shadow-color)"; }}
           >
             Fire the Anchor
           </button>
         )}
 
         {phase === "idle" && alreadyPlayed && saved.todayResult && (
-          <div className="w-full rounded-xl border border-border p-6 text-center mb-5"
-               style={{ background: "var(--bg-card)" }}>
+          <div className="w-full rounded-[var(--radius-md)] border-[length:var(--border-width-thick)] border-border p-6 text-center mb-5"
+               style={{ background: "var(--bg-card)", boxShadow: "var(--shadow-offset-lg) var(--shadow-color)" }}>
             <div className="text-4xl mb-3">{saved.todayResult.outcome === "won" ? "✅" : "💀"}</div>
             <p className="font-display font-light italic text-xl text-text-primary mb-1">
               {saved.todayResult.outcome === "won"
@@ -477,8 +485,12 @@ export default function TemporalAnchor() {
             </p>
             <p className="font-mono text-sm text-text-faint mb-4">{daily.word}</p>
             <button onClick={handleShare}
-                    className="h-9 px-5 rounded-lg border border-border font-sans font-semibold text-xs text-text-primary cursor-pointer"
-                    style={{ background: "var(--bg-surface)", boxShadow: "2px 2px 0px 0px var(--border)" }}>
+                    className="h-9 px-5 rounded-[var(--radius-sm)] border-[length:var(--border-width)] border-border font-sans font-semibold text-xs text-text-primary cursor-pointer"
+                    style={{ background: "var(--bg-surface)", boxShadow: "var(--shadow-offset-sm) var(--shadow-color)", transition: "transform 120ms ease, box-shadow 120ms ease" }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.transform = "translate(-1px,-1px)"; (e.currentTarget as HTMLButtonElement).style.boxShadow = "var(--shadow-offset-md) var(--shadow-color)"; }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.transform = ""; (e.currentTarget as HTMLButtonElement).style.boxShadow = "var(--shadow-offset-sm) var(--shadow-color)"; }}
+                    onMouseDown={e => { (e.currentTarget as HTMLButtonElement).style.transform = "translate(1px,1px)"; (e.currentTarget as HTMLButtonElement).style.boxShadow = "1px 1px 0px var(--shadow-color)"; }}
+                    onMouseUp={e => { (e.currentTarget as HTMLButtonElement).style.transform = ""; (e.currentTarget as HTMLButtonElement).style.boxShadow = "var(--shadow-offset-sm) var(--shadow-color)"; }}>
               {copied ? "Copied ✓" : "Share result →"}
             </button>
           </div>
@@ -487,8 +499,8 @@ export default function TemporalAnchor() {
         {/* ── Results panel ─────────────────────────────────────────────── */}
         {(phase === "won" || phase === "lost") && (
           <div className="w-full flex flex-col gap-3 mb-5">
-            <div className="w-full rounded-xl border border-border p-6 text-center"
-                 style={{ background: "var(--bg-card)" }}>
+            <div className="w-full rounded-[var(--radius-md)] border-[length:var(--border-width-thick)] border-border p-6 text-center"
+                 style={{ background: "var(--bg-card)", boxShadow: "var(--shadow-offset-lg) var(--shadow-color)" }}>
               <div className="text-5xl mb-3">{phase === "won" ? "✅" : "💀"}</div>
               <p className="font-display font-light italic text-2xl mb-2"
                  style={{ color: phase === "won" ? GREEN : RED }}>
@@ -502,13 +514,17 @@ export default function TemporalAnchor() {
               {/* Stability pips */}
               <div className="flex justify-center gap-1.5 mb-5">
                 {[0, 1, 2, 3].map(i => (
-                  <div key={i} className="rounded-full"
+                  <div key={i} className="rounded-none"
                        style={{ width: 32, height: 6, background: stability > i * 25 ? stabColor : "var(--border)" }} />
                 ))}
               </div>
               <button onClick={handleShare}
-                      className="w-full h-10 rounded-lg border border-border font-sans font-semibold text-sm cursor-pointer transition-all hover:border-text-muted"
-                      style={{ background: "var(--bg-surface)", boxShadow: "2px 2px 0px 0px var(--border)" }}>
+                      className="w-full h-10 rounded-[var(--radius-sm)] border-[length:var(--border-width)] border-border font-sans font-semibold text-sm cursor-pointer"
+                      style={{ background: "var(--bg-surface)", boxShadow: "var(--shadow-offset-sm) var(--shadow-color)", transition: "transform 120ms ease, box-shadow 120ms ease" }}
+                      onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.transform = "translate(-1px,-1px)"; (e.currentTarget as HTMLButtonElement).style.boxShadow = "var(--shadow-offset-md) var(--shadow-color)"; }}
+                      onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.transform = ""; (e.currentTarget as HTMLButtonElement).style.boxShadow = "var(--shadow-offset-sm) var(--shadow-color)"; }}
+                      onMouseDown={e => { (e.currentTarget as HTMLButtonElement).style.transform = "translate(1px,1px)"; (e.currentTarget as HTMLButtonElement).style.boxShadow = "1px 1px 0px var(--shadow-color)"; }}
+                      onMouseUp={e => { (e.currentTarget as HTMLButtonElement).style.transform = ""; (e.currentTarget as HTMLButtonElement).style.boxShadow = "var(--shadow-offset-sm) var(--shadow-color)"; }}>
                 {copied ? "Copied to clipboard ✓" : "Share result →"}
               </button>
             </div>
@@ -527,8 +543,8 @@ export default function TemporalAnchor() {
             <div className="flex flex-wrap gap-2">
               {saved.history.map((r, i) => (
                 <div key={i} title={`${r.date} · ${r.word}`}
-                     className="flex flex-col items-center gap-0.5 px-2.5 py-2 rounded-lg border border-border cursor-default"
-                     style={{ background: "var(--bg-card)" }}>
+                     className="flex flex-col items-center gap-0.5 px-2.5 py-2 rounded-[var(--radius-sm)] border-[length:var(--border-width)] border-border cursor-default"
+                     style={{ background: "var(--bg-card)", boxShadow: "var(--shadow-offset-sm) var(--shadow-color)" }}>
                   <span className="text-base leading-none">{r.outcome === "won" ? "✅" : "💀"}</span>
                   <span className="font-mono text-[7px] text-text-faint tabular-nums">{r.date.slice(5)}</span>
                 </div>

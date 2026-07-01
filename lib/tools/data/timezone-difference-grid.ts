@@ -5,7 +5,7 @@ export const timezoneDifferenceGridData: ToolPageData = {
   name: "Time Zone Relative Difference Grid",
   group: "global-time",
   groupName: "Global Time & Time Zones",
-  groupAccent: "#F5A857",
+  groupAccent: "#D8F870",
   description: "View a visual matrix showing offsets relative to your own timezone or standard base zones.",
   
   seo: {

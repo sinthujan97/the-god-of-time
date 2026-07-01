@@ -5,7 +5,7 @@ export const millisecondTimerData: ToolPageData = {
   name: "Millisecond Timer & Delta Counter",
   group: "utility-a",
   groupName: "Standard Time & Date",
-  groupAccent: "#52C4A0",
+  groupAccent: "#C5F135",
   description: "A precision timer showing elapsed milliseconds, lap logs, and delta gaps.",
   
   seo: {

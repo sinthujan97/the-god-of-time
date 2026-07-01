@@ -5,7 +5,7 @@ export const loanMaturityDateData: ToolPageData = {
   name: "Loan Maturity Date Calculator",
   group: "health-lifecycle",
   groupName: "Health & Lifecycle",
-  groupAccent: "#E87C7C",
+  groupAccent: "#B2D828",
   description: "Calculate the exact final maturity date of a financial loan or mortgage based on term parameters.",
   
   seo: {

@@ -5,7 +5,7 @@ export const slaCountdownTimerData: ToolPageData = {
   name: "SLA Breach Countdown Calculator",
   group: "project-management",
   groupName: "Project Management & Business",
-  groupAccent: "#9B8EF5",
+  groupAccent: "#8BA812",
   description: "Calculate deadline and countdown until Service Level Agreement (SLA) breach, supporting business hours.",
   
   seo: {

@@ -5,7 +5,7 @@ export const flightDurationCalculatorData: ToolPageData = {
   name: "Flight Duration & Time Zone Calculator",
   group: "global-time",
   groupName: "Global Time & Time Zones",
-  groupAccent: "#F5A857",
+  groupAccent: "#D8F870",
   description: "Determine exact flight duration using departure/arrival local times and time zone offsets.",
   
   seo: {

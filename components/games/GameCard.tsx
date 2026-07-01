@@ -15,17 +15,22 @@ export default function GameCard({ game }: { game: Game }) {
   return (
     <Link
       href={`/games/${game.slug}`}
-      className="group block relative rounded-xl border border-border bg-bg-card overflow-hidden cursor-pointer h-[300px] transition-all duration-300"
-      style={{ textDecoration: "none" }}
+      className="group block relative overflow-hidden cursor-pointer h-[300px] transition-all duration-150"
+      style={{
+        textDecoration: "none",
+        border: "var(--border-width) solid var(--border)",
+        boxShadow: "var(--shadow-offset-lg) var(--shadow-color)",
+        background: `color-mix(in srgb, var(--bg-card) 92%, ${game.accent} 8%)`,
+      }}
       onMouseEnter={e => {
         const el = e.currentTarget as HTMLElement;
-        el.style.borderColor = game.accent;
-        el.style.transform   = "scale(1.01)";
+        el.style.transform = "translate(-3px, -3px)";
+        el.style.boxShadow = "var(--shadow-offset-xl) var(--shadow-color)";
       }}
       onMouseLeave={e => {
         const el = e.currentTarget as HTMLElement;
-        el.style.borderColor = "var(--border)";
-        el.style.transform   = "scale(1)";
+        el.style.transform = "translate(0, 0)";
+        el.style.boxShadow = "var(--shadow-offset-lg) var(--shadow-color)";
       }}
     >
       {/* Radial accent glow */}
@@ -42,24 +47,32 @@ export default function GameCard({ game }: { game: Game }) {
       {/* Difficulty + play-time tags */}
       <div className="absolute top-4 left-4 z-20 flex gap-2">
         <span
-          className="px-2.5 py-0.5 rounded-full font-sans text-[9px] font-semibold tracking-wider uppercase border"
+          className="px-2.5 py-0.5 rounded-none font-sans text-[9px] font-bold tracking-wider uppercase"
           style={{
-            color:            game.accent,
-            backgroundColor:  `color-mix(in srgb, ${game.accent} 10%, transparent)`,
-            borderColor:      `color-mix(in srgb, ${game.accent} 28%, transparent)`,
+            color: "var(--section-games-text-on-accent)",
+            background: game.accent,
+            border: "var(--border-width-thin) solid var(--border)",
           }}
         >
           {DIFFICULTY_LABEL[game.difficulty]}
         </span>
-        <span className="px-2.5 py-0.5 rounded-full font-sans text-[9px] font-semibold tracking-wider uppercase border border-border text-text-faint bg-bg-surface/60">
+        <span
+          className="px-2.5 py-0.5 rounded-none font-sans text-[9px] font-bold tracking-wider uppercase text-text-faint bg-bg-card"
+          style={{ border: "var(--border-width-thin) solid var(--border)" }}
+        >
           {game.playTime}
         </span>
       </div>
 
       {/* Hover badge */}
       <span
-        className="game-enter-badge absolute top-4 right-4 z-20 px-3.5 py-1.5 rounded-full font-sans text-xs font-medium text-text-primary bg-bg-card/80 border border-border/60 backdrop-blur-sm opacity-0 translate-x-2"
-        style={{ transition: "opacity 300ms, transform 300ms" }}
+        className="game-enter-badge absolute top-4 right-4 z-20 px-3.5 py-1.5 rounded-none font-sans text-xs font-bold opacity-0 translate-x-2"
+        style={{
+          transition: "opacity 150ms ease, transform 150ms ease",
+          color: "var(--section-games-text-on-accent)",
+          background: "var(--section-games-accent)",
+          border: "var(--border-width-thin) solid var(--border)",
+        }}
       >
         Play →
       </span>

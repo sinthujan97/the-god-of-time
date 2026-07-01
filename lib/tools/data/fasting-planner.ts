@@ -5,7 +5,7 @@ export const fastingPlannerData: ToolPageData = {
   name: "Intermittent Fasting Schedule Planner",
   group: "health-lifecycle",
   groupName: "Health & Lifecycle",
-  groupAccent: "#E87C7C",
+  groupAccent: "#B2D828",
   description: "Plan and track daily fasting intervals (e.g., 16:8, 18:6, or custom routines) with autophagy activation markers.",
   
   seo: {

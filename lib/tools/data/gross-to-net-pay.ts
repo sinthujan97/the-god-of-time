@@ -5,7 +5,7 @@ export const grossToNetPayData: ToolPageData = {
   name: "Gross-to-Net Time Pay Sheet",
   group: "hr-payroll",
   groupName: "HR, Payroll & Freelance",
-  groupAccent: "#60A5D4",
+  groupAccent: "#A8CC1C",
   description: "Estimate your net take-home pay after standard hours, taxes, and other payroll deductions.",
   
   seo: {

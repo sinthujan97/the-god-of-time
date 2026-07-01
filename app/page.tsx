@@ -7,6 +7,7 @@ import GamesSection from "@/components/homepage/GamesSection";
 import TransitionDivider from "@/components/homepage/TransitionDivider";
 import UtilitySection from "@/components/homepage/UtilitySection";
 import HomepageFooter from "@/components/homepage/HomepageFooter";
+import { SectionAccentProvider } from "@/lib/context/SectionAccentContext";
 
 export const metadata: Metadata = {
   title: "The God of Time | Cosmic Time Tools & Calculators",
@@ -24,22 +25,32 @@ export default function Home() {
   return (
     <main className="w-full relative overflow-x-hidden">
       {/* 1. Hero Section (full viewport height) */}
-      <HeroSection />
+      <SectionAccentProvider section="default">
+        <HeroSection />
+      </SectionAccentProvider>
 
       {/* 2. Featured Tools Strip */}
-      <FeaturedToolsStrip />
+      <SectionAccentProvider section="tools">
+        <FeaturedToolsStrip />
+      </SectionAccentProvider>
 
       {/* 3. Cosmic Realms grid */}
-      <RealmsSection />
+      <SectionAccentProvider section="realms">
+        <RealmsSection />
+      </SectionAccentProvider>
 
       {/* 4. Daily Games */}
-      <GamesSection />
+      <SectionAccentProvider section="games">
+        <GamesSection />
+      </SectionAccentProvider>
 
       {/* 5. Tonal Transition Divider */}
       <TransitionDivider />
 
       {/* 5. Utility Calculators tabs grid */}
-      <UtilitySection />
+      <SectionAccentProvider section="tools">
+        <UtilitySection />
+      </SectionAccentProvider>
 
       {/* 6. Homepage branding footer */}
       <HomepageFooter />

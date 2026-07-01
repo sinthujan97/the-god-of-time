@@ -5,7 +5,7 @@ export const isoWeekNumberData: ToolPageData = {
   name: "ISO Week Number Calculator",
   group: "utility-a",
   groupName: "Standard Time & Date",
-  groupAccent: "#52C4A0",
+  groupAccent: "#C5F135",
   description: "Find the ISO 8601 week number and year representation for any date.",
   
   seo: {

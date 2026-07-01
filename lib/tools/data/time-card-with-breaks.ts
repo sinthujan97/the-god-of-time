@@ -5,7 +5,7 @@ export const timeCardWithBreaksData: ToolPageData = {
   name: "Multi-Break Time Card Tool",
   group: "hr-payroll",
   groupName: "HR, Payroll & Freelance",
-  groupAccent: "#60A5D4",
+  groupAccent: "#A8CC1C",
   description: "Track work hours with multiple lunch and rest breaks, allocating paid and unpaid break times accurately.",
   
   seo: {

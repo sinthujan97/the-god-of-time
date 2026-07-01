@@ -5,7 +5,7 @@ export const statutoryNoticePeriodData: ToolPageData = {
   name: "Statutory Notice Period Calculator",
   group: "project-management",
   groupName: "Project Management & Business",
-  groupAccent: "#9B8EF5",
+  groupAccent: "#8BA812",
   description: "Determine required resignation or termination notice periods and project final employment dates.",
   
   seo: {

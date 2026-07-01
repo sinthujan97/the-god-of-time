@@ -5,7 +5,7 @@ export const worldTimeConverterData: ToolPageData = {
   name: "World Time Zone Converter",
   group: "global-time",
   groupName: "Global Time & Time Zones",
-  groupAccent: "#F5A857",
+  groupAccent: "#D8F870",
   description: "Convert any local time into multiple targeted global time zones simultaneously.",
   
   seo: {

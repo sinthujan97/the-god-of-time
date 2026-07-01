@@ -45,7 +45,7 @@ export default function ToolSelect({
 }: ToolSelectProps) {
   const [open, setOpen] = useState(false);
   const contextAccent = useAccentColor();
-  const activeAccent = accentColor || contextAccent || "#52C4A0";
+  const activeAccent = accentColor || contextAccent || "#C5F135";
 
   const selectedOption = options.find((opt) => opt.value === value);
 
@@ -86,10 +86,10 @@ export default function ToolSelect({
           <PopoverTrigger asChild>
             <button
               id={id}
-              className={`w-full h-12 bg-bg-surface border rounded-md px-4 flex items-center justify-between text-left font-sans text-sm transition-all focus:outline-none focus:ring-4 select-none cursor-pointer ${
+              className={`w-full h-12 bg-bg-surface border-[length:var(--border-width)] rounded-[var(--radius-sm)] px-4 flex items-center justify-between text-left font-sans text-sm transition-all focus:outline-none select-none cursor-pointer ${
                 open
-                  ? "border-2 border-[color:var(--local-accent)] ring-[color:color-mix(in_srgb,var(--local-accent)_12.5%,transparent)]"
-                  : "border-border hover:border-text-faint focus:border-2 focus:border-[color:var(--local-accent)] focus:ring-[color:color-mix(in_srgb,var(--local-accent)_12.5%,transparent)]"
+                  ? "border-[color:var(--local-accent)] shadow-[var(--shadow-offset-sm)_var(--local-accent)] -translate-x-px -translate-y-px"
+                  : "border-border shadow-[var(--shadow-offset-sm)_var(--shadow-color)] hover:-translate-x-px hover:-translate-y-px hover:shadow-[var(--shadow-offset-md)_var(--shadow-color)]"
               }`}
             >
               <span className={selectedOption ? "text-text-primary" : "text-text-muted"}>
@@ -100,7 +100,7 @@ export default function ToolSelect({
           </PopoverTrigger>
 
           <PopoverContent
-            className="w-[280px] p-0 bg-bg-card border border-border rounded-[10px] shadow-[0_8px_32px_rgba(0,0,0,0.4)] overflow-hidden"
+            className="w-[280px] p-0 bg-bg-card border-[length:var(--border-width)] border-border rounded-[var(--radius-lg)] shadow-[var(--shadow-offset-lg)_var(--shadow-color)] overflow-hidden"
             align="start"
           >
             {/* Raw cmdk structure styled customly */}
@@ -175,15 +175,15 @@ export default function ToolSelect({
         </label>
       )}
       <Select value={value} onValueChange={onChange}>
-        <SelectTrigger 
+        <SelectTrigger
           id={id}
-          className="w-full hover:border-text-faint focus:border-[color:var(--local-accent)] focus:ring-[color:color-mix(in_srgb,var(--local-accent)_20%,transparent)] cursor-pointer select-none"
+          className="w-full h-12 bg-bg-surface border-[length:var(--border-width)] border-border rounded-[var(--radius-sm)] px-4 shadow-[var(--shadow-offset-sm)_var(--shadow-color)] hover:-translate-x-px hover:-translate-y-px hover:shadow-[var(--shadow-offset-md)_var(--shadow-color)] focus-visible:border-[color:var(--local-accent)] focus-visible:shadow-[var(--shadow-offset-sm)_var(--local-accent)] cursor-pointer select-none transition-all"
         >
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
-        
-        <SelectContent 
-          className="bg-bg-card border border-border rounded-[10px] shadow-[0_8px_32px_rgba(0,0,0,0.4)]"
+
+        <SelectContent
+          className="bg-bg-card border-[length:var(--border-width)] border-border rounded-[var(--radius-lg)] shadow-[var(--shadow-offset-lg)_var(--shadow-color)]"
           style={{ "--accent-utility-a": activeAccent } as React.CSSProperties}
         >
           {hasGroups ? (

@@ -5,7 +5,7 @@ export const dateLineSimulatorData: ToolPageData = {
   name: "International Date Line Crossing Simulator",
   group: "global-time",
   groupName: "Global Time & Time Zones",
-  groupAccent: "#F5A857",
+  groupAccent: "#D8F870",
   description: "Simulate traveling across the Pacific IDL to see date gains or losses in real time.",
   
   seo: {

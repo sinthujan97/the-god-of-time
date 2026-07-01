@@ -5,7 +5,7 @@ export const daysUntilCounterData: ToolPageData = {
   name: "Days Until Counter",
   group: "utility-a",
   groupName: "Standard Time & Date",
-  groupAccent: "#52C4A0",
+  groupAccent: "#C5F135",
   description: "Count down the precise days, hours, minutes, and seconds remaining until an upcoming event or deadline.",
   
   seo: {

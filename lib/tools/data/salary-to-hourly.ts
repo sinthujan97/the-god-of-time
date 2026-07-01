@@ -5,7 +5,7 @@ export const salaryToHourlyData: ToolPageData = {
   name: "Salary to Hourly Calculator",
   group: "hr-payroll",
   groupName: "HR, Payroll & Freelance",
-  groupAccent: "#60A5D4",
+  groupAccent: "#A8CC1C",
   description: "Convert an annual salary into equivalent gross and net hourly rates, daily rates, and weekly pay.",
   
   seo: {

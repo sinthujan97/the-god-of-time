@@ -5,7 +5,7 @@ export const militaryTimeConverterData: ToolPageData = {
   name: "Military Time Converter",
   group: "global-time",
   groupName: "Global Time & Time Zones",
-  groupAccent: "#F5A857",
+  groupAccent: "#D8F870",
   description: "Convert between 12-hour AM/PM formats and 24-hour military standards.",
   
   seo: {

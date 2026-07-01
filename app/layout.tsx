@@ -22,6 +22,12 @@ const inter = Inter({
   variable: "--font-ui",
 });
 
+const interHeadline = Inter({
+  subsets: ["latin"],
+  weight: ["800", "900"],
+  variable: "--font-headline",
+});
+
 const jetbrains = JetBrains_Mono({
   subsets: ["latin"],
   weight: ["400"],
@@ -63,7 +69,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn("h-full", "antialiased", cormorant.variable, inter.variable, jetbrains.variable, "font-sans", geist.variable)}
+      className={cn("h-full", "antialiased", cormorant.variable, inter.variable, interHeadline.variable, jetbrains.variable, "font-sans", geist.variable)}
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col bg-bg-base text-text-primary" suppressHydrationWarning>

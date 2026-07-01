@@ -5,7 +5,7 @@ export const caffeineHalfLifeData: ToolPageData = {
   name: "Caffeine Elimination Curve Tool",
   group: "health-lifecycle",
   groupName: "Health & Lifecycle",
-  groupAccent: "#E87C7C",
+  groupAccent: "#B2D828",
   description: "Graph the decline of caffeine levels in your body based on typical half-life models to protect sleep quality.",
   
   seo: {

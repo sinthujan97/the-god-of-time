@@ -5,7 +5,7 @@ export const timezoneAbbreviationsData: ToolPageData = {
   name: "Time Zone Abbreviation Directory",
   group: "global-time",
   groupName: "Global Time & Time Zones",
-  groupAccent: "#F5A857",
+  groupAccent: "#D8F870",
   description: "Look up standard abbreviations like EST, CEST, JST, and AEDT with active offsets.",
   
   seo: {

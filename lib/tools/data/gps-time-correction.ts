@@ -5,7 +5,7 @@ export const gpsTimeCorrectionData: ToolPageData = {
   name: "GPS Time Correction Tool",
   group: "global-time",
   groupName: "Global Time & Time Zones",
-  groupAccent: "#F5A857",
+  groupAccent: "#D8F870",
   description: "Calculate differences between GPS time, International Atomic Time (TAI), and UTC incorporating leap seconds.",
   
   seo: {

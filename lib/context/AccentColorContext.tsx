@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext } from "react";
 
-const AccentColorContext = createContext<string>("#52C4A0");
+const AccentColorContext = createContext<string>("#C5F135");
 
 export function AccentColorProvider({
   color,

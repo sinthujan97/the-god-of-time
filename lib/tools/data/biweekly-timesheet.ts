@@ -5,7 +5,7 @@ export const biweeklyTimesheetData: ToolPageData = {
   name: "Bi-Weekly Timesheet Template Generator",
   group: "hr-payroll",
   groupName: "HR, Payroll & Freelance",
-  groupAccent: "#60A5D4",
+  groupAccent: "#A8CC1C",
   description: "Generate a detailed 14-day bi-weekly time card, tracking start and end times, lunch breaks, and overtime subtotals.",
   
   seo: {

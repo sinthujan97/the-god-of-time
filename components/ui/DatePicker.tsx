@@ -31,7 +31,7 @@ export default function DatePicker({
 }: DatePickerProps) {
   const [open, setOpen] = useState(false);
   const contextAccent = useAccentColor();
-  const activeAccent = accentColor || contextAccent || "#52C4A0";
+  const activeAccent = accentColor || contextAccent || "#C5F135";
 
   // Date formatting options
   const formatDate = (date: Date) => {
@@ -48,7 +48,7 @@ export default function DatePicker({
   } as React.CSSProperties;
 
   return (
-    <div className="tool-input-group w-full font-sans">
+    <div className="tool-input-group w-full max-w-[280px] font-sans">
       {label && (
         <label className="tool-input-label" htmlFor={id}>
           {label}
@@ -61,10 +61,10 @@ export default function DatePicker({
             id={id}
             disabled={disabled}
             style={triggerStyles}
-            className={`w-full h-12 bg-bg-surface border rounded-md px-4 flex items-center justify-between text-left font-sans text-sm transition-all focus:outline-none focus:ring-4 select-none cursor-pointer ${
-              open 
-                ? "border-2 border-[color:var(--local-accent)] ring-[color:color-mix(in_srgb,var(--local-accent)_12.5%,transparent)]" 
-                : "border-border hover:border-text-faint focus:border-2 focus:border-[color:var(--local-accent)] focus:ring-[color:color-mix(in_srgb,var(--local-accent)_12.5%,transparent)]"
+            className={`w-full h-12 bg-bg-surface border-[length:var(--border-width)] rounded-[var(--radius-sm)] px-4 flex items-center justify-between text-left font-sans text-sm transition-all focus:outline-none select-none cursor-pointer ${
+              open
+                ? "border-[color:var(--local-accent)] shadow-[var(--shadow-offset-sm)_var(--local-accent)] -translate-x-px -translate-y-px"
+                : "border-border shadow-[var(--shadow-offset-sm)_var(--shadow-color)] hover:-translate-x-px hover:-translate-y-px hover:shadow-[var(--shadow-offset-md)_var(--shadow-color)]"
             } ${disabled ? "opacity-50 pointer-events-none" : ""}`}
           >
             {value ? (
@@ -76,8 +76,8 @@ export default function DatePicker({
           </button>
         </PopoverTrigger>
         
-        <PopoverContent 
-          className="w-auto p-0 border border-border bg-bg-card rounded-[10px] shadow-[0_8px_32px_rgba(0,0,0,0.4)]"
+        <PopoverContent
+          className="w-auto p-0 border-[length:var(--border-width)] border-border bg-bg-card rounded-[var(--radius-lg)] shadow-[var(--shadow-offset-lg)_var(--shadow-color)]"
           align="start"
         >
           <div style={{ "--accent-utility-a": activeAccent } as React.CSSProperties}>

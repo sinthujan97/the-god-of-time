@@ -5,7 +5,7 @@ export const dateMidpointCalculatorData: ToolPageData = {
   name: "Date Midpoint Calculator",
   group: "utility-a",
   groupName: "Standard Time & Date",
-  groupAccent: "#52C4A0",
+  groupAccent: "#C5F135",
   description: "Find the exact midpoint date and time between two custom endpoints.",
   
   seo: {

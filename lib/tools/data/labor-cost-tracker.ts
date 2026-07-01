@@ -5,7 +5,7 @@ export const laborCostTrackerData: ToolPageData = {
   name: "Time-Weighted Employee Utility Tracker",
   group: "hr-payroll",
   groupName: "HR, Payroll & Freelance",
-  groupAccent: "#60A5D4",
+  groupAccent: "#A8CC1C",
   description: "Track combined employee labor costs, overhead multipliers, and project margins based on hours worked.",
   
   seo: {

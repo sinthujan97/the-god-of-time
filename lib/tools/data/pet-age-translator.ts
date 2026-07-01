@@ -5,7 +5,7 @@ export const petAgeTranslatorData: ToolPageData = {
   name: "Pet Age Translator",
   group: "health-lifecycle",
   groupName: "Health & Lifecycle",
-  groupAccent: "#E87C7C",
+  groupAccent: "#B2D828",
   description: "Convert dog, cat, or bird years to human years based on size and species guidelines.",
   
   seo: {

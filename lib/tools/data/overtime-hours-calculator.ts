@@ -5,7 +5,7 @@ export const overtimeHoursCalculatorData: ToolPageData = {
   name: "Overtime Hours Calculator",
   group: "utility-a",
   groupName: "Standard Time & Date",
-  groupAccent: "#52C4A0",
+  groupAccent: "#C5F135",
   description: "Calculate regular and overtime working hours based on daily or weekly thresholds.",
   
   seo: {

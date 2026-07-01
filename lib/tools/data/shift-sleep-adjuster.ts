@@ -5,7 +5,7 @@ export const shiftSleepAdjusterData: ToolPageData = {
   name: "Shift Work Sleep Adjuster",
   group: "health-lifecycle",
   groupName: "Health & Lifecycle",
-  groupAccent: "#E87C7C",
+  groupAccent: "#B2D828",
   description: "Plan sleep and light exposure transitions when adapting your circadian rhythm to rotating shift work.",
   
   seo: {

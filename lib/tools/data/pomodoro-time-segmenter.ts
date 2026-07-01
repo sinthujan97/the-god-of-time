@@ -5,7 +5,7 @@ export const pomodoroTimeSegmenterData: ToolPageData = {
   name: "Pomodoro Session & Break Segmenter",
   group: "project-management",
   groupName: "Project Management & Business",
-  groupAccent: "#9B8EF5",
+  groupAccent: "#8BA812",
   description: "Structure workdays into custom Pomodoro blocks (focus/break segments) and project completion times.",
   
   seo: {

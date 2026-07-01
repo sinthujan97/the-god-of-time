@@ -5,7 +5,7 @@ export const downtimeUptimeCalculatorData: ToolPageData = {
   name: "Downtime & Service Uptime Calculator",
   group: "project-management",
   groupName: "Project Management & Business",
-  groupAccent: "#9B8EF5",
+  groupAccent: "#8BA812",
   description: "Calculate overall service uptime percentage and review total downtime durations from incident logs.",
   
   seo: {

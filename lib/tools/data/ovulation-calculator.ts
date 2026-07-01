@@ -5,7 +5,7 @@ export const ovulationCalculatorData: ToolPageData = {
   name: "Ovulation & Fertility Window Map",
   group: "health-lifecycle",
   groupName: "Health & Lifecycle",
-  groupAccent: "#E87C7C",
+  groupAccent: "#B2D828",
   description: "Track your cycle to find estimated ovulation dates and fertile windows across an ongoing six-month period.",
   
   seo: {

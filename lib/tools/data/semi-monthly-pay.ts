@@ -5,7 +5,7 @@ export const semiMonthlyPayData: ToolPageData = {
   name: "Semi-Monthly Pay Stacker",
   group: "hr-payroll",
   groupName: "HR, Payroll & Freelance",
-  groupAccent: "#60A5D4",
+  groupAccent: "#A8CC1C",
   description: "Plan pay cycles, estimate gross pay per period, and generate upcoming paydates for twice-a-month schedules.",
   
   seo: {

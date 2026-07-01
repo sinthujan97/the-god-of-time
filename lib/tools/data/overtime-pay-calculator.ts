@@ -5,7 +5,7 @@ export const overtimePayCalculatorData: ToolPageData = {
   name: "Overtime Pay Calculator",
   group: "hr-payroll",
   groupName: "HR, Payroll & Freelance",
-  groupAccent: "#60A5D4",
+  groupAccent: "#A8CC1C",
   description: "Calculate regular pay, overtime pay (1.5x), and double-time pay (2x) based on hourly rates and custom thresholds.",
   
   seo: {

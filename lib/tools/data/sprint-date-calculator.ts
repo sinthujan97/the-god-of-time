@@ -5,7 +5,7 @@ export const sprintDateCalculatorData: ToolPageData = {
   name: "Agile Sprint Date Calculator",
   group: "project-management",
   groupName: "Project Management & Business",
-  groupAccent: "#9B8EF5",
+  groupAccent: "#8BA812",
   description: "Generate a multi-sprint Agile calendar with custom lengths, planning sessions, and demo days.",
   
   seo: {

@@ -5,7 +5,7 @@ export const interestDayCountData: ToolPageData = {
   name: "Interest Day-Count Calculator",
   group: "health-lifecycle",
   groupName: "Health & Lifecycle",
-  groupAccent: "#E87C7C",
+  groupAccent: "#B2D828",
   description: "Calculate standard commercial interest accrual day counts and statement calendar fractions using industry conventions.",
   
   seo: {

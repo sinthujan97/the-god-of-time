@@ -22,7 +22,7 @@ export default function RelatedToolsRail({ relatedTools, groupAccent }: RelatedT
           <Link
             key={tool.id}
             href={`/tools/${tool.slug}`}
-            className="flex-shrink-0 w-[240px] md:w-auto bg-bg-card border border-border rounded-[10px] p-5 transition-all duration-150 hover:bg-bg-card-hover group border-l-[3px]"
+            className="flex-shrink-0 w-[240px] md:w-auto bg-bg-card border-[length:var(--border-width)] border-border p-5 transition-all duration-150 group border-l-[3px]"
             style={{ 
               borderLeftColor: groupAccent,
               "--group-accent": groupAccent 
