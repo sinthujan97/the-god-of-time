@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import ClockLayout from "../ClockLayout";
 import { clocksRegistry } from "@/lib/data/clocksRegistry";
 
-const clock = clocksRegistry.find((c) => c.id === "lunar-anchor")!;
+const clock = clocksRegistry.find((c) => c.id === "absolute-lunar-anchor")!;
 
 // Constants for astronomy math
 const TIDAL_CYCLE = 12.4206; // hours in a semi-diurnal tidal cycle

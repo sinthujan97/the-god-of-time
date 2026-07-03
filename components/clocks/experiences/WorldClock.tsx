@@ -528,7 +528,7 @@ export default function WorldClock() {
                           border: "1.5px solid var(--border)",
                           borderRadius: 4,
                           background: data.isDay ? "var(--section-clocks-accent)" : "var(--border)",
-                          color: data.isDay ? "#000000" : "var(--bg-card)",
+                          color: data.isDay ? "#000000" : "var(--text-primary)",
                         }}
                       >
                         {data.isDay ? "☀️ DAY" : "🌙 NIGHT"}

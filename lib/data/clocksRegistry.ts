@@ -194,8 +194,8 @@ export const clocksRegistry: ClockEntry[] = [
     keywords: ["20-20-20 rule timer", "computer eye strain clock", "desk micro break reminder"],
   },
   {
-    id: "lunar-anchor",
-    slug: "lunar-anchor",
+    id: "absolute-lunar-anchor",
+    slug: "absolute-lunar-anchor",
     name: "Absolute Lunar Anchor",
     description: "A tide-tracking clock designed for marine activities, coastal workers, surfers, and moon phase observers.",
     category: "specialty",

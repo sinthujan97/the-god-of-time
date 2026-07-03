@@ -372,7 +372,7 @@ export default function PaintDrySimulator() {
   };
 
   // Dynamic filter string for canvas wrapper
-  const sat = 0.3 + wetness * 0.7;
+  const sat = 0.8 + wetness * 0.2;
   const bri = 1 + (1 - wetness) * 0.12;
   const canvasFilter = `saturate(${sat}) brightness(${bri})`;
 
