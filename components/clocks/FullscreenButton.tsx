@@ -1,33 +1,17 @@
 "use client";
 
-import { useState, useEffect, RefObject } from "react";
 import { Maximize2, Minimize2 } from "lucide-react";
 
 interface FullscreenButtonProps {
-  targetRef: RefObject<HTMLElement | null>;
+  isFs: boolean;
+  onToggle: () => void;
   className?: string;
 }
 
-export default function FullscreenButton({ targetRef, className = "" }: FullscreenButtonProps) {
-  const [isFs, setIsFs] = useState(false);
-
-  useEffect(() => {
-    const handler = () => setIsFs(!!document.fullscreenElement);
-    document.addEventListener("fullscreenchange", handler);
-    return () => document.removeEventListener("fullscreenchange", handler);
-  }, []);
-
-  function toggle() {
-    if (!document.fullscreenElement) {
-      targetRef.current?.requestFullscreen();
-    } else {
-      document.exitFullscreen();
-    }
-  }
-
+export default function FullscreenButton({ isFs, onToggle, className = "" }: FullscreenButtonProps) {
   return (
     <button
-      onClick={toggle}
+      onClick={onToggle}
       title={isFs ? "Exit fullscreen" : "Enter fullscreen"}
       className={className}
       style={{
