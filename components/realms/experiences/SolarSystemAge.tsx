@@ -56,18 +56,6 @@ const STAR_FIELD = Array.from({ length: 68 }, (_, i) => {
   };
 });
 
-// ─── Border classes for the 2-col mobile / 4-col desktop planet grid ─────────
-// Pre-computed for each of the 8 planet cells
-const PLANET_BORDERS = [
-  "border-r border-b",                       // 0 Mercury
-  "border-b md:border-r",                    // 1 Venus
-  "border-r border-b",                       // 2 Earth
-  "border-b",                                // 3 Mars
-  "border-r border-b md:border-b-0",         // 4 Jupiter
-  "border-b md:border-r md:border-b-0",      // 5 Saturn
-  "border-r",                                // 6 Uranus
-  "",                                        // 7 Neptune
-];
 
 // ─── Calculations ─────────────────────────────────────────────────────────────
 
@@ -310,24 +298,34 @@ export default function SolarSystemAge() {
           {/* ── Results ─────────────────────────────────────────────────── */}
           {ages ? (
             <>
-              {/* Planet ages — unified instrument panel */}
-              <div className="border-t border-b border-border bg-bg-card">
-                <div className="grid grid-cols-2 md:grid-cols-4">
-                  {ages.planetary.map((p, i) => (
+              {/* Planet ages — 3D neubrutalist cards */}
+              <div className="p-4 md:p-5">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                  {ages.planetary.map((p) => (
                     <div
                       key={p.name}
-                      className={`p-4 flex flex-col gap-1.5 ${PLANET_BORDERS[i]} border-border`}
+                      className="flex flex-col gap-1.5 p-4 transition-all duration-150 cursor-default"
+                      style={{
+                        background: "var(--bg-card)",
+                        border: "2px solid var(--border)",
+                        boxShadow: "3px 3px 0 var(--shadow-color)",
+                      }}
+                      onMouseEnter={(e) => {
+                        (e.currentTarget as HTMLDivElement).style.transform = "translate(-2px, -2px)";
+                        (e.currentTarget as HTMLDivElement).style.boxShadow = "5px 5px 0 var(--shadow-color)";
+                      }}
+                      onMouseLeave={(e) => {
+                        (e.currentTarget as HTMLDivElement).style.transform = "translate(0, 0)";
+                        (e.currentTarget as HTMLDivElement).style.boxShadow = "3px 3px 0 var(--shadow-color)";
+                      }}
                     >
-                      <div className="flex items-center gap-2">
-                        <span
-                          className="w-2.5 h-2.5 rounded-full flex-shrink-0"
-                          style={{ backgroundColor: p.color }}
-                        />
-                        <span className="text-[9px] font-sans font-semibold tracking-wider text-text-faint uppercase">
-                          {p.name}
-                        </span>
-                      </div>
-                      <div className="font-mono text-[1.2rem] text-text-primary tabular-nums leading-none">
+                      <span className="text-[9px] font-sans font-semibold tracking-wider text-text-faint uppercase">
+                        {p.name}
+                      </span>
+                      <div
+                        className="font-mono tabular-nums leading-none"
+                        style={{ fontSize: "1.5rem", fontWeight: 900, color: p.color }}
+                      >
                         {fmtPlanetAge(p.ageOnPlanet)}
                       </div>
                       <div className="text-[10px] font-sans text-text-faint leading-snug">

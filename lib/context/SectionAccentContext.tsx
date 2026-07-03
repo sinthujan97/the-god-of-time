@@ -2,7 +2,7 @@
 
 import { createContext, useContext } from 'react'
 
-type SectionType = 'tools' | 'realms' | 'games' | 'default'
+type SectionType = 'tools' | 'realms' | 'games' | 'clocks' | 'default'
 
 const SECTION_ACCENTS: Record<SectionType, {
   accent: string
@@ -23,6 +23,11 @@ const SECTION_ACCENTS: Record<SectionType, {
     accent: 'var(--section-games-accent)',
     accentDark: 'var(--section-games-accent-dark)',
     textOnAccent: 'var(--section-games-text-on-accent)'
+  },
+  clocks: {
+    accent: 'var(--section-clocks-accent)',
+    accentDark: 'var(--section-clocks-accent-dark)',
+    textOnAccent: 'var(--section-clocks-text-on-accent)'
   },
   default: {
     accent: 'var(--section-tools-accent)',

@@ -1,0 +1,231 @@
+export type ClockEntry = {
+  id: string;
+  slug: string;
+  name: string;
+  description: string;
+  category: "precision" | "world" | "specialty" | "ambient" | "fun";
+  icon: string;
+  keywords: string[];
+  isExistingTool?: boolean;
+  existingToolSlug?: string;
+};
+
+export const clocksRegistry: ClockEntry[] = [
+  // ─── PRECISION ──────────────────────────────────────────────────────────────
+  {
+    id: "stopwatch",
+    slug: "stopwatch",
+    name: "Stopwatch",
+    description: "Precision stopwatch with lap tracking, split times, and keyboard shortcuts. Accurate to the millisecond.",
+    category: "precision",
+    icon: "⏱",
+    keywords: ["stopwatch", "lap timer", "split time", "chronometer"],
+  },
+  {
+    id: "countdown",
+    slug: "countdown",
+    name: "Countdown Timer",
+    description: "Multiple simultaneous countdown timers with custom labels. Tab title updates so you can see it while working.",
+    category: "precision",
+    icon: "⏳",
+    keywords: ["countdown", "timer", "countdown timer", "multiple timers"],
+  },
+  {
+    id: "interval-timer",
+    slug: "interval-timer",
+    name: "Interval Timer",
+    description: "Work/rest interval timer for workouts. Tabata, HIIT, and custom presets with audio cues.",
+    category: "precision",
+    icon: "🔄",
+    keywords: ["interval timer", "tabata", "HIIT", "workout timer", "gym timer"],
+  },
+  {
+    id: "pomodoro",
+    slug: "pomodoro",
+    name: "Pomodoro Timer",
+    description: "Full Pomodoro technique with work sessions, short breaks, long breaks, and daily session tracking.",
+    category: "precision",
+    icon: "🍅",
+    keywords: ["pomodoro", "focus timer", "productivity timer", "25 minute timer"],
+  },
+  {
+    id: "chess-clock",
+    slug: "chess-clock",
+    name: "Chess Clock",
+    description: "Two-player chess clock with configurable time controls. Blitz, rapid, and classical presets.",
+    category: "precision",
+    icon: "♟",
+    keywords: ["chess clock", "debate timer", "two player timer", "chess timer"],
+  },
+
+  // ─── WORLD ──────────────────────────────────────────────────────────────────
+  {
+    id: "world-clock",
+    slug: "world-clock",
+    name: "World Clock",
+    description: "Add any city. See time, UTC offset, business hours status, and day/night indicator for every location.",
+    category: "world",
+    icon: "🌍",
+    keywords: ["world clock", "time zone clock", "international time", "city time"],
+  },
+  {
+    id: "meeting-planner",
+    slug: "meeting-planner",
+    name: "Meeting Time Finder",
+    description: "Find the best meeting time across multiple time zones. Visual overlap grid showing who is awake.",
+    category: "world",
+    icon: "🤝",
+    keywords: ["meeting planner", "time zone meeting", "schedule across time zones", "overlap finder"],
+    isExistingTool: true,
+    existingToolSlug: "meeting-planner",
+  },
+  {
+    id: "sunrise-sunset",
+    slug: "sunrise-sunset",
+    name: "Sunrise & Sunset",
+    description: "Golden hour, blue hour, solar noon, and daylight remaining for any city. Based on your local time.",
+    category: "world",
+    icon: "🌅",
+    keywords: ["sunrise", "sunset", "golden hour", "blue hour", "daylight", "solar noon"],
+  },
+
+  // ─── SPECIALTY ──────────────────────────────────────────────────────────────
+  {
+    id: "presentation-timer",
+    slug: "presentation-timer",
+    name: "Presentation Timer",
+    description: "Fullscreen speaker timer. Color changes as time runs low. Slide-by-slide mode divides time across your slides.",
+    category: "specialty",
+    icon: "📊",
+    keywords: ["presentation timer", "speaker timer", "talk timer", "speech timer"],
+  },
+  {
+    id: "meeting-cost-timer",
+    slug: "meeting-cost-timer",
+    name: "Meeting Cost Timer",
+    description: "Input attendees and salary. Watch the cost of this meeting tick up in real time. The most effective meeting ender.",
+    category: "specialty",
+    icon: "💸",
+    keywords: ["meeting cost", "meeting calculator", "cost of meeting", "expensive meeting"],
+  },
+  {
+    id: "interval-sounds",
+    slug: "interval-sounds",
+    name: "Meditation & Interval Bells",
+    description: "Gentle bells at custom intervals. Meditation timer, study intervals, mindfulness reminders.",
+    category: "specialty",
+    icon: "🔔",
+    keywords: ["meditation timer", "interval bells", "mindfulness timer", "study bell", "zen timer"],
+  },
+
+  // ─── AMBIENT ────────────────────────────────────────────────────────────────
+  {
+    id: "ambient-clock",
+    slug: "ambient-clock",
+    name: "Ambient Clock Collection",
+    description: "Six unusual clock faces: binary, word clock, hex color clock, Fibonacci, decimal, and analog.",
+    category: "ambient",
+    icon: "🎨",
+    keywords: ["binary clock", "word clock", "hex clock", "fibonacci clock", "unusual clock", "creative clock"],
+  },
+  {
+    id: "night-clock",
+    slug: "night-clock",
+    name: "Night Clock",
+    description: "Minimal dark bedside clock. Auto-dims after 30 seconds. Touch to brighten. Designed to stay open all night.",
+    category: "ambient",
+    icon: "🌙",
+    keywords: ["night clock", "bedside clock", "dark clock", "sleep clock", "dim clock"],
+  },
+  {
+    id: "circadian-clock",
+    slug: "circadian-clock",
+    name: "Circadian Rhythm Clock",
+    description: "Where are you in your body's daily rhythm right now? Shows peak alertness, energy, and ideal sleep windows.",
+    category: "ambient",
+    icon: "🧬",
+    keywords: ["circadian rhythm", "body clock", "chronotype", "peak performance time", "sleep schedule"],
+  },
+
+  // ─── FUN ────────────────────────────────────────────────────────────────────
+  {
+    id: "reaction-time",
+    slug: "reaction-time",
+    name: "Reaction Time Tester",
+    description: "Test your reaction speed in milliseconds. Compare to human averages. Track your personal best.",
+    category: "fun",
+    icon: "⚡",
+    keywords: ["reaction time test", "reflex test", "reaction speed", "how fast am I"],
+  },
+  {
+    id: "time-blindness",
+    slug: "time-blindness",
+    name: "Time Blindness Tester",
+    description: "How accurate is your sense of time? Try to stop at exactly 30 seconds, 1 minute, 5 minutes.",
+    category: "fun",
+    icon: "🎯",
+    keywords: ["time blindness", "time perception", "time sense test", "how good is my timing"],
+  },
+  {
+    id: "random-timer",
+    slug: "random-timer",
+    name: "Random Timer Game",
+    description: "A secret random time is set. Stop it exactly at zero. Tests your internal sense of time.",
+    category: "fun",
+    icon: "🎲",
+    keywords: ["random timer", "timer game", "time game", "reflex game"],
+  },
+  {
+    id: "global-shift-overlap",
+    slug: "global-shift-overlap",
+    name: "Global Shift Overlap Planner",
+    description: "Track corporate DevOps & support shifts across Americas, EMEA, and APAC. Identify critical 30-minute handover zones.",
+    category: "world",
+    icon: "🌐",
+    keywords: ["24h shift handover template", "global operations clock", "follow the sun model scheduler"],
+  },
+  {
+    id: "micro-break-strobe",
+    slug: "micro-break-strobe",
+    name: "Micro-Break Strobe",
+    description: "Productivity timer built around the 20-20-20 rule. Forces high-compliance amber pulse break screens for digital eye strain.",
+    category: "precision",
+    icon: "👁",
+    keywords: ["20-20-20 rule timer", "computer eye strain clock", "desk micro break reminder"],
+  },
+  {
+    id: "lunar-anchor",
+    slug: "lunar-anchor",
+    name: "Absolute Lunar Anchor",
+    description: "A tide-tracking clock designed for marine activities, coastal workers, surfers, and moon phase observers.",
+    category: "specialty",
+    icon: "🌕",
+    keywords: ["lunar tide clock online", "high tide low tide timer", "live marine solar tracker"],
+  },
+  {
+    id: "speed-reading-metronome",
+    slug: "speed-reading-metronome",
+    name: "Speed-Reading Metronome",
+    description: "A tachistoscope reading pacer designed to eliminate subvocalization. Adjustable speed targets from 400 to 1000 WPM.",
+    category: "fun",
+    icon: "📖",
+    keywords: ["speed reading pacer", "words per minute clock", "visual tachistoscope timer"],
+  },
+  {
+    id: "content-delivery-window",
+    slug: "content-delivery-window",
+    name: "Content Delivery Window Analyzer",
+    description: "Optimize your publishing schedule by tracking global daytime timezone densities and algorithmic peak traffic windows.",
+    category: "world",
+    icon: "📈",
+    keywords: ["best time to post calculator", "social media peak traffic clock", "global audience peak timer"],
+  },
+];
+
+export const CLOCK_CATEGORIES: Record<ClockEntry["category"], { name: string; tagline: string; accent: string }> = {
+  precision: { name: "Precision Timers",      tagline: "Stopwatches, countdowns & interval timers", accent: "#FF9F00" },
+  world:     { name: "World Clocks",           tagline: "Time zones, sunrise & global time",          accent: "#FB923C" },
+  specialty:  { name: "Specialty Timers",      tagline: "Presentations, meetings & meditation",       accent: "#FBBF24" },
+  ambient:   { name: "Ambient Clocks",         tagline: "Unusual, minimal & always-on displays",      accent: "#FCD34D" },
+  fun:       { name: "Fun & Games",            tagline: "Test your sense of time",                    accent: "#F59E0B" },
+};

@@ -1,7 +1,5 @@
 import React from "react";
 import type { Metadata } from "next";
-import Navbar from "@/components/ui/Navbar";
-import Footer from "@/components/ui/Footer";
 import ChronoLock from "@/components/games/ChronoLock";
 
 export const metadata: Metadata = {
@@ -19,13 +17,5 @@ export const metadata: Metadata = {
 };
 
 export default function ChronoLockPage() {
-  return (
-    <>
-      <Navbar />
-      <main style={{ paddingTop: 56 }}>
-        <ChronoLock />
-      </main>
-      <Footer />
-    </>
-  );
+  return <ChronoLock />;
 }

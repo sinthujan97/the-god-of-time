@@ -7,6 +7,7 @@ import { ChevronDown, ChevronRight, Menu, X } from "lucide-react";
 import { toolsRegistry } from "@/lib/data/toolsRegistry";
 import { realmsRegistry } from "@/lib/data/realmsRegistry";
 import { gamesRegistry } from "@/lib/data/gamesRegistry";
+import { clocksRegistry, CLOCK_CATEGORIES, type ClockEntry } from "@/lib/data/clocksRegistry";
 import ThemeToggle from "./ThemeToggle";
 import {
   NavigationMenu,
@@ -145,6 +146,7 @@ const EMOJI_MAP: Record<string, string> = {
   "time-wasters": "🗑️",
   "absurd-clocks": "🐌",
   "paint-dry-simulator": "🎨",
+  "fifth-dimension": "⬡",
   "cosmic-horror": "🐙"
 };
 
@@ -169,33 +171,36 @@ const REALM_CATEGORIES = [
   { id: "physics", name: "Physics Playground", accent: "#D8F870", tagline: "Play with the laws of physics" }
 ];
 
-type NavSection = "tools" | "realms" | "games" | "default";
+type NavSection = "tools" | "realms" | "games" | "clocks" | "default";
 
 function sectionFromPathname(pathname: string): NavSection {
-  if (pathname.startsWith("/tools")) return "tools";
+  if (pathname.startsWith("/tools"))  return "tools";
   if (pathname.startsWith("/realms")) return "realms";
-  if (pathname.startsWith("/games")) return "games";
+  if (pathname.startsWith("/games"))  return "games";
+  if (pathname.startsWith("/clocks")) return "clocks";
   return "default";
 }
 
 const SECTION_CTA_LABEL: Record<NavSection, string> = {
-  tools: "Explore Tools →",
-  realms: "Enter Realm →",
-  games: "Play Now →",
+  tools:   "Explore Tools →",
+  realms:  "Enter Realm →",
+  games:   "Play Now →",
+  clocks:  "Browse Clocks →",
   default: "Get Started →",
 };
 
 const SECTION_CTA_HREF: Record<NavSection, string> = {
-  tools: "/tools",
-  realms: "/realms",
-  games: "/games",
+  tools:   "/tools",
+  realms:  "/realms",
+  games:   "/games",
+  clocks:  "/clocks",
   default: "/tools",
 };
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [activeDropdown, setActiveDropdown] = useState<'tools' | 'realms' | 'games' | null>(null);
+  const [activeDropdown, setActiveDropdown] = useState<'tools' | 'realms' | 'games' | 'clocks' | null>(null);
   const { setTheme, resolvedTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
   const pathname = usePathname();
@@ -217,14 +222,16 @@ export default function Navbar() {
       }`}
       style={{
         "--accent-color":
-          section === "tools" ? "var(--section-tools-accent)"
-          : section === "realms" ? "var(--section-realms-accent)"
-          : section === "games" ? "var(--section-games-accent)"
+          section === "tools"   ? "var(--section-tools-accent)"
+          : section === "realms"  ? "var(--section-realms-accent)"
+          : section === "games"   ? "var(--section-games-accent)"
+          : section === "clocks"  ? "var(--section-clocks-accent)"
           : "var(--section-tools-accent)",
         "--accent-color-dark":
-          section === "tools" ? "var(--section-tools-accent-dark)"
-          : section === "realms" ? "var(--section-realms-accent-dark)"
-          : section === "games" ? "var(--section-games-accent-dark)"
+          section === "tools"   ? "var(--section-tools-accent-dark)"
+          : section === "realms"  ? "var(--section-realms-accent-dark)"
+          : section === "games"   ? "var(--section-games-accent-dark)"
+          : section === "clocks"  ? "var(--section-clocks-accent-dark)"
           : "var(--section-tools-accent-dark)",
         "--text-on-accent":
           section === "games" ? "var(--section-games-text-on-accent)" : "#1A1A1A",
@@ -365,10 +372,10 @@ export default function Navbar() {
                 onMouseEnter={() => setActiveDropdown('realms')}
               >
                 <div className="max-w-7xl mx-auto px-6 flex flex-col gap-4">
-                  <div className="grid grid-cols-3 gap-4">
+                  <div className="grid grid-cols-6 gap-4">
                     {REALM_CATEGORIES.filter((cat) => realmsRegistry.some((r) => r.category === cat.id)).map((cat, idx) => {
                       const catRealms = realmsRegistry.filter((r) => r.category === cat.id) || [];
-                      const displayedRealms = catRealms.slice(0, 6);
+                      const displayedRealms = catRealms.slice(0, 4);
                       return (
                         <div
                           key={cat.id}
@@ -517,6 +524,104 @@ export default function Navbar() {
             )}
           </div>
 
+          {/* Clocks */}
+          <div className="static flex items-center h-full">
+            <button
+              onMouseEnter={() => setActiveDropdown('clocks')}
+              onClick={() => setActiveDropdown(activeDropdown === 'clocks' ? null : 'clocks')}
+              aria-expanded={activeDropdown === 'clocks'}
+              aria-haspopup="true"
+              className="nav-dropdown-trigger h-9 text-text-primary font-sans select-none"
+            >
+              Clocks
+              <ChevronDown className={`w-4 h-4 text-text-muted transition-transform duration-200 ${activeDropdown === 'clocks' ? 'rotate-180' : ''}`} />
+            </button>
+
+            {activeDropdown === 'clocks' && (
+              <div
+                className="absolute top-full left-0 right-0 w-full bg-bg-card border-b-[length:var(--border-width-thick)] border-border shadow-[var(--shadow-offset-lg)_var(--shadow-color)] z-50 py-5 animate-in fade-in-0 slide-in-from-top-1 duration-150"
+                onMouseEnter={() => setActiveDropdown('clocks')}
+              >
+                <div className="max-w-7xl mx-auto px-6 flex flex-col gap-4">
+                  <div className="grid grid-cols-5 gap-4">
+                    {(Object.entries(CLOCK_CATEGORIES) as [ClockEntry["category"], typeof CLOCK_CATEGORIES[keyof typeof CLOCK_CATEGORIES]][]).map(([catId, cat], idx) => {
+                      const catClocks = clocksRegistry.filter((c) => c.category === catId);
+                      const displayed = catClocks.slice(0, 4);
+                      return (
+                        <div
+                          key={catId}
+                          style={{
+                            "--category-accent": cat.accent,
+                            animationDelay: `${idx * 40}ms`,
+                          } as React.CSSProperties}
+                          className="dropdown-category-box animate-in fade-in slide-in-from-bottom-2 fill-mode-both duration-200"
+                        >
+                          <div className="dropdown-category-box__header">
+                            <span className="dropdown-category-box__name">{cat.name}</span>
+                            <span className="dropdown-category-box__count">{catClocks.length}</span>
+                          </div>
+                          <p className="dropdown-category-box__tagline">{cat.tagline}</p>
+                          <ol className="dropdown-category-box__list">
+                            {displayed.map((clock, i) => (
+                              <li key={clock.id}>
+                                <Link
+                                  href={clock.isExistingTool ? `/tools/${clock.existingToolSlug}` : `/clocks/${clock.slug}`}
+                                  onClick={() => setActiveDropdown(null)}
+                                  className="dropdown-category-box__row"
+                                >
+                                  <span className="dropdown-category-box__row-num">{i + 1}.</span>
+                                  <span className="dropdown-category-box__row-icon">{clock.icon}</span>
+                                  <span className="dropdown-category-box__row-name">{clock.name}</span>
+                                  <ChevronRight className="dropdown-category-box__row-chevron" />
+                                </Link>
+                              </li>
+                            ))}
+                          </ol>
+                          <Link
+                            href={`/clocks#${catId}`}
+                            onClick={() => setActiveDropdown(null)}
+                            className="dropdown-category-box__viewall"
+                          >
+                            View all {catClocks.length} →
+                          </Link>
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  <div className="w-full border-t-2 border-dashed border-border/80 my-1" />
+
+                  <div className="flex flex-row items-center justify-between gap-4">
+                    <Link
+                      href="/clocks"
+                      onClick={() => setActiveDropdown(null)}
+                      className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border-2 border-text-primary bg-accent-utility-a/10 hover:bg-accent-utility-a/20 text-text-primary font-sans font-bold text-xs transition-all duration-150 cursor-pointer shadow-[3px_3px_0px_0px_var(--border)] hover:shadow-[3px_3px_0px_0px_var(--color-text-primary)] active:translate-y-0.5 active:shadow-[1px_1px_0px_0px_var(--border)]"
+                    >
+                      All clocks →
+                    </Link>
+
+                    <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-wider font-bold text-text-muted select-none">
+                      <span>Lights</span>
+                      <button
+                        onClick={() => setTheme(isDark ? "light" : "dark")}
+                        className="flex flex-col border-2 border-text-primary rounded-lg overflow-hidden w-8 h-10 font-bold cursor-pointer select-none transition-all shadow-[2px_2px_0px_0px_var(--border)] hover:shadow-[2px_2px_0px_0px_var(--color-text-primary)] active:translate-y-0.5 active:shadow-none"
+                        aria-label="Toggle lights"
+                      >
+                        <span className={`flex-1 w-full flex items-center justify-center text-[9px] transition-colors leading-none ${!isDark ? 'bg-text-primary text-bg-base font-black' : 'bg-bg-surface text-text-muted'}`}>
+                          I
+                        </span>
+                        <span className="h-[2px] w-full bg-text-primary" />
+                        <span className={`flex-1 w-full flex items-center justify-center text-[9px] transition-colors leading-none ${isDark ? 'bg-text-primary text-bg-base font-black' : 'bg-bg-surface text-text-muted'}`}>
+                          O
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
         </nav>
 
         {/* Right: Status Badge, CTA, Theme Toggle & Mobile Menu Hamburger */}
@@ -655,6 +760,48 @@ export default function Navbar() {
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+
+          {/* Clocks Section */}
+          <div>
+            <h4 className="text-xs font-sans uppercase tracking-wider text-text-muted mb-2 font-semibold">
+              Clocks & Timers
+            </h4>
+            <div className="flex flex-col gap-2 pl-2">
+              {(Object.entries(CLOCK_CATEGORIES) as [ClockEntry["category"], typeof CLOCK_CATEGORIES[keyof typeof CLOCK_CATEGORIES]][]).map(([catId, cat]) => {
+                const catClocks = clocksRegistry.filter((c) => c.category === catId);
+                return (
+                  <div key={catId} className="border-l-[length:var(--border-width)] border-border pl-3 py-1">
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: cat.accent }} />
+                      <span className="text-xs font-sans font-medium text-text-primary">{cat.name}</span>
+                    </div>
+                    <div className="grid grid-cols-1 gap-1">
+                      {catClocks.slice(0, 3).map((clock, i) => (
+                        <Link
+                          key={clock.id}
+                          href={clock.isExistingTool ? `/tools/${clock.existingToolSlug}` : `/clocks/${clock.slug}`}
+                          onClick={() => setIsMobileMenuOpen(false)}
+                          className="flex items-center gap-1.5 text-[11px] font-sans text-text-muted hover:text-text-primary py-0.5 truncate"
+                        >
+                          <span className="font-mono text-text-faint">{i + 1}.</span>
+                          <span>{clock.icon}</span>
+                          <span className="truncate">{clock.name}</span>
+                        </Link>
+                      ))}
+                      <Link
+                        href="/clocks"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="text-[10px] font-sans font-bold hover:underline py-0.5"
+                        style={{ color: cat.accent }}
+                      >
+                        View all clocks ›
+                      </Link>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
 
