@@ -129,7 +129,7 @@ export default function PresentationTimer() {
 
         {!started && (
           <p style={{ fontFamily: "var(--font-ui)", fontSize: 14, color: "var(--text-muted)" }}>
-            Set your time below, then press START. Press F for fullscreen.
+            Set your time above, then press START. Press F for fullscreen.
           </p>
         )}
 

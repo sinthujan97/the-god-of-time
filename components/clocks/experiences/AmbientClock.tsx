@@ -26,7 +26,7 @@ function AnalogFace({ h, m, s }: { h: number; m: number; s: number }) {
   }
   return (
     <div style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "36px 24px" }}>
-      <svg width={240} height={240}>
+      <svg viewBox="0 0 240 240" style={{ width: "min(240px, 100%)", height: "auto" }}>
         <circle cx={cx} cy={cy} r={r} fill="none" stroke="var(--border)" strokeWidth={2} />
         {Array.from({ length: 60 }, (_, i) => {
           const a = ((i / 60) * 360 - 90) * Math.PI / 180;
@@ -140,7 +140,7 @@ function FibonacciFace({ h, m }: { h: number; m: number }) {
       <div style={{ display: "flex", gap: 4, alignItems: "flex-end" }}>
         {FIBS.map((f, i) => (
           <div key={i} style={{ width: f * U, height: f * U, background: color(i), border: "2px solid var(--border)", borderRadius: 4, transition: "background 0.5s ease", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <span style={{ fontFamily: "var(--font-mono)", fontSize: Math.max(9, f * 6), fontWeight: 700, color: color(i) === "var(--border)" ? "var(--text-muted)" : "#000000", opacity: 0.8 }}>{f}</span>
+            <span style={{ fontFamily: "var(--font-mono)", fontSize: Math.max(9, f * 6), fontWeight: 700, color: color(i) === "var(--border)" ? "var(--text-muted)" : "var(--section-clocks-text-on-accent)", opacity: 0.8 }}>{f}</span>
           </div>
         ))}
       </div>

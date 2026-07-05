@@ -71,10 +71,9 @@ export default function ToolSEOContent({
       </h2>
       <ol className="seo-steps list-decimal list-inside pl-1 space-y-3 mb-12 font-sans font-light text-text-primary leading-relaxed">
         {howToSteps.map((step, idx) => (
-          <li 
-            key={idx} 
+          <li
+            key={idx}
             className="pl-2"
-            style={{ markerColor: groupAccent } as React.CSSProperties}
           >
             <span className="text-text-primary font-normal">{step}</span>
           </li>

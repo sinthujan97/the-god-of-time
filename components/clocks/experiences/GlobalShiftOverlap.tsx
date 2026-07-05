@@ -101,6 +101,8 @@ export default function GlobalShiftOverlap() {
   // Draw radial rings SVG helpers
   const cx = 150;
   const cy = 150;
+  // Round to 3 dp so server and client produce identical SVG attribute strings
+  const p = (n: number) => Math.round(n * 1000) / 1000;
 
   // Convert hour (0-24) to polar degrees/radians (starting from top, clockwise)
   const getArcPath = (start: number, duration: number, r: number) => {
@@ -108,63 +110,40 @@ export default function GlobalShiftOverlap() {
     const eAngle = ((start + duration) / 24) * 360 - 90;
     const sRad = (sAngle * Math.PI) / 180;
     const eRad = (eAngle * Math.PI) / 180;
-    
-    const x1 = cx + r * Math.cos(sRad);
-    const y1 = cy + r * Math.sin(sRad);
-    const x2 = cx + r * Math.cos(eRad);
-    const y2 = cy + r * Math.sin(eRad);
-    
+
+    const x1 = p(cx + r * Math.cos(sRad));
+    const y1 = p(cy + r * Math.sin(sRad));
+    const x2 = p(cx + r * Math.cos(eRad));
+    const y2 = p(cy + r * Math.sin(eRad));
+
     const largeArc = duration > 12 ? 1 : 0;
     return `M ${x1} ${y1} A ${r} ${r} 0 ${largeArc} 1 ${x2} ${y2}`;
   };
 
-  // Custom Sidebar
-  const sidebar = (
-    <div className="space-y-6">
-      {/* Metrics Card */}
+  const controlsSection = (
+    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 16 }}>
+      {/* Operations Overview */}
       <div className="bg-bg-card border border-border rounded-xl p-5 space-y-4">
-        <span className="text-[11px] font-sans font-medium uppercase tracking-[0.1em] text-text-muted block">
-          Operations Overview
-        </span>
-        
+        <span className="text-[11px] font-sans font-medium uppercase tracking-[0.1em] text-text-muted block">Operations Overview</span>
         <div>
           <div className="text-xs text-text-faint font-mono uppercase">Current Time (UTC)</div>
-          <div className="text-xl font-mono font-bold text-text-primary mt-1">
-            {now.toUTCString().slice(17, 25)}
-          </div>
+          <div className="text-xl font-mono font-bold text-text-primary mt-1">{now.toUTCString().slice(17, 25)}</div>
         </div>
-
         <div>
           <div className="text-xs text-text-faint font-mono uppercase">Active Region</div>
           <div className="mt-1 flex flex-wrap gap-2">
-            {apacActive && (
-              <span className="px-2 py-0.5 rounded text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                APAC
-              </span>
-            )}
-            {emeaActive && (
-              <span className="px-2 py-0.5 rounded text-xs font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20">
-                EMEA
-              </span>
-            )}
-            {americasActive && (
-              <span className="px-2 py-0.5 rounded text-xs font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20">
-                AMER
-              </span>
-            )}
-            {!apacActive && !emeaActive && !americasActive && (
-              <span className="text-xs text-text-muted">None (System Idle)</span>
-            )}
+            {apacActive && <span className="px-2 py-0.5 rounded text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">APAC</span>}
+            {emeaActive && <span className="px-2 py-0.5 rounded text-xs font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20">EMEA</span>}
+            {americasActive && <span className="px-2 py-0.5 rounded text-xs font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20">AMER</span>}
+            {!apacActive && !emeaActive && !americasActive && <span className="text-xs text-text-muted">None (System Idle)</span>}
           </div>
         </div>
-
         <div>
           <div className="text-xs text-text-faint font-mono uppercase">Handover Status</div>
           <div className={`text-base font-semibold mt-1 ${inHandover ? "text-amber-400 animate-pulse" : "text-text-primary"}`}>
             {inHandover ? `⚠️ Handover: ${activeHandoverName}` : "Nominal Tracking"}
           </div>
         </div>
-
         <div>
           <div className="text-xs text-text-faint font-mono uppercase">Next Handover Zone</div>
           <div className={`text-2xl font-mono font-bold mt-1 ${inHandover ? "text-amber-400" : "text-text-primary"}`}>
@@ -173,89 +152,38 @@ export default function GlobalShiftOverlap() {
         </div>
       </div>
 
-      {/* Adjust Shift Controls */}
+      {/* Shift Configurations */}
       <div className="bg-bg-card border border-border rounded-xl p-5 space-y-4">
-        <span className="text-[11px] font-sans font-medium uppercase tracking-[0.1em] text-text-muted block">
-          Shift Configurations
-        </span>
+        <span className="text-[11px] font-sans font-medium uppercase tracking-[0.1em] text-text-muted block">Shift Configurations</span>
         <div className="space-y-3">
           <div>
             <label className="text-xs text-text-muted flex justify-between font-mono">
               <span>APAC START (UTC)</span>
               <span className="text-text-primary">{String(apacStart).padStart(2, "0")}:00</span>
             </label>
-            <input
-              type="range"
-              min="0"
-              max="23"
-              value={apacStart}
-              onChange={(e) => setApacStart(Number(e.target.value))}
-              className="w-full accent-emerald-500 bg-bg-surface border border-border h-1 rounded mt-1"
-            />
+            <input type="range" min="0" max="23" value={apacStart} onChange={(e) => setApacStart(Number(e.target.value))} className="w-full accent-emerald-500 bg-bg-surface border border-border h-1 rounded mt-1" />
           </div>
           <div>
             <label className="text-xs text-text-muted flex justify-between font-mono">
               <span>EMEA START (UTC)</span>
               <span className="text-text-primary">{String(emeaStart).padStart(2, "0")}:00</span>
             </label>
-            <input
-              type="range"
-              min="0"
-              max="23"
-              value={emeaStart}
-              onChange={(e) => setEmeaStart(Number(e.target.value))}
-              className="w-full accent-blue-500 bg-bg-surface border border-border h-1 rounded mt-1"
-            />
+            <input type="range" min="0" max="23" value={emeaStart} onChange={(e) => setEmeaStart(Number(e.target.value))} className="w-full accent-blue-500 bg-bg-surface border border-border h-1 rounded mt-1" />
           </div>
           <div>
             <label className="text-xs text-text-muted flex justify-between font-mono">
               <span>AMER START (UTC)</span>
               <span className="text-text-primary">{String(americasStart).padStart(2, "0")}:00</span>
             </label>
-            <input
-              type="range"
-              min="0"
-              max="23"
-              value={americasStart}
-              onChange={(e) => setAmericasStart(Number(e.target.value))}
-              className="w-full accent-amber-500 bg-bg-surface border border-border h-1 rounded mt-1"
-            />
+            <input type="range" min="0" max="23" value={americasStart} onChange={(e) => setAmericasStart(Number(e.target.value))} className="w-full accent-amber-500 bg-bg-surface border border-border h-1 rounded mt-1" />
           </div>
-        </div>
-      </div>
-
-      {/* Premium Sponsor Ad */}
-      <div className="sidebar-ad-slot">
-        <span className="ad-label text-[10px] font-sans font-medium uppercase tracking-[0.1em] text-text-faint block text-center mb-1">
-          SPONSOR
-        </span>
-        <div className="sidebar-ad-container p-5 bg-indigo-950/20 to-purple-950/20 border border-indigo-500/20 rounded-xl flex flex-col justify-between text-center min-h-[220px]">
-          <div>
-            <span className="text-[10px] bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 px-2 py-0.5 rounded font-mono uppercase">
-              DevOps Tooling
-            </span>
-            <h4 className="text-sm font-bold text-text-primary mt-3 font-sans leading-snug">
-              SyncOps: Global Handover Automated
-            </h4>
-            <p className="text-xs text-text-muted mt-2">
-              Eliminate critical communication gaps during timezone shifts. Start your 14-day free trial.
-            </p>
-          </div>
-          <a
-            href="https://thegodoftime.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-full py-2 bg-indigo-600 hover:bg-indigo-500 transition-colors text-white font-semibold rounded text-xs mt-4 block text-center"
-          >
-            Deploy SyncOps Free
-          </a>
         </div>
       </div>
     </div>
   );
 
   return (
-    <ClockLayout clock={clock} customSidebar={sidebar}>
+    <ClockLayout clock={clock} controlsSection={controlsSection}>
       <div className="flex flex-col items-center justify-center p-8 min-h-[460px] select-none text-text-primary">
         {/* Concentric Timeline SVG */}
         <div className="relative w-full max-w-[340px] aspect-square flex items-center justify-center bg-bg-card/25 border border-border/40 rounded-full p-4 shadow-2xl">
@@ -268,14 +196,14 @@ export default function GlobalShiftOverlap() {
             {[...Array(24)].map((_, i) => {
               const angle = (i / 24) * 360;
               const rad = (angle * Math.PI) / 180;
-              const x1 = cx + 138 * Math.cos(rad);
-              const y1 = cy + 138 * Math.sin(rad);
-              const x2 = cx + 144 * Math.cos(rad);
-              const y2 = cy + 144 * Math.sin(rad);
-              
+              const x1 = p(cx + 138 * Math.cos(rad));
+              const y1 = p(cy + 138 * Math.sin(rad));
+              const x2 = p(cx + 144 * Math.cos(rad));
+              const y2 = p(cy + 144 * Math.sin(rad));
+
               // Hour labels
-              const lx = cx + 120 * Math.cos(rad);
-              const ly = cy + 120 * Math.sin(rad);
+              const lx = p(cx + 120 * Math.cos(rad));
+              const ly = p(cy + 120 * Math.sin(rad));
               
               return (
                 <g key={i} className="font-mono text-[9px] fill-text-faint">
@@ -321,10 +249,10 @@ export default function GlobalShiftOverlap() {
                     const rad = ((s.start / 24) * 360 * Math.PI) / 180;
                     return (
                       <line
-                        x1={cx + 40 * Math.cos(rad)}
-                        y1={cy + 40 * Math.sin(rad)}
-                        x2={cx + 115 * Math.cos(rad)}
-                        y2={cy + 115 * Math.sin(rad)}
+                        x1={p(cx + 40 * Math.cos(rad))}
+                        y1={p(cy + 40 * Math.sin(rad))}
+                        x2={p(cx + 115 * Math.cos(rad))}
+                        y2={p(cy + 115 * Math.sin(rad))}
                         stroke="#F59E0B"
                         strokeWidth="1.5"
                         strokeDasharray="3,3"
@@ -368,8 +296,8 @@ export default function GlobalShiftOverlap() {
             {/* Sweep hand representing current UTC time */}
             {(() => {
               const rad = ((utcHour / 24) * 360 * Math.PI) / 180;
-              const hx = cx + 110 * Math.cos(rad);
-              const hy = cy + 110 * Math.sin(rad);
+              const hx = p(cx + 110 * Math.cos(rad));
+              const hy = p(cy + 110 * Math.sin(rad));
               return (
                 <g>
                   {/* Outer circle pointer */}

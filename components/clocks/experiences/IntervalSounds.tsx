@@ -187,7 +187,7 @@ export default function IntervalSounds() {
 
         {!running && bellCount === 0 && (
           <p style={{ fontFamily: "var(--font-ui)", fontSize: 14, color: "var(--text-muted)", textAlign: "center" }}>
-            Choose an interval and tone below, then press START.
+            Choose an interval and tone above, then press START.
           </p>
         )}
       </div>

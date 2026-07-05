@@ -103,40 +103,48 @@ export default function CountdownTimer() {
 
   return (
     <ClockLayout clock={clock} controlsSection={
-      <div style={{ display: "flex", flexWrap: "wrap", gap: 10, alignItems: "flex-end" }}>
-        {[
-          { val: hrs, set: setHrs, lbl: "h", max: 23 },
-          { val: mins, set: setMins, lbl: "m", max: 59 },
-          { val: secs, set: setSecs, lbl: "s", max: 59 },
-        ].map(({ val, set, lbl, max }) => (
-          <div key={lbl} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
-            <input
-              type="number" min={0} max={max} value={val}
-              onChange={(e) => set(Math.min(max, Math.max(0, Number(e.target.value))))}
-              style={{ width: 56, fontFamily: "var(--font-mono)", fontSize: 20, fontWeight: 700, textAlign: "center", border: "2px solid var(--border)", background: "var(--bg-surface)", color: "var(--text-primary)", padding: "6px 4px", borderRadius: 4 }}
-            />
-            <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, fontWeight: 700, color: "var(--text-muted)" }}>{lbl}</span>
-          </div>
-        ))}
-        <input
-          type="text" placeholder="Label (optional)" value={label}
-          onChange={(e) => setLabel(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && addTimer()}
-          style={{ fontFamily: "var(--font-ui)", fontSize: 13, padding: "9px 12px", border: "2px solid var(--border)", background: "var(--bg-surface)", color: "var(--text-primary)", borderRadius: 4, flex: "1 1 130px", minWidth: 0 }}
-        />
-        <button
-          onClick={addTimer}
-          style={{ fontFamily: "var(--font-mono)", fontSize: 12, fontWeight: 700, padding: "11px 18px", border: "2px solid var(--border)", borderRadius: 6, background: "var(--section-clocks-accent)", color: "#000000", cursor: "pointer", boxShadow: "3px 3px 0 var(--shadow-color)" }}
-        >
-          + ADD
-        </button>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 12, alignItems: "center" }}>
+        <div style={{ display: "flex", gap: 8 }}>
+          {[
+            { val: hrs, set: setHrs, lbl: "h", max: 23 },
+            { val: mins, set: setMins, lbl: "m", max: 59 },
+            { val: secs, set: setSecs, lbl: "s", max: 59 },
+          ].map(({ val, set, lbl, max }) => (
+            <div key={lbl} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
+              <input
+                type="number" min={0} max={max} value={val}
+                onChange={(e) => set(Math.min(max, Math.max(0, Number(e.target.value))))}
+                style={{ width: 56, height: 40, fontFamily: "var(--font-mono)", fontSize: 20, fontWeight: 700, textAlign: "center", border: "2px solid var(--border)", background: "var(--bg-surface)", color: "var(--text-primary)", padding: 0, borderRadius: 4 }}
+              />
+              <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, fontWeight: 700, color: "var(--text-muted)" }}>{lbl}</span>
+            </div>
+          ))}
+        </div>
+        <div style={{ display: "flex", flexDirection: "column", flex: "1 1 180px", gap: 4 }}>
+          <input
+            type="text" placeholder="Label (optional)" value={label}
+            onChange={(e) => setLabel(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && addTimer()}
+            style={{ height: 40, fontFamily: "var(--font-ui)", fontSize: 13, padding: "0 12px", border: "2px solid var(--border)", background: "var(--bg-surface)", color: "var(--text-primary)", borderRadius: 4, width: "100%", boxSizing: "border-box" }}
+          />
+          <div style={{ height: 14 }} />
+        </div>
+        <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+          <button
+            onClick={addTimer}
+            style={{ height: 40, fontFamily: "var(--font-mono)", fontSize: 12, fontWeight: 700, padding: "0 20px", border: "2px solid var(--border)", borderRadius: 6, background: "var(--section-clocks-accent)", color: "#000000", cursor: "pointer", boxShadow: "2px 2px 0 var(--shadow-color)", display: "flex", alignItems: "center", justifyContent: "center" }}
+          >
+            + ADD
+          </button>
+          <div style={{ height: 14 }} />
+        </div>
       </div>
     }>
       <div style={{ padding: "40px 32px 32px", minHeight: 300 }}>
         {timers.length === 0 ? (
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: 220 }}>
             <p style={{ fontFamily: "var(--font-ui)", fontSize: 14, color: "var(--text-muted)", textAlign: "center" }}>
-              Set a time below and press + ADD to start.
+              Set a time above and press + ADD to start.
             </p>
           </div>
         ) : (

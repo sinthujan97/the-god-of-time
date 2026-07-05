@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import ClockLayout from "../ClockLayout";
 import { clocksRegistry } from "@/lib/data/clocksRegistry";
 
@@ -113,133 +113,61 @@ export default function SpeedReadingMetronome() {
     ? (elapsedTime * 10 * (360 / (msPerWord / 100))) % 360 
     : 0;
 
-  // Custom Sidebar
-  const sidebar = (
-    <div className="space-y-6">
-      {/* Configuration Widget */}
+  const controlsSection = (
+    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 16 }}>
+      {/* Pacer Metrics */}
       <div className="bg-bg-card border border-border rounded-xl p-5 space-y-4">
-        <span className="text-[11px] font-sans font-medium uppercase tracking-[0.1em] text-text-muted block">
-          Pacer Metrics
-        </span>
-
+        <span className="text-[11px] font-sans font-medium uppercase tracking-[0.1em] text-text-muted block">Pacer Metrics</span>
         <div>
           <label className="text-xs text-text-muted flex justify-between font-mono">
             <span>Target Speed (WPM)</span>
             <span className="text-text-primary font-bold">{wpm} WPM</span>
           </label>
-          <input
-            type="range"
-            min="200"
-            max="1000"
-            step="25"
-            value={wpm}
-            onChange={(e) => setWpm(Number(e.target.value))}
-            className="w-full accent-amber-500 bg-bg-surface border border-border h-1 rounded mt-1.5"
-          />
+          <input type="range" min="200" max="1000" step="25" value={wpm} onChange={(e) => setWpm(Number(e.target.value))} className="w-full accent-amber-500 bg-bg-surface border border-border h-1 rounded mt-1.5" />
           <div className="flex justify-between text-[10px] text-text-faint font-mono mt-1">
             <span>200 (Beginner)</span>
             <span>1000 (Extreme)</span>
           </div>
         </div>
-
         <div className="grid grid-cols-2 gap-4 pt-2 border-t border-border-subtle">
           <div>
             <div className="text-[10px] text-text-faint font-mono uppercase">Completed</div>
-            <div className="text-lg font-mono font-bold text-text-primary mt-0.5">
-              {wordIndex} <span className="text-xs text-text-muted font-sans font-normal">/ {wordCount} words</span>
-            </div>
+            <div className="text-lg font-mono font-bold text-text-primary mt-0.5">{wordIndex} <span className="text-xs text-text-muted font-sans font-normal">/ {wordCount} words</span></div>
           </div>
           <div>
             <div className="text-[10px] text-text-faint font-mono uppercase">Est. Remaining</div>
-            <div className="text-lg font-mono font-bold text-text-primary mt-0.5">
-              {estRemainingSecs}s
-            </div>
+            <div className="text-lg font-mono font-bold text-text-primary mt-0.5">{estRemainingSecs}s</div>
           </div>
         </div>
-
         <div>
           <div className="text-[10px] text-text-faint font-mono uppercase">Avg. Focus Duration</div>
-          <div className="text-sm font-mono font-bold text-text-primary mt-0.5">
-            {elapsedTime.toFixed(1)}s elapsed
-          </div>
+          <div className="text-sm font-mono font-bold text-text-primary mt-0.5">{elapsedTime.toFixed(1)}s elapsed</div>
         </div>
       </div>
 
-      {/* Preset Passage Selectors */}
+      {/* Select Passage + Custom Text */}
       <div className="bg-bg-card border border-border rounded-xl p-5 space-y-4">
-        <span className="text-[11px] font-sans font-medium uppercase tracking-[0.1em] text-text-muted block">
-          Select Passage
-        </span>
+        <span className="text-[11px] font-sans font-medium uppercase tracking-[0.1em] text-text-muted block">Select Passage</span>
         <div className="flex flex-col gap-2">
           {PASSAGES.map((p, i) => (
-            <button
-              key={i}
-              onClick={() => handlePassageChange(i)}
-              className={`w-full text-left font-sans text-xs p-2 rounded border transition-colors ${
-                !isCustomMode && passageIndex === i
-                  ? "bg-amber-500/10 text-amber-400 border-amber-500/20 font-semibold"
-                  : "bg-bg-surface text-text-muted border-border hover:bg-bg-card"
-              }`}
-            >
+            <button key={i} onClick={() => handlePassageChange(i)} className={`w-full text-left font-sans text-xs p-2 rounded border transition-colors ${!isCustomMode && passageIndex === i ? "bg-amber-500/10 text-amber-400 border-amber-500/20 font-semibold" : "bg-bg-surface text-text-muted border-border hover:bg-bg-card"}`}>
               {p.title}
             </button>
           ))}
         </div>
-      </div>
-
-      {/* Custom Text pasting box */}
-      <div className="bg-bg-card border border-border rounded-xl p-5 space-y-3">
-        <span className="text-[11px] font-sans font-medium uppercase tracking-[0.1em] text-text-muted block">
-          Paste Custom Document
-        </span>
-        <textarea
-          value={customText}
-          onChange={(e) => setCustomText(e.target.value)}
-          placeholder="Paste your text here to speed-read it..."
-          rows={3}
-          className="w-full p-2 bg-bg-surface border border-border rounded text-xs font-sans text-text-primary focus:outline-none focus:border-amber-500 transition-colors"
-        />
-        <button
-          onClick={(e) => handleCustomTextSubmit(e)}
-          disabled={!customText.trim()}
-          className="w-full py-1.5 bg-bg-surface hover:bg-bg-card disabled:opacity-50 text-text-primary border border-border rounded text-xs font-semibold transition-colors"
-        >
-          Load Custom Text
-        </button>
-      </div>
-
-      {/* Programmatic Book Ad */}
-      <div className="sidebar-ad-slot">
-        <span className="ad-label text-[10px] font-sans font-medium uppercase tracking-[0.1em] text-text-faint block text-center mb-1">
-          SPONSOR
-        </span>
-        <div className="sidebar-ad-container p-5 bg-gradient-to-br from-orange-950/20 to-yellow-950/20 border border-orange-500/20 rounded-xl flex flex-col justify-between text-center min-h-[220px]">
-          <div>
-            <span className="text-[10px] bg-orange-500/10 text-orange-400 border border-orange-500/20 px-2 py-0.5 rounded font-mono uppercase">
-              Skill Acquisition
-            </span>
-            <h4 className="text-sm font-bold text-text-primary mt-3 font-sans leading-snug">
-              Iris Speed Reading Program
-            </h4>
-            <p className="text-xs text-text-muted mt-2">
-              Double your reading speed in 5 hours. Used by over 100,000 students and professionals.
-            </p>
-          </div>
-          <a
-            href="https://thegodoftime.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-full py-2 bg-orange-600 hover:bg-orange-500 transition-colors text-white font-semibold rounded text-xs mt-4 block text-center"
-          >
-            Access 30% Discount
-          </a>
+        <div className="space-y-2 pt-2 border-t border-border-subtle">
+          <span className="text-[11px] font-sans font-medium uppercase tracking-[0.1em] text-text-muted block">Paste Custom Text</span>
+          <textarea value={customText} onChange={(e) => setCustomText(e.target.value)} placeholder="Paste your text here to speed-read it..." rows={3} className="w-full p-2 bg-bg-surface border border-border rounded text-xs font-sans text-text-primary focus:outline-none focus:border-amber-500 transition-colors" />
+          <button onClick={(e) => handleCustomTextSubmit(e)} disabled={!customText.trim()} className="w-full py-1.5 bg-bg-surface hover:bg-bg-card disabled:opacity-50 text-text-primary border border-border rounded text-xs font-semibold transition-colors">
+            Load Custom Text
+          </button>
         </div>
       </div>
     </div>
   );
 
   return (
-    <ClockLayout clock={clock} customSidebar={sidebar}>
+    <ClockLayout clock={clock} controlsSection={controlsSection}>
       <div className="flex flex-col items-center justify-center p-8 min-h-[460px] select-none text-text-primary">
         
         {/* Tachistoscope Word Focus Viewport */}

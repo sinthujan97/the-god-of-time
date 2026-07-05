@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import ClockLayout from "../ClockLayout";
 import { clocksRegistry } from "@/lib/data/clocksRegistry";
 
@@ -108,7 +108,7 @@ function AnalogFace({ h, m, s }: { h: number; m: number; s: number }) {
 export default function WorldClock() {
   const [clocks, setClocks] = useState<PinnedClock[]>([]);
   const [newTz, setNewTz] = useState<string>("UTC");
-  const [tick, setTick] = useState(0);
+  const [, setTick] = useState(0);
 
   // Load from local storage
   useEffect(() => {
@@ -321,7 +321,7 @@ export default function WorldClock() {
                 border: "2px solid var(--border)",
                 borderRadius: 6,
                 background: "var(--section-clocks-accent)",
-                color: "#000000",
+                color: "var(--section-clocks-text-on-accent)",
                 cursor: clocks.length >= 6 ? "not-allowed" : "pointer",
                 boxShadow: clocks.length >= 6 ? "none" : "2px 2px 0 var(--shadow-color)",
                 opacity: clocks.length >= 6 ? 0.5 : 1,
@@ -437,7 +437,7 @@ export default function WorldClock() {
                           border: "1.5px solid var(--border)",
                           borderRadius: 4,
                           background: "var(--destructive)",
-                          color: "#000000",
+                          color: "var(--section-clocks-text-on-accent)",
                           fontFamily: "var(--font-mono)",
                           fontSize: 9,
                           fontWeight: 700,
@@ -458,7 +458,7 @@ export default function WorldClock() {
                       flexDirection: "column",
                       alignItems: "center",
                       justifyContent: "center",
-                      minHeight: 170,
+                      minHeight: c.mode === "analog" ? 170 : 100,
                       border: "2px dashed var(--border-subtle)",
                       borderRadius: 8,
                       background: "var(--bg-card)",
@@ -527,8 +527,8 @@ export default function WorldClock() {
                           padding: "2px 6px",
                           border: "1.5px solid var(--border)",
                           borderRadius: 4,
-                          background: data.isDay ? "var(--section-clocks-accent)" : "var(--border)",
-                          color: data.isDay ? "#000000" : "var(--text-primary)",
+                          background: data.isDay ? "var(--section-clocks-accent)" : "var(--bg-surface)",
+                          color: data.isDay ? "var(--section-clocks-text-on-accent)" : "var(--text-primary)",
                         }}
                       >
                         {data.isDay ? "☀️ DAY" : "🌙 NIGHT"}
@@ -544,7 +544,7 @@ export default function WorldClock() {
                           border: "1.5px solid var(--border)",
                           borderRadius: 4,
                           background: data.isBusinessHours ? "var(--accent-utility-a)" : "var(--bg-surface)",
-                          color: data.isBusinessHours ? "#000000" : "var(--text-muted)",
+                          color: data.isBusinessHours ? "var(--section-clocks-text-on-accent)" : "var(--text-muted)",
                         }}
                       >
                         {data.isBusinessHours ? "💼 WORK" : "🏠 OFF"}

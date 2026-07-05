@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import ClockLayout from "../ClockLayout";
 import { clocksRegistry } from "@/lib/data/clocksRegistry";
 
@@ -134,141 +134,61 @@ export default function AbsoluteLunarAnchor() {
     }
   };
 
-  // Custom Sidebar
-  const sidebar = (
-    <div className="space-y-6">
-      {/* Localized Ocean Stats */}
+  const controlsSection = (
+    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 16 }}>
+      {/* Marine Telemetry */}
       <div className="bg-bg-card border border-border rounded-xl p-5 space-y-4">
-        <span className="text-[11px] font-sans font-medium uppercase tracking-[0.1em] text-text-muted block">
-          Marine Telemetry
-        </span>
-
-        {/* Dynamic Wave Visualizer */}
-        <div className="relative h-20 bg-bg-surface border border-border rounded-lg overflow-hidden flex items-end">
+        <span className="text-[11px] font-sans font-medium uppercase tracking-[0.1em] text-text-muted block">Marine Telemetry</span>
+        <div className="relative h-20 bg-bg-surface border border-border rounded-lg overflow-hidden">
           <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 40" preserveAspectRatio="none">
-            {/* Ambient Animated Waves */}
-            <path
-              d={`M 0 ${40 - tidePercentage / 3} Q 25 ${43 - tidePercentage / 3 - 2 * Math.sin(Date.now() / 1000)} 50 ${40 - tidePercentage / 3} T 100 ${40 - tidePercentage / 3} L 100 40 L 0 40 Z`}
-              fill="rgba(59, 130, 246, 0.25)"
-              className="transition-all duration-1000"
-            />
-            <path
-              d={`M 0 ${41 - tidePercentage / 3} Q 25 ${38 - tidePercentage / 3 + 2.5 * Math.sin(Date.now() / 1000 + 1)} 50 ${41 - tidePercentage / 3} T 100 ${41 - tidePercentage / 3} L 100 40 L 0 40 Z`}
-              fill="rgba(59, 130, 246, 0.4)"
-              className="transition-all duration-1000"
-            />
+            <path d={`M 0 ${40 - tidePercentage / 3} Q 25 ${43 - tidePercentage / 3 - 2 * Math.sin(Date.now() / 1000)} 50 ${40 - tidePercentage / 3} T 100 ${40 - tidePercentage / 3} L 100 40 L 0 40 Z`} fill="rgba(59, 130, 246, 0.25)" className="transition-all duration-1000" />
+            <path d={`M 0 ${41 - tidePercentage / 3} Q 25 ${38 - tidePercentage / 3 + 2.5 * Math.sin(Date.now() / 1000 + 1)} 50 ${41 - tidePercentage / 3} T 100 ${41 - tidePercentage / 3} L 100 40 L 0 40 Z`} fill="rgba(59, 130, 246, 0.4)" className="transition-all duration-1000" />
           </svg>
           <div className="absolute inset-0 flex items-center justify-center font-mono font-bold text-sm text-text-primary">
             Tide Level: {tidePercentage.toFixed(1)}%
           </div>
         </div>
-
         <div className="grid grid-cols-2 gap-4">
           <div>
             <div className="text-[10px] text-text-faint font-mono uppercase">Next High Tide</div>
-            <div className="text-sm font-mono font-bold text-text-primary mt-0.5">
-              {formatHours(hoursToNextHigh)}
-            </div>
+            <div className="text-sm font-mono font-bold text-text-primary mt-0.5">{formatHours(hoursToNextHigh)}</div>
           </div>
           <div>
             <div className="text-[10px] text-text-faint font-mono uppercase">Next Low Tide</div>
-            <div className="text-sm font-mono font-bold text-text-primary mt-0.5">
-              {formatHours(hoursToNextLow)}
-            </div>
+            <div className="text-sm font-mono font-bold text-text-primary mt-0.5">{formatHours(hoursToNextLow)}</div>
           </div>
         </div>
-
         <div>
           <div className="text-[10px] text-text-faint font-mono uppercase">Lunar Illumination</div>
-          <div className="text-lg font-mono font-bold text-text-primary mt-0.5">
-            🌕 {illumination}% ({isWaxing ? "Waxing" : "Waning"})
-          </div>
+          <div className="text-lg font-mono font-bold text-text-primary mt-0.5">🌕 {illumination}% ({isWaxing ? "Waxing" : "Waning"})</div>
         </div>
       </div>
 
-      {/* Coordinate & Presets Selector */}
+      {/* Tidal Alignment */}
       <div className="bg-bg-card border border-border rounded-xl p-5 space-y-4">
-        <span className="text-[11px] font-sans font-medium uppercase tracking-[0.1em] text-text-muted block">
-          Tidal Alignment
-        </span>
-
+        <span className="text-[11px] font-sans font-medium uppercase tracking-[0.1em] text-text-muted block">Tidal Alignment</span>
         <div>
           <label className="text-xs text-text-muted font-mono block">Marine Preset Location</label>
-          <select
-            value={presetIndex}
-            onChange={(e) => handlePresetChange(Number(e.target.value))}
-            className="w-full mt-1.5 p-2 bg-bg-surface border border-border rounded text-xs text-text-primary font-sans"
-          >
-            {PRESETS.map((p, i) => (
-              <option key={i} value={i}>
-                {p.name}
-              </option>
-            ))}
+          <select value={presetIndex} onChange={(e) => handlePresetChange(Number(e.target.value))} className="w-full mt-1.5 p-2 bg-bg-surface border border-border rounded text-xs text-text-primary font-sans">
+            {PRESETS.map((p, i) => <option key={i} value={i}>{p.name}</option>)}
           </select>
         </div>
-
         <div className="grid grid-cols-2 gap-3">
           <div>
             <label className="text-xs text-text-muted font-mono block">Latitude</label>
-            <input
-              type="number"
-              step="0.0001"
-              value={lat}
-              onChange={(e) => {
-                setLat(Number(e.target.value));
-                setPresetIndex(-1); // custom
-              }}
-              className="w-full mt-1 p-1.5 bg-bg-surface border border-border rounded text-xs text-text-primary font-mono"
-            />
+            <input type="number" step="0.0001" value={lat} onChange={(e) => { setLat(Number(e.target.value)); setPresetIndex(-1); }} className="w-full mt-1 p-1.5 bg-bg-surface border border-border rounded text-xs text-text-primary font-mono" />
           </div>
           <div>
             <label className="text-xs text-text-muted font-mono block">Longitude</label>
-            <input
-              type="number"
-              step="0.0001"
-              value={lon}
-              onChange={(e) => {
-                setLon(Number(e.target.value));
-                setPresetIndex(-1); // custom
-              }}
-              className="w-full mt-1 p-1.5 bg-bg-surface border border-border rounded text-xs text-text-primary font-mono"
-            />
+            <input type="number" step="0.0001" value={lon} onChange={(e) => { setLon(Number(e.target.value)); setPresetIndex(-1); }} className="w-full mt-1 p-1.5 bg-bg-surface border border-border rounded text-xs text-text-primary font-mono" />
           </div>
-        </div>
-      </div>
-
-      {/* Premium Sponsor Ad */}
-      <div className="sidebar-ad-slot">
-        <span className="ad-label text-[10px] font-sans font-medium uppercase tracking-[0.1em] text-text-faint block text-center mb-1">
-          SPONSOR
-        </span>
-        <div className="sidebar-ad-container p-5 bg-gradient-to-br from-blue-950/20 to-teal-950/20 border border-blue-500/20 rounded-xl flex flex-col justify-between text-center min-h-[220px]">
-          <div>
-            <span className="text-[10px] bg-blue-500/10 text-blue-400 border border-blue-500/20 px-2 py-0.5 rounded font-mono uppercase">
-              Coastal Gear
-            </span>
-            <h4 className="text-sm font-bold text-text-primary mt-3 font-sans leading-snug">
-              Aegir WaveMaster II Smartwatch
-            </h4>
-            <p className="text-xs text-text-muted mt-2">
-              Military-grade water resistance, live tide tables, and GPS tracking. Made for the shoreline.
-            </p>
-          </div>
-          <a
-            href="https://thegodoftime.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-full py-2 bg-blue-600 hover:bg-blue-500 transition-colors text-white font-semibold rounded text-xs mt-4 block text-center"
-          >
-            Order WaveMaster
-          </a>
         </div>
       </div>
     </div>
   );
 
   return (
-    <ClockLayout clock={clock} customSidebar={sidebar}>
+    <ClockLayout clock={clock} controlsSection={controlsSection}>
       <div className="flex flex-col items-center justify-center p-8 min-h-[460px] select-none text-text-primary">
         
         {/* Tidal Loop SVG Dial */}

@@ -128,7 +128,7 @@ export default function MeetingCostTimer() {
 
         {!started && (
           <p style={{ fontFamily: "var(--font-ui)", fontSize: 14, color: "var(--text-muted)" }}>
-            Set attendees and rate below, then press START.
+            Set attendees and rate above, then press START.
           </p>
         )}
       </div>

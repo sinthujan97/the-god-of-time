@@ -1,18 +1,19 @@
 "use client";
 
+import Link from "next/link";
 import { Realm } from "@/lib/data/realmsRegistry";
 
 export function RealmBreadcrumb({ realm }: { realm: Realm }) {
   return (
     <>
       <nav className="breadcrumb" aria-label="breadcrumb">
-        <a href="/" className="breadcrumb-link">
+        <Link href="/" className="breadcrumb-link">
           The God of Time
-        </a>
+        </Link>
         <span className="breadcrumb-sep">›</span>
-        <a href="/realms" className="breadcrumb-link">
+        <Link href="/realms" className="breadcrumb-link">
           Fun Realms
-        </a>
+        </Link>
         <span className="breadcrumb-sep">›</span>
         <span className="breadcrumb-current">{realm.name}</span>
       </nav>

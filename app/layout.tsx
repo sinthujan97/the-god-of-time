@@ -1,13 +1,11 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Inter, JetBrains_Mono, Geist } from "next/font/google";
+import { Cormorant_Garamond, Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/ui/ThemeProvider";
 import Navbar from "@/components/ui/Navbar";
 import Footer from "@/components/ui/Footer";
 import RegisterSW from "@/components/RegisterSW";
 import "../styles/globals.css";
 import { cn } from "@/lib/utils";
-
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
@@ -16,15 +14,15 @@ const cormorant = Cormorant_Garamond({
   variable: "--font-display",
 });
 
-const inter = Inter({
+const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   variable: "--font-ui",
 });
 
-const interHeadline = Inter({
+const spaceGroteskHeadline = Space_Grotesk({
   subsets: ["latin"],
-  weight: ["800", "900"],
+  weight: ["700"],
   variable: "--font-headline",
 });
 
@@ -69,7 +67,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn("h-full", "antialiased", cormorant.variable, inter.variable, interHeadline.variable, jetbrains.variable, "font-sans", geist.variable)}
+      className={cn("h-full", "antialiased", cormorant.variable, spaceGrotesk.variable, spaceGroteskHeadline.variable, jetbrains.variable, "font-sans")}
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col bg-bg-base text-text-primary" suppressHydrationWarning>

@@ -107,19 +107,19 @@
   --ring: var(--accent-utility-a);
 }
 
-.dark {
-  /* ─── Dark Mode — neutral black palette with lime accents ─── */
+html.dark {
+  /* ─── Dark Mode — deep-dark neubrutalism, visible mid-gray borders + offset ─── */
   --bg-base: #0A0A0A;
-  --bg-surface: #111111;
-  --bg-card: #1A1A1A;
-  --bg-card-hover: #222222;
-  --border: #FFFFFF !important;
-  --border-subtle: rgba(255, 255, 255, 0.2) !important;
-  --text-primary: #F0F0E8;
-  --text-muted: #9B9B8A;
-  --text-faint: #6A6A60;
+  --bg-surface: #161616;
+  --bg-card: #212121;
+  --bg-card-hover: #2C2C2C;
+  --border: #565656 !important;
+  --border-subtle: rgba(255, 255, 255, 0.08) !important;
+  --text-primary: #F0F0EC;
+  --text-muted: #888878;
+  --text-faint: #585850;
 
-  --shadow-color: #ffffff !important;
+  --shadow-color: #5A5A5A !important;
 }
 
 @theme {
@@ -214,6 +214,43 @@ body {
 /* Utility to apply tabular numbers */
 .tabular-nums {
   font-variant-numeric: tabular-nums;
+}
+
+/* ── Breadcrumb / Path Hierarchy ─────────────────── */
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 2px;
+  font-family: var(--font-ui), sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+}
+
+.breadcrumb-link {
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 150ms ease;
+}
+
+.breadcrumb-link:hover {
+  color: var(--text-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.breadcrumb-sep {
+  color: var(--text-faint);
+  user-select: none;
+  margin: 0 6px;
+}
+
+.breadcrumb-current {
+  color: var(--text-primary);
+  font-weight: 700;
 }
 
 /* ═══════════════════════════════════════════════════
@@ -369,7 +406,7 @@ body {
   line-height: 0.88;
   color: var(--text-primary);
   /* -webkit-text-stroke: 2px var(--border); */
-  text-shadow: 5px 5px 0 var(--shadow-color);
+  text-shadow: 2px 2px 0 var(--shadow-color);
 }
 
 /* Accent override — lime fill, keeps stroke + shadow from .poster-head-lg */
@@ -1991,8 +2028,8 @@ html {
      via Tailwind className - confirmed ✓. */
 
 /* Universal Dark Mode Border Color Enforcement */
-.dark *,
-.dark *:before,
-.dark *:after {
+html.dark *,
+html.dark *:before,
+html.dark *:after {
   border-color: var(--border) !important;
 }

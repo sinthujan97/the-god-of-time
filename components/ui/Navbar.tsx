@@ -243,7 +243,7 @@ export default function Navbar() {
         <div className="flex items-center">
           <Link href="/" className="flex items-center gap-2.5 cursor-pointer select-none">
             <span className="logo-icon-box">✦</span>
-            <span className="font-headline font-extrabold text-base md:text-[17px] tracking-[0.02em] text-text-primary transition-opacity hover:opacity-80">
+            <span className="hidden md:inline font-headline font-extrabold text-base md:text-[17px] tracking-[0.02em] text-text-primary transition-opacity hover:opacity-80">
               GOD OF <span style={{ color: "var(--accent-color)" }}>TIME</span>
             </span>
           </Link>

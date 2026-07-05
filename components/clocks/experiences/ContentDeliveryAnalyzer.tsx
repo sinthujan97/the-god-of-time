@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import ClockLayout from "../ClockLayout";
 import { clocksRegistry } from "@/lib/data/clocksRegistry";
 
@@ -106,45 +106,28 @@ export default function ContentDeliveryAnalyzer() {
 
   const heatScore = Math.round(rawScore * 100);
 
-  // Custom Sidebar
-  const sidebar = (
-    <div className="space-y-6">
-      {/* Heat Score Indicator */}
+  const controlsSection = (
+    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 16 }}>
+      {/* Algorithmic Score */}
       <div className="bg-bg-card border border-border rounded-xl p-5 space-y-4">
-        <span className="text-[11px] font-sans font-medium uppercase tracking-[0.1em] text-text-muted block">
-          Algorithmic Score
-        </span>
-
+        <span className="text-[11px] font-sans font-medium uppercase tracking-[0.1em] text-text-muted block">Algorithmic Score</span>
         <div>
           <div className="text-[10px] text-text-faint font-mono uppercase">Global Heat Index</div>
           <div className="flex items-baseline gap-2 mt-1">
-            <span className="text-4xl font-mono font-bold text-text-primary">
-              {heatScore}%
-            </span>
+            <span className="text-4xl font-mono font-bold text-text-primary">{heatScore}%</span>
             <span className="text-xs font-mono font-semibold" style={{ color: selectedNetwork.accent }}>
               {heatScore > 75 ? "🔥 Peak Window" : heatScore > 50 ? "⚡ Moderate" : "💤 Quiet"}
             </span>
           </div>
         </div>
-
-        {/* Vertical mini progress bar */}
         <div className="w-full bg-bg-surface border border-border h-2 rounded-full overflow-hidden">
-          <div
-            className="h-full transition-all duration-500"
-            style={{
-              width: `${heatScore}%`,
-              backgroundColor: selectedNetwork.accent || "var(--section-clocks-accent)",
-            }}
-          />
+          <div className="h-full transition-all duration-500" style={{ width: `${heatScore}%`, backgroundColor: selectedNetwork.accent || "var(--section-clocks-accent)" }} />
         </div>
       </div>
 
-      {/* Target Audiences Breakdown */}
+      {/* Audience Wakefulness */}
       <div className="bg-bg-card border border-border rounded-xl p-5 space-y-4">
-        <span className="text-[11px] font-sans font-medium uppercase tracking-[0.1em] text-text-muted block">
-          Audience Wakefulness
-        </span>
-
+        <span className="text-[11px] font-sans font-medium uppercase tracking-[0.1em] text-text-muted block">Audience Wakefulness</span>
         <div className="space-y-3">
           {regionalBreakdown.map((r, i) => (
             <div key={i} className="flex flex-col gap-1">
@@ -160,53 +143,18 @@ export default function ContentDeliveryAnalyzer() {
                   {r.isAwake ? "☀️ Awake" : "🌙 Sleeping"}
                 </span>
               </div>
-              {/* Progress bar */}
               <div className="w-full bg-bg-surface border border-border h-1 rounded-full overflow-hidden mt-1">
-                <div
-                  className="h-full transition-all"
-                  style={{
-                    width: `${r.activity * 100}%`,
-                    backgroundColor: r.color,
-                  }}
-                />
+                <div className="h-full transition-all" style={{ width: `${r.activity * 100}%`, backgroundColor: r.color }} />
               </div>
             </div>
           ))}
-        </div>
-      </div>
-
-      {/* Premium Sponsor Ad */}
-      <div className="sidebar-ad-slot">
-        <span className="ad-label text-[10px] font-sans font-medium uppercase tracking-[0.1em] text-text-faint block text-center mb-1">
-          SPONSOR
-        </span>
-        <div className="sidebar-ad-container p-5 bg-gradient-to-br from-purple-950/20 to-pink-950/20 border border-purple-500/20 rounded-xl flex flex-col justify-between text-center min-h-[220px]">
-          <div>
-            <span className="text-[10px] bg-purple-500/10 text-purple-400 border border-purple-500/20 px-2 py-0.5 rounded font-mono uppercase">
-              Creator tools
-            </span>
-            <h4 className="text-sm font-bold text-text-primary mt-3 font-sans leading-snug">
-              QueueBot: Automated Publishing
-            </h4>
-            <p className="text-xs text-text-muted mt-2">
-              Queue posts across X, LinkedIn, and TikTok. Automatically deploy at optimized peak timezone windows.
-            </p>
-          </div>
-          <a
-            href="https://thegodoftime.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-full py-2 bg-purple-600 hover:bg-purple-500 transition-colors text-white font-semibold rounded text-xs mt-4 block text-center"
-          >
-            Start Free Scheduler
-          </a>
         </div>
       </div>
     </div>
   );
 
   return (
-    <ClockLayout clock={clock} customSidebar={sidebar}>
+    <ClockLayout clock={clock} controlsSection={controlsSection}>
       <div className="flex flex-col items-center justify-center p-8 min-h-[460px] select-none text-text-primary">
         
         {/* Dynamic World Map Choropleth */}

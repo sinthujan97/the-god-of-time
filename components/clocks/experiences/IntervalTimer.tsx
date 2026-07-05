@@ -148,7 +148,7 @@ export default function IntervalTimer() {
 
         {phase === "idle" && (
           <p style={{ fontFamily: "var(--font-ui)", fontSize: 15, color: "var(--text-muted)" }}>
-            Configure below, then press START.
+            Configure above, then press START.
           </p>
         )}
 

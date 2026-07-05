@@ -62,19 +62,19 @@ export default function ClockLayout({ clock, children, controlsSection, customSi
             <p className="tool-header-description">{clock.description}</p>
           </div>
 
+          {/* Controls / Settings */}
+          {controlsSection && (
+            <div className="realm-controls-card" style={{ marginBottom: 24 }}>
+              {controlsSection}
+            </div>
+          )}
+
           {/* Clock card with fullscreen */}
           <div className="realm-canvas-card" style={{ position: "relative", padding: 0, overflow: "hidden" }}>
             <FullscreenWrapper clockName={clock.name}>
               {children}
             </FullscreenWrapper>
           </div>
-
-          {/* Controls */}
-          {controlsSection && (
-            <div className="realm-controls-card" style={{ marginTop: 24 }}>
-              {controlsSection}
-            </div>
-          )}
 
           {/* Divider */}
           <div className="realm-section-divider">

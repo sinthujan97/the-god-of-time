@@ -57,16 +57,6 @@ export function RealmSEOSection({ realm }: RealmSEOSectionProps) {
             ))}
           </ol>
 
-          {/* 3. MIDDLE AD SLOT (300x250 Centered) */}
-          <div className="ad-slot-inline my-12 w-full text-center">
-            <span className="ad-label text-[10px] font-sans font-medium uppercase tracking-[0.1em] text-text-faint block text-center mb-1">
-              ADVERTISEMENT
-            </span>
-            <div className="ad-container w-[300px] h-[250px] mx-auto bg-bg-base border border-border rounded-md flex items-center justify-center text-text-faint text-xs font-mono">
-              [Ad Container - 300x250 Inline]
-            </div>
-          </div>
-
           {/* 4. FAQ SECTION */}
           {seo.faqs.length > 0 && (
             <div className="faq-section mt-12">

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import ClockLayout from "../ClockLayout";
 import { clocksRegistry } from "@/lib/data/clocksRegistry";
 
@@ -232,92 +232,39 @@ export default function MicroBreakStrobe() {
   const circumference = 2 * Math.PI * radius;
   const strokeDashoffset = circumference * (1 - progressRatio);
 
-  // Custom Sidebar definition
-  const sidebar = (
-    <div className="space-y-6">
-      {/* Stats Widget */}
+  const controlsSection = (
+    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 16 }}>
+      {/* Compliance Tracking */}
       <div className="bg-bg-card border border-border rounded-xl p-5 space-y-4">
-        <span className="text-[11px] font-sans font-medium uppercase tracking-[0.1em] text-text-muted block">
-          Compliance Tracking
-        </span>
-
+        <span className="text-[11px] font-sans font-medium uppercase tracking-[0.1em] text-text-muted block">Compliance Tracking</span>
         <div>
           <div className="text-xs text-text-faint font-mono uppercase">Completed Today</div>
           <div className="text-3xl font-mono font-bold text-text-primary mt-1">
             {breaksToday} <span className="text-xs text-text-muted font-sans font-normal">/ 5 goal</span>
           </div>
-          {/* Simple progress dots */}
           <div className="flex gap-1.5 mt-2">
             {[...Array(5)].map((_, i) => (
-              <div
-                key={i}
-                className={`w-3 h-3 rounded-full border transition-all ${
-                  i < breaksToday
-                    ? "bg-amber-500 border-amber-500 shadow-sm shadow-amber-500/20"
-                    : "bg-bg-surface border-border"
-                }`}
-              />
+              <div key={i} className={`w-3 h-3 rounded-full border transition-all ${i < breaksToday ? "bg-amber-500 border-amber-500 shadow-sm shadow-amber-500/20" : "bg-bg-surface border-border"}`} />
             ))}
           </div>
         </div>
-
         <div>
           <div className="text-xs text-text-faint font-mono uppercase">Break Streak</div>
-          <div className="text-xl font-mono font-bold text-text-primary mt-1">
-            🔥 {streak} {streak === 1 ? "Day" : "Days"}
-          </div>
-          <p className="text-[10px] text-text-muted mt-1 leading-snug">
-            Complete at least 5 focus micro-breaks every day to sustain your focus streak.
-          </p>
+          <div className="text-xl font-mono font-bold text-text-primary mt-1">🔥 {streak} {streak === 1 ? "Day" : "Days"}</div>
+          <p className="text-[10px] text-text-muted mt-1 leading-snug">Complete at least 5 focus micro-breaks every day to sustain your focus streak.</p>
         </div>
-
         <div>
           <div className="text-xs text-text-faint font-mono uppercase">Audio Alert Chime</div>
-          <button
-            onClick={() => setIsAudioEnabled(!isAudioEnabled)}
-            className={`w-full text-left font-mono font-bold text-xs mt-1.5 py-1.5 px-3 rounded border transition-colors ${
-              isAudioEnabled
-                ? "bg-amber-500/10 text-amber-400 border-amber-500/20"
-                : "bg-bg-surface text-text-muted border-border"
-            }`}
-          >
+          <button onClick={() => setIsAudioEnabled(!isAudioEnabled)} className={`w-full text-left font-mono font-bold text-xs mt-1.5 py-1.5 px-3 rounded border transition-colors ${isAudioEnabled ? "bg-amber-500/10 text-amber-400 border-amber-500/20" : "bg-bg-surface text-text-muted border-border"}`}>
             {isAudioEnabled ? "🔔 Chimes Enabled" : "🔕 Muted"}
           </button>
-        </div>
-      </div>
-
-      {/* Premium Sponsor Ad */}
-      <div className="sidebar-ad-slot">
-        <span className="ad-label text-[10px] font-sans font-medium uppercase tracking-[0.1em] text-text-faint block text-center mb-1">
-          SPONSOR
-        </span>
-        <div className="sidebar-ad-container p-5 bg-gradient-to-br from-amber-950/20 to-orange-950/20 border border-amber-500/20 rounded-xl flex flex-col justify-between text-center min-h-[220px]">
-          <div>
-            <span className="text-[10px] bg-amber-500/10 text-amber-400 border border-amber-500/20 px-2 py-0.5 rounded font-mono uppercase">
-              Eye Care Tech
-            </span>
-            <h4 className="text-sm font-bold text-text-primary mt-3 font-sans leading-snug">
-              Lumina: Anti-Reflective Lenses
-            </h4>
-            <p className="text-xs text-text-muted mt-2">
-              Block up to 98% of high-energy visible blue light. Protect your vision during deep work.
-            </p>
-          </div>
-          <a
-            href="https://thegodoftime.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-full py-2 bg-amber-600 hover:bg-amber-500 transition-colors text-white font-semibold rounded text-xs mt-4 block text-center"
-          >
-            Get 20% Off Lenses
-          </a>
         </div>
       </div>
     </div>
   );
 
   return (
-    <ClockLayout clock={clock} customSidebar={sidebar}>
+    <ClockLayout clock={clock} controlsSection={controlsSection}>
       <div className="flex flex-col items-center justify-center p-8 min-h-[460px] relative overflow-hidden select-none text-text-primary">
         
         {/* Countdown Ring view */}

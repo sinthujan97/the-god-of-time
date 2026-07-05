@@ -10,6 +10,7 @@ interface FullscreenWrapperProps {
 
 export default function FullscreenWrapper({ children }: FullscreenWrapperProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
   const [isFs, setIsFs] = useState(false);
   const [isFallbackFs, setIsFallbackFs] = useState(false);
   const [scaleFactor, setScaleFactor] = useState(1.5);
@@ -35,14 +36,37 @@ export default function FullscreenWrapper({ children }: FullscreenWrapperProps) 
     const handleResize = () => {
       const w = window.innerWidth;
       const h = window.innerHeight;
-      const scaleH = (h / 380) * 0.85; // Leave 15% padding vertically
-      const scaleW = (w / 450) * 0.85; // Leave 15% padding horizontally
-      const bestScale = Math.max(1.0, Math.min(2.2, Math.min(scaleH, scaleW)));
+      const el = contentRef.current;
+      if (!el) {
+        const scaleH = (h / 380) * 0.85;
+        const scaleW = (w / 450) * 0.85;
+        const bestScale = Math.max(1.0, Math.min(2.2, Math.min(scaleH, scaleW)));
+        setScaleFactor(bestScale);
+        return;
+      }
+
+      // Temporarily clear the scale transform style to measure natural layout bounds
+      const prevTransform = el.style.transform;
+      el.style.transform = "none";
+      const contentW = el.scrollWidth || 450;
+      const contentH = el.scrollHeight || 380;
+      el.style.transform = prevTransform;
+
+      // Compute scale to fit inside 90% of screen size (to leave nice padding)
+      const scaleH = (h / contentH) * 0.90;
+      const scaleW = (w / contentW) * 0.90;
+      const bestScale = Math.max(1.0, Math.min(2.0, Math.min(scaleH, scaleW)));
       setScaleFactor(bestScale);
     };
+
     handleResize();
+    const t = setTimeout(handleResize, 50);
+
     window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    return () => {
+      clearTimeout(t);
+      window.removeEventListener("resize", handleResize);
+    };
   }, [activeFs]);
 
   useEffect(() => {
@@ -136,6 +160,7 @@ export default function FullscreenWrapper({ children }: FullscreenWrapperProps) 
       }
     >
       <div
+        ref={contentRef}
         style={{
           width: "100%",
           transform: activeFs ? `scale(${scaleFactor})` : "none",
@@ -143,7 +168,6 @@ export default function FullscreenWrapper({ children }: FullscreenWrapperProps) 
           transition: "transform 0.15s ease-out",
           display: "flex",
           flexDirection: "column",
-          alignItems: "center",
           justifyContent: "center",
         }}
       >
