@@ -44,10 +44,14 @@ function hourToRad(h: number): number {
 function donutArc(s: number, e: number, ro: number, ri: number, cx: number, cy: number): string {
   const sa = hourToRad(s), ea = hourToRad(e);
   const large = (e - s) > 12 ? 1 : 0;
-  const x1 = cx + ro * Math.cos(sa), y1 = cy + ro * Math.sin(sa);
-  const x2 = cx + ro * Math.cos(ea), y2 = cy + ro * Math.sin(ea);
-  const x3 = cx + ri * Math.cos(ea), y3 = cy + ri * Math.sin(ea);
-  const x4 = cx + ri * Math.cos(sa), y4 = cy + ri * Math.sin(sa);
+  const x1 = (cx + ro * Math.cos(sa)).toFixed(3);
+  const y1 = (cy + ro * Math.sin(sa)).toFixed(3);
+  const x2 = (cx + ro * Math.cos(ea)).toFixed(3);
+  const y2 = (cy + ro * Math.sin(ea)).toFixed(3);
+  const x3 = (cx + ri * Math.cos(ea)).toFixed(3);
+  const y3 = (cy + ri * Math.sin(ea)).toFixed(3);
+  const x4 = (cx + ri * Math.cos(sa)).toFixed(3);
+  const y4 = (cy + ri * Math.sin(sa)).toFixed(3);
   return `M${x1},${y1} A${ro},${ro} 0 ${large},1 ${x2},${y2} L${x3},${y3} A${ri},${ri} 0 ${large},0 ${x4},${y4}Z`;
 }
 
@@ -66,10 +70,13 @@ const CHRONO_LABELS: Record<number, string> = {
 };
 
 export default function CircadianClock() {
-  const [now, setNow] = useState(new Date());
+  const [mounted, setMounted] = useState(false);
+  const [now, setNow] = useState(new Date(2026, 0, 1, 12, 0, 0));
   const [offset, setOffset] = useState(0);
 
   useEffect(() => {
+    setMounted(true);
+    setNow(new Date());
     const iv = setInterval(() => setNow(new Date()), 30000);
     return () => clearInterval(iv);
   }, []);
@@ -79,8 +86,8 @@ export default function CircadianClock() {
   const effectiveH = ((clockH - offset) + 24) % 24;
   const currentZone = findZone(effectiveH);
   const dotAngle = hourToRad(clockH);
-  const dotX = cx + mid * Math.cos(dotAngle);
-  const dotY = cy + mid * Math.sin(dotAngle);
+  const dotX = (cx + mid * Math.cos(dotAngle)).toFixed(3);
+  const dotY = (cy + mid * Math.sin(dotAngle)).toFixed(3);
 
   return (
     <ClockLayout clock={clock}>
@@ -102,10 +109,14 @@ export default function CircadianClock() {
             {Array.from({ length: 24 }, (_, i) => {
               const a = hourToRad(i);
               const isQ = i % 6 === 0;
+              const x1 = (cx + (ro + 3) * Math.cos(a)).toFixed(3);
+              const y1 = (cy + (ro + 3) * Math.sin(a)).toFixed(3);
+              const x2 = (cx + (ro + (isQ ? 10 : 6)) * Math.cos(a)).toFixed(3);
+              const y2 = (cy + (ro + (isQ ? 10 : 6)) * Math.sin(a)).toFixed(3);
               return (
                 <line key={i}
-                  x1={cx + (ro + 3) * Math.cos(a)} y1={cy + (ro + 3) * Math.sin(a)}
-                  x2={cx + (ro + (isQ ? 10 : 6)) * Math.cos(a)} y2={cy + (ro + (isQ ? 10 : 6)) * Math.sin(a)}
+                  x1={x1} y1={y1}
+                  x2={x2} y2={y2}
                   stroke="var(--border)" strokeWidth={isQ ? 2 : 1}
                 />
               );
@@ -113,10 +124,12 @@ export default function CircadianClock() {
             {/* Hour labels */}
             {HOUR_LABELS.map(({ h, label }) => {
               const a = hourToRad(h);
+              const lx = (cx + (ro + 22) * Math.cos(a)).toFixed(3);
+              const ly = (cy + (ro + 22) * Math.sin(a)).toFixed(3);
               return (
                 <text key={h}
-                  x={cx + (ro + 22) * Math.cos(a)}
-                  y={cy + (ro + 22) * Math.sin(a)}
+                  x={lx}
+                  y={ly}
                   textAnchor="middle" dominantBaseline="middle"
                   fontSize={9} fontWeight={700} fill="var(--text-muted)" fontFamily="var(--font-mono)"
                 >
@@ -129,7 +142,7 @@ export default function CircadianClock() {
             {/* Center text */}
             <text x={cx} y={cy - 9} textAnchor="middle" dominantBaseline="middle"
               fontSize={13} fontWeight={700} fill="var(--text-primary)" fontFamily="var(--font-mono)">
-              {String(now.getHours()).padStart(2, "0")}:{String(now.getMinutes()).padStart(2, "0")}
+              {mounted ? String(now.getHours()).padStart(2, "0") : "--"}:{mounted ? String(now.getMinutes()).padStart(2, "0") : "--"}
             </text>
             <text x={cx} y={cy + 10} textAnchor="middle" dominantBaseline="middle"
               fontSize={8} fontWeight={700} fill="var(--text-muted)" fontFamily="var(--font-mono)">
