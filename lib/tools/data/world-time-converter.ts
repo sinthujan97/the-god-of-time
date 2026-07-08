@@ -33,9 +33,9 @@ export const worldTimeConverterData: ToolPageData = {
         content: "Coordinate live broadcast times with international syndication partners to avoid airtime scheduling slip-ups."
       }
     ],
-    internalLinksText: "To highlight optimal overlapping slots for teams, use the Meeting Planner Sweet-Spot Finder. To locate general offset definitions, check the UTC/GMT Offset Finder.",
+    internalLinksText: "To highlight optimal overlapping slots for teams, use the World Clock Meeting Planner. To locate general offset definitions, check the UTC/GMT Offset Finder.",
     relatedToolSlugs: [
-      "meeting-planner",
+      "world-clock-meeting-planner",
       "utc-gmt-offset",
       "multi-city-clock"
     ],

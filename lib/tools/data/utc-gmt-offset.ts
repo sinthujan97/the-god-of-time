@@ -33,10 +33,10 @@ export const utcGmtOffsetData: ToolPageData = {
         content: "Quickly check GMT references for international television programs or media stream schedule releases."
       }
     ],
-    internalLinksText: "To see standard abbreviation mappings, check the Time Zone Abbreviation Directory. To manage military-level Zulu operations, use the Zulu Time Coordinator.",
+    internalLinksText: "To see standard abbreviation mappings, check the Time Zone Abbreviation Directory. To manage military-level Zulu operations, use the Zulu Time Converter.",
     relatedToolSlugs: [
       "timezone-abbreviations",
-      "zulu-time-coordinator",
+      "zulu-time-converter",
       "unix-timestamp-converter"
     ],
     faqs: [

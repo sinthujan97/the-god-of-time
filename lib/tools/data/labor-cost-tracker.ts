@@ -36,7 +36,7 @@ export const laborCostTrackerData: ToolPageData = {
     internalLinksText: "To compile billable hours across projects, try the Billable Hours Tracker. For calculating overtime payroll splits, use the Overtime Pay Calculator.",
     relatedToolSlugs: [
       "billable-hours-tracker",
-      "fractional-executive",
+      "fractional-work-hours-allocator",
       "overtime-pay-calculator"
     ],
     faqs: [

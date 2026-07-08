@@ -1,7 +1,160 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  async redirects() {
+    return [
+      {
+        source: "/tools/semi-monthly-pay",
+        destination: "/tools/semi-monthly-pay-calculator",
+        permanent: true,
+      },
+      {
+        source: "/tools/commission-by-hour",
+        destination: "/tools/commission-per-hour-calculator",
+        permanent: true,
+      },
+      {
+        source: "/tools/biweekly-timesheet",
+        destination: "/tools/free-biweekly-timesheet-calculator",
+        permanent: true,
+      },
+      {
+        source: "/tools/retainer-burndown",
+        destination: "/tools/retainer-hours-tracker-online",
+        permanent: true,
+      },
+      {
+        source: "/tools/fractional-executive",
+        destination: "/tools/fractional-work-hours-allocator",
+        permanent: true,
+      },
+      {
+        source: "/tools/shift-differential-pay",
+        destination: "/tools/shift-differential-calculator",
+        permanent: true,
+      },
+      {
+        source: "/tools/zulu-time-coordinator",
+        destination: "/tools/zulu-time-converter",
+        permanent: true,
+      },
+      {
+        source: "/tools/internet-time-converter",
+        destination: "/tools/swatch-time-converter",
+        permanent: true,
+      },
+      {
+        source: "/tools/gps-time-correction",
+        destination: "/tools/gps-time-converter",
+        permanent: true,
+      },
+      {
+        source: "/tools/cross-border-deadline",
+        destination: "/tools/cross-border-deadline-calculator",
+        permanent: true,
+      },
+      {
+        source: "/tools/leap-year-checker",
+        destination: "/tools/leap-year-calculator",
+        permanent: true,
+      },
+      {
+        source: "/tools/ntp-latency-tester",
+        destination: "/tools/ntp-time-tester-online",
+        permanent: true,
+      },
+      {
+        source: "/tools/sprint-date-calculator",
+        destination: "/tools/agile-sprint-date-calculator",
+        permanent: true,
+      },
+      {
+        source: "/tools/sla-countdown-timer",
+        destination: "/tools/sla-timer",
+        permanent: true,
+      },
+      {
+        source: "/tools/document-retention-expiry",
+        destination: "/tools/document-expiration-date-calculator",
+        permanent: true,
+      },
+      {
+        source: "/tools/recurring-event-rrule",
+        destination: "/tools/rrule-generator-online",
+        permanent: true,
+      },
+      {
+        source: "/tools/court-deadline-calculator",
+        destination: "/tools/free-legal-deadline-calculator",
+        permanent: true,
+      },
+      {
+        source: "/tools/milestone-buffer-calculator",
+        destination: "/tools/project-buffer-calculator",
+        permanent: true,
+      },
+      {
+        source: "/tools/cpm-critical-path-float",
+        destination: "/tools/critical-path-calculator",
+        permanent: true,
+      },
+      {
+        source: "/tools/meeting-planner",
+        destination: "/tools/world-clock-meeting-planner",
+        permanent: true,
+      },
+      {
+        source: "/clocks/content-delivery-window",
+        destination: "/clocks/best-time-to-post-on-social-media",
+        permanent: true,
+      },
+      {
+        source: "/clocks/meeting-cost-timer",
+        destination: "/clocks/meeting-cost-clock-online",
+        permanent: true,
+      },
+      {
+        source: "/clocks/absolute-lunar-anchor",
+        destination: "/clocks/moon-phase-clock-online",
+        permanent: true,
+      },
+      {
+        source: "/clocks/night-clock",
+        destination: "/clocks/night-clock-online",
+        permanent: true,
+      },
+      {
+        source: "/clocks/circadian-clock",
+        destination: "/clocks/circadian-rhythm-clock",
+        permanent: true,
+      },
+      {
+        source: "/clocks/time-blindness",
+        destination: "/clocks/time-blindness-test",
+        permanent: true,
+      },
+      {
+        source: "/clocks/random-timer",
+        destination: "/clocks/timer-game-online",
+        permanent: true,
+      },
+      {
+        source: "/clocks/speed-reading-metronome",
+        destination: "/clocks/speed-reading-test-online",
+        permanent: true,
+      },
+      {
+        source: "/realms/parent-child-time",
+        destination: "/realms/parent-child-time-calculator",
+        permanent: true,
+      },
+      {
+        source: "/realms/sacred-timeline-audit",
+        destination: "/realms/the-sacred-timeline",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

@@ -273,7 +273,7 @@ function QuestionCard({
 
 export default function SacredTimelineAudit() {
   const pathname = usePathname();
-  const slug     = pathname.split("/").pop() ?? "sacred-timeline-audit";
+  const slug     = pathname.split("/").pop() ?? "the-sacred-timeline";
   const realm    = realmsRegistry.find((r) => r.slug === slug) ?? realmsRegistry[0];
   const accent   = realm.accent;
 

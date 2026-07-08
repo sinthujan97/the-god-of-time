@@ -34,11 +34,11 @@ export const leadTimeCalculatorData: ToolPageData = {
         content: "Plant managers use cycle times to balance assembly lines. Reducing inventory wait states (non-value-added time) directly improves the company's operating margin."
       }
     ],
-    internalLinksText: "To monitor team availability across global zones, try the Remote Team Time Zone Overlap Finder. For milestone planning, check the Project Deadline Back-Planner. To analyze SLA response times, use the SLA Breach Countdown Calculator.",
+    internalLinksText: "To monitor team availability across global zones, try the Remote Team Time Zone Overlap Finder. For milestone planning, check the Project Deadline Back-Planner. To analyze SLA response times, use the SLA Timer.",
     relatedToolSlugs: [
       "remote-team-overlap",
       "project-back-planner",
-      "sla-countdown-timer"
+      "sla-timer"
     ],
     faqs: [
       {

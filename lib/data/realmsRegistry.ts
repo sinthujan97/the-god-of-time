@@ -286,7 +286,7 @@ export const realmsRegistry: Realm[] = [
   {
     id: "grandfather-paradox",
     slug: "grandfather-paradox",
-    name: "Grandfather Paradox Safety System",
+    name: "Grandfather Paradox",
     description:
       "Describe your time travel plan. The TVA's automated AI classifies it: Causal Loop (stable), Splinter Timeline (parallel universe), or Erasure Event (you cease to exist).",
     category: "scifi",
@@ -294,16 +294,58 @@ export const realmsRegistry: Realm[] = [
     needsAI: true,
     seo: {
       introText:
-        "The Grandfather Paradox Safety System is an automated classification service for time travel plans. Submit your intended temporal intervention and receive an official TVA case file — including paradox classification, risk level, approval probability, and a formally worded bureaucratic memo explaining whether you will erase yourself from history.",
+        "If you traveled back in time and prevented your grandfather from ever meeting your grandmother, you would never have been born — which means you could never have traveled back in time to prevent the meeting in the first place. This is the grandfather paradox, the classic logical contradiction at the center of every backward time travel story, and this simulator lets you submit your own time travel plan and see how a causal loop like this actually resolves. Philosophy students, sci-fi fans who just watched a time travel movie, and physics enthusiasts use it to explore the paradox interactively instead of just reading about it.",
       howToTitle: "How to Submit a Time Travel Plan",
       howToSteps: [
         "Describe your time travel plan in plain language. Be specific — 'kill Hitler' will be classified differently from 'give my younger self a stock tip'.",
         "Submit to the TVA. The system cross-references your plan against the Sacred Timeline, the temporal density index, and the current paradox probability tables.",
         "Receive your official case file: classification type, risk level, approval probability, and recommended action. Act accordingly.",
       ],
+      useCases: [
+        {
+          title: "The Grandfather Paradox Explained Simply",
+          content:
+            "The classic scenario goes like this: you travel back in time and, whether on purpose or by accident, prevent your own birth from ever happening. The paradox emerges immediately — if you were never born, you could never have grown up to build a time machine and travel back in the first place, which means the event that prevented your birth never happened, which means you were born after all, which means you did travel back... an infinite loop with no stable resolution. Physicists have proposed three main ways to resolve it. The Novikov Self-Consistency Principle holds that you simply cannot do it — the universe conspires to prevent any action that would create a paradox, no matter how the attempt is made. The Many-Worlds Interpretation says you don't erase yourself at all; instead your action splits reality into a new branch timeline where you never exist, while your original timeline continues completely unaffected. A third framing treats certain events as causal loops — self-consistent chains where the effect quietly becomes part of its own cause, which is also the basis of the related bootstrap paradox below."
+        },
+        {
+          title: "Bootstrap Paradox vs Grandfather Paradox",
+          content:
+            "The grandfather paradox is a contradiction: an action that prevents its own cause from ever occurring. The bootstrap paradox is different — it's circular but internally consistent, involving an object or piece of information that exists with no true point of origin. The classic illustration: you travel back in time and hand Beethoven the sheet music for his own 5th Symphony, which he then publishes as his own — but where did the music actually come from, if he never composed it and you only ever copied it from history? Nobody created it; it simply loops. Popular culture leans on both paradoxes constantly, usually without naming them: the grandfather paradox drives most 'don't change the past' plots, while the bootstrap paradox shows up whenever a time traveler is revealed to be the secret original source of something they thought they'd only borrowed from the future."
+        }
+      ],
       faqs: [
         {
-          question: "What are the three classification types?",
+          question: "What is the grandfather paradox?",
+          answer:
+            "The grandfather paradox is a logical contradiction in time travel theory. If you traveled back in time and prevented your grandparents from meeting, you would never have been born. But if you were never born, you could not have traveled back in time to prevent the meeting. This creates an irresolvable logical loop that many physicists use as an argument against the possibility of backward time travel."
+        },
+        {
+          question: "How does the grandfather paradox relate to time travel?",
+          answer:
+            "The grandfather paradox is one of the primary theoretical barriers to backward time travel. Any action a time traveler takes that prevents their own existence creates a paradox — including anything that would change their ancestors' lives, their parents' meeting, or the chain of events leading to the traveler's own birth."
+        },
+        {
+          question: "Can the grandfather paradox be solved?",
+          answer:
+            "Three main solutions are proposed. The Novikov Self-Consistency Principle states the universe prevents paradox-creating actions — you physically cannot kill your grandfather. The Many-Worlds Interpretation states you create a new branch timeline where you never exist, while your original timeline continues. The third approach treats time as fixed — any actions you took in the past already happened and are part of the timeline that led to you traveling back."
+        },
+        {
+          question: "What are some famous examples of the grandfather paradox?",
+          answer:
+            "Famous examples include the film Back to the Future (Marty accidentally prevents his parents meeting), the TV series Dark (multiple generations of paradoxical causation), the film Looper (a man hired to kill his future self), and numerous episodes of Doctor Who. Each uses a different fictional resolution for the paradox."
+        },
+        {
+          question: "How does the bootstrap paradox differ from the grandfather paradox?",
+          answer:
+            "The grandfather paradox involves a contradiction (an event that prevents itself). The bootstrap paradox involves circular causation with no origin point — an object or piece of information exists only because it was brought from the future, but it never had a moment of creation. The bootstrap paradox is self-consistent, making it theoretically less problematic than the grandfather paradox."
+        },
+        {
+          question: "What is the significance of the grandfather paradox in philosophy?",
+          answer:
+            "Philosophically, the grandfather paradox tests the compatibility of free will with determinism and challenges our understanding of causality. If the past is fixed, we have no real freedom to change it. If we can change it, we risk destroying causality itself. The paradox also underpins debates about whether the laws of physics permit closed timelike curves."
+        },
+        {
+          question: "What are the three classification types this simulator uses?",
           answer:
             "CAUSAL_LOOP means your intervention creates a stable loop that has always existed — lower risk, but philosophically unsettling. SPLINTER_TIMELINE means your action creates a new parallel branch of reality — moderate risk, you survive but create an alternate universe. ERASURE_EVENT means your intervention will retroactively prevent your own existence — maximum risk.",
         },
@@ -316,7 +358,7 @@ export const realmsRegistry: Realm[] = [
           question: "How does the AI generate the classification?",
           answer:
             "GPT-4o analyses the logical structure of your plan — causal dependencies, self-reference, historical impact radius — and applies temporal paradox theory to assign a classification. The bureaucratic language is a stylistic choice. The underlying logic is sound.",
-        },
+        }
       ],
     },
   },
@@ -400,9 +442,9 @@ export const realmsRegistry: Realm[] = [
     },
   },
   {
-    id: "parent-child-time",
-    slug: "parent-child-time",
-    name: "Parent-Child Time Calculator",
+    id: "parent-child-time-calculator",
+    slug: "parent-child-time-calculator",
+    name: "Parent Child Time Calculator",
     description:
       "How much of your total parent time have you already spent? Enter birthdates and contact frequency — then see the percentage that's gone, the hours remaining, and how many Christmases you have left together.",
     category: "destiny",
@@ -410,29 +452,66 @@ export const realmsRegistry: Realm[] = [
     needsAI: false,
     seo: {
       introText:
-        "The Parent-Child Time Calculator reveals one of the most affecting statistics in a person's life: what percentage of your total time with a parent you have already used. Most people have already spent over 80% of their parent time by the time they leave home at 18. Enter your birthdate, your parent's birthdate, and how often you see each other — and see what remains.",
+        "This parent child time calculator shows how much time you have left with your parents or children based on current ages, average life expectancy, and how often you actually see each other. By the time a child turns 18, parents have already spent approximately 90% of the total time they will ever spend with that child — a statistic that reframes how most adult children think about time left with parents. Enter your birthdate, your parent's birthdate, and your current visit frequency to see exactly how much parent time remaining you have at today's pace. Adult children reflecting on time with aging parents, parents of teenagers watching the clock start ticking, and anyone who has lost a parent and wishes they had spent more time all use this calculator to turn a vague sense of urgency into an actual number.",
       howToTitle: "How to Calculate Your Parent Time",
       howToSteps: [
         "Enter your own birth date and your parent's birth date using the date pickers.",
         "Select how often you currently spend time together — live together, weekly visits, monthly visits, or holidays only.",
         "The results show the percentage of your total parent time already spent, hours remaining, milestones left, and an emotional perspective on what the numbers mean.",
       ],
-      faqs: [
+      useCases: [
         {
-          question: "Why have I spent so much parent time already?",
-          answer:
-            "Research on time use suggests that the average child spends roughly 1,000 hours per year with their parents before leaving home — and then the contact drops to a fraction of that. By the time a person leaves at 18, they may have already completed 85% or more of their total in-person parent time, assuming both parents live to average life expectancy.",
+          title: "The 90% Statistic That Will Change How You Think About Time With Parents",
+          content:
+            "If you grew up in the same house as your parents until you turned 18, you have already spent roughly 90% of all the time you will ever have with them — a concept popularized by Tim Urban of Wait But Why that reframes family time as a rapidly depleting resource rather than something to take for granted. Living together as a child means somewhere close to 365 days a year of shared time; after 18, college, career, and starting your own family typically cut that down to a handful of visits annually — commonly 5 to 10 visits per year at 2 to 3 days each, or roughly 10 to 30 days per year total. Stack that against the 365 days a year you had as a kid, and it becomes obvious how the math front-loads so heavily toward childhood. This calculator takes your current visit frequency and your parents' estimated remaining years and shows exactly how many days you have left together at your present pace — not as an abstract warning, but as a specific number you can act on."
         },
         {
-          question: "How is parent time calculated?",
+          title: "How to Use More of the Time You Have",
+          content:
+            "The good news is that the remaining 10% is not fixed — small changes compound. Increasing your visit frequency by even one extra trip per year can meaningfully increase your total remaining time, sometimes nearly doubling it depending on your starting frequency. Quality matters as much as quantity: undivided attention during a shorter visit often builds more connection than a longer visit spent distracted by phones or work. Phone calls and video calls count too — they add real, meaningful time even when distance rules out an in-person visit. Creating deliberate traditions — an annual trip, a standing Sunday phone call, a shared weekly activity — turns good intentions into a repeatable habit, which is ultimately what moves the number this calculator shows."
+        }
+      ],
+      faqs: [
+        {
+          question: "What is the parent child time calculator?",
           answer:
-            "The calculator multiplies your parent's estimated remaining years (based on average life expectancy of 79) by your current weekly contact hours. It then compares that to the time already accumulated since your birth at the same rate — giving the percentage of total parent time already spent.",
+            "The parent child time calculator estimates the total time remaining you will share with your parents or children based on current ages, life expectancy data, and your current visit frequency. It makes the finite nature of family time concrete and visible, motivating many people to prioritise time with loved ones differently after seeing the result."
+        },
+        {
+          question: "How does the calculator estimate time left with parents?",
+          answer:
+            "Enter your current age, your parents' ages, and how many days per year you typically spend with them. The calculator uses average life expectancy data to estimate remaining years, multiplies by your annual visit frequency, and shows the total days and equivalent weeks you have remaining with each parent assuming current patterns continue."
+        },
+        {
+          question: "What is the 90% statistic about family time?",
+          answer:
+            "Research popularised by Tim Urban shows that if you grew up with your parents until age 18, you have already experienced approximately 90% of all the in-person time you will ever have with them. After leaving home, most adults see their parents only a handful of times per year, meaning the remaining 10% of total lifetime together is spread across decades of adult life."
+        },
+        {
+          question: "How can I increase the time I spend with my parents?",
+          answer:
+            "Even one additional visit per year can add meaningfully to your total. Consider scheduling regular phone or video calls which count as real connection time. Create annual traditions like holiday trips or shared activities. Work from their location occasionally if your job allows remote work. The calculator lets you model how different visit frequencies change your total remaining time."
+        },
+        {
+          question: "Can I calculate time remaining with my children?",
+          answer:
+            "Yes. Enter your child's current age and your current time together per year. The calculator shows how much undistracted family time remains before your child leaves home — often a more motivating figure than abstract advice about \"being present.\" Many parents report changing their work-life balance decisions after seeing this number."
+        },
+        {
+          question: "What factors affect the parent child time calculation?",
+          answer:
+            "The main factors are: current ages of both parent and child, average life expectancy for your region, current visit or living frequency (days per year together), and the age at which your child is likely to leave home. You can adjust all of these in the calculator to model different scenarios."
+        },
+        {
+          question: "What are the benefits of using a family time calculator?",
+          answer:
+            "The primary benefit is making abstract time feel concrete. Most people intend to spend more time with family \"someday\" but never quantify what they are actually on track for. Seeing a specific number of days remaining creates urgency and motivation that good intentions alone rarely achieve."
         },
         {
           question: "Is the life expectancy assumption accurate?",
           answer:
-            "The calculator uses 79 years as the average life expectancy for simplicity. Individual health, lifestyle, and family history all affect the actual figure significantly. The tool is designed to provoke reflection rather than precise planning.",
-        },
+            "The calculator uses 79 years as the average life expectancy for simplicity. Individual health, lifestyle, and family history all affect the actual figure significantly. The tool is designed to provoke reflection rather than precise planning."
+        }
       ],
     },
   },
@@ -553,9 +632,9 @@ export const realmsRegistry: Realm[] = [
     },
   },
   {
-    id: "sacred-timeline-audit",
-    slug: "sacred-timeline-audit",
-    name: "The Sacred Timeline Audit",
+    id: "the-sacred-timeline",
+    slug: "the-sacred-timeline",
+    name: "The Sacred Timeline",
     description:
       "Answer 8 questions about your life choices. The TVA's automated system classifies your variants, assigns a compliance score, and predicts your Minority Report pre-crime arrest date.",
     category: "scifi",
@@ -563,29 +642,76 @@ export const realmsRegistry: Realm[] = [
     needsAI: true,
     seo: {
       introText:
-        "The Sacred Timeline Audit is an automated TVA compliance system. Submit your life data — career pivots, relationship endings, unread emails, sleep schedule — and receive an official case file: your Sacred Timeline Compliance Score, a list of unauthorized variants, your pruning risk level, and the exact date Minority Report's pre-crime division would have arrested you.",
+        "In Marvel's Loki, the sacred timeline is the single approved sequence of events that the TVA (Time Variance Authority) exists to protect — and this simulator lets you audit your own life for the nexus events that would attract their attention. Submit your life data — career pivots, relationship endings, unread emails, sleep schedule — and receive an official TVA case file: your Sacred Timeline Compliance Score, a list of unauthorized variants, your pruning risk level, and the exact date Minority Report's pre-crime division would have arrested you. Marvel fans, Loki series viewers, people curious about the MCU timeline concept, and pop culture enthusiasts use it purely for the fun of finding out just how far off-script their own life has gone.",
       howToTitle: "How to Submit Your Timeline for Audit",
       howToSteps: [
         "Answer all 8 questions honestly. The TVA has ways of verifying your responses.",
         "Click Submit to TVA. The AI processes your life data against the Sacred Timeline compliance database.",
         "Review your official case file: compliance score, unauthorized variants flagged, pruning risk, and your pre-crime arrest date.",
       ],
-      faqs: [
+      useCases: [
         {
-          question: "What is the Sacred Timeline?",
-          answer:
-            "In the Marvel Loki universe, the Sacred Timeline is the one approved sequence of events across all reality. The TVA (Time Variance Authority) monitors it for deviations — called Nexus Events — and prunes branches that diverge too far. This tool applies that concept to your actual life choices.",
+          title: "What Is the Sacred Timeline in Marvel?",
+          content:
+            "The sacred timeline was introduced in Loki (Disney+) Season 1 as the single approved sequence of events across all of reality, created by He Who Remains — a Kang variant — at the end of time to prevent an all-out multiversal war between his infinite variants. Under his system, only one sequence of events is permitted; any meaningful deviation creates a branch timeline, and the TVA's job is to prune those branches with reset charges before they grow large enough to mature into their own full universe. That system holds until Loki and Sylvie confront He Who Remains at his Citadel at the end of time — Sylvie's choice to kill him rather than take his place destroys the sacred timeline entirely, and every branch that had ever been pruned instantly springs into existence simultaneously. That collapse is the direct origin of the sprawling multiverse seen across Avengers: Endgame, Spider-Man: No Way Home, and Doctor Strange in the Multiverse of Madness, and it's generally understood to connect back to Earth-616, the primary designation for the main MCU universe within that larger multiverse."
         },
         {
-          question: "What is a Nexus Event in this context?",
+          title: "Sacred Timeline vs The Multiverse",
+          content:
+            "The sacred timeline is ONE approved timeline, deliberately maintained as the only permitted version of events. The multiverse, by contrast, is what exists once that constraint is removed — infinite branch timelines, each one a valid version of reality that was previously pruned out of existence. When the sacred timeline ends, every branch that was ever cut away comes back all at once, which is exactly why the multiverse in later MCU projects feels so sudden and chaotic rather than something that grew gradually. He Who Remains' entire motive for building the TVA in the first place was to prevent his own evil variants from discovering and conquering the multiverse, using the sacred timeline as a form of containment. That framing raises the moral question the show leans on throughout: is protecting one peaceful timeline worth pruning away infinite other possible lives that would otherwise have existed?"
+        }
+      ],
+      faqs: [
+        {
+          question: "What is the sacred timeline in the MCU?",
+          answer:
+            "The sacred timeline is a single approved sequence of events in the Marvel Cinematic Universe, maintained by the Time Variance Authority under the direction of He Who Remains. Any deviation from this timeline creates a branch that the TVA identifies and prunes to prevent the growth of alternate timelines that could lead to multiversal war."
+        },
+        {
+          question: "How does the sacred timeline relate to Earth-616?",
+          answer:
+            "Earth-616 is the primary Marvel Comics universe designation. In the MCU, the sacred timeline is the TVA's approved sequence including the main MCU Earth, though whether this exactly maps to 616 has been left deliberately ambiguous. Doctor Strange in the Multiverse of Madness confirms Earth-616 as the main MCU Earth designation within the multiverse framework."
+        },
+        {
+          question: "What events define the sacred timeline?",
+          answer:
+            "The sacred timeline contains all approved MCU events from the Big Bang through the Infinity Saga and beyond. Key nexus events that define it include Thanos collecting the Infinity Stones, the Blip, and Tony Stark's sacrifice. The exact boundaries of what constitutes an approved versus branch event are defined by He Who Remains' calculations to prevent his variants from gaining power."
+        },
+        {
+          question: "Can the sacred timeline change over time?",
+          answer:
+            "According to He Who Remains, he allows minor variations but prunes branches that deviate too significantly. After Sylvie kills He Who Remains in Loki, the sacred timeline splinters into infinite branches as there is no longer anyone to maintain the pruning system. This event directly causes the multiversal chaos seen in subsequent MCU projects."
+        },
+        {
+          question: "How do characters travel to the sacred timeline?",
+          answer:
+            "Characters primarily access the sacred timeline via the TVA's Tempad devices which allow controlled time travel and timeline jumping. Loki variants are arrested when their branch timelines are pruned and transported to the TVA outside of time. The Temporal Loom at the end of time processes timeline branches before they can mature into full multiversal branches."
+        },
+        {
+          question: "What is the difference between the sacred timeline and the multiverse?",
+          answer:
+            "The sacred timeline is a single controlled sequence — one story. The multiverse is all possible timelines existing simultaneously. The sacred timeline was He Who Remains' solution to the multiverse war — eliminating infinite possibilities to guarantee one peaceful outcome. The multiverse is the natural state of reality after the sacred timeline's collapse at the end of Loki Season 1."
+        },
+        {
+          question: "How was the sacred timeline created?",
+          answer:
+            "He Who Remains, a Kang variant from the far future, discovered the multiverse and made contact with his counterparts across timelines. When the exchange of knowledge between variants turned to war, he weaponised Alioth to end the multiversal conflict and established the TVA to maintain the single approved timeline going forward, erasing all memory of the conflict from those he recruited to work at the TVA."
+        },
+        {
+          question: "What happens if a character leaves the sacred timeline?",
+          answer:
+            "Leaving the sacred timeline creates a nexus event — a deviation that the TVA registers and investigates. Small deviations can be allowed if they fall within approved parameters. Large deviations are pruned with reset charges that eliminate the branch from ever having existed. Characters outside the sacred timeline exist in a nexus state and can be apprehended by TVA Minutemen."
+        },
+        {
+          question: "What is a Nexus Event in the context of this audit?",
           answer:
             "Any life choice that significantly deviated from the most statistically probable path for someone in your demographic. Multiple career pivots, frequent city changes, and a catastrophically unmanaged inbox are classic Nexus indicators.",
         },
         {
-          question: "How is the pre-crime date calculated?",
+          question: "How is the pre-crime arrest date calculated?",
           answer:
             "The pre-crime arrest predictor draws on your behavioral pattern data and extrapolates forward using Minority Report's precognitive algorithm. The date is algorithmically derived from your answers and is disturbingly specific.",
-        },
+        }
       ],
     },
   },

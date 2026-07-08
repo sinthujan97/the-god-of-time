@@ -34,11 +34,11 @@ export const ganttChartDateCalculatorData: ToolPageData = {
         content: "PR, content writing, graphic design, and social media scheduling represent interconnected steps. Gantt date calculations help coordinate resource availability across dependent marketing tasks."
       }
     ],
-    internalLinksText: "To plan backwards from a fixed deadline, use the Project Deadline Back-Planner. For sprint cycle planning, try the Agile Sprint Date Calculator. To determine task floats, check the Critical Path Method Float Calculator.",
+    internalLinksText: "To plan backwards from a fixed deadline, use the Project Deadline Back-Planner. For sprint cycle planning, try the Agile Sprint Date Calculator. To determine task floats, check the Critical Path Calculator.",
     relatedToolSlugs: [
       "project-back-planner",
-      "sprint-date-calculator",
-      "cpm-critical-path-float"
+      "agile-sprint-date-calculator",
+      "critical-path-calculator"
     ],
     faqs: [
       {

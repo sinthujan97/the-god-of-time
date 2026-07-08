@@ -34,11 +34,11 @@ export const deliverySlipRiskData: ToolPageData = {
         content: "Hardware or software release managers evaluate build stability and test case completion. Projecting actual launch readiness based on current completion rates prevents premature releases."
       }
     ],
-    internalLinksText: "To size buffers for critical tasks, try the Milestone Buffer & Risk Calculator. For planning milestones backwards, use the Project Deadline Back-Planner. To analyze critical path floats, see the Critical Path Method Float Calculator.",
+    internalLinksText: "To size buffers for critical tasks, try the Project Buffer Calculator. For planning milestones backwards, use the Project Deadline Back-Planner. To analyze critical path floats, see the Critical Path Calculator.",
     relatedToolSlugs: [
-      "milestone-buffer-calculator",
+      "project-buffer-calculator",
       "project-back-planner",
-      "cpm-critical-path-float"
+      "critical-path-calculator"
     ],
     faqs: [
       {

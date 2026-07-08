@@ -33,11 +33,11 @@ export const multiJobIncomeSyncData: ToolPageData = {
         content: "Model whether taking on two part-time freelance roles will yield more income than a single full-time salaried position, adjusting for hourly limits."
       }
     ],
-    internalLinksText: "To convert a single job's hourly rate to a salary, use the Hourly to Salary Converter. For fractional executive hours planning across portfolio companies, try the Fractional Executive Hours Allocator.",
+    internalLinksText: "To convert a single job's hourly rate to a salary, use the Hourly to Salary Converter. For allocating hours across multiple portfolio clients, try the Fractional Work Hours Allocator.",
     relatedToolSlugs: [
       "hourly-to-salary",
       "billable-hours-tracker",
-      "fractional-executive"
+      "fractional-work-hours-allocator"
     ],
     faqs: [
       {

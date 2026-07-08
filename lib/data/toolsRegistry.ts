@@ -92,10 +92,10 @@ export const toolsRegistry: ToolGroup[] = [
         group: "standard-time"
       },
       {
-        id: "leap-year-checker",
-        slug: "leap-year-checker",
-        name: "Leap Year Checker",
-        description: "Check if a given year is a leap year according to the Gregorian calendar.",
+        id: "leap-year-calculator",
+        slug: "leap-year-calculator",
+        name: "Leap Year Calculator",
+        description: "Check if any year is a leap year, list all leap years in a range, and see the calculation logic explained.",
         group: "standard-time"
       },
       {
@@ -220,15 +220,15 @@ export const toolsRegistry: ToolGroup[] = [
       {
         id: "furlough-pay-calculator",
         slug: "furlough-pay-calculator",
-        name: "Furlough Pay Impact Calculator",
-        description: "Assess the financial impact of temporary unpaid leaves or furlough periods.",
+        name: "Furlough Pay Calculator",
+        description: "Calculate the monthly and total financial impact of unpaid leaves, furlough days, or temporary work suspensions.",
         group: "hr-payroll"
       },
       {
-        id: "shift-differential-pay",
-        slug: "shift-differential-pay",
-        name: "Shift Differential Pay Tool",
-        description: "Calculate total earnings with special premium rates for night, weekend, or holiday shifts.",
+        id: "shift-differential-calculator",
+        slug: "shift-differential-calculator",
+        name: "Shift Differential Calculator",
+        description: "Calculate night shift pay, differential rates, and overtime instantly. Supports flat-rate and percentage premiums for any industry.",
         group: "hr-payroll"
       },
       {
@@ -246,10 +246,10 @@ export const toolsRegistry: ToolGroup[] = [
         group: "hr-payroll"
       },
       {
-        id: "commission-by-hour",
-        slug: "commission-by-hour",
-        name: "Commission-by-Hour Matrix",
-        description: "Map out hourly performance bonuses alongside basic base salary schedules.",
+        id: "commission-per-hour-calculator",
+        slug: "commission-per-hour-calculator",
+        name: "Commission Per Hour Calculator",
+        description: "Convert sales commissions into hourly rate equivalents and evaluate combined compensation structures.",
         group: "hr-payroll"
       },
       {
@@ -274,24 +274,24 @@ export const toolsRegistry: ToolGroup[] = [
         group: "hr-payroll"
       },
       {
-        id: "biweekly-timesheet",
-        slug: "biweekly-timesheet",
-        name: "Bi-Weekly Timesheet Template Generator",
-        description: "Generate downloadable bi-weekly hour sheets with running sum formulas.",
+        id: "free-biweekly-timesheet-calculator",
+        slug: "free-biweekly-timesheet-calculator",
+        name: "Free Biweekly Timesheet Calculator",
+        description: "Generate a detailed 14-day biweekly timesheet with daily hours, overtime tracking, and payroll subtotals.",
         group: "hr-payroll"
       },
       {
-        id: "semi-monthly-pay",
-        slug: "semi-monthly-pay",
-        name: "Semi-Monthly Pay Stacker",
-        description: "Plan income cycles based on twice-a-month pay schedules (e.g., 1st and 15th).",
+        id: "semi-monthly-pay-calculator",
+        slug: "semi-monthly-pay-calculator",
+        name: "Semi Monthly Pay Calculator",
+        description: "Calculate gross pay per period for twice-a-month schedules. Convert annual salary to semi-monthly paychecks instantly.",
         group: "hr-payroll"
       },
       {
-        id: "retainer-burndown",
-        slug: "retainer-burndown",
-        name: "Retainer Time Burner",
-        description: "Track retainer hours consumed versus remaining balance for monthly clients.",
+        id: "retainer-hours-tracker-online",
+        slug: "retainer-hours-tracker-online",
+        name: "Retainer Hours Tracker Online",
+        description: "Track hours consumed vs. remaining balance for monthly retainer clients, projecting burn rates and depletion dates.",
         group: "hr-payroll"
       },
       {
@@ -302,10 +302,17 @@ export const toolsRegistry: ToolGroup[] = [
         group: "hr-payroll"
       },
       {
-        id: "fractional-executive",
-        slug: "fractional-executive",
-        name: "Fractional Executive Hours Allocator",
-        description: "Allocate executive hours across multiple portfolio companies in a given week.",
+        id: "fractional-work-hours-allocator",
+        slug: "fractional-work-hours-allocator",
+        name: "Fractional Work Hours Allocator",
+        description: "Allocate weekly hours and revenues across multiple fractional clients, track capacity utilization, and model income scenarios.",
+        group: "hr-payroll"
+      },
+      {
+        id: "employee-utilization-calculator",
+        slug: "employee-utilization-calculator",
+        name: "Employee Utilization Calculator",
+        description: "Calculate employee utilization rates, billable vs. non-billable hours, and revenue efficiency across teams.",
         group: "hr-payroll"
       }
     ]
@@ -330,17 +337,17 @@ export const toolsRegistry: ToolGroup[] = [
         group: "project-management"
       },
       {
-        id: "sprint-date-calculator",
-        slug: "sprint-date-calculator",
+        id: "agile-sprint-date-calculator",
+        slug: "agile-sprint-date-calculator",
         name: "Agile Sprint Date Calculator",
-        description: "Generate a multi-sprint Agile calendar with custom lengths, planning sessions, and demo days.",
+        description: "Plan sprint start and end dates, ceremonies, and milestones for any sprint length.",
         group: "project-management"
       },
       {
-        id: "sla-countdown-timer",
-        slug: "sla-countdown-timer",
-        name: "SLA Breach Countdown Calculator",
-        description: "Calculate deadline and countdown until Service Level Agreement (SLA) breach, supporting business hours.",
+        id: "sla-timer",
+        slug: "sla-timer",
+        name: "SLA Timer",
+        description: "Track time remaining before a service level agreement deadline is breached, with visual countdown and breach alerts.",
         group: "project-management"
       },
       {
@@ -374,21 +381,21 @@ export const toolsRegistry: ToolGroup[] = [
       {
         id: "fiscal-quarter-calculator",
         slug: "fiscal-quarter-calculator",
-        name: "Fiscal Quarter & Year Calculator",
-        description: "Map any calendar date to its corresponding corporate fiscal quarter and fiscal year, supporting custom starts.",
+        name: "Fiscal Quarter Calculator",
+        description: "Find Q1-Q4 start and end dates for any fiscal year, including non-standard fiscal years that start in months other than January.",
         group: "project-management"
       },
       {
-        id: "milestone-buffer-calculator",
-        slug: "milestone-buffer-calculator",
-        name: "Milestone Buffer & Risk Calculator",
-        description: "Calculate required safety buffers for critical milestones based on task count, complexity, and team experience.",
+        id: "project-buffer-calculator",
+        slug: "project-buffer-calculator",
+        name: "Project Buffer Calculator",
+        description: "Calculate the schedule buffer needed to protect your project deadline based on task risks and dependencies.",
         group: "project-management"
       },
       {
-        id: "document-retention-expiry",
-        slug: "document-retention-expiry",
-        name: "Document Retention Expiry Calculator",
+        id: "document-expiration-date-calculator",
+        slug: "document-expiration-date-calculator",
+        name: "Document Expiration Date Calculator",
         description: "Calculate document disposal and archiving dates based on creation dates and regulatory compliance periods.",
         group: "project-management"
       },
@@ -400,9 +407,9 @@ export const toolsRegistry: ToolGroup[] = [
         group: "project-management"
       },
       {
-        id: "recurring-event-rrule",
-        slug: "recurring-event-rrule",
-        name: "Recurring Event RRule Generator",
+        id: "rrule-generator-online",
+        slug: "rrule-generator-online",
+        name: "RRule Generator Online",
         description: "Generate standard RFC 5545 iCalendar Recurrence Rules (RRule) and preview upcoming occurrence dates.",
         group: "project-management"
       },
@@ -414,10 +421,10 @@ export const toolsRegistry: ToolGroup[] = [
         group: "project-management"
       },
       {
-        id: "court-deadline-calculator",
-        slug: "court-deadline-calculator",
-        name: "Court Deadline & Legal Calendar Calculator",
-        description: "Calculate legal filing deadlines, accounting for business days, court holidays, and weekend rules.",
+        id: "free-legal-deadline-calculator",
+        slug: "free-legal-deadline-calculator",
+        name: "Free Legal Deadline Calculator",
+        description: "Calculate legal filing deadlines, accounting for business days, court holidays, and weekend rules — completely free.",
         group: "project-management"
       },
       {
@@ -442,10 +449,10 @@ export const toolsRegistry: ToolGroup[] = [
         group: "project-management"
       },
       {
-        id: "cpm-critical-path-float",
-        slug: "cpm-critical-path-float",
-        name: "Critical Path Method Float Calculator",
-        description: "Calculate early/late start and finish dates, identify the critical path, and compute task float (slack).",
+        id: "critical-path-calculator",
+        slug: "critical-path-calculator",
+        name: "Critical Path Calculator",
+        description: "Find the critical path, float, and project duration for any network of tasks. Works for AON and AOA methods.",
         group: "project-management"
       },
       {
@@ -470,10 +477,10 @@ export const toolsRegistry: ToolGroup[] = [
         group: "global-time"
       },
       {
-        id: "meeting-planner",
-        slug: "meeting-planner",
-        name: "Meeting Planner Sweet-Spot Finder",
-        description: "Input multiple cities to highlight ideal overlapping times in green, yellow, or red.",
+        id: "world-clock-meeting-planner",
+        slug: "world-clock-meeting-planner",
+        name: "World Clock Meeting Planner",
+        description: "Find the best meeting time for teams in different time zones with a visual working-hours overlap grid.",
         group: "global-time"
       },
       {
@@ -533,24 +540,24 @@ export const toolsRegistry: ToolGroup[] = [
         group: "global-time"
       },
       {
-        id: "zulu-time-coordinator",
-        slug: "zulu-time-coordinator",
-        name: "Zulu Time Coordinator",
-        description: "Dedicated military and aviation Zulu time tracking portal with instant sync.",
+        id: "zulu-time-converter",
+        slug: "zulu-time-converter",
+        name: "Zulu Time Converter",
+        description: "Convert local time to Zulu (UTC) time instantly. Built for pilots, military personnel, and aviation professionals.",
         group: "global-time"
       },
       {
-        id: "internet-time-converter",
-        slug: "internet-time-converter",
-        name: "Internet Time Converter",
-        description: "Convert standard clocks into Swatch Internet Time beats (@000 to @999).",
+        id: "swatch-time-converter",
+        slug: "swatch-time-converter",
+        name: "Swatch Time Converter",
+        description: "Convert standard time to Swatch Internet Time .beats and back — the quirky 1990s universal time format.",
         group: "global-time"
       },
       {
-        id: "gps-time-correction",
-        slug: "gps-time-correction",
-        name: "GPS Time Correction Tool",
-        description: "Calculate differences between GPS time, TAI, and UTC incorporating leap seconds.",
+        id: "gps-time-converter",
+        slug: "gps-time-converter",
+        name: "GPS Time Converter",
+        description: "Convert GPS time to UTC, Unix time, or local time. Handles leap seconds and GPS week rollover.",
         group: "global-time"
       },
       {
@@ -561,10 +568,10 @@ export const toolsRegistry: ToolGroup[] = [
         group: "global-time"
       },
       {
-        id: "cross-border-deadline",
-        slug: "cross-border-deadline",
-        name: "Cross-Border Deadline Matcher",
-        description: "Compare deadlines across boundaries to avoid late delivery submissions.",
+        id: "cross-border-deadline-calculator",
+        slug: "cross-border-deadline-calculator",
+        name: "Cross-Border Deadline Calculator",
+        description: "Calculate legal filing deadlines across multiple jurisdictions with time zone and holiday support.",
         group: "global-time"
       },
       {
@@ -582,10 +589,10 @@ export const toolsRegistry: ToolGroup[] = [
         group: "global-time"
       },
       {
-        id: "ntp-latency-tester",
-        slug: "ntp-latency-tester",
-        name: "NTP Server Latency Tester",
-        description: "Measure local system offset versus network reference clocks.",
+        id: "ntp-time-tester-online",
+        slug: "ntp-time-tester-online",
+        name: "NTP Time Tester Online",
+        description: "Check NTP server accuracy, measure time offset, and compare your system clock against network time.",
         group: "global-time"
       },
       {

@@ -38,7 +38,7 @@ function fmtNum(n: number): string {
 
 export default function ParentChildTime() {
   const pathname = usePathname();
-  const slug     = pathname.split("/").pop() ?? "parent-child-time";
+  const slug     = pathname.split("/").pop() ?? "parent-child-time-calculator";
   const realm    = realmsRegistry.find((r) => r.slug === slug) ?? realmsRegistry[0];
   const accent   = realm.accent;
 

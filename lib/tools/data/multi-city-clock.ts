@@ -37,7 +37,7 @@ export const multiCityClockData: ToolPageData = {
     relatedToolSlugs: [
       "timezone-map-finder",
       "world-time-converter",
-      "meeting-planner"
+      "world-clock-meeting-planner"
     ],
     faqs: [
       {

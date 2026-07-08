@@ -33,10 +33,10 @@ export const militaryTimeConverterData: ToolPageData = {
         content: "Record flight schedules and logbook entries in standard 24-hour format, which is the aviation industry standard."
       }
     ],
-    internalLinksText: "To monitor aviation standard UTC, use the Zulu Time Coordinator. To synchronize global delivery deadlines, use the Cross-Border Deadline Matcher.",
+    internalLinksText: "To monitor aviation standard UTC, use the Zulu Time Converter. To synchronize global delivery deadlines, use the Cross-Border Deadline Calculator.",
     relatedToolSlugs: [
-      "zulu-time-coordinator",
-      "cross-border-deadline",
+      "zulu-time-converter",
+      "cross-border-deadline-calculator",
       "world-time-converter"
     ],
     faqs: [

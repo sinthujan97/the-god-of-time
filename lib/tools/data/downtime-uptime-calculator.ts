@@ -34,9 +34,9 @@ export const downtimeUptimeCalculatorData: ToolPageData = {
         content: "E-commerce store operators monitor web host availability. Calculating monthly downtime helps them evaluate hosting packages and decide when to upgrade to redundant server infrastructures."
       }
     ],
-    internalLinksText: "To monitor SLA incident resolution countdowns, use the SLA Breach Countdown Calculator. For project management timelines, try the Gantt Chart Date Calculator. To log time durations directly, use the Time Duration Calculator.",
+    internalLinksText: "To monitor SLA incident resolution countdowns, use the SLA Timer. For project management timelines, try the Gantt Chart Date Calculator. To log time durations directly, use the Time Duration Calculator.",
     relatedToolSlugs: [
-      "sla-countdown-timer",
+      "sla-timer",
       "gantt-chart-date-calculator",
       "time-duration-calculator"
     ],

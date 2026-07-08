@@ -36,7 +36,7 @@ export const remoteTeamOverlapData: ToolPageData = {
     ],
     internalLinksText: "To plan sprint iterations, try the Agile Sprint Date Calculator. For logging daily task times, check the Working Hours Tracker. For overall calendar durations, use the Days Between Dates Calculator.",
     relatedToolSlugs: [
-      "sprint-date-calculator",
+      "agile-sprint-date-calculator",
       "working-hours-tracker",
       "days-between-dates"
     ],

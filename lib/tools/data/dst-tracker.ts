@@ -33,10 +33,10 @@ export const dstTrackerData: ToolPageData = {
         content: "Confirm if local train or flight schedules will change overnight during your stay in seasonal regions."
       }
     ],
-    internalLinksText: "To convert coordinates to zones, use the Time Zone Finder by Map Click. To sync Swiss-inspired decimal times, check the Internet Time Converter.",
+    internalLinksText: "To convert coordinates to zones, use the Time Zone Finder by Map Click. To sync Swiss-inspired decimal times, check the Swatch Time Converter.",
     relatedToolSlugs: [
       "timezone-map-finder",
-      "internet-time-converter",
+      "swatch-time-converter",
       "world-time-converter"
     ],
     faqs: [

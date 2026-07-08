@@ -33,9 +33,9 @@ export const unixTimestampConverterData: ToolPageData = {
         content: "Decode the expiry ('exp') epoch timestamp in JSON Web Tokens (JWT) to check token lifespan issues."
       }
     ],
-    internalLinksText: "To calibrate network system latency parameters, use the NTP Server Latency Tester. To inspect historical UTC adjustments, check the Leap Second History Log.",
+    internalLinksText: "To calibrate network system latency parameters, use the NTP Time Tester Online. To inspect historical UTC adjustments, check the Leap Second History Log.",
     relatedToolSlugs: [
-      "ntp-latency-tester",
+      "ntp-time-tester-online",
       "leap-second-log",
       "utc-gmt-offset"
     ],

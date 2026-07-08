@@ -33,11 +33,11 @@ export const billableHoursTrackerData: ToolPageData = {
         content: "Provide clean, time-stamped work reports to primary contractors to justify your weekly hours and simplify payments."
       }
     ],
-    internalLinksText: "If you need to plan your freelance capacity limits, check out the Freelance Project Capacity Planner. For tracking client retainer burn rates, try the Retainer Time Burner.",
+    internalLinksText: "If you need to plan your freelance capacity limits, check out the Freelance Project Capacity Planner. For tracking client retainer burn rates, try the Retainer Hours Tracker Online.",
     relatedToolSlugs: [
       "freelance-capacity-planner",
       "time-card-calculator",
-      "retainer-burndown"
+      "retainer-hours-tracker-online"
     ],
     faqs: [
       {

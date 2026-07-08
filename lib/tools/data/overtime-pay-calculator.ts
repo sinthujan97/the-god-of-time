@@ -34,10 +34,10 @@ export const overtimePayCalculatorData: ToolPageData = {
         content: "Quickly verify wages for employees with varied overtime hours without manual arithmetic, ensuring standard FLSA compliance."
       }
     ],
-    internalLinksText: "To calculate total daily or weekly hours before entering them here, try the Time Card Calculator. If your shifts involve evening or holiday premiums, check out the Shift Differential Pay Tool.",
+    internalLinksText: "To calculate total daily or weekly hours before entering them here, try the Time Card Calculator. If your shifts involve evening or holiday premiums, check out the Shift Differential Calculator.",
     relatedToolSlugs: [
       "time-card-calculator",
-      "shift-differential-pay",
+      "shift-differential-calculator",
       "gross-to-net-pay"
     ],
     faqs: [

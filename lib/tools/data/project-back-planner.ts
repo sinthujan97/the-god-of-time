@@ -37,7 +37,7 @@ export const projectBackPlannerData: ToolPageData = {
     internalLinksText: "To visualize project timelines horizontally, try the Gantt Chart Date Calculator. For sprint scheduling, use the Agile Sprint Date Calculator. For calculating work durations, check the Lead Time & Cycle Time Calculator.",
     relatedToolSlugs: [
       "gantt-chart-date-calculator",
-      "sprint-date-calculator",
+      "agile-sprint-date-calculator",
       "lead-time-calculator"
     ],
     faqs: [

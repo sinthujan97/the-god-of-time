@@ -34,11 +34,11 @@ export const campaignDeploymentTimelineData: ToolPageData = {
         content: "Event marketers schedule ticket sales, early-bird promos, and speaker reveals. A structured campaign timeline aligns content releases with ticketing milestones."
       }
     ],
-    internalLinksText: "To plan general milestones backward, try the Project Deadline Back-Planner. For project gantt scheduling, check the Gantt Chart Date Calculator. To size project buffers, use the Milestone Buffer & Risk Calculator.",
+    internalLinksText: "To plan general milestones backward, try the Project Deadline Back-Planner. For project gantt scheduling, check the Gantt Chart Date Calculator. To size project buffers, use the Project Buffer Calculator.",
     relatedToolSlugs: [
       "project-back-planner",
       "gantt-chart-date-calculator",
-      "milestone-buffer-calculator"
+      "project-buffer-calculator"
     ],
     faqs: [
       {

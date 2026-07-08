@@ -40,22 +40,30 @@ export default function FullscreenWrapper({ children }: FullscreenWrapperProps) 
       if (!el) {
         const scaleH = (h / 380) * 0.85;
         const scaleW = (w / 450) * 0.85;
-        const bestScale = Math.max(1.0, Math.min(2.2, Math.min(scaleH, scaleW)));
+        const bestScale = Math.max(1.0, Math.min(6, Math.min(scaleH, scaleW)));
         setScaleFactor(bestScale);
         return;
       }
 
-      // Temporarily clear the scale transform style to measure natural layout bounds
+      // Temporarily clear the scale transform AND the forced 100% width so
+      // scrollWidth reflects the content's true (shrink-to-fit) size rather
+      // than the width of the surrounding column — otherwise narrow content
+      // (e.g. a small clock face centered in a wide column) gets bottlenecked
+      // by the column width and never reaches its real available scale.
       const prevTransform = el.style.transform;
+      const prevWidth = el.style.width;
       el.style.transform = "none";
+      el.style.width = "fit-content";
+      el.style.maxWidth = "none";
       const contentW = el.scrollWidth || 450;
       const contentH = el.scrollHeight || 380;
+      el.style.width = prevWidth;
       el.style.transform = prevTransform;
 
-      // Compute scale to fit inside 90% of screen size (to leave nice padding)
+      // Compute scale to fit inside 90% of screen size (margin), uncapped aside from a sanity ceiling
       const scaleH = (h / contentH) * 0.90;
       const scaleW = (w / contentW) * 0.90;
-      const bestScale = Math.max(1.0, Math.min(2.0, Math.min(scaleH, scaleW)));
+      const bestScale = Math.max(1.0, Math.min(6, Math.min(scaleH, scaleW)));
       setScaleFactor(bestScale);
     };
 

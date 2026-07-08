@@ -33,10 +33,10 @@ export const timezoneAbbreviationsData: ToolPageData = {
         content: "Verify abbreviation values when configuring server system time locales."
       }
     ],
-    internalLinksText: "To find coordinates for specific zones, use the Time Zone Finder by Map Click. To track tactical Zulu time, check the Zulu Time Coordinator.",
+    internalLinksText: "To find coordinates for specific zones, use the Time Zone Finder by Map Click. To track tactical Zulu time, check the Zulu Time Converter.",
     relatedToolSlugs: [
       "timezone-map-finder",
-      "zulu-time-coordinator",
+      "zulu-time-converter",
       "utc-gmt-offset"
     ],
     faqs: [

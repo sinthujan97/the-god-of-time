@@ -33,9 +33,9 @@ export const leapSecondLogData: ToolPageData = {
         content: "Examine the frequency of leap seconds since 1972 to study changes in Earth's rotation."
       }
     ],
-    internalLinksText: "To calibrate GPS offset schedules, check the GPS Time Correction Tool. To look up timezone codes, use the Time Zone Abbreviation Directory.",
+    internalLinksText: "To calibrate GPS offset schedules, check the GPS Time Converter. To look up timezone codes, use the Time Zone Abbreviation Directory.",
     relatedToolSlugs: [
-      "gps-time-correction",
+      "gps-time-converter",
       "timezone-abbreviations",
       "unix-timestamp-converter"
     ],

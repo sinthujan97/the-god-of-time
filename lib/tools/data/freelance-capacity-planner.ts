@@ -34,11 +34,11 @@ export const freelanceCapacityPlannerData: ToolPageData = {
         content: "Estimate client capacities for employee resources to maintain healthy margins and assign manageable workloads to staff."
       }
     ],
-    internalLinksText: "To log your active hours for clients, try the Billable Hours Tracker. If you need to monitor retainer balances and burn rates, check out the Retainer Time Burner.",
+    internalLinksText: "To log your active hours for clients, try the Billable Hours Tracker. If you need to monitor retainer balances and burn rates, check out the Retainer Hours Tracker Online.",
     relatedToolSlugs: [
       "billable-hours-tracker",
       "hourly-to-salary",
-      "retainer-burndown"
+      "retainer-hours-tracker-online"
     ],
     faqs: [
       {
