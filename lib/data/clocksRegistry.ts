@@ -212,6 +212,15 @@ export const clocksRegistry: ClockEntry[] = [
     keywords: ["random timer", "timer game", "time game", "reflex game"],
   },
   {
+    id: "lorenz-attractor-clock",
+    slug: "lorenz-attractor-clock",
+    name: "The Fractal Clock",
+    description: "A mesmerizing visual of time where the hands recursively sprout smaller rotating hands, creating a self-similar branching pattern in perpetual motion.",
+    category: "ambient",
+    icon: "🌀",
+    keywords: ["fractal clock", "epicycle clock", "recursive clock", "nesting hands", "ambient clock"],
+  },
+  {
     id: "global-shift-overlap",
     slug: "global-shift-overlap",
     name: "Global Shift Overlap Planner",

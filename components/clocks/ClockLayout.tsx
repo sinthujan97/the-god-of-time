@@ -10,9 +10,10 @@ interface ClockLayoutProps {
   children: ReactNode;
   controlsSection?: ReactNode;
   customSidebar?: ReactNode;
+  noScale?: boolean;
 }
 
-export default function ClockLayout({ clock, children, controlsSection, customSidebar }: ClockLayoutProps) {
+export default function ClockLayout({ clock, children, controlsSection, customSidebar, noScale = false }: ClockLayoutProps) {
   const [hintVisible, setHintVisible] = useState(true);
 
   useEffect(() => {
@@ -71,7 +72,7 @@ export default function ClockLayout({ clock, children, controlsSection, customSi
 
           {/* Clock card with fullscreen */}
           <div className="realm-canvas-card" style={{ position: "relative", padding: 0, overflow: "hidden" }}>
-            <FullscreenWrapper clockName={clock.name}>
+            <FullscreenWrapper clockName={clock.name} noScale={noScale}>
               {children}
             </FullscreenWrapper>
           </div>

@@ -6,9 +6,10 @@ import FullscreenButton from "./FullscreenButton";
 interface FullscreenWrapperProps {
   children: ReactNode;
   clockName: string;
+  noScale?: boolean;
 }
 
-export default function FullscreenWrapper({ children }: FullscreenWrapperProps) {
+export default function FullscreenWrapper({ children, clockName, noScale = false }: FullscreenWrapperProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const [isFs, setIsFs] = useState(false);
@@ -140,6 +141,7 @@ export default function FullscreenWrapper({ children }: FullscreenWrapperProps) 
   return (
     <div
       ref={containerRef}
+      className={isFallbackFs ? "fullscreen-active fallback-fullscreen-active" : isFs ? "fullscreen-active" : ""}
       style={
         isFallbackFs
           ? {
@@ -171,7 +173,8 @@ export default function FullscreenWrapper({ children }: FullscreenWrapperProps) 
         ref={contentRef}
         style={{
           width: "100%",
-          transform: activeFs ? `scale(${scaleFactor})` : "none",
+          height: (activeFs && noScale) ? "100%" : "auto",
+          transform: (activeFs && !noScale) ? `scale(${scaleFactor})` : "none",
           transformOrigin: "center center",
           transition: "transform 0.15s ease-out",
           display: "flex",
