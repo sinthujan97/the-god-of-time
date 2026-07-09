@@ -183,6 +183,7 @@ export const clocksRegistry: ClockEntry[] = [
     keywords: ["circadian rhythm", "body clock", "chronotype", "peak performance time", "sleep schedule"],
   },
 
+
   // ─── FUN ────────────────────────────────────────────────────────────────────
   {
     id: "reaction-time",

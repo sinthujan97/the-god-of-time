@@ -45,12 +45,33 @@ export default function ChessClock() {
   // Landscape fullscreen detection
   const [isLandscape, setIsLandscape] = useState(false);
   const [forcePortrait, setForcePortrait] = useState(false);
+  const [isFs, setIsFs] = useState(false);
+  const [isPortrait, setIsPortrait] = useState(false);
+  const [manualTakeover, setManualTakeover] = useState(false);
+
+  useEffect(() => {
+    const handler = () => {
+      const active = !!document.fullscreenElement || 
+                     document.body.classList.contains("fallback-fullscreen-active") || 
+                     !!document.querySelector(".fullscreen-active");
+      setIsFs(active);
+    };
+    document.addEventListener("fullscreenchange", handler);
+    document.addEventListener("webkitfullscreenchange", handler);
+    const iv = setInterval(handler, 400);
+    return () => {
+      document.removeEventListener("fullscreenchange", handler);
+      document.removeEventListener("webkitfullscreenchange", handler);
+      clearInterval(iv);
+    };
+  }, []);
 
   useEffect(() => {
     function handleResize() {
       // Detect if width > height and it's a mobile/tablet viewport (width < 1024px)
       const landscape = window.innerWidth > window.innerHeight && window.innerWidth < 1024;
       setIsLandscape(landscape);
+      setIsPortrait(window.innerHeight > window.innerWidth);
       if (!landscape) {
         setForcePortrait(false); // Reset forced toggle when turning back to portrait
       }
@@ -59,6 +80,9 @@ export default function ChessClock() {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  const isTakeover = (isLandscape && !forcePortrait) || isFs || manualTakeover;
+  const isLandscapeMode = isLandscape && !forcePortrait;
 
   const ivRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const activeRef = useRef<0 | 1 | null>(null);
@@ -69,8 +93,6 @@ export default function ChessClock() {
 
   const delayRef = useRef(delayRemaining);
   delayRef.current = delayRemaining;
-
-  const isLandscapeMode = isLandscape && !forcePortrait;
 
   function clearIv() {
     if (ivRef.current) {
@@ -235,21 +257,32 @@ export default function ChessClock() {
           ? "#000000"
           : "var(--text-primary)";
 
-    // Rotations based on layout and rotateText toggle
+    // Rotations based on layout and rotateText toggle (applied to text container instead of parent button)
     let rotation = "none";
-    if (rotateText || isLandscapeMode) {
-      if (isLandscapeMode || layoutOrientation === "horizontal") {
-        rotation = player === 0 ? "rotate(90deg)" : "rotate(-90deg)";
+    if (rotateText || isTakeover) {
+      if (isTakeover) {
+        if (isPortrait) {
+          rotation = player === 0 ? "rotate(180deg)" : "none";
+        } else {
+          rotation = player === 0 ? "rotate(90deg)" : "rotate(-90deg)";
+        }
       } else {
-        rotation = player === 0 ? "rotate(180deg)" : "none";
+        if (layoutOrientation === "horizontal") {
+          rotation = player === 0 ? "rotate(90deg)" : "rotate(-90deg)";
+        } else {
+          rotation = player === 0 ? "rotate(180deg)" : "none";
+        }
       }
     }
 
-    const fs = isLandscapeMode ? "clamp(44px, 15vh, 88px)" : "clamp(38px, 8vw, 72px)";
+    const fs = isTakeover ? (layoutOrientation === "horizontal" ? "clamp(44px, 16vh, 96px)" : "clamp(48px, 12vh, 96px)") : "clamp(38px, 8vw, 72px)";
 
     return (
       <button
-        onClick={() => press(player)}
+        onPointerDown={(e) => {
+          e.preventDefault();
+          press(player);
+        }}
         disabled={!canPress}
         style={{
           flex: 1,
@@ -257,62 +290,78 @@ export default function ChessClock() {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          gap: 10,
-          padding: isLandscapeMode ? "12px" : "44px 24px",
+          padding: isTakeover ? "16px" : "44px 24px",
           border: "none",
           borderRadius: 0,
-          transform: rotation,
           background: bgColor,
           cursor: canPress ? "pointer" : "default",
-          transition: "background 0.3s, transform 0.3s",
+          transition: "background 0.3s",
           userSelect: "none",
-          height: isLandscapeMode ? "100%" : "auto",
+          touchAction: "none",
+          width: "100%",
+          height: "100%",
         }}
       >
-        <span style={{ fontFamily: "var(--font-mono)", fontSize: fs, fontWeight: 700, lineHeight: 1, color: timeColor, transition: "color 0.3s" }}>
-          {isFlagged ? "FLAG" : fmtSecs(t)}
-        </span>
-        {isActive && timingMode === "delay" && delayRemaining > 0 && (
-          <span style={{ fontFamily: "var(--font-mono)", fontSize: isLandscapeMode ? 14 : 13, fontWeight: 700, color: "#000000" }}>
-            Delay: {delayRemaining}s
+        <div
+          style={{
+            transform: rotation,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 8,
+            transition: "transform 0.3s",
+          }}
+        >
+          <span style={{ fontFamily: "var(--font-mono)", fontSize: fs, fontWeight: 700, lineHeight: 1, color: timeColor, transition: "color 0.3s" }}>
+            {isFlagged ? "FLAG" : fmtSecs(t)}
           </span>
-        )}
-        <span style={{ fontFamily: "var(--font-mono)", fontSize: isLandscapeMode ? 12 : 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: isActive || isFlagged ? "#000000" : "var(--text-muted)", opacity: isActive || isFlagged ? 0.75 : 1 }}>
-          {isFlagged ? "Time expired" : isActive ? "Tap after your move" : `Player ${player + 1}`}
-        </span>
+          {isActive && timingMode === "delay" && delayRemaining > 0 && (
+            <span style={{ fontFamily: "var(--font-mono)", fontSize: isTakeover ? 14 : 13, fontWeight: 700, color: "#000000" }}>
+              Delay: {delayRemaining}s
+            </span>
+          )}
+          <span style={{ fontFamily: "var(--font-mono)", fontSize: isTakeover ? 12 : 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: isActive || isFlagged ? "#000000" : "var(--text-muted)", opacity: isActive || isFlagged ? 0.75 : 1 }}>
+            {isFlagged ? "Time expired" : isActive ? "Tap after your move" : `Player ${player + 1}`}
+          </span>
+        </div>
       </button>
     );
   }
 
   const clockRender = (
-    <div style={
-      isLandscapeMode
-        ? {
-            position: "fixed",
-            inset: 0,
-            zIndex: 99999,
-            width: "100vw",
-            height: "100vh",
-            background: "var(--border)",
-            display: "flex",
-            flexDirection: "row",
-            gap: 4,
-            overflow: "hidden"
-          }
-        : {
-            display: "flex",
-            flexDirection: layoutOrientation === "horizontal" ? "row" : "column",
-            minHeight: 380,
-            background: "var(--border)",
-            gap: 3,
-            overflow: "hidden"
-          }
-    }>
+    <div
+      style={
+        isTakeover
+          ? {
+              position: "fixed",
+              inset: 0,
+              zIndex: 99999,
+              width: "100vw",
+              height: "100vh",
+              background: "var(--border)",
+              display: "flex",
+              flexDirection: isPortrait ? "column" : "row",
+              gap: 4,
+              overflow: "hidden"
+            }
+          : {
+              display: "flex",
+              flexDirection: layoutOrientation === "horizontal" ? "row" : "column",
+              height: isFs ? "100%" : "380px",
+              width: "100%",
+              background: "var(--border)",
+              gap: 3,
+              overflow: "hidden",
+              minHeight: isFs ? "100%" : "380px",
+            }
+      }
+    >
       <Panel player={0} />
       <Panel player={1} />
 
-      {/* Floating Center Pause/Resume trigger in Landscape Fullscreen */}
-      {isLandscapeMode && (
+      {/* Floating Center Pause/Resume trigger in Fullscreen / Takeover */}
+      {isTakeover && (
         <button
           onClick={active !== null ? pause : resume}
           style={{
@@ -342,10 +391,10 @@ export default function ChessClock() {
         </button>
       )}
 
-      {/* Fullscreen Settings/Menu Overlay when Paused or Finished in Landscape */}
-      {isLandscapeMode && (active === null || flagged !== null) && (
+      {/* Fullscreen Settings/Menu Overlay when Paused or Finished */}
+      {isTakeover && (active === null || flagged !== null) && (
         <div style={{
-          position: "fixed",
+          position: "absolute",
           inset: 0,
           zIndex: 100001,
           background: "rgba(10, 10, 10, 0.94)",
@@ -395,7 +444,10 @@ export default function ChessClock() {
               RESET
             </button>
             <button
-              onClick={() => setForcePortrait(true)}
+              onClick={() => {
+                setManualTakeover(false);
+                setForcePortrait(true);
+              }}
               style={{ fontFamily: "var(--font-mono)", fontSize: 11, fontWeight: 700, padding: "8px 16px", border: "1px solid var(--border)", borderRadius: 6, background: "var(--bg-surface)", color: "var(--text-muted)", cursor: "pointer" }}
             >
               EXIT FULLSCREEN
@@ -409,6 +461,7 @@ export default function ChessClock() {
   return (
     <ClockLayout
       clock={clock}
+      noScale={true}
       controlsSection={
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           {/* Preset Buttons */}
@@ -507,7 +560,7 @@ export default function ChessClock() {
           </div>
 
           {/* Action Row */}
-          <div style={{ display: "flex", gap: 8, borderTop: "1px solid var(--border)", paddingTop: 12 }}>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 8, borderTop: "1px solid var(--border)", paddingTop: 12, alignItems: "center" }}>
             {started && active !== null ? (
               <button onClick={pause} style={{ fontFamily: "var(--font-mono)", fontSize: 12, fontWeight: 700, padding: "8px 20px", border: "2px solid var(--border)", borderRadius: 4, background: "var(--bg-card)", color: "var(--text-primary)", cursor: "pointer", boxShadow: "2px 2px 0 var(--shadow-color)" }}>
                 PAUSE
@@ -519,6 +572,24 @@ export default function ChessClock() {
             ) : null}
             <button onClick={reset} style={{ fontFamily: "var(--font-mono)", fontSize: 12, fontWeight: 700, padding: "8px 20px", border: "2px solid var(--border)", borderRadius: 4, background: "var(--bg-card)", color: "var(--text-primary)", cursor: "pointer", boxShadow: "2px 2px 0 var(--shadow-color)" }}>
               RESET
+            </button>
+            <button
+              onClick={() => setManualTakeover(true)}
+              style={{
+                marginLeft: "auto",
+                fontFamily: "var(--font-mono)",
+                fontSize: 11,
+                fontWeight: 700,
+                padding: "8px 16px",
+                border: "2px solid var(--border)",
+                borderRadius: 4,
+                background: "var(--section-clocks-accent)",
+                color: "#000000",
+                cursor: "pointer",
+                boxShadow: "2px 2px 0 var(--shadow-color)"
+              }}
+            >
+              📱 FULLSCREEN TAKEOVER
             </button>
           </div>
 

@@ -59,7 +59,7 @@ const resolveTzName = (tz: string) => {
 };
 
 // SVG Analog Face
-function AnalogFace({ h, m, s }: { h: number; m: number; s: number }) {
+function AnalogFace({ h, m, s, size = 150 }: { h: number; m: number; s: number; size?: number }) {
   const cx = 75, cy = 75, r = 68;
   function drawHand(deg: number, len: number, w: number, color: string) {
     const angle = (deg - 90) * Math.PI / 180;
@@ -76,8 +76,8 @@ function AnalogFace({ h, m, s }: { h: number; m: number; s: number }) {
     );
   }
   return (
-    <div style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "12px 0" }}>
-      <svg width={150} height={150}>
+    <div style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "4px 0" }}>
+      <svg width={size} height={size} viewBox="0 0 150 150">
         <circle cx={cx} cy={cy} r={r} fill="none" stroke="var(--border)" strokeWidth={2.5} />
         {Array.from({ length: 12 }, (_, i) => {
           const angle = ((i / 12) * 360 - 90) * Math.PI / 180;
@@ -110,6 +110,37 @@ export default function WorldClock() {
   const [newTz, setNewTz] = useState<string>("UTC");
   const [, setTick] = useState(0);
 
+  const [isFs, setIsFs] = useState(false);
+  const [isPortrait, setIsPortrait] = useState(false);
+
+  // Monitor fullscreen status
+  useEffect(() => {
+    const handler = () => {
+      const active = !!document.fullscreenElement || 
+                     document.body.classList.contains("fallback-fullscreen-active") || 
+                     !!document.querySelector(".fullscreen-active");
+      setIsFs(active);
+    };
+    document.addEventListener("fullscreenchange", handler);
+    document.addEventListener("webkitfullscreenchange", handler);
+    const iv = setInterval(handler, 400);
+    return () => {
+      document.removeEventListener("fullscreenchange", handler);
+      document.removeEventListener("webkitfullscreenchange", handler);
+      clearInterval(iv);
+    };
+  }, []);
+
+  // Monitor screen orientation
+  useEffect(() => {
+    const handleResize = () => {
+      setIsPortrait(window.innerHeight > window.innerWidth);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   // Load from local storage
   useEffect(() => {
     try {
@@ -141,7 +172,7 @@ export default function WorldClock() {
   }, []);
 
   const addClock = () => {
-    if (clocks.length >= 6) return;
+    if (clocks.length >= 10) return;
     const resolvedNewTz = newTz;
     const newId = `${resolvedNewTz}-${Date.now()}`;
     const updated = [...clocks, { id: newId, tz: resolvedNewTz, mode: "digital" as const }];
@@ -275,9 +306,34 @@ export default function WorldClock() {
     }
   };
 
+  let cols = 1;
+  let rows = 1;
+  const N = clocks.length;
+
+  if (isFs && N > 0) {
+    if (isPortrait) {
+      if (N === 1) { cols = 1; rows = 1; }
+      else if (N === 2) { cols = 1; rows = 2; }
+      else if (N === 3) { cols = 1; rows = 3; }
+      else if (N === 4) { cols = 2; rows = 2; }
+      else if (N <= 6) { cols = 2; rows = 3; }
+      else if (N <= 8) { cols = 2; rows = 4; }
+      else { cols = 2; rows = 5; }
+    } else {
+      if (N === 1) { cols = 1; rows = 1; }
+      else if (N === 2) { cols = 2; rows = 1; }
+      else if (N === 3) { cols = 3; rows = 1; }
+      else if (N === 4) { cols = 2; rows = 2; }
+      else if (N <= 6) { cols = 3; rows = 2; }
+      else if (N <= 8) { cols = 4; rows = 2; }
+      else { cols = 5; rows = 2; }
+    }
+  }
+
   return (
     <ClockLayout
       clock={clockDef}
+      noScale={true}
       controlsSection={
         <div style={{ display: "flex", flexWrap: "wrap", gap: 16, alignItems: "center", justifyContent: "space-between" }}>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 12, alignItems: "center" }}>
@@ -311,7 +367,7 @@ export default function WorldClock() {
             </label>
             <button
               onClick={addClock}
-              disabled={clocks.length >= 6}
+              disabled={clocks.length >= 10}
               style={{
                 fontFamily: "var(--font-mono)",
                 fontSize: 12,
@@ -322,9 +378,9 @@ export default function WorldClock() {
                 borderRadius: 6,
                 background: "var(--section-clocks-accent)",
                 color: "var(--section-clocks-text-on-accent)",
-                cursor: clocks.length >= 6 ? "not-allowed" : "pointer",
-                boxShadow: clocks.length >= 6 ? "none" : "2px 2px 0 var(--shadow-color)",
-                opacity: clocks.length >= 6 ? 0.5 : 1,
+                cursor: clocks.length >= 10 ? "not-allowed" : "pointer",
+                boxShadow: clocks.length >= 10 ? "none" : "2px 2px 0 var(--shadow-color)",
+                opacity: clocks.length >= 10 ? 0.5 : 1,
                 alignSelf: "flex-end",
                 letterSpacing: "0.08em",
               }}
@@ -333,28 +389,44 @@ export default function WorldClock() {
             </button>
           </div>
           <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--text-muted)", fontWeight: 700 }}>
-            {clocks.length} OF 6 CLOCKS ACTIVE
+            {clocks.length} OF 10 CLOCKS ACTIVE
           </div>
         </div>
       }
     >
-      <div style={{ padding: "32px 16px", minHeight: 380 }}>
+      <div style={isFs ? { padding: "12px", height: "100%", width: "100%", boxSizing: "border-box" } : { padding: "32px 16px", minHeight: 380 }}>
         {clocks.length === 0 ? (
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: 260 }}>
             <p style={{ fontFamily: "var(--font-ui)", fontSize: 15, color: "var(--text-muted)", textAlign: "center" }}>
-              Pin up to 6 locations above to build your custom global clock array.
+              Pin up to 10 locations above to build your custom global clock array.
             </p>
           </div>
         ) : (
           <div
-            style={{
+            style={isFs ? {
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
+              gridTemplateColumns: `repeat(${cols}, 1fr)`,
+              gridTemplateRows: `repeat(${rows}, 1fr)`,
+              gap: 12,
+              width: "100%",
+              height: "100%",
+              boxSizing: "border-box",
+            } : {
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(280px, 340px))",
+              justifyContent: "center",
               gap: 24,
+              width: "100%",
             }}
           >
             {clocks.map((c, idx) => {
               const data = getClockData(c.tz);
+              // Calculate responsive text size based on grid height
+              const titleSize = isFs ? (rows >= 3 ? 14 : 16) : 18;
+              const subTitleSize = isFs ? 10 : 11;
+              const digitalTimeSize = isFs ? (rows === 1 ? 48 : rows === 2 ? 32 : 22) : 34;
+              const digitalDateSize = isFs ? 10 : 12;
+
               return (
                 <div
                   key={c.id}
@@ -362,92 +434,97 @@ export default function WorldClock() {
                     background: "var(--bg-surface)",
                     border: "2.5px solid var(--border)",
                     borderRadius: 12,
-                    padding: "20px",
+                    padding: isFs ? "12px" : "20px",
                     display: "flex",
                     flexDirection: "column",
                     position: "relative",
-                    boxShadow: "4px 4px 0 var(--shadow-color)",
+                    boxShadow: isFs ? "none" : "4px 4px 0 var(--shadow-color)",
                     transition: "transform 0.15s, box-shadow 0.15s",
+                    height: "100%",
+                    justifyContent: "space-between",
+                    boxSizing: "border-box",
                   }}
                 >
                   {/* Top Bar inside card */}
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: isFs ? 4 : 12 }}>
                     <div>
-                      <h3 style={{ fontFamily: "var(--font-display)", fontSize: 18, fontWeight: 800, color: "var(--text-primary)", margin: 0 }}>
+                      <h3 style={{ fontFamily: "var(--font-display)", fontSize: titleSize, fontWeight: 800, color: "var(--text-primary)", margin: 0 }}>
                         {data.cityName}
                       </h3>
-                      <p style={{ fontFamily: "var(--font-ui)", fontSize: 11, color: "var(--text-muted)", margin: "2px 0 0" }}>
+                      <p style={{ fontFamily: "var(--font-ui)", fontSize: subTitleSize, color: "var(--text-muted)", margin: "2px 0 0" }}>
                         {data.countryName} · <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, fontWeight: 700 }}>{data.zoneCode}</span>
                       </p>
                     </div>
-                    {/* Delete and Reorder buttons */}
-                    <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
-                      <button
-                        onClick={() => moveClock(idx, -1)}
-                        disabled={idx === 0}
-                        title="Move Left/Up"
-                        style={{
-                          width: 22,
-                          height: 22,
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          border: "1.5px solid var(--border)",
-                          borderRadius: 4,
-                          background: "var(--bg-card)",
-                          color: "var(--text-primary)",
-                          fontSize: 9,
-                          cursor: idx === 0 ? "not-allowed" : "pointer",
-                          opacity: idx === 0 ? 0.3 : 1,
-                        }}
-                      >
-                        ◀
-                      </button>
-                      <button
-                        onClick={() => moveClock(idx, 1)}
-                        disabled={idx === clocks.length - 1}
-                        title="Move Right/Down"
-                        style={{
-                          width: 22,
-                          height: 22,
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          border: "1.5px solid var(--border)",
-                          borderRadius: 4,
-                          background: "var(--bg-card)",
-                          color: "var(--text-primary)",
-                          fontSize: 9,
-                          cursor: idx === clocks.length - 1 ? "not-allowed" : "pointer",
-                          opacity: idx === clocks.length - 1 ? 0.3 : 1,
-                        }}
-                      >
-                        ▶
-                      </button>
-                      <button
-                        onClick={() => removeClock(c.id)}
-                        title="Remove Clock"
-                        style={{
-                          width: 22,
-                          height: 22,
-                          marginLeft: 4,
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          border: "1.5px solid var(--border)",
-                          borderRadius: 4,
-                          background: "var(--destructive)",
-                          color: "var(--section-clocks-text-on-accent)",
-                          fontFamily: "var(--font-mono)",
-                          fontSize: 9,
-                          fontWeight: 700,
-                          cursor: "pointer",
-                          boxShadow: "1px 1px 0 var(--shadow-color)",
-                        }}
-                      >
-                        ✕
-                      </button>
-                    </div>
+                    {/* Delete and Reorder buttons - hidden in fullscreen mode to keep view clean */}
+                    {!isFs && (
+                      <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
+                        <button
+                          onClick={() => moveClock(idx, -1)}
+                          disabled={idx === 0}
+                          title="Move Left/Up"
+                          style={{
+                            width: 22,
+                            height: 22,
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            border: "1.5px solid var(--border)",
+                            borderRadius: 4,
+                            background: "var(--bg-card)",
+                            color: "var(--text-primary)",
+                            fontSize: 9,
+                            cursor: idx === 0 ? "not-allowed" : "pointer",
+                            opacity: idx === 0 ? 0.3 : 1,
+                          }}
+                        >
+                          ◀
+                        </button>
+                        <button
+                          onClick={() => moveClock(idx, 1)}
+                          disabled={idx === clocks.length - 1}
+                          title="Move Right/Down"
+                          style={{
+                            width: 22,
+                            height: 22,
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            border: "1.5px solid var(--border)",
+                            borderRadius: 4,
+                            background: "var(--bg-card)",
+                            color: "var(--text-primary)",
+                            fontSize: 9,
+                            cursor: idx === clocks.length - 1 ? "not-allowed" : "pointer",
+                            opacity: idx === clocks.length - 1 ? 0.3 : 1,
+                          }}
+                        >
+                          ▶
+                        </button>
+                        <button
+                          onClick={() => removeClock(c.id)}
+                          title="Remove Clock"
+                          style={{
+                            width: 22,
+                            height: 22,
+                            marginLeft: 4,
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            border: "1.5px solid var(--border)",
+                            borderRadius: 4,
+                            background: "var(--destructive)",
+                            color: "var(--section-clocks-text-on-accent)",
+                            fontFamily: "var(--font-mono)",
+                            fontSize: 9,
+                            fontWeight: 700,
+                            cursor: "pointer",
+                            boxShadow: "1px 1px 0 var(--shadow-color)",
+                          }}
+                        >
+                          ✕
+                        </button>
+                      </div>
+                    )}
                   </div>
 
                   {/* Main Display Area (Digital or Analog) */}
@@ -458,22 +535,22 @@ export default function WorldClock() {
                       flexDirection: "column",
                       alignItems: "center",
                       justifyContent: "center",
-                      minHeight: c.mode === "analog" ? 170 : 100,
+                      minHeight: isFs ? 0 : (c.mode === "analog" ? 170 : 100),
                       border: "2px dashed var(--border-subtle)",
                       borderRadius: 8,
                       background: "var(--bg-card)",
-                      padding: "10px",
-                      margin: "6px 0 14px",
+                      padding: isFs ? "4px" : "10px",
+                      margin: isFs ? "4px 0" : "6px 0 14px",
                     }}
                   >
                     {c.mode === "analog" ? (
-                      <AnalogFace h={data.h} m={data.m} s={data.s} />
+                      <AnalogFace h={data.h} m={data.m} s={data.s} size={isFs ? (rows >= 3 ? 75 : rows === 2 ? 100 : 135) : 150} />
                     ) : (
-                      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "20px 0" }}>
+                      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: isFs ? "8px 0" : "20px 0" }}>
                         <span
                           style={{
                             fontFamily: "var(--font-mono)",
-                            fontSize: 34,
+                            fontSize: digitalTimeSize,
                             fontWeight: 700,
                             color: "var(--text-primary)",
                             letterSpacing: "0.02em",
@@ -485,10 +562,10 @@ export default function WorldClock() {
                         <span
                           style={{
                             fontFamily: "var(--font-mono)",
-                            fontSize: 12,
+                            fontSize: digitalDateSize,
                             fontWeight: 700,
                             color: "var(--text-muted)",
-                            marginTop: 8,
+                            marginTop: isFs ? 4 : 8,
                             letterSpacing: "0.05em",
                           }}
                         >
@@ -552,36 +629,38 @@ export default function WorldClock() {
                     </div>
                   </div>
 
-                  {/* Mode Selector Button */}
-                  <button
-                    onClick={() => toggleMode(c.id)}
-                    style={{
-                      marginTop: 14,
-                      fontFamily: "var(--font-mono)",
-                      fontSize: 10,
-                      fontWeight: 700,
-                      padding: "6px 12px",
-                      border: "2px solid var(--border)",
-                      borderRadius: 6,
-                      background: "var(--bg-surface)",
-                      color: "var(--text-primary)",
-                      cursor: "pointer",
-                      boxShadow: "2px 2px 0 var(--shadow-color)",
-                      textAlign: "center",
-                      letterSpacing: "0.05em",
-                      transition: "transform 0.08s, box-shadow 0.08s",
-                    }}
-                    onMouseDown={(e) => {
-                      (e.currentTarget as HTMLButtonElement).style.transform = "translate(1px, 1px)";
-                      (e.currentTarget as HTMLButtonElement).style.boxShadow = "1px 1px 0 var(--shadow-color)";
-                    }}
-                    onMouseUp={(e) => {
-                      (e.currentTarget as HTMLButtonElement).style.transform = "";
-                      (e.currentTarget as HTMLButtonElement).style.boxShadow = "2px 2px 0 var(--shadow-color)";
-                    }}
-                  >
-                    SWITCH TO {c.mode === "digital" ? "ANALOG" : "DIGITAL"}
-                  </button>
+                  {/* Mode Selector Button - hidden in fullscreen to keep it minimal and neat */}
+                  {!isFs && (
+                    <button
+                      onClick={() => toggleMode(c.id)}
+                      style={{
+                        marginTop: 14,
+                        fontFamily: "var(--font-mono)",
+                        fontSize: 10,
+                        fontWeight: 700,
+                        padding: "6px 12px",
+                        border: "2px solid var(--border)",
+                        borderRadius: 6,
+                        background: "var(--bg-surface)",
+                        color: "var(--text-primary)",
+                        cursor: "pointer",
+                        boxShadow: "2px 2px 0 var(--shadow-color)",
+                        textAlign: "center",
+                        letterSpacing: "0.05em",
+                        transition: "transform 0.08s, box-shadow 0.08s",
+                      }}
+                      onMouseDown={(e) => {
+                        (e.currentTarget as HTMLButtonElement).style.transform = "translate(1px, 1px)";
+                        (e.currentTarget as HTMLButtonElement).style.boxShadow = "1px 1px 0 var(--shadow-color)";
+                      }}
+                      onMouseUp={(e) => {
+                        (e.currentTarget as HTMLButtonElement).style.transform = "";
+                        (e.currentTarget as HTMLButtonElement).style.boxShadow = "2px 2px 0 var(--shadow-color)";
+                      }}
+                    >
+                      SWITCH TO {c.mode === "digital" ? "ANALOG" : "DIGITAL"}
+                    </button>
+                  )}
                 </div>
               );
             })}
