@@ -7,8 +7,8 @@ import { clocksRegistry } from "@/lib/data/clocksRegistry";
 const clock = clocksRegistry.find((c) => c.id === "math-speed-test")!;
 
 type TestPhase = "idle" | "playing" | "finished";
-type OperatorType = "mixed" | "add" | "sub" | "mul" | "div";
-type DifficultyType = "easy" | "medium" | "hard";
+type OperatorType = "mixed" | "add" | "sub" | "mul" | "div" | "power-root" | "percentage" | "algebra";
+type DifficultyType = "easy" | "medium" | "hard" | "expert" | "legend";
 
 interface MathEquation {
   left: number;
@@ -39,7 +39,7 @@ function playBuzzer(freq: number, dur: number) {
 const generateEquation = (diff: DifficultyType, op: OperatorType): MathEquation => {
   let finalOp = op;
   if (op === "mixed") {
-    const ops: ("add" | "sub" | "mul" | "div")[] = ["add", "sub", "mul", "div"];
+    const ops: OperatorType[] = ["add", "sub", "mul", "div", "power-root", "percentage", "algebra"];
     finalOp = ops[Math.floor(Math.random() * ops.length)];
   }
 
@@ -47,89 +47,283 @@ const generateEquation = (diff: DifficultyType, op: OperatorType): MathEquation 
   let right = 0;
   let ans = 0;
   let sign = "";
+  let display = "";
 
-  if (diff === "easy") {
-    if (finalOp === "add") {
+  // 1. ADDITION MODE
+  if (finalOp === "add") {
+    sign = "+";
+    if (diff === "easy") {
       left = Math.floor(Math.random() * 9) + 1;
       right = Math.floor(Math.random() * 9) + 1;
-      ans = left + right;
-      sign = "+";
-    } else if (finalOp === "sub") {
-      left = Math.floor(Math.random() * 9) + 4;
-      right = Math.floor(Math.random() * (left - 1)) + 1;
-      ans = left - right;
-      sign = "-";
-    } else if (finalOp === "mul") {
-      left = Math.floor(Math.random() * 8) + 2;
-      right = Math.floor(Math.random() * 8) + 2;
-      ans = left * right;
-      sign = "×";
-    } else {
-      right = Math.floor(Math.random() * 8) + 2;
-      ans = Math.floor(Math.random() * 7) + 2;
-      left = right * ans;
-      sign = "÷";
-    }
-  } else if (diff === "medium") {
-    if (finalOp === "add") {
+    } else if (diff === "medium") {
       left = Math.floor(Math.random() * 45) + 10;
       right = Math.floor(Math.random() * 25) + 5;
-      ans = left + right;
-      sign = "+";
-    } else if (finalOp === "sub") {
-      left = Math.floor(Math.random() * 50) + 20;
-      right = Math.floor(Math.random() * (left - 10)) + 5;
-      ans = left - right;
-      sign = "-";
-    } else if (finalOp === "mul") {
-      left = Math.floor(Math.random() * 11) + 4;
-      right = Math.floor(Math.random() * 9) + 3;
-      ans = left * right;
-      sign = "×";
-    } else {
-      right = Math.floor(Math.random() * 11) + 4;
-      ans = Math.floor(Math.random() * 9) + 3;
-      left = right * ans;
-      sign = "÷";
-    }
-  } else {
-    // Hard Mode
-    if (finalOp === "add") {
+    } else if (diff === "hard") {
       left = Math.floor(Math.random() * 90) + 10;
       right = Math.floor(Math.random() * 90) + 10;
-      ans = left + right;
-      sign = "+";
-    } else if (finalOp === "sub") {
+    } else if (diff === "expert") {
+      left = Math.floor(Math.random() * 400) + 100;
+      right = Math.floor(Math.random() * 90) + 10;
+    } else {
+      // Legend
+      left = Math.floor(Math.random() * 900) + 100;
+      right = Math.floor(Math.random() * 900) + 100;
+    }
+    ans = left + right;
+    display = `${left} + ${right} = ?`;
+  }
+
+  // 2. SUBTRACTION MODE
+  else if (finalOp === "sub") {
+    sign = "-";
+    if (diff === "easy") {
+      left = Math.floor(Math.random() * 9) + 4;
+      right = Math.floor(Math.random() * (left - 1)) + 1;
+    } else if (diff === "medium") {
+      left = Math.floor(Math.random() * 50) + 20;
+      right = Math.floor(Math.random() * (left - 10)) + 5;
+    } else if (diff === "hard") {
       left = Math.floor(Math.random() * 120) + 30;
       right = Math.floor(Math.random() * 90) + 10;
-      ans = left - right;
-      sign = "-";
-    } else if (finalOp === "mul") {
+    } else if (diff === "expert") {
+      left = Math.floor(Math.random() * 500) + 100;
+      right = Math.floor(Math.random() * 90) + 10;
+    } else {
+      // Legend
+      left = Math.floor(Math.random() * 900) + 100;
+      right = Math.floor(Math.random() * (left - 100)) + 100;
+    }
+    ans = left - right;
+    display = `${left} - ${right} = ?`;
+  }
+
+  // 3. MULTIPLICATION MODE
+  else if (finalOp === "mul") {
+    sign = "×";
+    if (diff === "easy") {
+      left = Math.floor(Math.random() * 8) + 2;
+      right = Math.floor(Math.random() * 8) + 2;
+    } else if (diff === "medium") {
+      left = Math.floor(Math.random() * 11) + 4;
+      right = Math.floor(Math.random() * 9) + 3;
+    } else if (diff === "hard") {
       left = Math.floor(Math.random() * 18) + 6;
       right = Math.floor(Math.random() * 13) + 5;
-      ans = left * right;
-      sign = "×";
+    } else if (diff === "expert") {
+      left = Math.floor(Math.random() * 25) + 10;
+      right = Math.floor(Math.random() * 20) + 11;
     } else {
+      // Legend
+      left = Math.floor(Math.random() * 80) + 20;
+      right = Math.floor(Math.random() * 80) + 20;
+    }
+    ans = left * right;
+    display = `${left} × ${right} = ?`;
+  }
+
+  // 4. DIVISION MODE
+  else if (finalOp === "div") {
+    sign = "÷";
+    if (diff === "easy") {
+      right = Math.floor(Math.random() * 8) + 2;
+      ans = Math.floor(Math.random() * 7) + 2;
+    } else if (diff === "medium") {
+      right = Math.floor(Math.random() * 11) + 4;
+      ans = Math.floor(Math.random() * 9) + 3;
+    } else if (diff === "hard") {
       right = Math.floor(Math.random() * 14) + 6;
       ans = Math.floor(Math.random() * 11) + 5;
-      left = right * ans;
-      sign = "÷";
+    } else if (diff === "expert") {
+      right = Math.floor(Math.random() * 24) + 10;
+      ans = Math.floor(Math.random() * 19) + 5;
+    } else {
+      // Legend
+      right = Math.floor(Math.random() * 70) + 15;
+      ans = Math.floor(Math.random() * 50) + 10;
+    }
+    left = right * ans;
+    display = `${left} ÷ ${right} = ?`;
+  }
+
+  // 5. POWERS & SQUARE ROOTS (x² / √x)
+  else if (finalOp === "power-root") {
+    const isRoot = Math.random() > 0.5;
+    if (isRoot) {
+      sign = "√";
+      let base = 0;
+      if (diff === "easy") base = Math.floor(Math.random() * 9) + 2; // √4 to √100
+      else if (diff === "medium") base = Math.floor(Math.random() * 10) + 11; // √121 to √400
+      else if (diff === "hard") base = Math.floor(Math.random() * 10) + 21; // √441 to √900
+      else if (diff === "expert") base = Math.floor(Math.random() * 20) + 31; // √961 to √2500
+      else base = Math.floor(Math.random() * 50) + 51; // √2601 to √10000
+
+      ans = base;
+      left = base * base;
+      display = `√${left} = ?`;
+    } else {
+      const isCube = Math.random() > 0.7; // Exponents: squares or cubes
+      if (isCube) {
+        sign = "³";
+        let base = 0;
+        if (diff === "easy") base = Math.floor(Math.random() * 3) + 2; // 2³ to 4³
+        else if (diff === "medium") base = Math.floor(Math.random() * 3) + 5; // 5³ to 7³
+        else if (diff === "hard") base = Math.floor(Math.random() * 5) + 8; // 8³ to 12³
+        else if (diff === "expert") base = Math.floor(Math.random() * 5) + 13; // 13³ to 17³
+        else base = Math.floor(Math.random() * 13) + 18; // 18³ to 30³
+
+        ans = base * base * base;
+        display = `${base}³ = ?`;
+      } else {
+        sign = "²";
+        let base = 0;
+        if (diff === "easy") base = Math.floor(Math.random() * 9) + 2; // 2² to 10²
+        else if (diff === "medium") base = Math.floor(Math.random() * 10) + 11; // 11² to 20²
+        else if (diff === "hard") base = Math.floor(Math.random() * 10) + 21; // 21² to 30²
+        else if (diff === "expert") base = Math.floor(Math.random() * 20) + 31; // 31² to 50²
+        else base = Math.floor(Math.random() * 50) + 51; // 51² to 100²
+
+        ans = base * base;
+        display = `${base}² = ?`;
+      }
     }
   }
 
-  return { left, right, ans, sign, display: `${left} ${sign} ${right} = ?` };
+  // 6. PERCENTAGE & FRACTIONS
+  else if (finalOp === "percentage") {
+    const isFraction = Math.random() > 0.5;
+    if (isFraction) {
+      sign = "frac";
+      let num = 1;
+      let den = 2;
+      let factor = 10;
+      if (diff === "easy") {
+        den = Math.random() > 0.5 ? 2 : 4;
+        num = den === 4 ? (Math.random() > 0.5 ? 1 : 3) : 1;
+        factor = (Math.floor(Math.random() * 9) + 1) * 4; // multiples of 4
+      } else if (diff === "medium") {
+        den = [3, 4, 5][Math.floor(Math.random() * 3)];
+        num = Math.floor(Math.random() * (den - 1)) + 1;
+        factor = (Math.floor(Math.random() * 10) + 2) * den;
+      } else if (diff === "hard") {
+        den = [5, 6, 8][Math.floor(Math.random() * 3)];
+        num = Math.floor(Math.random() * (den - 1)) + 1;
+        factor = (Math.floor(Math.random() * 12) + 4) * den;
+      } else if (diff === "expert") {
+        den = [8, 12, 15][Math.floor(Math.random() * 3)];
+        num = Math.floor(Math.random() * (den - 1)) + 1;
+        factor = (Math.floor(Math.random() * 15) + 5) * den;
+      } else {
+        // Legend
+        den = [12, 16, 20][Math.floor(Math.random() * 3)];
+        num = Math.floor(Math.random() * (den - 1)) + 1;
+        factor = (Math.floor(Math.random() * 20) + 8) * den;
+      }
+      ans = (num / den) * factor;
+      display = `${num}/${den} of ${factor} = ?`;
+    } else {
+      sign = "%";
+      let pct = 10;
+      let totalNum = 100;
+      if (diff === "easy") {
+        pct = [10, 50, 100][Math.floor(Math.random() * 3)];
+        totalNum = (Math.floor(Math.random() * 9) + 1) * 10;
+      } else if (diff === "medium") {
+        pct = [20, 25, 75][Math.floor(Math.random() * 3)];
+        totalNum = (Math.floor(Math.random() * 10) + 2) * 20;
+      } else if (diff === "hard") {
+        pct = [15, 30, 40, 60][Math.floor(Math.random() * 4)];
+        totalNum = (Math.floor(Math.random() * 12) + 3) * 50;
+      } else if (diff === "expert") {
+        pct = [12, 18, 35, 45, 65][Math.floor(Math.random() * 5)];
+        totalNum = (Math.floor(Math.random() * 15) + 4) * 50;
+      } else {
+        // Legend
+        pct = [7.5, 12.5, 37.5, 62.5][Math.floor(Math.random() * 4)];
+        totalNum = (Math.floor(Math.random() * 20) + 5) * 80;
+      }
+      ans = (pct / 100) * totalNum;
+      display = `${pct}% of ${totalNum} = ?`;
+    }
+  }
+
+  // 7. ALGEBRA (FIND X)
+  else {
+    sign = "x";
+    let xVal = 5;
+    let multiplier = 2;
+    let addConst = 3;
+    if (diff === "easy") {
+      xVal = Math.floor(Math.random() * 9) + 2;
+      addConst = Math.floor(Math.random() * 9) + 1;
+      const isAdd = Math.random() > 0.5;
+      ans = xVal;
+      if (isAdd) {
+        right = xVal + addConst;
+        display = `x + ${addConst} = ${right} (x=?)`;
+      } else {
+        right = xVal - addConst;
+        display = `x - ${addConst} = ${right} (x=?)`;
+      }
+    } else if (diff === "medium") {
+      xVal = Math.floor(Math.random() * 9) + 2;
+      multiplier = Math.floor(Math.random() * 4) + 2; // 2x to 5x
+      addConst = Math.floor(Math.random() * 9) + 1;
+      ans = xVal;
+      right = multiplier * xVal + addConst;
+      display = `${multiplier}x + ${addConst} = ${right} (x=?)`;
+    } else if (diff === "hard") {
+      xVal = Math.floor(Math.random() * 10) + 3;
+      multiplier = Math.floor(Math.random() * 7) + 6; // 6x to 12x
+      addConst = Math.floor(Math.random() * 15) + 2;
+      ans = xVal;
+      const isAdd = Math.random() > 0.5;
+      if (isAdd) {
+        right = multiplier * xVal + addConst;
+        display = `${multiplier}x + ${addConst} = ${right} (x=?)`;
+      } else {
+        right = multiplier * xVal - addConst;
+        display = `${multiplier}x - ${addConst} = ${right} (x=?)`;
+      }
+    } else if (diff === "expert") {
+      // Quadratic-like x² - a = b
+      xVal = Math.floor(Math.random() * 12) + 4; // x is 4 to 15
+      addConst = Math.floor(Math.random() * 19) + 2;
+      ans = xVal;
+      right = xVal * xVal - addConst;
+      display = `x² - ${addConst} = ${right} (x=?)`;
+    } else {
+      // Legend: Double step a(x + b) = c
+      xVal = Math.floor(Math.random() * 13) + 3; // x is 3 to 15
+      multiplier = Math.floor(Math.random() * 5) + 2; // 2 to 6
+      addConst = Math.floor(Math.random() * 15) + 1;
+      ans = xVal;
+      right = multiplier * (xVal + addConst);
+      display = `${multiplier}(x + ${addConst}) = ${right} (x=?)`;
+    }
+  }
+
+  return { left, right, ans, sign, display };
 };
 
-const getMathRank = (correct: number) => {
-  if (correct >= 40) return { title: "Math Deity 👑", color: "var(--accent-utility-a)", desc: "Unbelievable speed, standard calculators are jealous." };
-  if (correct >= 25) return { title: "Human Calculator 🧠", color: "var(--accent-utility-c)", desc: "Outstanding arithmetic mastery and instant reflexes!" };
-  if (correct >= 12) return { title: "Sharp Thinker ⚡", color: "var(--text-primary)", desc: "Strong focus and fast analytical capacity." };
-  if (correct >= 5) return { title: "Standard Brain 🔢", color: "var(--accent-utility-d)", desc: "Solid normal speed. Keep exercising to step it up!" };
+const getMathRank = (correct: number, diff: DifficultyType) => {
+  let scoreMultiplier = 1.0;
+  if (diff === "medium") scoreMultiplier = 1.25;
+  else if (diff === "hard") scoreMultiplier = 2.0;
+  else if (diff === "expert") scoreMultiplier = 3.25;
+  else if (diff === "legend") scoreMultiplier = 5.5;
+
+  const score = correct * scoreMultiplier;
+
+  if (score >= 40) return { title: "Math Deity 👑", color: "var(--accent-utility-a)", desc: "Unbelievable speed, standard calculators are jealous." };
+  if (score >= 25) return { title: "Human Calculator 🧠", color: "var(--accent-utility-c)", desc: "Outstanding arithmetic mastery and instant reflexes!" };
+  if (score >= 12) return { title: "Sharp Thinker ⚡", color: "var(--text-primary)", desc: "Strong focus and fast analytical capacity." };
+  if (score >= 5) return { title: "Standard Brain 🔢", color: "var(--accent-utility-d)", desc: "Solid normal speed. Keep exercising to step it up!" };
   return { title: "Abacus User 🧮", color: "var(--destructive)", desc: "Slow speed. Try Easy mode to improve timing rhythm." };
 };
 
 export default function MathSpeedTester() {
   const [duration, setDuration] = useState<number>(30); // 30s, 60s, 120s
+  const [isCustomDuration, setIsCustomDuration] = useState(false);
   const [difficulty, setDifficulty] = useState<DifficultyType>("medium");
   const [operator, setOperator] = useState<OperatorType>("mixed");
 
@@ -180,7 +374,6 @@ export default function MathSpeedTester() {
     setUserInput("");
 
     // Start timer interval
-    let timePassed = 0;
     const startMs = Date.now();
     timerRef.current = setInterval(() => {
       const diff = Math.floor((Date.now() - startMs) / 1000);
@@ -261,11 +454,13 @@ export default function MathSpeedTester() {
           value={difficulty}
           onChange={(e) => setDifficulty(e.target.value as any)}
           disabled={phase === "playing"}
-          style={{ height: 32, width: 110, fontFamily: "var(--font-ui)", fontSize: 12, fontWeight: 700, border: "2px solid var(--border)", background: "var(--bg-surface)", color: "var(--text-primary)", padding: "4px 6px", borderRadius: 4, cursor: "pointer" }}
+          style={{ height: 32, width: 140, fontFamily: "var(--font-ui)", fontSize: 12, fontWeight: 700, border: "2px solid var(--border)", background: "var(--bg-surface)", color: "var(--text-primary)", padding: "4px 6px", borderRadius: 4, cursor: "pointer" }}
         >
           <option value="easy">Easy (1 Digit)</option>
           <option value="medium">Medium (Std)</option>
           <option value="hard">Hard (Advanced)</option>
+          <option value="expert">Expert 🔥</option>
+          <option value="legend">Legend 👑</option>
         </select>
       </label>
 
@@ -275,32 +470,63 @@ export default function MathSpeedTester() {
           value={operator}
           onChange={(e) => setOperator(e.target.value as any)}
           disabled={phase === "playing"}
-          style={{ height: 32, width: 130, fontFamily: "var(--font-ui)", fontSize: 12, fontWeight: 700, border: "2px solid var(--border)", background: "var(--bg-surface)", color: "var(--text-primary)", padding: "4px 6px", borderRadius: 4, cursor: "pointer" }}
+          style={{ height: 32, width: 160, fontFamily: "var(--font-ui)", fontSize: 12, fontWeight: 700, border: "2px solid var(--border)", background: "var(--bg-surface)", color: "var(--text-primary)", padding: "4px 6px", borderRadius: 4, cursor: "pointer" }}
         >
-          <option value="mixed">Mixed Operator</option>
+          <option value="mixed">Mixed Operators</option>
           <option value="add">Addition (+)</option>
           <option value="sub">Subtraction (-)</option>
           <option value="mul">Multiplication (×)</option>
           <option value="div">Division (÷)</option>
+          <option value="power-root">Powers & Roots (x² / √x)</option>
+          <option value="percentage">Percent & Fractions (%)</option>
+          <option value="algebra">Algebra (Find X)</option>
         </select>
       </label>
 
-      <label style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-        <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--text-muted)" }}>Trial Time</span>
-        <select
-          value={duration}
-          onChange={(e) => {
-            setDuration(Number(e.target.value));
-            setSecondsRemaining(Number(e.target.value));
-          }}
-          disabled={phase === "playing"}
-          style={{ height: 32, width: 90, fontFamily: "var(--font-ui)", fontSize: 12, fontWeight: 700, border: "2px solid var(--border)", background: "var(--bg-surface)", color: "var(--text-primary)", padding: "4px 6px", borderRadius: 4, cursor: "pointer" }}
-        >
-          <option value={30}>30s Test</option>
-          <option value={60}>60s Std</option>
-          <option value={120}>120s Endurance</option>
-        </select>
-      </label>
+      <div style={{ display: "flex", gap: 8, alignItems: "flex-end" }}>
+        <label style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+          <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--text-muted)" }}>Trial Time</span>
+          <select
+            value={isCustomDuration ? "custom" : duration}
+            onChange={(e) => {
+              const val = e.target.value;
+              if (val === "custom") {
+                setIsCustomDuration(true);
+              } else {
+                setIsCustomDuration(false);
+                setDuration(Number(val));
+                setSecondsRemaining(Number(val));
+              }
+            }}
+            disabled={phase === "playing"}
+            style={{ height: 32, width: 110, fontFamily: "var(--font-ui)", fontSize: 12, fontWeight: 700, border: "2px solid var(--border)", background: "var(--bg-surface)", color: "var(--text-primary)", padding: "4px 6px", borderRadius: 4, cursor: "pointer" }}
+          >
+            <option value={30}>30s Test</option>
+            <option value={60}>60s Std</option>
+            <option value={120}>120s Endurance</option>
+            <option value="custom">Custom...</option>
+          </select>
+        </label>
+
+        {isCustomDuration && (
+          <label style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+            <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--text-muted)" }}>Secs</span>
+            <input
+              type="number"
+              min={5}
+              max={600}
+              value={duration}
+              onChange={(e) => {
+                const val = Math.max(5, Math.min(600, Number(e.target.value)));
+                setDuration(val);
+                setSecondsRemaining(val);
+              }}
+              disabled={phase === "playing"}
+              style={{ height: 32, width: 75, fontFamily: "var(--font-mono)", fontSize: 12, fontWeight: 700, border: "2px solid var(--border)", background: "var(--bg-surface)", color: "var(--text-primary)", padding: "4px 6px", borderRadius: 4, textAlign: "center" }}
+            />
+          </label>
+        )}
+      </div>
 
       <div style={{ display: "flex", gap: 16, borderLeft: "2px solid var(--border)", paddingLeft: 16, height: 36, alignItems: "center" }}>
         <div style={{ textAlign: "center" }}>
@@ -398,7 +624,7 @@ export default function MathSpeedTester() {
             <div 
               style={{
                 width: "100%",
-                maxWidth: 420,
+                maxWidth: 440,
                 background: wrongFlash ? "rgba(239, 68, 68, 0.12)" : "var(--bg-card)",
                 border: `3px solid ${wrongFlash ? "var(--destructive)" : "var(--border)"}`,
                 borderRadius: 12,
@@ -408,7 +634,7 @@ export default function MathSpeedTester() {
                 transition: "background 0.15s, border-color 0.15s"
               }}
             >
-              <span style={{ fontFamily: "var(--font-mono)", fontSize: 44, fontWeight: 800, color: "var(--text-primary)", letterSpacing: "0.04em" }}>
+              <span style={{ fontFamily: "var(--font-mono)", fontSize: "clamp(24px, 6vw, 42px)", fontWeight: 800, color: "var(--text-primary)", letterSpacing: "0.04em" }}>
                 {equation.display}
               </span>
             </div>
@@ -464,11 +690,11 @@ export default function MathSpeedTester() {
             </div>
 
             <div style={{ marginTop: 20 }}>
-              <span style={{ fontFamily: "var(--font-display)", fontSize: 20, fontWeight: 900, color: getMathRank(correctCount).color, display: "block" }}>
-                {getMathRank(correctCount).title}
+              <span style={{ fontFamily: "var(--font-display)", fontSize: 20, fontWeight: 900, color: getMathRank(correctCount, difficulty).color, display: "block" }}>
+                {getMathRank(correctCount, difficulty).title}
               </span>
               <p style={{ fontFamily: "var(--font-ui)", fontSize: 12, color: "var(--text-muted)", margin: "4px 0 0" }}>
-                "{getMathRank(correctCount).desc}"
+                "{getMathRank(correctCount, difficulty).desc}"
               </p>
             </div>
 

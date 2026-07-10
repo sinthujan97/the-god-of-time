@@ -188,6 +188,31 @@ const nextConfig: NextConfig = {
         destination: "/realms/watch-paint-dry",
         permanent: true,
       },
+      {
+        source: "/clocks/working-memory-test",
+        destination: "/clocks/working-memory-test-online",
+        permanent: true,
+      },
+      {
+        source: "/clocks/cps-test",
+        destination: "/clocks/click-per-second-test",
+        permanent: true,
+      },
+      {
+        source: "/clocks/speed-typing-test-online",
+        destination: "/clocks/speed-typing-test-online-free",
+        permanent: true,
+      },
+      {
+        source: "/clocks/rhythm-test",
+        destination: "/clocks/tap-to-the-beat-test",
+        permanent: true,
+      },
+      {
+        source: "/clocks/math-speed-test",
+        destination: "/clocks/math-speed-test-online",
+        permanent: true,
+      },
     ];
   },
 };
