@@ -17,6 +17,7 @@ const SolarSystemAge = dynamic(
 );
 
 const REALM_COMPONENTS: Record<string, React.ComponentType> = {
+  "watch-paint-dry": PaintDrySimulator,
   "paint-dry-simulator": PaintDrySimulator,
   "absurd-clocks": PaintDrySimulator,
   "solar-system-age": SolarSystemAge,
@@ -31,7 +32,7 @@ export default function RealmExperience({ slug, accentColor }: RealmExperiencePr
   const ExperienceComponent = REALM_COMPONENTS[slug];
 
   if (!ExperienceComponent) {
-    redirect("/realms/paint-dry-simulator");
+    redirect("/realms/watch-paint-dry");
   }
 
   return (

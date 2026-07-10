@@ -97,9 +97,9 @@ const faqs = [
 ];
 
 const relatedLinks = [
-  { href: "/clocks/reaction-time", name: "Reaction Time Test" },
-  { href: "/clocks/time-blindness-test", name: "Time Blindness Test" },
-  { href: "/clocks/pomodoro", name: "Pomodoro Timer" },
+  { href: "/clocks/reaction-time-test", name: "Reaction Time Test" },
+  { href: "/clocks/time-blindness-test-online-free", name: "Time Blindness Test" },
+  { href: "/clocks/pomodoro-timer-online", name: "Pomodoro Timer" },
 ];
 
 export default function SpeedReadingMetronomePage() {

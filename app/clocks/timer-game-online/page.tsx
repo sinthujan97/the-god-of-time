@@ -92,8 +92,8 @@ const faqs = [
 ];
 
 const relatedLinks = [
-  { href: "/clocks/time-blindness-test", name: "Time Blindness Test" },
-  { href: "/clocks/reaction-time", name: "Reaction Time Test" },
+  { href: "/clocks/time-blindness-test-online-free", name: "Time Blindness Test" },
+  { href: "/clocks/reaction-time-test", name: "Reaction Time Test" },
   { href: "/clocks/countdown", name: "Countdown Timer" },
 ];
 

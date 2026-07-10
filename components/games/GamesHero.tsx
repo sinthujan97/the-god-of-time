@@ -61,7 +61,7 @@ export default function GamesHero() {
             className="poster-head-sm"
             style={{ fontSize: "clamp(0.8rem, 2vw, 1.1rem)", color: "var(--text-muted)" }}
           >
-            Play with
+            Daily
           </span>
           <span
             className="poster-head-lg poster-head-accent"
@@ -70,7 +70,7 @@ export default function GamesHero() {
               ["--poster-accent" as string]: "var(--accent-game)",
             }}
           >
-            Time
+            Time Games
           </span>
         </h1>
 
@@ -78,8 +78,9 @@ export default function GamesHero() {
           className="font-sans text-text-muted leading-relaxed mx-auto mb-10"
           style={{ fontSize: 18, maxWidth: 560 }}
         >
-          One game per day. Precision timing challenges where a single wrong press
-          can cost you everything you've built.
+          These daily time games are three precision timing challenges that reset
+          every day at midnight. One attempt per day, just like Wordle — freeze the
+          clock, fire the anchor, or grow the Seed of Eons before the timeline collapses.
         </p>
 
         {/* Stat strip */}

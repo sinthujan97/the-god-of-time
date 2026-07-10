@@ -13,9 +13,9 @@ const LS_KEY      = "chrono-lock-v2";
 const LS_MODE_KEY = "chrono-lock-mode";
 
 const PHASES = [
-  { key: "hour",   label: "HOUR",        max: 23,  intervalMs: 680,  pad: 2 },
-  { key: "minute", label: "MINUTE",      max: 59,  intervalMs: 112,  pad: 2 },
-  { key: "second", label: "SECOND",      max: 59,  intervalMs: 56,   pad: 2 },
+  { key: "hour",   label: "HOUR",        max: 23,  intervalMs: 720,  pad: 2 },
+  { key: "minute", label: "MINUTE",      max: 59,  intervalMs: 180,  pad: 2 },
+  { key: "second", label: "SECOND",      max: 59,  intervalMs: 90,   pad: 2 },
   { key: "ms",     label: "MILLISECOND", max: 999, intervalMs: null, pad: 3 },
 ] as const;
 
@@ -108,7 +108,10 @@ function msCircularDiff(a: number, b: number) {
 }
 
 function isCorrect(phaseIdx: number, frozen: number, tgt: number): boolean {
-  return phaseIdx === 3 ? msCircularDiff(frozen, tgt) <= 20 : frozen === tgt;
+  if (phaseIdx === 3) {
+    return msCircularDiff(frozen, tgt) <= 50;
+  }
+  return frozen === tgt;
 }
 
 // ─── Ad slot ─────────────────────────────────────────────────────────────────
@@ -387,7 +390,7 @@ export default function ChronoLock() {
       return `${ok ? "🟩" : "🟥"} ${ph.key}: ${p(fv, ph.pad)} (target ${p(tgtVal, ph.pad)})`;
     });
     const text = [
-      `⏱️ Chrono Lock${isTrainingShare ? " [Training]" : ""} | ${new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}`,
+      `⏱️ Chrono Vault${isTrainingShare ? " [Training]" : ""} | ${new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}`,
       "",
       ...phaseLines,
       "",
@@ -519,7 +522,7 @@ export default function ChronoLock() {
             className="font-display font-light italic text-text-primary leading-tight mb-1"
             style={{ fontSize: "clamp(1.8rem, 5vw, 2.6rem)", letterSpacing: "-0.025em" }}
           >
-            Chrono Lock
+            Chrono Vault
           </h1>
           <p className="font-sans text-sm text-text-muted">
             {isTrainingMode

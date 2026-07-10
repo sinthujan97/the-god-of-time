@@ -3,12 +3,12 @@ import type { Metadata } from "next";
 import ChronoLock from "@/components/games/ChronoLock";
 
 export const metadata: Metadata = {
-  title: "Chrono Lock | Freeze the Clock | The God of Time",
+  title: "Chrono Vault | Freeze the Clock | The God of Time",
   description:
-    "A daily precision timing game. Freeze a running clock at the exact target time — unit by unit. Miss the hour and you lose your entire collection.",
+    "A daily precision timing game. Freeze a running combination vault at the target time — unit by unit. Miss the hour and you lose your entire collection.",
   openGraph: {
-    title: "Chrono Lock | The God of Time",
-    description: "One shot per day. Freeze the clock. Don't miss the hour.",
+    title: "Chrono Vault | The God of Time",
+    description: "One shot per day. Freeze the combination. Don't miss the hour.",
     url: "https://thegodoftime.com/games/chrono-lock",
   },
   alternates: {

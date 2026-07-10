@@ -93,7 +93,7 @@ const faqs = [
 
 const relatedLinks = [
   { href: "/tools/world-clock-meeting-planner", name: "World Clock Meeting Planner" },
-  { href: "/clocks/presentation-timer", name: "Presentation Timer" },
+  { href: "/clocks/presentation-timer-online", name: "Presentation Timer" },
   { href: "/tools/overtime-pay-calculator", name: "Overtime Pay Calculator" },
 ];
 

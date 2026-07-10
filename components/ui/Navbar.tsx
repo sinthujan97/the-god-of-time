@@ -146,7 +146,7 @@ const EMOJI_MAP: Record<string, string> = {
   "life-mosaic": "🧩",
   "time-wasters": "🗑️",
   "absurd-clocks": "🐌",
-  "paint-dry-simulator": "🎨",
+  "watch-paint-dry": "🎨",
   "fifth-dimension": "⬡",
   "cosmic-horror": "🐙"
 };

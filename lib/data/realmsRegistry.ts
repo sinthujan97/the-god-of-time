@@ -91,6 +91,70 @@ export const realmsRegistry: Realm[] = [
     },
   },
   {
+    id: "watch-paint-dry",
+    slug: "watch-paint-dry",
+    name: "Watch Paint Dry",
+    description:
+      "A scientifically accurate paint-drying simulator tracking real polymer cross-linking stages, from surface evaporation to full cure — oddly satisfying and surprisingly informative.",
+    category: "whimsical",
+    accent: "#E09A3A",
+    needsAI: false,
+    seo: {
+      introText:
+        "Watch paint dry online, except this time the boredom is doing real work — this simulator tracks the actual chemistry of paint drying, from solvent evaporation through polymer cross-linking to full oxidation. \"Watching paint dry\" is the classic idiom for the most tedious activity imaginable, which is exactly the joke this watch paint dry simulator leans into, while quietly being more interesting than it sounds underneath. People procrastinating (embrace it), curious minds, bored users looking for oddly satisfying novelty content to share, and chemistry students all end up here, usually surprised that a joke website turned out to teach them something real about polymer chemistry.",
+      howToTitle: "How to Use the Watch Paint Dry Simulator",
+      howToSteps: [
+        "Pick a paint color from the preset palette to set the wall you're watching.",
+        "Adjust the temperature slider — higher temperatures accelerate solvent evaporation and shorten the total drying time, exactly as they would with real paint.",
+        "Press Start and watch the drying stages progress in real time, from wet paint through to a fully cured finish.",
+      ],
+      useCases: [
+        {
+          title: "What Actually Happens When Paint Dries",
+          content:
+            "Paint drying happens in four distinct, real stages. Surface evaporation (roughly the first 0-30 minutes) is when solvents evaporate from the surface and a skin forms — the paint looks dry from a glance but isn't. Through-dry (30 minutes to 2 hours) is when solvents finish evaporating through the surface layer and the paint stops transferring onto anything that touches it. Hard dry (2-24 hours) is when the polymer chains complete cross-linking and the paint reaches real handling strength. Full cure (24 hours to 30 days) is complete polymerisation, where the paint reaches its maximum hardness and chemical resistance. Water-based and oil-based paints diverge here in an important way: water-based paint dries faster because it relies purely on evaporation, while oil-based paint cures harder because it goes through an actual oxidation reaction rather than just losing solvent."
+        },
+        {
+          title: "How to Make Paint Dry Faster",
+          content:
+            "Increasing ventilation moves more air across the surface, which speeds up solvent evaporation directly. Lowering humidity matters just as much — moisture already in the air significantly slows water-based paint from drying, since there's less capacity for the paint's own moisture to evaporate into it. Raising temperature within a safe range speeds drying too, which is exactly what the temperature slider in this simulator models. Applying thin coats instead of thick ones avoids a common failure mode: a thick coat skins over on the surface while trapping wet paint underneath, which then takes far longer to fully cure than the surface appearance suggests. A fan pointed at a drying surface helps evaporation; a heater aimed directly at it doesn't, since uneven drying from concentrated heat is what causes cracking."
+        }
+      ],
+      faqs: [
+        {
+          question: "What is the purpose of the watch paint dry simulator?",
+          answer:
+            "The paint dry simulator is partly a joke — the phrase \"like watching paint dry\" is the classic expression for extreme boredom. But it is also a genuinely accurate visualization of the four stages of paint drying: surface evaporation, through-dry, hard dry, and full cure. The science is real even if the experience is intentionally slow."
+        },
+        {
+          question: "How do I use the watch paint dry simulator?",
+          answer:
+            "Select a wall color from the preset palette and adjust the temperature slider, then press Start. The simulator runs through the drying stages, showing the colour and texture changes that occur during real paint drying, with total drying time scaling based on the temperature you set — just as real paint dries faster in warmer conditions."
+        },
+        {
+          question: "How long does it typically take for paint to dry?",
+          answer:
+            "Water-based latex paint is touch-dry in 1-2 hours and recoatable after 4 hours, but takes 30 days to fully cure. Oil-based paint takes 6-8 hours to touch-dry and 24 hours to recoat, with full cure taking 3-7 days. Temperature and humidity affect both significantly — high humidity adds hours to water-based drying times."
+        },
+        {
+          question: "Can I customize the paint color in this tool?",
+          answer:
+            "Yes. Select from a palette of preset wall colors. The simulator shows how the color shifts as moisture evaporates — most water-based paints appear slightly lighter when wet and darken slightly as they cure, which confuses many first-time painters about whether their chosen color is correct."
+        },
+        {
+          question: "What does it mean to watch paint dry?",
+          answer:
+            "\"Watching paint dry\" is an idiom meaning an extremely tedious or boring activity. The phrase became popular enough that the actual activity of watching paint dry became a joke in itself — which is why dedicated websites like this one exist. Interestingly, paint drying involves genuine chemical reactions that are fascinating once you understand the science behind them."
+        },
+        {
+          question: "Is watching paint dry a job?",
+          answer:
+            "Technically yes — quality control specialists at paint manufacturers test and document paint drying times, adhesion, coverage, and cure properties as part of product development. Some art restoration specialists monitor the drying of conservation treatments under controlled conditions. Paint inspectors at construction sites also verify drying times before applying subsequent coats."
+        }
+      ],
+    },
+  },
+  {
     id: "fifth-dimension",
     slug: "fifth-dimension",
     name: "The 5th Dimension",

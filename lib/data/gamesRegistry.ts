@@ -15,12 +15,12 @@ export const gamesRegistry: Game[] = [
   {
     id: "chrono-lock",
     slug: "chrono-lock",
-    name: "Chrono Lock",
-    tagline: "Freeze the clock. One shot.",
+    name: "Chrono Vault",
+    tagline: "Crack the temporal combination. One shot.",
     description:
-      "A daily precision timing challenge. Freeze a running clock at the exact target time — unit by unit. Miss the hour and you lose everything.",
+      "A daily precision timing challenge. Freeze a running clock at the exact target combination time — unit by unit. Miss the hour and you lose everything.",
     accent: "#C5F135",
-    difficulty: "brutal",
+    difficulty: "hard",
     playTime: "~1 min",
     badges: ["Bronze", "Silver", "Gold", "Platinum"],
     badgeEmojis: ["🥉", "🥈", "🥇", "💎"],

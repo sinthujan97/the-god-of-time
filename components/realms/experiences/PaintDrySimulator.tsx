@@ -100,7 +100,7 @@ const RANDOM_MSGS = [
 
 export default function PaintDrySimulator() {
   const pathname = usePathname();
-  const slug = pathname.split("/").pop() || "paint-dry-simulator";
+  const slug = pathname.split("/").pop() || "watch-paint-dry";
   const realm = realmsRegistry.find((r) => r.slug === slug) || realmsRegistry[0];
 
   // Primary States
@@ -339,7 +339,7 @@ export default function PaintDrySimulator() {
     navigator.clipboard.writeText(
       `I have watched paint dry for ${elapsedStr} and it is ${Math.round(
         (1 - wetness) * 100
-      )}% dry. thegodoftime.com/realms/paint-dry-simulator`
+      )}% dry. thegodoftime.com/realms/watch-paint-dry`
     );
     setShareText("Copied ✓");
     setTimeout(() => setShareText("Share Progress"), 1500);

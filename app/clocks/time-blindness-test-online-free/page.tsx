@@ -3,27 +3,27 @@ import TimeBlindnessTester from "@/components/clocks/experiences/TimeBlindnessTe
 import ClockSEOContent from "@/components/clocks/ClockSEOContent";
 
 export const metadata: Metadata = {
-  title: "Time Blindness Test | Do You Have Time Blindness?",
+  title: "Time Blindness Test Online Free | ADHD Time Check",
   description:
-    "Free time blindness test. Measure your time perception accuracy. Find out if you have ADHD-related time blindness. Instant results. No signup.",
+    "Free time blindness test online. Measure your time perception accuracy. Find out if you have ADHD-related time blindness. Instant results. No signup required.",
   alternates: {
-    canonical: "https://thegodoftime.com/clocks/time-blindness-test",
+    canonical: "https://thegodoftime.com/clocks/time-blindness-test-online-free",
   },
   openGraph: {
-    title: "Time Blindness Test | Do You Have Time Blindness?",
+    title: "Time Blindness Test Online Free | ADHD Time Check",
     description:
-      "Free time blindness test. Measure your time perception accuracy. Find out if you have ADHD-related time blindness.",
-    url: "https://thegodoftime.com/clocks/time-blindness-test",
+      "Free time blindness test online. Measure your time perception accuracy. Find out if you have ADHD-related time blindness.",
+    url: "https://thegodoftime.com/clocks/time-blindness-test-online-free",
   },
 };
 
 const webAppSchema = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  name: "Time Blindness Test",
-  url: "https://thegodoftime.com/clocks/time-blindness-test",
+  name: "Time Blindness Test Online Free",
+  url: "https://thegodoftime.com/clocks/time-blindness-test-online-free",
   description:
-    "Free time blindness test. Measure your time perception accuracy and find out if you have ADHD-related time blindness.",
+    "Free time blindness test online. Measure your time perception accuracy and find out if you have ADHD-related time blindness.",
   applicationCategory: "UtilityApplication",
   operatingSystem: "Any",
   offers: {
@@ -40,7 +40,7 @@ const webAppSchema = {
 };
 
 const introText =
-  "This time blindness test measures how accurately you perceive the passage of time — people with time blindness significantly over- or underestimate time intervals without realizing it. Rather than asking you to self-report, this ADHD time blindness test hides the clock entirely and has you stop it purely on internal feel, producing a genuine time blindness quiz result instead of a guess dressed up as one. People with ADHD or suspected ADHD, anyone who struggles with punctuality or time management, parents testing their children, and therapists and coaches all use this test to put a number on something that's usually only described anecdotally.";
+  "This time blindness test online free measures how accurately you perceive the passage of time — people with time blindness significantly over- or underestimate time intervals without realizing it. Rather than asking you to self-report, this ADHD time blindness test hides the clock entirely and has you stop it purely on internal feel, producing a genuine time blindness quiz result instead of a guess dressed up as one. People with ADHD or suspected ADHD, anyone who struggles with punctuality or time management, parents testing their children, and therapists and coaches all use this test to put a number on something that's usually only described anecdotally.";
 
 const sections = [
   {
@@ -55,6 +55,11 @@ const sections = [
     title: "What Is Time Blindness?",
     body:
       "Time blindness is the inability to sense time passing — not a vision problem, but a neurological one. It is strongly associated with ADHD, with over 90% of people with ADHD reporting some degree of time blindness. Dr. Russell Barkley's research frames ADHD brains as living in \"now\" versus \"not now\" — with none of the in-between sense of approaching deadlines that neurotypical time perception provides automatically. It's important to distinguish time blindness from poor time management: time blindness is a neurological difference in how time is sensed, not laziness or a lack of trying. Common signs include being consistently late despite genuinely intending to be on time, losing track of hours during a task, underestimating how long something will take, and being repeatedly surprised at how much time has actually passed."
+  },
+  {
+    title: "Time Blindness and Executive Function",
+    body:
+      "Time blindness is classified as an executive function deficit — not a sensory or attention problem in the traditional sense. Three executive functions in particular are affected: working memory, which is what holds a start time in mind while you're absorbed in something else; cognitive flexibility, which is what lets you adjust your sense of pacing as time actually elapses; and inhibitory control, which is what lets you stop an activity the moment time is up rather than pushing on regardless. This is exactly why organizational strategies and external cues consistently outperform simply \"trying to pay more attention to the clock\" — the deficit isn't attention, it's the executive machinery that would normally translate attention into accurate timing. External tools compensate for the missing internal sense directly: visual timers that show time draining away, phone alarms set 10 minutes early rather than exactly on time, and time-blocking calendar systems that externalize the pacing your brain isn't reliably generating on its own."
   },
 ];
 
@@ -94,15 +99,25 @@ const faqs = [
     answer:
       "Starting to get ready for a meeting 5 minutes before it begins when you need 30. Sitting down to work for \"a few minutes\" and discovering 2 hours have passed. Missing dinner because you lost track of time cooking. Consistently turning in work late despite intending to be early. Telling someone you will be there in 10 minutes then arriving 45 minutes later, genuinely surprised at how long it took."
   },
+  {
+    question: "What causes time blindness in individuals?",
+    answer:
+      "Time blindness is caused by differences in the prefrontal cortex and striatum — brain regions involved in timing and time perception. In ADHD, reduced dopamine signalling in these areas impairs the brain's ability to sense elapsed time accurately. It is neurological rather than a character trait, which is why external time-management tools are more effective than willpower or \"trying harder.\""
+  },
+  {
+    question: "How to improve time awareness for ADHD?",
+    answer:
+      "The most effective strategies use external cues to replace the missing internal signal: set multiple alarms 10 and 5 minutes before transitions (not at the transition itself), use visible analog clocks rather than hidden digital phone clocks, keep a visual timer like a Time Timer in your workspace, and work in scheduled time blocks with built-in buffer time. Regular practice with time estimation tools like this test can also measurably improve accuracy over 4-6 weeks."
+  },
 ];
 
 const relatedLinks = [
-  { href: "/clocks/circadian-rhythm-clock", name: "Circadian Rhythm Clock" },
-  { href: "/clocks/reaction-time", name: "Reaction Time Test" },
+  { href: "/clocks/reaction-time-test", name: "Reaction Time Test" },
   { href: "/clocks/timer-game-online", name: "Timer Game Online" },
+  { href: "/clocks/pomodoro-timer-online", name: "Pomodoro Timer Online" },
 ];
 
-export default function TimeBlindnessPage() {
+export default function TimeBlindnessTestOnlineFreePage() {
   return (
     <>
       <script

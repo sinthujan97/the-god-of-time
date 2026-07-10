@@ -130,7 +130,7 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/clocks/time-blindness",
-        destination: "/clocks/time-blindness-test",
+        destination: "/clocks/time-blindness-test-online-free",
         permanent: true,
       },
       {
@@ -151,6 +151,41 @@ const nextConfig: NextConfig = {
       {
         source: "/realms/sacred-timeline-audit",
         destination: "/realms/the-sacred-timeline",
+        permanent: true,
+      },
+      {
+        source: "/clocks/interval-sounds",
+        destination: "/clocks/meditation-timer-online",
+        permanent: true,
+      },
+      {
+        source: "/clocks/pomodoro",
+        destination: "/clocks/pomodoro-timer-online",
+        permanent: true,
+      },
+      {
+        source: "/clocks/presentation-timer",
+        destination: "/clocks/presentation-timer-online",
+        permanent: true,
+      },
+      {
+        source: "/clocks/chess-clock",
+        destination: "/clocks/chess-clock-online",
+        permanent: true,
+      },
+      {
+        source: "/clocks/reaction-time",
+        destination: "/clocks/reaction-time-test",
+        permanent: true,
+      },
+      {
+        source: "/clocks/time-blindness-test",
+        destination: "/clocks/time-blindness-test-online-free",
+        permanent: true,
+      },
+      {
+        source: "/realms/paint-dry-simulator",
+        destination: "/realms/watch-paint-dry",
         permanent: true,
       },
     ];
