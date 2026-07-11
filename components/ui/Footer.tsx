@@ -30,6 +30,10 @@ export default function Footer() {
           <Link href="/contact" className="hover:text-text-primary transition-colors">
             Contact
           </Link>
+          <span className="opacity-40" aria-hidden="true">|</span>
+          <a href="mailto:support@thegodoftime.com" className="hover:text-text-primary transition-colors">
+            support@thegodoftime.com
+          </a>
         </div>
       </div>
     </footer>

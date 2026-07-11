@@ -41,7 +41,8 @@ export default function PrivacyPage() {
           <strong>Information you provide.</strong> If you email us through the Contact page, we receive whatever information you choose to include in that message (typically your email address and message content) so we can respond to you.
         </p>
         <p className="seo-body text-base leading-relaxed text-text-primary font-sans font-light mb-8">
-          <strong>Usage data.</strong> Like most websites, our hosting provider and any analytics or advertising services we use may automatically collect standard technical information — such as your IP address, browser type, device type, pages visited, and time spent on the site — through server logs and cookies. We do not currently use a dedicated analytics service, but reserve the right to add one; if we do, it will be covered by this policy without requiring a site redesign.
+          <strong>Usage data.</strong> We use Google Analytics to understand how visitors use this site — such as which pages are viewed, how long visitors stay, and general device/browser/location information (derived from IP address, not the IP address itself). Google Analytics uses cookies to do this. You can opt out of Google Analytics tracking across all websites by installing the{" "}
+          <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer" className="seo-internal-link underline">Google Analytics Opt-out Browser Add-on</a>.
         </p>
 
         <h2 className="seo-h2 text-[22px] font-semibold text-text-primary mt-8 mb-4 font-sans">Cookies and Advertising</h2>

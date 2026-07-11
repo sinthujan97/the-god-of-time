@@ -12,6 +12,8 @@ import { cn } from "@/lib/utils";
 // AdSense Publisher ID exists. Renders nothing until then.
 const ADSENSE_CLIENT_ID = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID;
 
+const GA_MEASUREMENT_ID = "G-WY92F7LZ6L";
+
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
   weight: ["300", "400"],
@@ -76,6 +78,18 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col bg-bg-base text-text-primary" suppressHydrationWarning>
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${GA_MEASUREMENT_ID}');
+          `}
+        </Script>
         {ADSENSE_CLIENT_ID && (
           <Script
             async
