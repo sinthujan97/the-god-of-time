@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     "Free online stopwatch with lap times, split times, and millisecond precision. Fullscreen mode and keyboard controls. No signup required.",
   alternates: {
-    canonical: "https://thegodoftime.com/clocks/stopwatch-online",
+    canonical: "/clocks/stopwatch-online",
   },
   openGraph: {
     title: "Stopwatch Online | Free With Laps & Milliseconds",
     description:
       "Free online stopwatch with lap times, split times, and millisecond precision.",
-    url: "https://thegodoftime.com/clocks/stopwatch-online",
+    url: "/clocks/stopwatch-online",
   },
 };
 

@@ -8,12 +8,12 @@ export const metadata: Metadata = {
   title: subscriptionRenewalScheduleData.seo.title,
   description: subscriptionRenewalScheduleData.seo.metaDescription,
   alternates: {
-    canonical: `https://thegodoftime.com/tools/${subscriptionRenewalScheduleData.slug}`,
+    canonical: `/tools/${subscriptionRenewalScheduleData.slug}`,
   },
   openGraph: {
     title: subscriptionRenewalScheduleData.seo.title,
     description: subscriptionRenewalScheduleData.seo.metaDescription,
-    url: `https://thegodoftime.com/tools/${subscriptionRenewalScheduleData.slug}`,
+    url: `/tools/${subscriptionRenewalScheduleData.slug}`,
     siteName: "The God of Time",
     type: "website",
   },

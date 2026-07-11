@@ -6,13 +6,13 @@ export const metadata: Metadata = {
   description:
     "The God of Time is a free hub of 100+ time and date calculators, clocks, cosmic realms, and daily games. No signup, no cost, no accounts.",
   alternates: {
-    canonical: "https://thegodoftime.com/about",
+    canonical: "/about",
   },
   openGraph: {
     title: "About | The God of Time",
     description:
       "The God of Time is a free hub of 100+ time and date calculators, clocks, cosmic realms, and daily games.",
-    url: "https://thegodoftime.com/about",
+    url: "/about",
   },
 };
 

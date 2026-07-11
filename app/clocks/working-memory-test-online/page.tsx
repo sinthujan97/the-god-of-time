@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     "Free working memory test online. Measure your digit span and spatial memory in 3 minutes. Compare your score to age norms. No signup needed.",
   alternates: {
-    canonical: "https://thegodoftime.com/clocks/working-memory-test-online",
+    canonical: "/clocks/working-memory-test-online",
   },
   openGraph: {
     title: "Working Memory Test Online | Free Cognitive Test",
     description:
       "Free working memory test online. Measure your digit span and spatial memory in 3 minutes.",
-    url: "https://thegodoftime.com/clocks/working-memory-test-online",
+    url: "/clocks/working-memory-test-online",
   },
 };
 

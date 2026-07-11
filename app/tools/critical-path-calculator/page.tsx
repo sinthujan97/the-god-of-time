@@ -8,12 +8,12 @@ export const metadata: Metadata = {
   title: criticalPathCalculatorData.seo.title,
   description: criticalPathCalculatorData.seo.metaDescription,
   alternates: {
-    canonical: `https://thegodoftime.com/tools/${criticalPathCalculatorData.slug}`,
+    canonical: `/tools/${criticalPathCalculatorData.slug}`,
   },
   openGraph: {
     title: criticalPathCalculatorData.seo.title,
     description: criticalPathCalculatorData.seo.metaDescription,
-    url: `https://thegodoftime.com/tools/${criticalPathCalculatorData.slug}`,
+    url: `/tools/${criticalPathCalculatorData.slug}`,
     siteName: "The God of Time",
     type: "website",
   },

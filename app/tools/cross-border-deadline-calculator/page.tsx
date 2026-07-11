@@ -8,12 +8,12 @@ export const metadata: Metadata = {
   title: crossBorderDeadlineCalculatorData.seo.title,
   description: crossBorderDeadlineCalculatorData.seo.metaDescription,
   alternates: {
-    canonical: `https://thegodoftime.com/tools/${crossBorderDeadlineCalculatorData.slug}`,
+    canonical: `/tools/${crossBorderDeadlineCalculatorData.slug}`,
   },
   openGraph: {
     title: crossBorderDeadlineCalculatorData.seo.title,
     description: crossBorderDeadlineCalculatorData.seo.metaDescription,
-    url: `https://thegodoftime.com/tools/${crossBorderDeadlineCalculatorData.slug}`,
+    url: `/tools/${crossBorderDeadlineCalculatorData.slug}`,
     siteName: "The God of Time",
     type: "website",
   },

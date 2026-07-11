@@ -8,12 +8,12 @@ export const metadata: Metadata = {
   title: fractionalWorkHoursAllocatorData.seo.title,
   description: fractionalWorkHoursAllocatorData.seo.metaDescription,
   alternates: {
-    canonical: `https://thegodoftime.com/tools/${fractionalWorkHoursAllocatorData.slug}`,
+    canonical: `/tools/${fractionalWorkHoursAllocatorData.slug}`,
   },
   openGraph: {
     title: fractionalWorkHoursAllocatorData.seo.title,
     description: fractionalWorkHoursAllocatorData.seo.metaDescription,
-    url: `https://thegodoftime.com/tools/${fractionalWorkHoursAllocatorData.slug}`,
+    url: `/tools/${fractionalWorkHoursAllocatorData.slug}`,
     siteName: "The God of Time",
     type: "website",
   },

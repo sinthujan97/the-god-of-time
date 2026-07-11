@@ -8,12 +8,12 @@ export const metadata: Metadata = {
   title: timeDurationCalculatorData.seo.title,
   description: timeDurationCalculatorData.seo.metaDescription,
   alternates: {
-    canonical: `https://thegodoftime.com/tools/${timeDurationCalculatorData.slug}`,
+    canonical: `/tools/${timeDurationCalculatorData.slug}`,
   },
   openGraph: {
     title: timeDurationCalculatorData.seo.title,
     description: timeDurationCalculatorData.seo.metaDescription,
-    url: `https://thegodoftime.com/tools/${timeDurationCalculatorData.slug}`,
+    url: `/tools/${timeDurationCalculatorData.slug}`,
     siteName: "The God of Time",
     type: "website",
   },

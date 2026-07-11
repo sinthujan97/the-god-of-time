@@ -8,12 +8,12 @@ export const metadata: Metadata = {
   title: isoWeekNumberData.seo.title,
   description: isoWeekNumberData.seo.metaDescription,
   alternates: {
-    canonical: `https://thegodoftime.com/tools/${isoWeekNumberData.slug}`,
+    canonical: `/tools/${isoWeekNumberData.slug}`,
   },
   openGraph: {
     title: isoWeekNumberData.seo.title,
     description: isoWeekNumberData.seo.metaDescription,
-    url: `https://thegodoftime.com/tools/${isoWeekNumberData.slug}`,
+    url: `/tools/${isoWeekNumberData.slug}`,
     siteName: "The God of Time",
     type: "website",
   },

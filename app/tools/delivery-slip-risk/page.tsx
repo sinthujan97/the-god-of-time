@@ -8,12 +8,12 @@ export const metadata: Metadata = {
   title: deliverySlipRiskData.seo.title,
   description: deliverySlipRiskData.seo.metaDescription,
   alternates: {
-    canonical: `https://thegodoftime.com/tools/${deliverySlipRiskData.slug}`,
+    canonical: `/tools/${deliverySlipRiskData.slug}`,
   },
   openGraph: {
     title: deliverySlipRiskData.seo.title,
     description: deliverySlipRiskData.seo.metaDescription,
-    url: `https://thegodoftime.com/tools/${deliverySlipRiskData.slug}`,
+    url: `/tools/${deliverySlipRiskData.slug}`,
     siteName: "The God of Time",
     type: "website",
   },

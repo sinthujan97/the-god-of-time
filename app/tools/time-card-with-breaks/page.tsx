@@ -8,12 +8,12 @@ export const metadata: Metadata = {
   title: timeCardWithBreaksData.seo.title,
   description: timeCardWithBreaksData.seo.metaDescription,
   alternates: {
-    canonical: `https://thegodoftime.com/tools/${timeCardWithBreaksData.slug}`,
+    canonical: `/tools/${timeCardWithBreaksData.slug}`,
   },
   openGraph: {
     title: timeCardWithBreaksData.seo.title,
     description: timeCardWithBreaksData.seo.metaDescription,
-    url: `https://thegodoftime.com/tools/${timeCardWithBreaksData.slug}`,
+    url: `/tools/${timeCardWithBreaksData.slug}`,
     siteName: "The God of Time",
     type: "website",
   },

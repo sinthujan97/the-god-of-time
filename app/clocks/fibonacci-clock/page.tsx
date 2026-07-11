@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     "Free Fibonacci clock online. See the current time displayed using colored Fibonacci squares. Includes a guide on how to read it. No signup required.",
   alternates: {
-    canonical: "https://thegodoftime.com/clocks/fibonacci-clock",
+    canonical: "/clocks/fibonacci-clock",
   },
   openGraph: {
     title: "Fibonacci Clock Online | Free Interactive Display",
     description:
       "Free Fibonacci clock online. See the current time displayed using colored Fibonacci squares.",
-    url: "https://thegodoftime.com/clocks/fibonacci-clock",
+    url: "/clocks/fibonacci-clock",
   },
 };
 

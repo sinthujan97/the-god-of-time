@@ -8,12 +8,12 @@ export const metadata: Metadata = {
   title: documentExpirationDateCalculatorData.seo.title,
   description: documentExpirationDateCalculatorData.seo.metaDescription,
   alternates: {
-    canonical: `https://thegodoftime.com/tools/${documentExpirationDateCalculatorData.slug}`,
+    canonical: `/tools/${documentExpirationDateCalculatorData.slug}`,
   },
   openGraph: {
     title: documentExpirationDateCalculatorData.seo.title,
     description: documentExpirationDateCalculatorData.seo.metaDescription,
-    url: `https://thegodoftime.com/tools/${documentExpirationDateCalculatorData.slug}`,
+    url: `/tools/${documentExpirationDateCalculatorData.slug}`,
     siteName: "The God of Time",
     type: "website",
   },

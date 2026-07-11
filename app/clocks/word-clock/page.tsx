@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     "Free word clock online. See the current time spelled out in words: \"IT IS QUARTER PAST THREE.\" A beautiful typographic clock display. No signup.",
   alternates: {
-    canonical: "https://thegodoftime.com/clocks/word-clock",
+    canonical: "/clocks/word-clock",
   },
   openGraph: {
     title: "Word Clock | Time Displayed as Written Words",
     description:
       "Free word clock online. See the current time spelled out in words. A beautiful typographic clock display.",
-    url: "https://thegodoftime.com/clocks/word-clock",
+    url: "/clocks/word-clock",
   },
 };
 

@@ -19,10 +19,10 @@ export const metadata = {
   openGraph: {
     title: "Solar System Age | The God of Time",
     description: realm.description,
-    url: "https://thegodoftime.com/realms/solar-system-age",
+    url: "/realms/solar-system-age",
   },
   alternates: {
-    canonical: "https://thegodoftime.com/realms/solar-system-age",
+    canonical: "/realms/solar-system-age",
   },
 };
 

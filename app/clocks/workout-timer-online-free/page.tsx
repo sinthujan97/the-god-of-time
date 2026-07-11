@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     "Free workout timer online. HIIT, Tabata, EMOM, and custom interval modes with audio alerts and color-coded phases. No app, no signup required.",
   alternates: {
-    canonical: "https://thegodoftime.com/clocks/workout-timer-online-free",
+    canonical: "/clocks/workout-timer-online-free",
   },
   openGraph: {
     title: "Workout Timer Online Free | HIIT Tabata Intervals",
     description:
       "Free workout timer online. HIIT, Tabata, EMOM, and custom interval modes with audio alerts.",
-    url: "https://thegodoftime.com/clocks/workout-timer-online-free",
+    url: "/clocks/workout-timer-online-free",
   },
 };
 

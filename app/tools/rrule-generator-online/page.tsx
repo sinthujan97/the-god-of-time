@@ -8,12 +8,12 @@ export const metadata: Metadata = {
   title: rruleGeneratorOnlineData.seo.title,
   description: rruleGeneratorOnlineData.seo.metaDescription,
   alternates: {
-    canonical: `https://thegodoftime.com/tools/${rruleGeneratorOnlineData.slug}`,
+    canonical: `/tools/${rruleGeneratorOnlineData.slug}`,
   },
   openGraph: {
     title: rruleGeneratorOnlineData.seo.title,
     description: rruleGeneratorOnlineData.seo.metaDescription,
-    url: `https://thegodoftime.com/tools/${rruleGeneratorOnlineData.slug}`,
+    url: `/tools/${rruleGeneratorOnlineData.slug}`,
     siteName: "The God of Time",
     type: "website",
   },

@@ -16,9 +16,9 @@ export const metadata = {
     title: "Remaining Experiences Counter | The God of Time",
     description:
       "How many Christmases, summers, and full moons do you have left? The numbers are oddly specific.",
-    url: "https://thegodoftime.com/realms/remaining-experiences",
+    url: "/realms/remaining-experiences",
   },
-  alternates: { canonical: "https://thegodoftime.com/realms/remaining-experiences" },
+  alternates: { canonical: "/realms/remaining-experiences" },
 };
 
 export default function RemainingExperiencesPage() {

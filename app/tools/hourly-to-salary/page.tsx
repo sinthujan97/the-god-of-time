@@ -8,12 +8,12 @@ export const metadata: Metadata = {
   title: hourlyToSalaryData.seo.title,
   description: hourlyToSalaryData.seo.metaDescription,
   alternates: {
-    canonical: `https://thegodoftime.com/tools/${hourlyToSalaryData.slug}`,
+    canonical: `/tools/${hourlyToSalaryData.slug}`,
   },
   openGraph: {
     title: hourlyToSalaryData.seo.title,
     description: hourlyToSalaryData.seo.metaDescription,
-    url: `https://thegodoftime.com/tools/${hourlyToSalaryData.slug}`,
+    url: `/tools/${hourlyToSalaryData.slug}`,
     siteName: "The God of Time",
     type: "website",
   },

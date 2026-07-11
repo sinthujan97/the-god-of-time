@@ -8,12 +8,12 @@ export const metadata: Metadata = {
   title: swatchTimeConverterData.seo.title,
   description: swatchTimeConverterData.seo.metaDescription,
   alternates: {
-    canonical: `https://thegodoftime.com/tools/${swatchTimeConverterData.slug}`,
+    canonical: `/tools/${swatchTimeConverterData.slug}`,
   },
   openGraph: {
     title: swatchTimeConverterData.seo.title,
     description: swatchTimeConverterData.seo.metaDescription,
-    url: `https://thegodoftime.com/tools/${swatchTimeConverterData.slug}`,
+    url: `/tools/${swatchTimeConverterData.slug}`,
     siteName: "The God of Time",
     type: "website",
   },

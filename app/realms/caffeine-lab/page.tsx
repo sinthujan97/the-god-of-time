@@ -15,9 +15,9 @@ export const metadata = {
   openGraph: {
     title: "Caffeine & Metabolism Lab | The God of Time",
     description: "Log your drinks. Watch your caffeine drop. Know when you can sleep.",
-    url: "https://thegodoftime.com/realms/caffeine-lab",
+    url: "/realms/caffeine-lab",
   },
-  alternates: { canonical: "https://thegodoftime.com/realms/caffeine-lab" },
+  alternates: { canonical: "/realms/caffeine-lab" },
 };
 
 export default function CaffeineLabPage() {

@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     "Free night clock online. A minimal dark bedside clock that auto-dims after 30 seconds. Fullscreen mode. Perfect for sleeping with. No signup.",
   alternates: {
-    canonical: "https://thegodoftime.com/clocks/night-clock-online",
+    canonical: "/clocks/night-clock-online",
   },
   openGraph: {
     title: "Night Clock Online | Dark Bedside Clock Free",
     description:
       "Free night clock online. A minimal dark bedside clock that auto-dims after 30 seconds. Fullscreen mode.",
-    url: "https://thegodoftime.com/clocks/night-clock-online",
+    url: "/clocks/night-clock-online",
   },
 };
 

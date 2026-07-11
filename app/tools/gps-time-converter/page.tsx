@@ -8,12 +8,12 @@ export const metadata: Metadata = {
   title: gpsTimeConverterData.seo.title,
   description: gpsTimeConverterData.seo.metaDescription,
   alternates: {
-    canonical: `https://thegodoftime.com/tools/${gpsTimeConverterData.slug}`,
+    canonical: `/tools/${gpsTimeConverterData.slug}`,
   },
   openGraph: {
     title: gpsTimeConverterData.seo.title,
     description: gpsTimeConverterData.seo.metaDescription,
-    url: `https://thegodoftime.com/tools/${gpsTimeConverterData.slug}`,
+    url: `/tools/${gpsTimeConverterData.slug}`,
     siteName: "The God of Time",
     type: "website",
   },

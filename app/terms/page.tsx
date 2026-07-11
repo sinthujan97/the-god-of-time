@@ -5,12 +5,12 @@ export const metadata: Metadata = {
   title: "Terms of Service | The God of Time",
   description: "The terms that govern your use of The God of Time's free calculators, clocks, and games.",
   alternates: {
-    canonical: "https://thegodoftime.com/terms",
+    canonical: "/terms",
   },
   openGraph: {
     title: "Terms of Service | The God of Time",
     description: "The terms that govern your use of The God of Time's free calculators, clocks, and games.",
-    url: "https://thegodoftime.com/terms",
+    url: "/terms",
   },
 };
 

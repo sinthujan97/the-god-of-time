@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     "Free tap to the beat test. Keep time after the metronome cue fades and measure your rhythm accuracy in milliseconds. No signup.",
   alternates: {
-    canonical: "https://thegodoftime.com/clocks/tap-to-the-beat-test",
+    canonical: "/clocks/tap-to-the-beat-test",
   },
   openGraph: {
     title: "Tap to the Beat Test | Rhythm Accuracy Test",
     description:
       "Free tap to the beat test. Keep time after the metronome cue fades and measure your rhythm accuracy in milliseconds.",
-    url: "https://thegodoftime.com/clocks/tap-to-the-beat-test",
+    url: "/clocks/tap-to-the-beat-test",
   },
 };
 

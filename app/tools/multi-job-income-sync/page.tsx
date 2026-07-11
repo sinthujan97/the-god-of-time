@@ -8,12 +8,12 @@ export const metadata: Metadata = {
   title: multiJobIncomeSyncData.seo.title,
   description: multiJobIncomeSyncData.seo.metaDescription,
   alternates: {
-    canonical: `https://thegodoftime.com/tools/${multiJobIncomeSyncData.slug}`,
+    canonical: `/tools/${multiJobIncomeSyncData.slug}`,
   },
   openGraph: {
     title: multiJobIncomeSyncData.seo.title,
     description: multiJobIncomeSyncData.seo.metaDescription,
-    url: `https://thegodoftime.com/tools/${multiJobIncomeSyncData.slug}`,
+    url: `/tools/${multiJobIncomeSyncData.slug}`,
     siteName: "The God of Time",
     type: "website",
   },

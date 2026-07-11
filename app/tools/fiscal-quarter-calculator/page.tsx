@@ -8,12 +8,12 @@ export const metadata: Metadata = {
   title: fiscalQuarterCalculatorData.seo.title,
   description: fiscalQuarterCalculatorData.seo.metaDescription,
   alternates: {
-    canonical: `https://thegodoftime.com/tools/${fiscalQuarterCalculatorData.slug}`,
+    canonical: `/tools/${fiscalQuarterCalculatorData.slug}`,
   },
   openGraph: {
     title: fiscalQuarterCalculatorData.seo.title,
     description: fiscalQuarterCalculatorData.seo.metaDescription,
-    url: `https://thegodoftime.com/tools/${fiscalQuarterCalculatorData.slug}`,
+    url: `/tools/${fiscalQuarterCalculatorData.slug}`,
     siteName: "The God of Time",
     type: "website",
   },

@@ -8,12 +8,12 @@ export const metadata: Metadata = {
   title: caffeineHalfLifeData.seo.title,
   description: caffeineHalfLifeData.seo.metaDescription,
   alternates: {
-    canonical: `https://thegodoftime.com/tools/${caffeineHalfLifeData.slug}`,
+    canonical: `/tools/${caffeineHalfLifeData.slug}`,
   },
   openGraph: {
     title: caffeineHalfLifeData.seo.title,
     description: caffeineHalfLifeData.seo.metaDescription,
-    url: `https://thegodoftime.com/tools/${caffeineHalfLifeData.slug}`,
+    url: `/tools/${caffeineHalfLifeData.slug}`,
     siteName: "The God of Time",
     type: "website",
   },

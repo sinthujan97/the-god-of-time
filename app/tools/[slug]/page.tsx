@@ -64,7 +64,7 @@ export async function generateMetadata({ params }: ToolPageProps): Promise<Metad
 
   const title = `${foundTool.name} | The God of Time`;
   const description = foundTool.description.slice(0, 155);
-  const canonical = `https://thegodoftime.com/tools/${foundTool.slug}`;
+  const canonical = `/tools/${foundTool.slug}`;
 
   return {
     title,

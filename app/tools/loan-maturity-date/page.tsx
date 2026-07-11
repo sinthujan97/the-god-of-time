@@ -8,12 +8,12 @@ export const metadata: Metadata = {
   title: loanMaturityDateData.seo.title,
   description: loanMaturityDateData.seo.metaDescription,
   alternates: {
-    canonical: `https://thegodoftime.com/tools/${loanMaturityDateData.slug}`,
+    canonical: `/tools/${loanMaturityDateData.slug}`,
   },
   openGraph: {
     title: loanMaturityDateData.seo.title,
     description: loanMaturityDateData.seo.metaDescription,
-    url: `https://thegodoftime.com/tools/${loanMaturityDateData.slug}`,
+    url: `/tools/${loanMaturityDateData.slug}`,
     siteName: "The God of Time",
     type: "website",
   },

@@ -18,10 +18,10 @@ export const metadata = {
     title: "The 5th Dimension | The God of Time",
     description:
       "Map your life events in 5D space. Receive AI signals from alternate futures.",
-    url: "https://thegodoftime.com/realms/fifth-dimension",
+    url: "/realms/fifth-dimension",
   },
   alternates: {
-    canonical: "https://thegodoftime.com/realms/fifth-dimension",
+    canonical: "/realms/fifth-dimension",
   },
 };
 

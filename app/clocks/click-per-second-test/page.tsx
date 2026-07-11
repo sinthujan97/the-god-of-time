@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     "Free click per second test. Click as fast as possible for 5 or 10 seconds and see your CPS score. World record is 14.1 CPS. No signup.",
   alternates: {
-    canonical: "https://thegodoftime.com/clocks/click-per-second-test",
+    canonical: "/clocks/click-per-second-test",
   },
   openGraph: {
     title: "Click Per Second Test | Free CPS Speed Test",
     description:
       "Free click per second test. Click as fast as possible and see your CPS score. World record is 14.1 CPS.",
-    url: "https://thegodoftime.com/clocks/click-per-second-test",
+    url: "/clocks/click-per-second-test",
   },
 };
 

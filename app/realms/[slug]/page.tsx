@@ -19,10 +19,13 @@ export async function generateMetadata({ params }: RealmPageProps): Promise<Meta
   return {
     title: `${realm.name} | The God of Time`,
     description: realm.description,
+    alternates: {
+      canonical: `/realms/${realm.slug}`,
+    },
     openGraph: {
       title: realm.name,
       description: realm.description,
-      url: `https://thegodoftime.com/realms/${realm.slug}`,
+      url: `/realms/${realm.slug}`,
     },
   };
 }

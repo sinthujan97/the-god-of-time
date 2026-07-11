@@ -8,12 +8,12 @@ export const metadata: Metadata = {
   title: sleepCalculatorData.seo.title,
   description: sleepCalculatorData.seo.metaDescription,
   alternates: {
-    canonical: `https://thegodoftime.com/tools/${sleepCalculatorData.slug}`,
+    canonical: `/tools/${sleepCalculatorData.slug}`,
   },
   openGraph: {
     title: sleepCalculatorData.seo.title,
     description: sleepCalculatorData.seo.metaDescription,
-    url: `https://thegodoftime.com/tools/${sleepCalculatorData.slug}`,
+    url: `/tools/${sleepCalculatorData.slug}`,
     siteName: "The God of Time",
     type: "website",
   },

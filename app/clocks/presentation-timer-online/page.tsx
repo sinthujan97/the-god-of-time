@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     "Free presentation timer online. Fullscreen speaker timer with color-coded warnings, slide time allocations, and custom presets. No signup needed.",
   alternates: {
-    canonical: "https://thegodoftime.com/clocks/presentation-timer-online",
+    canonical: "/clocks/presentation-timer-online",
   },
   openGraph: {
     title: "Presentation Timer Online | Free Fullscreen Tool",
     description:
       "Free presentation timer online. Fullscreen speaker timer with color-coded warnings and slide time allocations.",
-    url: "https://thegodoftime.com/clocks/presentation-timer-online",
+    url: "/clocks/presentation-timer-online",
   },
 };
 

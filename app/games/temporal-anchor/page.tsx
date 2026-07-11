@@ -9,10 +9,10 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Temporal Anchor | The God of Time",
     description: "Letters are dissolving. Fire the anchor. Save history.",
-    url: "https://thegodoftime.com/games/temporal-anchor",
+    url: "/games/temporal-anchor",
   },
   alternates: {
-    canonical: "https://thegodoftime.com/games/temporal-anchor",
+    canonical: "/games/temporal-anchor",
   },
 };
 

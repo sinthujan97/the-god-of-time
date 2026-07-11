@@ -5,12 +5,12 @@ export const metadata: Metadata = {
   title: "Contact | The God of Time",
   description: "Get in touch with The God of Time — report a bug, suggest a tool, or ask a question.",
   alternates: {
-    canonical: "https://thegodoftime.com/contact",
+    canonical: "/contact",
   },
   openGraph: {
     title: "Contact | The God of Time",
     description: "Get in touch with The God of Time — report a bug, suggest a tool, or ask a question.",
-    url: "https://thegodoftime.com/contact",
+    url: "/contact",
   },
 };
 

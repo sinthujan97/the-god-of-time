@@ -8,12 +8,12 @@ export const metadata: Metadata = {
   title: ptoAccrualCalculatorData.seo.title,
   description: ptoAccrualCalculatorData.seo.metaDescription,
   alternates: {
-    canonical: `https://thegodoftime.com/tools/${ptoAccrualCalculatorData.slug}`,
+    canonical: `/tools/${ptoAccrualCalculatorData.slug}`,
   },
   openGraph: {
     title: ptoAccrualCalculatorData.seo.title,
     description: ptoAccrualCalculatorData.seo.metaDescription,
-    url: `https://thegodoftime.com/tools/${ptoAccrualCalculatorData.slug}`,
+    url: `/tools/${ptoAccrualCalculatorData.slug}`,
     siteName: "The God of Time",
     type: "website",
   },

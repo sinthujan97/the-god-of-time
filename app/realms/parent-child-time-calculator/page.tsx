@@ -16,9 +16,9 @@ export const metadata = {
     title: "Parent Child Time Calculator | The God of Time",
     description:
       "By the time a child turns 18, parents have already spent approximately 90% of the total time they will ever spend with that child. See what's left.",
-    url: "https://thegodoftime.com/realms/parent-child-time-calculator",
+    url: "/realms/parent-child-time-calculator",
   },
-  alternates: { canonical: "https://thegodoftime.com/realms/parent-child-time-calculator" },
+  alternates: { canonical: "/realms/parent-child-time-calculator" },
 };
 
 const webAppSchema = {

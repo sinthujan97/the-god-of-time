@@ -8,12 +8,12 @@ export const metadata: Metadata = {
   title: remoteTeamOverlapData.seo.title,
   description: remoteTeamOverlapData.seo.metaDescription,
   alternates: {
-    canonical: `https://thegodoftime.com/tools/${remoteTeamOverlapData.slug}`,
+    canonical: `/tools/${remoteTeamOverlapData.slug}`,
   },
   openGraph: {
     title: remoteTeamOverlapData.seo.title,
     description: remoteTeamOverlapData.seo.metaDescription,
-    url: `https://thegodoftime.com/tools/${remoteTeamOverlapData.slug}`,
+    url: `/tools/${remoteTeamOverlapData.slug}`,
     siteName: "The God of Time",
     type: "website",
   },

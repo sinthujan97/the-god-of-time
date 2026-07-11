@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     "Free best time to post calculator. Find optimal posting times for Instagram, TikTok, Facebook, LinkedIn, and YouTube by timezone. No signup.",
   alternates: {
-    canonical: "https://thegodoftime.com/clocks/best-time-to-post-on-social-media",
+    canonical: "/clocks/best-time-to-post-on-social-media",
   },
   openGraph: {
     title: "Best Time to Post on Social Media | Free Tool",
     description:
       "Free best time to post calculator. Find optimal posting times for Instagram, TikTok, Facebook, LinkedIn, and YouTube by timezone.",
-    url: "https://thegodoftime.com/clocks/best-time-to-post-on-social-media",
+    url: "/clocks/best-time-to-post-on-social-media",
   },
 };
 

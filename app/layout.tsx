@@ -50,7 +50,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "The God of Time",
     description: "A hub of utility time calculators and immersive relativistic cosmic experiences.",
-    url: "https://thegodoftime.com",
+    url: "/",
     siteName: "The God of Time",
     type: "website",
     images: [

@@ -8,12 +8,12 @@ export const metadata: Metadata = {
   title: invoiceDueDateCalculatorData.seo.title,
   description: invoiceDueDateCalculatorData.seo.metaDescription,
   alternates: {
-    canonical: `https://thegodoftime.com/tools/${invoiceDueDateCalculatorData.slug}`,
+    canonical: `/tools/${invoiceDueDateCalculatorData.slug}`,
   },
   openGraph: {
     title: invoiceDueDateCalculatorData.seo.title,
     description: invoiceDueDateCalculatorData.seo.metaDescription,
-    url: `https://thegodoftime.com/tools/${invoiceDueDateCalculatorData.slug}`,
+    url: `/tools/${invoiceDueDateCalculatorData.slug}`,
     siteName: "The God of Time",
     type: "website",
   },

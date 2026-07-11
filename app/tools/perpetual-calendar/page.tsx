@@ -8,12 +8,12 @@ export const metadata: Metadata = {
   title: perpetualCalendarData.seo.title,
   description: perpetualCalendarData.seo.metaDescription,
   alternates: {
-    canonical: `https://thegodoftime.com/tools/${perpetualCalendarData.slug}`,
+    canonical: `/tools/${perpetualCalendarData.slug}`,
   },
   openGraph: {
     title: perpetualCalendarData.seo.title,
     description: perpetualCalendarData.seo.metaDescription,
-    url: `https://thegodoftime.com/tools/${perpetualCalendarData.slug}`,
+    url: `/tools/${perpetualCalendarData.slug}`,
     siteName: "The God of Time",
     type: "website",
   },

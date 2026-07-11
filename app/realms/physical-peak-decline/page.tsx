@@ -8,9 +8,9 @@ export const metadata = {
   openGraph: {
     title: "Physical Peak & Decline | The God of Time",
     description: "Sprint at 23, marathon at 28, vocabulary at 67. See where you stand on every human performance curve.",
-    url: "https://thegodoftime.com/realms/physical-peak-decline",
+    url: "/realms/physical-peak-decline",
   },
-  alternates: { canonical: "https://thegodoftime.com/realms/physical-peak-decline" },
+  alternates: { canonical: "/realms/physical-peak-decline" },
 };
 
 export default function PhysicalPeakDeclinePage() {

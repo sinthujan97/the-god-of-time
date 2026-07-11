@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     "Free speed reading test. Measure your reading speed in words per minute. Compare to average reader statistics. Improve with the reading pacer. No signup required.",
   alternates: {
-    canonical: "https://thegodoftime.com/clocks/speed-reading-test-online",
+    canonical: "/clocks/speed-reading-test-online",
   },
   openGraph: {
     title: "Speed Reading Test Online | Free WPM Test",
     description:
       "Free speed reading test. Measure your reading speed in words per minute. Compare to average reader statistics.",
-    url: "https://thegodoftime.com/clocks/speed-reading-test-online",
+    url: "/clocks/speed-reading-test-online",
   },
 };
 

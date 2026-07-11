@@ -8,12 +8,12 @@ export const metadata: Metadata = {
   title: payrollPeriodPlannerData.seo.title,
   description: payrollPeriodPlannerData.seo.metaDescription,
   alternates: {
-    canonical: `https://thegodoftime.com/tools/${payrollPeriodPlannerData.slug}`,
+    canonical: `/tools/${payrollPeriodPlannerData.slug}`,
   },
   openGraph: {
     title: payrollPeriodPlannerData.seo.title,
     description: payrollPeriodPlannerData.seo.metaDescription,
-    url: `https://thegodoftime.com/tools/${payrollPeriodPlannerData.slug}`,
+    url: `/tools/${payrollPeriodPlannerData.slug}`,
     siteName: "The God of Time",
     type: "website",
   },

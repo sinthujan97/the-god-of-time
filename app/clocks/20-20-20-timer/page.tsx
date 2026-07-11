@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     "Free 20-20-20 timer. Every 20 minutes, a reminder to look 20 feet away for 20 seconds. Reduces digital eye strain. Runs in background. No signup.",
   alternates: {
-    canonical: "https://thegodoftime.com/clocks/20-20-20-timer",
+    canonical: "/clocks/20-20-20-timer",
   },
   openGraph: {
     title: "20-20-20 Timer | Free Eye Strain Break Reminder",
     description:
       "Free 20-20-20 timer. Every 20 minutes, a reminder to look 20 feet away for 20 seconds.",
-    url: "https://thegodoftime.com/clocks/20-20-20-timer",
+    url: "/clocks/20-20-20-timer",
   },
 };
 

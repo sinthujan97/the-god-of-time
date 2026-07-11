@@ -8,12 +8,12 @@ export const metadata: Metadata = {
   title: dayOfWeekFinderData.seo.title,
   description: dayOfWeekFinderData.seo.metaDescription,
   alternates: {
-    canonical: `https://thegodoftime.com/tools/${dayOfWeekFinderData.slug}`,
+    canonical: `/tools/${dayOfWeekFinderData.slug}`,
   },
   openGraph: {
     title: dayOfWeekFinderData.seo.title,
     description: dayOfWeekFinderData.seo.metaDescription,
-    url: `https://thegodoftime.com/tools/${dayOfWeekFinderData.slug}`,
+    url: `/tools/${dayOfWeekFinderData.slug}`,
     siteName: "The God of Time",
     type: "website",
   },

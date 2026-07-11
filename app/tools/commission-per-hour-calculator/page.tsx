@@ -8,12 +8,12 @@ export const metadata: Metadata = {
   title: commissionPerHourCalculatorData.seo.title,
   description: commissionPerHourCalculatorData.seo.metaDescription,
   alternates: {
-    canonical: `https://thegodoftime.com/tools/${commissionPerHourCalculatorData.slug}`,
+    canonical: `/tools/${commissionPerHourCalculatorData.slug}`,
   },
   openGraph: {
     title: commissionPerHourCalculatorData.seo.title,
     description: commissionPerHourCalculatorData.seo.metaDescription,
-    url: `https://thegodoftime.com/tools/${commissionPerHourCalculatorData.slug}`,
+    url: `/tools/${commissionPerHourCalculatorData.slug}`,
     siteName: "The God of Time",
     type: "website",
   },

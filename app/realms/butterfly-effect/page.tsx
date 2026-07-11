@@ -16,10 +16,10 @@ export const metadata = {
     title: "Butterfly Effect | The God of Time",
     description:
       "Alter history. Navigate diverging timelines. Watch the butterfly effect unfold.",
-    url: "https://thegodoftime.com/realms/butterfly-effect",
+    url: "/realms/butterfly-effect",
   },
   alternates: {
-    canonical: "https://thegodoftime.com/realms/butterfly-effect",
+    canonical: "/realms/butterfly-effect",
   },
 };
 

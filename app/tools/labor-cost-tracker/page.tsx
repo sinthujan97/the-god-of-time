@@ -8,12 +8,12 @@ export const metadata: Metadata = {
   title: laborCostTrackerData.seo.title,
   description: laborCostTrackerData.seo.metaDescription,
   alternates: {
-    canonical: `https://thegodoftime.com/tools/${laborCostTrackerData.slug}`,
+    canonical: `/tools/${laborCostTrackerData.slug}`,
   },
   openGraph: {
     title: laborCostTrackerData.seo.title,
     description: laborCostTrackerData.seo.metaDescription,
-    url: `https://thegodoftime.com/tools/${laborCostTrackerData.slug}`,
+    url: `/tools/${laborCostTrackerData.slug}`,
     siteName: "The God of Time",
     type: "website",
   },

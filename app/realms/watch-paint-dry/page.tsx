@@ -16,10 +16,10 @@ export const metadata = {
     title: "Watch Paint Dry | The God of Time",
     description:
       "Watch paint dry online. Scientifically accurate polymer cross-linking stages. More interesting than it sounds.",
-    url: "https://thegodoftime.com/realms/watch-paint-dry",
+    url: "/realms/watch-paint-dry",
   },
   alternates: {
-    canonical: "https://thegodoftime.com/realms/watch-paint-dry",
+    canonical: "/realms/watch-paint-dry",
   },
 };
 

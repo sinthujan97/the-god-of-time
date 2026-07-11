@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     "Free hex color clock. The current time is expressed as a hex color code — the background becomes that color every second. No signup needed.",
   alternates: {
-    canonical: "https://thegodoftime.com/clocks/hex-color-clock",
+    canonical: "/clocks/hex-color-clock",
   },
   openGraph: {
     title: "Hex Color Clock | Every Second Is a Unique Color",
     description:
       "Free hex color clock. The current time is expressed as a hex color code that updates every second.",
-    url: "https://thegodoftime.com/clocks/hex-color-clock",
+    url: "/clocks/hex-color-clock",
   },
 };
 

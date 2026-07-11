@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     "Free circadian rhythm clock. See where you are in your biological cycle right now. Peak alertness, energy dips, and optimal sleep times. No signup.",
   alternates: {
-    canonical: "https://thegodoftime.com/clocks/circadian-rhythm-clock",
+    canonical: "/clocks/circadian-rhythm-clock",
   },
   openGraph: {
     title: "Circadian Rhythm Clock | Your Body Clock Online",
     description:
       "Free circadian rhythm clock. See where you are in your biological cycle right now. Peak alertness, energy dips, and optimal sleep times.",
-    url: "https://thegodoftime.com/clocks/circadian-rhythm-clock",
+    url: "/clocks/circadian-rhythm-clock",
   },
 };
 

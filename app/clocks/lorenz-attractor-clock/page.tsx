@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     "Free interactive Fractal Clock. A mesmerizing analog clock where the hands recursively branch out to form a beautiful self-similar tree pattern tracing hours, minutes, and seconds. No signup.",
   alternates: {
-    canonical: "https://thegodoftime.com/clocks/lorenz-attractor-clock",
+    canonical: "/clocks/lorenz-attractor-clock",
   },
   openGraph: {
     title: "The Fractal Clock | Interactive Geometry Clock",
     description:
       "A mesmerizing analog clock where the hands recursively branch out to form a beautiful self-similar tree pattern tracing hours, minutes, and seconds.",
-    url: "https://thegodoftime.com/clocks/lorenz-attractor-clock",
+    url: "/clocks/lorenz-attractor-clock",
   },
 };
 

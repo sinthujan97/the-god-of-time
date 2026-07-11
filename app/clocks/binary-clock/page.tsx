@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     "Free binary clock online. Watch the current time displayed in binary format with live updates. Includes a guide on how to read it. No signup.",
   alternates: {
-    canonical: "https://thegodoftime.com/clocks/binary-clock",
+    canonical: "/clocks/binary-clock",
   },
   openGraph: {
     title: "Binary Clock Online | Free Live Binary Time Display",
     description:
       "Free binary clock online. Watch the current time displayed in binary format with live updates.",
-    url: "https://thegodoftime.com/clocks/binary-clock",
+    url: "/clocks/binary-clock",
   },
 };
 

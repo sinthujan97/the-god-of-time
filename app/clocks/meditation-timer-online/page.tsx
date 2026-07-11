@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     "Free meditation timer online. Set custom intervals with gentle bell chimes at the start, middle, and end of your session. No app, no signup needed.",
   alternates: {
-    canonical: "https://thegodoftime.com/clocks/meditation-timer-online",
+    canonical: "/clocks/meditation-timer-online",
   },
   openGraph: {
     title: "Meditation Timer Online | Free With Bells & Gong",
     description:
       "Free meditation timer online. Set custom intervals with gentle bell chimes at the start, middle, and end of your session.",
-    url: "https://thegodoftime.com/clocks/meditation-timer-online",
+    url: "/clocks/meditation-timer-online",
   },
 };
 

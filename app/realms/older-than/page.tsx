@@ -16,10 +16,10 @@ export const metadata = {
     title: "You Are Older Than | The God of Time",
     description:
       "You are older than Google. Older than YouTube. Older than the iPhone. See everything younger than you.",
-    url: "https://thegodoftime.com/realms/older-than",
+    url: "/realms/older-than",
   },
   alternates: {
-    canonical: "https://thegodoftime.com/realms/older-than",
+    canonical: "/realms/older-than",
   },
 };
 

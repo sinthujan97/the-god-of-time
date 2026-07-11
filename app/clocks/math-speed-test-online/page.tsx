@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     "Free math speed test online. Solve addition, subtraction, multiplication, and division equations against the clock. No signup required.",
   alternates: {
-    canonical: "https://thegodoftime.com/clocks/math-speed-test-online",
+    canonical: "/clocks/math-speed-test-online",
   },
   openGraph: {
     title: "Math Speed Test Online | Free Arithmetic Timer",
     description:
       "Free math speed test online. Solve arithmetic equations against the clock and see your score instantly.",
-    url: "https://thegodoftime.com/clocks/math-speed-test-online",
+    url: "/clocks/math-speed-test-online",
   },
 };
 

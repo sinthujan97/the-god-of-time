@@ -20,12 +20,12 @@ export const metadata: Metadata = {
   title: data.seo.title,
   description: data.seo.metaDescription,
   alternates: {
-    canonical: `https://thegodoftime.com/tools/${data.slug}`,
+    canonical: `/tools/${data.slug}`,
   },
   openGraph: {
     title: data.seo.title,
     description: data.seo.metaDescription,
-    url: `https://thegodoftime.com/tools/${data.slug}`,
+    url: `/tools/${data.slug}`,
     siteName: "The God of Time",
     type: "website",
   },

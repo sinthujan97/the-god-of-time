@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     "Free ramen timer. Set the perfect 3-minute countdown for instant ramen with a noodle-themed animation and sound alert. Works on any device. No signup.",
   alternates: {
-    canonical: "https://thegodoftime.com/clocks/ramen-timer",
+    canonical: "/clocks/ramen-timer",
   },
   openGraph: {
     title: "Ramen Timer | 3-Minute Instant Noodle Countdown",
     description:
       "Free ramen timer. Set the perfect countdown for instant ramen with a noodle-themed animation and sound alert.",
-    url: "https://thegodoftime.com/clocks/ramen-timer",
+    url: "/clocks/ramen-timer",
   },
 };
 

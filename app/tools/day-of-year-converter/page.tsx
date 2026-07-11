@@ -8,12 +8,12 @@ export const metadata: Metadata = {
   title: dayOfYearConverterData.seo.title,
   description: dayOfYearConverterData.seo.metaDescription,
   alternates: {
-    canonical: `https://thegodoftime.com/tools/${dayOfYearConverterData.slug}`,
+    canonical: `/tools/${dayOfYearConverterData.slug}`,
   },
   openGraph: {
     title: dayOfYearConverterData.seo.title,
     description: dayOfYearConverterData.seo.metaDescription,
-    url: `https://thegodoftime.com/tools/${dayOfYearConverterData.slug}`,
+    url: `/tools/${dayOfYearConverterData.slug}`,
     siteName: "The God of Time",
     type: "website",
   },

@@ -8,9 +8,9 @@ export const metadata = {
   openGraph: {
     title: "Work Time Audit | The God of Time",
     description: "How many years of your life will go to meetings, commuting, laundry, and shoe-tying? The answer is more than you expect.",
-    url: "https://thegodoftime.com/realms/work-time-audit",
+    url: "/realms/work-time-audit",
   },
-  alternates: { canonical: "https://thegodoftime.com/realms/work-time-audit" },
+  alternates: { canonical: "/realms/work-time-audit" },
 };
 
 export default function WorkTimeAuditPage() {

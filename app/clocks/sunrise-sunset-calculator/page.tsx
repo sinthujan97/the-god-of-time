@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     "Free sunrise and sunset calculator. See today's sunrise, sunset, golden hour, and solar noon for your location. Includes live countdown to next sunrise and sunset. No signup required.",
   alternates: {
-    canonical: "https://thegodoftime.com/clocks/sunrise-sunset-calculator",
+    canonical: "/clocks/sunrise-sunset-calculator",
   },
   openGraph: {
     title: "Sunrise Sunset Calculator | Live Countdown Timer",
     description:
       "Free sunrise and sunset calculator. See today's sunrise, sunset, golden hour, and solar noon for your location.",
-    url: "https://thegodoftime.com/clocks/sunrise-sunset-calculator",
+    url: "/clocks/sunrise-sunset-calculator",
   },
 };
 

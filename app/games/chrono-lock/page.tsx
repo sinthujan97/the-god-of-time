@@ -9,10 +9,10 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Chrono Vault | The God of Time",
     description: "One shot per day. Freeze the combination. Don't miss the hour.",
-    url: "https://thegodoftime.com/games/chrono-lock",
+    url: "/games/chrono-lock",
   },
   alternates: {
-    canonical: "https://thegodoftime.com/games/chrono-lock",
+    canonical: "/games/chrono-lock",
   },
 };
 

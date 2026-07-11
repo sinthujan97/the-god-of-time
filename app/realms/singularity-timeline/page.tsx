@@ -17,9 +17,9 @@ export const metadata = {
     title: "The Singularity Timeline | The God of Time",
     description:
       "From Turing's question in 1950 to the Singularity in 2045 — live countdowns to every predicted AI milestone.",
-    url: "https://thegodoftime.com/realms/singularity-timeline",
+    url: "/realms/singularity-timeline",
   },
-  alternates: { canonical: "https://thegodoftime.com/realms/singularity-timeline" },
+  alternates: { canonical: "/realms/singularity-timeline" },
 };
 
 export default function SingularityTimelinePage() {

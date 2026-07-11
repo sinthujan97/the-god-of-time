@@ -8,12 +8,12 @@ export const metadata: Metadata = {
   title: shiftSleepAdjusterData.seo.title,
   description: shiftSleepAdjusterData.seo.metaDescription,
   alternates: {
-    canonical: `https://thegodoftime.com/tools/${shiftSleepAdjusterData.slug}`,
+    canonical: `/tools/${shiftSleepAdjusterData.slug}`,
   },
   openGraph: {
     title: shiftSleepAdjusterData.seo.title,
     description: shiftSleepAdjusterData.seo.metaDescription,
-    url: `https://thegodoftime.com/tools/${shiftSleepAdjusterData.slug}`,
+    url: `/tools/${shiftSleepAdjusterData.slug}`,
     siteName: "The God of Time",
     type: "website",
   },

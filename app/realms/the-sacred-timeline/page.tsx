@@ -9,9 +9,9 @@ export const metadata = {
   openGraph: {
     title: "The Sacred Timeline | The God of Time",
     description: "Submit your life data to the TVA. Receive your official compliance score, unauthorized variants list, and pre-crime arrest date.",
-    url: "https://thegodoftime.com/realms/the-sacred-timeline",
+    url: "/realms/the-sacred-timeline",
   },
-  alternates: { canonical: "https://thegodoftime.com/realms/the-sacred-timeline" },
+  alternates: { canonical: "/realms/the-sacred-timeline" },
 };
 
 const webAppSchema = {

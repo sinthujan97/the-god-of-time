@@ -8,12 +8,12 @@ export const metadata: Metadata = {
   title: unixTimestampConverterData.seo.title,
   description: unixTimestampConverterData.seo.metaDescription,
   alternates: {
-    canonical: `https://thegodoftime.com/tools/${unixTimestampConverterData.slug}`,
+    canonical: `/tools/${unixTimestampConverterData.slug}`,
   },
   openGraph: {
     title: unixTimestampConverterData.seo.title,
     description: unixTimestampConverterData.seo.metaDescription,
-    url: `https://thegodoftime.com/tools/${unixTimestampConverterData.slug}`,
+    url: `/tools/${unixTimestampConverterData.slug}`,
     siteName: "The God of Time",
     type: "website",
   },

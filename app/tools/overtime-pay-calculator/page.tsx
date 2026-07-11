@@ -8,12 +8,12 @@ export const metadata: Metadata = {
   title: overtimePayCalculatorData.seo.title,
   description: overtimePayCalculatorData.seo.metaDescription,
   alternates: {
-    canonical: `https://thegodoftime.com/tools/${overtimePayCalculatorData.slug}`,
+    canonical: `/tools/${overtimePayCalculatorData.slug}`,
   },
   openGraph: {
     title: overtimePayCalculatorData.seo.title,
     description: overtimePayCalculatorData.seo.metaDescription,
-    url: `https://thegodoftime.com/tools/${overtimePayCalculatorData.slug}`,
+    url: `/tools/${overtimePayCalculatorData.slug}`,
     siteName: "The God of Time",
     type: "website",
   },

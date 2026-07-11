@@ -8,12 +8,12 @@ export const metadata: Metadata = {
   title: downtimeUptimeCalculatorData.seo.title,
   description: downtimeUptimeCalculatorData.seo.metaDescription,
   alternates: {
-    canonical: `https://thegodoftime.com/tools/${downtimeUptimeCalculatorData.slug}`,
+    canonical: `/tools/${downtimeUptimeCalculatorData.slug}`,
   },
   openGraph: {
     title: downtimeUptimeCalculatorData.seo.title,
     description: downtimeUptimeCalculatorData.seo.metaDescription,
-    url: `https://thegodoftime.com/tools/${downtimeUptimeCalculatorData.slug}`,
+    url: `/tools/${downtimeUptimeCalculatorData.slug}`,
     siteName: "The God of Time",
     type: "website",
   },

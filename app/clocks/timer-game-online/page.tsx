@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     "Free timer game online. A hidden countdown runs secretly — stop it exactly at zero. Tests your internal sense of time. Free, instant, no signup.",
   alternates: {
-    canonical: "https://thegodoftime.com/clocks/timer-game-online",
+    canonical: "/clocks/timer-game-online",
   },
   openGraph: {
     title: "Timer Game Online | Stop the Hidden Timer Game",
     description:
       "Free timer game online. A hidden countdown runs secretly — stop it exactly at zero. Tests your internal sense of time.",
-    url: "https://thegodoftime.com/clocks/timer-game-online",
+    url: "/clocks/timer-game-online",
   },
 };
 

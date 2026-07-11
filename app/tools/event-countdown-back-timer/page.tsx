@@ -8,12 +8,12 @@ export const metadata: Metadata = {
   title: eventCountdownBackTimerData.seo.title,
   description: eventCountdownBackTimerData.seo.metaDescription,
   alternates: {
-    canonical: `https://thegodoftime.com/tools/${eventCountdownBackTimerData.slug}`,
+    canonical: `/tools/${eventCountdownBackTimerData.slug}`,
   },
   openGraph: {
     title: eventCountdownBackTimerData.seo.title,
     description: eventCountdownBackTimerData.seo.metaDescription,
-    url: `https://thegodoftime.com/tools/${eventCountdownBackTimerData.slug}`,
+    url: `/tools/${eventCountdownBackTimerData.slug}`,
     siteName: "The God of Time",
     type: "website",
   },

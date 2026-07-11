@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     "Free decimal clock showing French Revolutionary decimal time. 10 decimal hours, 100 decimal minutes per hour. Live display. No signup needed.",
   alternates: {
-    canonical: "https://thegodoftime.com/clocks/decimal-clock",
+    canonical: "/clocks/decimal-clock",
   },
   openGraph: {
     title: "Decimal Clock | French Revolutionary Time Online",
     description:
       "Free decimal clock showing French Revolutionary decimal time. 10 decimal hours, 100 decimal minutes per hour.",
-    url: "https://thegodoftime.com/clocks/decimal-clock",
+    url: "/clocks/decimal-clock",
   },
 };
 

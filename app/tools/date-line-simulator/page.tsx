@@ -8,12 +8,12 @@ export const metadata: Metadata = {
   title: dateLineSimulatorData.seo.title,
   description: dateLineSimulatorData.seo.metaDescription,
   alternates: {
-    canonical: `https://thegodoftime.com/tools/${dateLineSimulatorData.slug}`,
+    canonical: `/tools/${dateLineSimulatorData.slug}`,
   },
   openGraph: {
     title: dateLineSimulatorData.seo.title,
     description: dateLineSimulatorData.seo.metaDescription,
-    url: `https://thegodoftime.com/tools/${dateLineSimulatorData.slug}`,
+    url: `/tools/${dateLineSimulatorData.slug}`,
     siteName: "The God of Time",
     type: "website",
   },

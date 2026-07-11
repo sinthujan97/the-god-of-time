@@ -8,9 +8,9 @@ export const metadata = {
   openGraph: {
     title: "Financial Freedom Dashboard | The God of Time",
     description: "Enter your savings, income, and debt. See exactly when you hit every financial milestone — debt-free to work-optional.",
-    url: "https://thegodoftime.com/realms/financial-freedom-dashboard",
+    url: "/realms/financial-freedom-dashboard",
   },
-  alternates: { canonical: "https://thegodoftime.com/realms/financial-freedom-dashboard" },
+  alternates: { canonical: "/realms/financial-freedom-dashboard" },
 };
 
 export default function FinancialFreedomDashboardPage() {

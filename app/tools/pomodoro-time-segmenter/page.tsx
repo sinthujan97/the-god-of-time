@@ -8,12 +8,12 @@ export const metadata: Metadata = {
   title: pomodoroTimeSegmenterData.seo.title,
   description: pomodoroTimeSegmenterData.seo.metaDescription,
   alternates: {
-    canonical: `https://thegodoftime.com/tools/${pomodoroTimeSegmenterData.slug}`,
+    canonical: `/tools/${pomodoroTimeSegmenterData.slug}`,
   },
   openGraph: {
     title: pomodoroTimeSegmenterData.seo.title,
     description: pomodoroTimeSegmenterData.seo.metaDescription,
-    url: `https://thegodoftime.com/tools/${pomodoroTimeSegmenterData.slug}`,
+    url: `/tools/${pomodoroTimeSegmenterData.slug}`,
     siteName: "The God of Time",
     type: "website",
   },

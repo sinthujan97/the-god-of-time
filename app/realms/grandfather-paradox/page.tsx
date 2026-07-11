@@ -17,10 +17,10 @@ export const metadata = {
     title: "Grandfather Paradox | The God of Time",
     description:
       "Submit your time travel plan to the TVA. Receive an official case file: classified, risk assessed, and formally stamped.",
-    url: "https://thegodoftime.com/realms/grandfather-paradox",
+    url: "/realms/grandfather-paradox",
   },
   alternates: {
-    canonical: "https://thegodoftime.com/realms/grandfather-paradox",
+    canonical: "/realms/grandfather-paradox",
   },
 };
 

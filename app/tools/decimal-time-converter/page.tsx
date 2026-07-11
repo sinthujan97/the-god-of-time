@@ -8,12 +8,12 @@ export const metadata: Metadata = {
   title: decimalTimeConverterData.seo.title,
   description: decimalTimeConverterData.seo.metaDescription,
   alternates: {
-    canonical: `https://thegodoftime.com/tools/${decimalTimeConverterData.slug}`,
+    canonical: `/tools/${decimalTimeConverterData.slug}`,
   },
   openGraph: {
     title: decimalTimeConverterData.seo.title,
     description: decimalTimeConverterData.seo.metaDescription,
-    url: `https://thegodoftime.com/tools/${decimalTimeConverterData.slug}`,
+    url: `/tools/${decimalTimeConverterData.slug}`,
     siteName: "The God of Time",
     type: "website",
   },

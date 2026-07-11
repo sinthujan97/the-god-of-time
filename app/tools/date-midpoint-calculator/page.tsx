@@ -8,12 +8,12 @@ export const metadata: Metadata = {
   title: dateMidpointCalculatorData.seo.title,
   description: dateMidpointCalculatorData.seo.metaDescription,
   alternates: {
-    canonical: `https://thegodoftime.com/tools/${dateMidpointCalculatorData.slug}`,
+    canonical: `/tools/${dateMidpointCalculatorData.slug}`,
   },
   openGraph: {
     title: dateMidpointCalculatorData.seo.title,
     description: dateMidpointCalculatorData.seo.metaDescription,
-    url: `https://thegodoftime.com/tools/${dateMidpointCalculatorData.slug}`,
+    url: `/tools/${dateMidpointCalculatorData.slug}`,
     siteName: "The God of Time",
     type: "website",
   },

@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     title: "Clocks & Timers | The God of Time",
     description:
       "17 free online clocks and timers. Stopwatch, countdown, Pomodoro, chess clock, world clock, meditation bells, ambient displays, and more.",
-    url: "https://thegodoftime.com/clocks",
+    url: "/clocks",
   },
 };
 

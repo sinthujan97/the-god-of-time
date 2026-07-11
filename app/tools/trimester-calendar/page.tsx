@@ -8,12 +8,12 @@ export const metadata: Metadata = {
   title: trimesterCalendarData.seo.title,
   description: trimesterCalendarData.seo.metaDescription,
   alternates: {
-    canonical: `https://thegodoftime.com/tools/${trimesterCalendarData.slug}`,
+    canonical: `/tools/${trimesterCalendarData.slug}`,
   },
   openGraph: {
     title: trimesterCalendarData.seo.title,
     description: trimesterCalendarData.seo.metaDescription,
-    url: `https://thegodoftime.com/tools/${trimesterCalendarData.slug}`,
+    url: `/tools/${trimesterCalendarData.slug}`,
     siteName: "The God of Time",
     type: "website",
   },

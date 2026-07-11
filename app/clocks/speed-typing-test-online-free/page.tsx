@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     "Free speed typing test online — no signup required. Measure your words per minute (WPM) and accuracy with live stats and multiple difficulty presets.",
   alternates: {
-    canonical: "https://thegodoftime.com/clocks/speed-typing-test-online-free",
+    canonical: "/clocks/speed-typing-test-online-free",
   },
   openGraph: {
     title: "Speed Typing Test Online Free | WPM Tester",
     description:
       "Free speed typing test online — no signup required. Measure your words per minute (WPM) and accuracy.",
-    url: "https://thegodoftime.com/clocks/speed-typing-test-online-free",
+    url: "/clocks/speed-typing-test-online-free",
   },
 };
 

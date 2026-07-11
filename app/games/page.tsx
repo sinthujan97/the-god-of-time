@@ -9,12 +9,12 @@ export const metadata: Metadata = {
   description:
     "Three free daily time games. Chrono Vault, Temporal Anchor, and Chronal Arborist — precision timing challenges that reset every day. No signup needed.",
   alternates: {
-    canonical: "https://thegodoftime.com/games",
+    canonical: "/games",
   },
   openGraph: {
     title: "Daily Time Games | The God of Time",
     description: "Three free daily time games that reset every day. No signup needed.",
-    url: "https://thegodoftime.com/games",
+    url: "/games",
   },
 };
 

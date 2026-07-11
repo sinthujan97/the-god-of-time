@@ -17,9 +17,9 @@ export const metadata = {
     title: "Radioactive Decay Sandbox | The God of Time",
     description:
       "Watch atoms decay according to true quantum probability. Each flash is one nucleus disintegrating.",
-    url: "https://thegodoftime.com/realms/decay-sandbox",
+    url: "/realms/decay-sandbox",
   },
-  alternates: { canonical: "https://thegodoftime.com/realms/decay-sandbox" },
+  alternates: { canonical: "/realms/decay-sandbox" },
 };
 
 export default function DecaySandboxPage() {

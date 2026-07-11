@@ -8,12 +8,12 @@ export const metadata: Metadata = {
   title: semiMonthlyPayCalculatorData.seo.title,
   description: semiMonthlyPayCalculatorData.seo.metaDescription,
   alternates: {
-    canonical: `https://thegodoftime.com/tools/${semiMonthlyPayCalculatorData.slug}`,
+    canonical: `/tools/${semiMonthlyPayCalculatorData.slug}`,
   },
   openGraph: {
     title: semiMonthlyPayCalculatorData.seo.title,
     description: semiMonthlyPayCalculatorData.seo.metaDescription,
-    url: `https://thegodoftime.com/tools/${semiMonthlyPayCalculatorData.slug}`,
+    url: `/tools/${semiMonthlyPayCalculatorData.slug}`,
     siteName: "The God of Time",
     type: "website",
   },

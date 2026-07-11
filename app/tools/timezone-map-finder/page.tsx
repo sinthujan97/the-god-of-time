@@ -8,12 +8,12 @@ export const metadata: Metadata = {
   title: timezoneMapFinderData.seo.title,
   description: timezoneMapFinderData.seo.metaDescription,
   alternates: {
-    canonical: `https://thegodoftime.com/tools/${timezoneMapFinderData.slug}`,
+    canonical: `/tools/${timezoneMapFinderData.slug}`,
   },
   openGraph: {
     title: timezoneMapFinderData.seo.title,
     description: timezoneMapFinderData.seo.metaDescription,
-    url: `https://thegodoftime.com/tools/${timezoneMapFinderData.slug}`,
+    url: `/tools/${timezoneMapFinderData.slug}`,
     siteName: "The God of Time",
     type: "website",
   },

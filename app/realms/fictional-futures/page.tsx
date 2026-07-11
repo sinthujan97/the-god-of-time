@@ -17,10 +17,10 @@ export const metadata = {
     title: "Fictional Futures Countdown | The God of Time",
     description:
       "We've already lived through Skynet, The Matrix, and Blade Runner 2019. See what fictional futures are still ahead.",
-    url: "https://thegodoftime.com/realms/fictional-futures",
+    url: "/realms/fictional-futures",
   },
   alternates: {
-    canonical: "https://thegodoftime.com/realms/fictional-futures",
+    canonical: "/realms/fictional-futures",
   },
 };
 

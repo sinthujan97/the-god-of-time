@@ -8,12 +8,12 @@ export const metadata: Metadata = {
   title: flightDurationCalculatorData.seo.title,
   description: flightDurationCalculatorData.seo.metaDescription,
   alternates: {
-    canonical: `https://thegodoftime.com/tools/${flightDurationCalculatorData.slug}`,
+    canonical: `/tools/${flightDurationCalculatorData.slug}`,
   },
   openGraph: {
     title: flightDurationCalculatorData.seo.title,
     description: flightDurationCalculatorData.seo.metaDescription,
-    url: `https://thegodoftime.com/tools/${flightDurationCalculatorData.slug}`,
+    url: `/tools/${flightDurationCalculatorData.slug}`,
     siteName: "The God of Time",
     type: "website",
   },

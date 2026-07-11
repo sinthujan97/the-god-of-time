@@ -8,12 +8,12 @@ export const metadata: Metadata = {
   title: vaccinationTrackerData.seo.title,
   description: vaccinationTrackerData.seo.metaDescription,
   alternates: {
-    canonical: `https://thegodoftime.com/tools/${vaccinationTrackerData.slug}`,
+    canonical: `/tools/${vaccinationTrackerData.slug}`,
   },
   openGraph: {
     title: vaccinationTrackerData.seo.title,
     description: vaccinationTrackerData.seo.metaDescription,
-    url: `https://thegodoftime.com/tools/${vaccinationTrackerData.slug}`,
+    url: `/tools/${vaccinationTrackerData.slug}`,
     siteName: "The God of Time",
     type: "website",
   },

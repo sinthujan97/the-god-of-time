@@ -8,9 +8,9 @@ export const metadata = {
   openGraph: {
     title: "Legacy & Memory Calculator | The God of Time",
     description: "From your last spoken name to your DNA dissolving into the human gene pool — a timeline of your gradual disappearance.",
-    url: "https://thegodoftime.com/realms/legacy-memory-calculator",
+    url: "/realms/legacy-memory-calculator",
   },
-  alternates: { canonical: "https://thegodoftime.com/realms/legacy-memory-calculator" },
+  alternates: { canonical: "/realms/legacy-memory-calculator" },
 };
 
 export default function LegacyMemoryCalculatorPage() {

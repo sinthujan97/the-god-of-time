@@ -9,12 +9,12 @@ export const metadata: Metadata = {
   title: pregnancyDueDateData.seo.title,
   description: pregnancyDueDateData.seo.metaDescription,
   alternates: {
-    canonical: `https://thegodoftime.com/tools/${pregnancyDueDateData.slug}`,
+    canonical: `/tools/${pregnancyDueDateData.slug}`,
   },
   openGraph: {
     title: pregnancyDueDateData.seo.title,
     description: pregnancyDueDateData.seo.metaDescription,
-    url: `https://thegodoftime.com/tools/${pregnancyDueDateData.slug}`,
+    url: `/tools/${pregnancyDueDateData.slug}`,
     siteName: "The God of Time",
     type: "website",
   },

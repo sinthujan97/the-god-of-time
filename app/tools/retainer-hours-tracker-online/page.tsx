@@ -8,12 +8,12 @@ export const metadata: Metadata = {
   title: retainerHoursTrackerOnlineData.seo.title,
   description: retainerHoursTrackerOnlineData.seo.metaDescription,
   alternates: {
-    canonical: `https://thegodoftime.com/tools/${retainerHoursTrackerOnlineData.slug}`,
+    canonical: `/tools/${retainerHoursTrackerOnlineData.slug}`,
   },
   openGraph: {
     title: retainerHoursTrackerOnlineData.seo.title,
     description: retainerHoursTrackerOnlineData.seo.metaDescription,
-    url: `https://thegodoftime.com/tools/${retainerHoursTrackerOnlineData.slug}`,
+    url: `/tools/${retainerHoursTrackerOnlineData.slug}`,
     siteName: "The God of Time",
     type: "website",
   },

@@ -9,10 +9,10 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Chronal Arborist | The God of Time",
     description: "Grow the Seed of Eons. Solve history. Harvest time.",
-    url: "https://thegodoftime.com/games/chronal-arborist",
+    url: "/games/chronal-arborist",
   },
   alternates: {
-    canonical: "https://thegodoftime.com/games/chronal-arborist",
+    canonical: "/games/chronal-arborist",
   },
 };
 

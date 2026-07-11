@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     "Free reaction time test. Click when the screen changes and see your speed in milliseconds. Average human reaction time is 200-250ms. No signup required.",
   alternates: {
-    canonical: "https://thegodoftime.com/clocks/reaction-time-test",
+    canonical: "/clocks/reaction-time-test",
   },
   openGraph: {
     title: "Reaction Time Test | Average Is 200-250ms",
     description:
       "Free reaction time test. Click when the screen changes and see your speed in milliseconds.",
-    url: "https://thegodoftime.com/clocks/reaction-time-test",
+    url: "/clocks/reaction-time-test",
   },
 };
 

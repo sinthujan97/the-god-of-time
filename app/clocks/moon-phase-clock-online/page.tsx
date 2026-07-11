@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     "Free moon phase clock. See the current lunar phase, moon rise and set times, and full moon countdown for any location. No signup required.",
   alternates: {
-    canonical: "https://thegodoftime.com/clocks/moon-phase-clock-online",
+    canonical: "/clocks/moon-phase-clock-online",
   },
   openGraph: {
     title: "Moon Phase Clock Online | Current Lunar Phase",
     description:
       "Free moon phase clock. See the current lunar phase, moon rise and set times, and full moon countdown for any location.",
-    url: "https://thegodoftime.com/clocks/moon-phase-clock-online",
+    url: "/clocks/moon-phase-clock-online",
   },
 };
 

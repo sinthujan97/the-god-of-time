@@ -8,12 +8,12 @@ export const metadata: Metadata = {
   title: statutoryNoticePeriodData.seo.title,
   description: statutoryNoticePeriodData.seo.metaDescription,
   alternates: {
-    canonical: `https://thegodoftime.com/tools/${statutoryNoticePeriodData.slug}`,
+    canonical: `/tools/${statutoryNoticePeriodData.slug}`,
   },
   openGraph: {
     title: statutoryNoticePeriodData.seo.title,
     description: statutoryNoticePeriodData.seo.metaDescription,
-    url: `https://thegodoftime.com/tools/${statutoryNoticePeriodData.slug}`,
+    url: `/tools/${statutoryNoticePeriodData.slug}`,
     siteName: "The God of Time",
     type: "website",
   },

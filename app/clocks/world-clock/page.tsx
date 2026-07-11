@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     "Free world clock. See the current time in multiple cities simultaneously with business hours, day/night indicators, and DST status. No signup required.",
   alternates: {
-    canonical: "https://thegodoftime.com/clocks/world-clock",
+    canonical: "/clocks/world-clock",
   },
   openGraph: {
     title: "World Clock | Live Time in Every Time Zone",
     description:
       "Free world clock. See the current time in multiple cities simultaneously with business hours and day/night indicators.",
-    url: "https://thegodoftime.com/clocks/world-clock",
+    url: "/clocks/world-clock",
   },
 };
 

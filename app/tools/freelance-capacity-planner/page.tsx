@@ -8,12 +8,12 @@ export const metadata: Metadata = {
   title: freelanceCapacityPlannerData.seo.title,
   description: freelanceCapacityPlannerData.seo.metaDescription,
   alternates: {
-    canonical: `https://thegodoftime.com/tools/${freelanceCapacityPlannerData.slug}`,
+    canonical: `/tools/${freelanceCapacityPlannerData.slug}`,
   },
   openGraph: {
     title: freelanceCapacityPlannerData.seo.title,
     description: freelanceCapacityPlannerData.seo.metaDescription,
-    url: `https://thegodoftime.com/tools/${freelanceCapacityPlannerData.slug}`,
+    url: `/tools/${freelanceCapacityPlannerData.slug}`,
     siteName: "The God of Time",
     type: "website",
   },

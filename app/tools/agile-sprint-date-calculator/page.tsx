@@ -8,12 +8,12 @@ export const metadata: Metadata = {
   title: agileSprintDateCalculatorData.seo.title,
   description: agileSprintDateCalculatorData.seo.metaDescription,
   alternates: {
-    canonical: `https://thegodoftime.com/tools/${agileSprintDateCalculatorData.slug}`,
+    canonical: `/tools/${agileSprintDateCalculatorData.slug}`,
   },
   openGraph: {
     title: agileSprintDateCalculatorData.seo.title,
     description: agileSprintDateCalculatorData.seo.metaDescription,
-    url: `https://thegodoftime.com/tools/${agileSprintDateCalculatorData.slug}`,
+    url: `/tools/${agileSprintDateCalculatorData.slug}`,
     siteName: "The God of Time",
     type: "website",
   },

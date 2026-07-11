@@ -8,12 +8,12 @@ export const metadata: Metadata = {
   title: leapYearCalculatorData.seo.title,
   description: leapYearCalculatorData.seo.metaDescription,
   alternates: {
-    canonical: `https://thegodoftime.com/tools/${leapYearCalculatorData.slug}`,
+    canonical: `/tools/${leapYearCalculatorData.slug}`,
   },
   openGraph: {
     title: leapYearCalculatorData.seo.title,
     description: leapYearCalculatorData.seo.metaDescription,
-    url: `https://thegodoftime.com/tools/${leapYearCalculatorData.slug}`,
+    url: `/tools/${leapYearCalculatorData.slug}`,
     siteName: "The God of Time",
     type: "website",
   },

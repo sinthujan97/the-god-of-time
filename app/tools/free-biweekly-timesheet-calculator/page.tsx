@@ -8,12 +8,12 @@ export const metadata: Metadata = {
   title: freeBiweeklyTimesheetCalculatorData.seo.title,
   description: freeBiweeklyTimesheetCalculatorData.seo.metaDescription,
   alternates: {
-    canonical: `https://thegodoftime.com/tools/${freeBiweeklyTimesheetCalculatorData.slug}`,
+    canonical: `/tools/${freeBiweeklyTimesheetCalculatorData.slug}`,
   },
   openGraph: {
     title: freeBiweeklyTimesheetCalculatorData.seo.title,
     description: freeBiweeklyTimesheetCalculatorData.seo.metaDescription,
-    url: `https://thegodoftime.com/tools/${freeBiweeklyTimesheetCalculatorData.slug}`,
+    url: `/tools/${freeBiweeklyTimesheetCalculatorData.slug}`,
     siteName: "The God of Time",
     type: "website",
   },

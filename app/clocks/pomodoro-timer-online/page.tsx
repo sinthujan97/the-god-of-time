@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     "Free pomodoro timer online. 25-minute work sessions with breaks, ambient music, daily stats, and session history. No signup. Works on any device.",
   alternates: {
-    canonical: "https://thegodoftime.com/clocks/pomodoro-timer-online",
+    canonical: "/clocks/pomodoro-timer-online",
   },
   openGraph: {
     title: "Pomodoro Timer Online | Free With Music & Stats",
     description:
       "Free pomodoro timer online. 25-minute work sessions with breaks, ambient music, daily stats, and session history.",
-    url: "https://thegodoftime.com/clocks/pomodoro-timer-online",
+    url: "/clocks/pomodoro-timer-online",
   },
 };
 

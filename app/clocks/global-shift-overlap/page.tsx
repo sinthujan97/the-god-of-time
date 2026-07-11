@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Global Shift Overlap Planner | The God of Time",
     description: "Track international shifts and critical handover overlap zones in real time.",
-    url: "https://thegodoftime.com/clocks/global-shift-overlap",
+    url: "/clocks/global-shift-overlap",
   },
 };
 

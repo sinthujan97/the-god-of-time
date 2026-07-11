@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     "Free chess clock online. Fischer increment, Bronstein delay, blitz and classical presets. Two-player timer for chess and debates. No signup required.",
   alternates: {
-    canonical: "https://thegodoftime.com/clocks/chess-clock-online",
+    canonical: "/clocks/chess-clock-online",
   },
   openGraph: {
     title: "Chess Clock Online | Free With Fischer & Bronstein",
     description:
       "Free chess clock online. Fischer increment, Bronstein delay, blitz and classical presets.",
-    url: "https://thegodoftime.com/clocks/chess-clock-online",
+    url: "/clocks/chess-clock-online",
   },
 };
 

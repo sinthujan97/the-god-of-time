@@ -8,12 +8,12 @@ export const metadata: Metadata = {
   title: multiCityClockData.seo.title,
   description: multiCityClockData.seo.metaDescription,
   alternates: {
-    canonical: `https://thegodoftime.com/tools/${multiCityClockData.slug}`,
+    canonical: `/tools/${multiCityClockData.slug}`,
   },
   openGraph: {
     title: multiCityClockData.seo.title,
     description: multiCityClockData.seo.metaDescription,
-    url: `https://thegodoftime.com/tools/${multiCityClockData.slug}`,
+    url: `/tools/${multiCityClockData.slug}`,
     siteName: "The God of Time",
     type: "website",
   },

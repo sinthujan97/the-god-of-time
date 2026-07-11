@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     "Free meeting cost clock. Watch your meeting cost tick up in real time. Enter attendees and average salary. Fullscreen mode. No signup required.",
   alternates: {
-    canonical: "https://thegodoftime.com/clocks/meeting-cost-clock-online",
+    canonical: "/clocks/meeting-cost-clock-online",
   },
   openGraph: {
     title: "Meeting Cost Clock Online | Free Live Calculator",
     description:
       "Free meeting cost clock. Watch your meeting cost tick up in real time. Enter attendees and average salary.",
-    url: "https://thegodoftime.com/clocks/meeting-cost-clock-online",
+    url: "/clocks/meeting-cost-clock-online",
   },
 };
 

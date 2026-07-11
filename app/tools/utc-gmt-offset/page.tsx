@@ -8,12 +8,12 @@ export const metadata: Metadata = {
   title: utcGmtOffsetData.seo.title,
   description: utcGmtOffsetData.seo.metaDescription,
   alternates: {
-    canonical: `https://thegodoftime.com/tools/${utcGmtOffsetData.slug}`,
+    canonical: `/tools/${utcGmtOffsetData.slug}`,
   },
   openGraph: {
     title: utcGmtOffsetData.seo.title,
     description: utcGmtOffsetData.seo.metaDescription,
-    url: `https://thegodoftime.com/tools/${utcGmtOffsetData.slug}`,
+    url: `/tools/${utcGmtOffsetData.slug}`,
     siteName: "The God of Time",
     type: "website",
   },

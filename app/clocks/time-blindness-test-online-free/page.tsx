@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     "Free time blindness test online. Measure your time perception accuracy. Find out if you have ADHD-related time blindness. Instant results. No signup required.",
   alternates: {
-    canonical: "https://thegodoftime.com/clocks/time-blindness-test-online-free",
+    canonical: "/clocks/time-blindness-test-online-free",
   },
   openGraph: {
     title: "Time Blindness Test Online Free | ADHD Time Check",
     description:
       "Free time blindness test online. Measure your time perception accuracy. Find out if you have ADHD-related time blindness.",
-    url: "https://thegodoftime.com/clocks/time-blindness-test-online-free",
+    url: "/clocks/time-blindness-test-online-free",
   },
 };
 

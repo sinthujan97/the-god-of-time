@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     "Free countdown timer online. Run multiple labeled countdowns simultaneously. Fullscreen mode, sound alert, tab title countdown. No signup required.",
   alternates: {
-    canonical: "https://thegodoftime.com/clocks/countdown-timer-online",
+    canonical: "/clocks/countdown-timer-online",
   },
   openGraph: {
     title: "Countdown Timer Online | Multiple Timers & Sound",
     description:
       "Free countdown timer online. Run multiple labeled countdowns simultaneously with a tab title countdown.",
-    url: "https://thegodoftime.com/clocks/countdown-timer-online",
+    url: "/clocks/countdown-timer-online",
   },
 };
 

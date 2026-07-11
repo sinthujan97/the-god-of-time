@@ -17,10 +17,10 @@ export const metadata = {
     title: "Cosmic Body Clock | The God of Time",
     description:
       "Watch every biological counter tick live since the moment you were born.",
-    url: "https://thegodoftime.com/realms/cosmic-body-clock",
+    url: "/realms/cosmic-body-clock",
   },
   alternates: {
-    canonical: "https://thegodoftime.com/realms/cosmic-body-clock",
+    canonical: "/realms/cosmic-body-clock",
   },
 };
 

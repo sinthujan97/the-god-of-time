@@ -12,10 +12,13 @@ import { SectionAccentProvider } from "@/lib/context/SectionAccentContext";
 export const metadata: Metadata = {
   title: "The God of Time | Cosmic Time Tools & Calculators",
   description: "Explore 100 precision time calculators and immersive cosmic experiences. From business day counters to black hole gravity playgrounds — every second counts.",
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     title: "The God of Time",
     description: "100 precision time tools and immersive cosmic experiences.",
-    url: "https://thegodoftime.com",
+    url: "/",
     siteName: "The God of Time",
     type: "website"
   }

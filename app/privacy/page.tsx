@@ -5,12 +5,12 @@ export const metadata: Metadata = {
   title: "Privacy Policy | The God of Time",
   description: "How The God of Time collects, uses, and protects your information, including our use of cookies and third-party advertising.",
   alternates: {
-    canonical: "https://thegodoftime.com/privacy",
+    canonical: "/privacy",
   },
   openGraph: {
     title: "Privacy Policy | The God of Time",
     description: "How The God of Time collects, uses, and protects your information, including our use of cookies and third-party advertising.",
-    url: "https://thegodoftime.com/privacy",
+    url: "/privacy",
   },
 };
 
