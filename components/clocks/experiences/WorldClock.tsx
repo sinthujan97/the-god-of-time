@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import ClockLayout from "../ClockLayout";
 import { clocksRegistry } from "@/lib/data/clocksRegistry";
+import { calculateNextDSTTransition, type DSTTransitionEvent } from "@/lib/tools/calculations";
 
 const clockDef = clocksRegistry.find((c) => c.id === "world-clock")!;
 
@@ -58,6 +59,18 @@ const resolveTzName = (tz: string) => {
   return tz;
 };
 
+// Helper to format a Date as a local YYYY-MM-DD string (not toISOString, which is UTC and can drift near midnight)
+function toInputDateLocal(d: Date) {
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+}
+
+// Builds the digital time string, optionally with a 12-hour AM/PM suffix
+function formatDisplayTime(h: number, m: number, s: number, use12h: boolean): { timeString: string; ampm: string | null } {
+  if (!use12h) return { timeString: `${pad(h)}:${pad(m)}:${pad(s)}`, ampm: null };
+  const displayH = h % 12 === 0 ? 12 : h % 12;
+  return { timeString: `${pad(displayH)}:${pad(m)}:${pad(s)}`, ampm: h < 12 ? "AM" : "PM" };
+}
+
 // SVG Analog Face
 function AnalogFace({ h, m, s, size = 150 }: { h: number; m: number; s: number; size?: number }) {
   const cx = 75, cy = 75, r = 68;
@@ -109,6 +122,8 @@ export default function WorldClock() {
   const [clocks, setClocks] = useState<PinnedClock[]>([]);
   const [newTz, setNewTz] = useState<string>("UTC");
   const [, setTick] = useState(0);
+  const [use12Hour, setUse12Hour] = useState(false);
+  const [dstDateStr, setDstDateStr] = useState("2026-01-01");
 
   const [isFs, setIsFs] = useState(false);
   const [isPortrait, setIsPortrait] = useState(false);
@@ -163,10 +178,29 @@ export default function WorldClock() {
     } catch {}
   };
 
-  // Clock tick timer
+  // Load 12h/24h preference from local storage
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("world_clock_use12h");
+      if (saved !== null) setUse12Hour(saved === "1");
+    } catch {}
+    setDstDateStr(toInputDateLocal(new Date()));
+  }, []);
+
+  const toggleUse12Hour = () => {
+    setUse12Hour((prev) => {
+      const next = !prev;
+      try { localStorage.setItem("world_clock_use12h", next ? "1" : "0"); } catch {}
+      return next;
+    });
+  };
+
+  // Clock tick timer — also throttles dstDateStr to update at most once/day
   useEffect(() => {
     const timer = setInterval(() => {
       setTick((t) => t + 1);
+      const today = toInputDateLocal(new Date());
+      setDstDateStr((prev) => (prev === today ? prev : today));
     }, 1000);
     return () => clearInterval(timer);
   }, []);
@@ -205,7 +239,7 @@ export default function WorldClock() {
   };
 
   // Calculations for each timezone clock
-  const getClockData = (tzKey: string) => {
+  const getClockData = (tzKey: string, use12h: boolean) => {
     const tzResolved = resolveTzName(tzKey);
     try {
       const now = new Date();
@@ -277,7 +311,7 @@ export default function WorldClock() {
         h: hour,
         m: minute,
         s: second,
-        timeString: `${pad(hour)}:${pad(minute)}:${pad(second)}`,
+        ...formatDisplayTime(hour, minute, second, use12h),
         dateString: targetLocal.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" }),
         offsetHours,
         gmtOffsetStr,
@@ -293,7 +327,7 @@ export default function WorldClock() {
         h: now.getHours(),
         m: now.getMinutes(),
         s: now.getSeconds(),
-        timeString: `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`,
+        ...formatDisplayTime(now.getHours(), now.getMinutes(), now.getSeconds(), use12h),
         dateString: now.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" }),
         offsetHours: 0,
         gmtOffsetStr: "UTC",
@@ -305,6 +339,21 @@ export default function WorldClock() {
       };
     }
   };
+
+  // DST-transition lookup for all pinned cities, recomputed at most once/day
+  const dstInfoByTz = useMemo(() => {
+    const map: Record<string, { hasDSTSystem: boolean; activeTransition: DSTTransitionEvent | null; currentStatusLabel: string } | null> = {};
+    for (const c of clocks) {
+      const resolved = resolveTzName(c.tz);
+      if (map[resolved] !== undefined) continue;
+      try {
+        map[resolved] = calculateNextDSTTransition(resolved, dstDateStr);
+      } catch {
+        map[resolved] = null;
+      }
+    }
+    return map;
+  }, [clocks, dstDateStr]);
 
   let cols = 1;
   let rows = 1;
@@ -388,8 +437,29 @@ export default function WorldClock() {
               + ADD CLOCK
             </button>
           </div>
-          <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--text-muted)", fontWeight: 700 }}>
-            {clocks.length} OF 10 CLOCKS ACTIVE
+          <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+            <button
+              onClick={toggleUse12Hour}
+              title="Toggle 12-hour / 24-hour time format for all pinned clocks"
+              style={{
+                fontFamily: "var(--font-mono)",
+                fontSize: 11,
+                fontWeight: 700,
+                padding: "6px 14px",
+                border: "2px solid var(--border)",
+                borderRadius: 6,
+                background: use12Hour ? "var(--section-clocks-accent)" : "transparent",
+                color: use12Hour ? "var(--section-clocks-text-on-accent)" : "var(--text-muted)",
+                cursor: "pointer",
+                boxShadow: use12Hour ? "2px 2px 0 var(--shadow-color)" : "none",
+                letterSpacing: "0.05em",
+              }}
+            >
+              {use12Hour ? "12H" : "24H"}
+            </button>
+            <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--text-muted)", fontWeight: 700 }}>
+              {clocks.length} OF 10 CLOCKS ACTIVE
+            </div>
           </div>
         </div>
       }
@@ -420,7 +490,9 @@ export default function WorldClock() {
             }}
           >
             {clocks.map((c, idx) => {
-              const data = getClockData(c.tz);
+              const data = getClockData(c.tz, use12Hour);
+              const dst = dstInfoByTz[resolveTzName(c.tz)];
+              const dstSoon = !!(dst?.hasDSTSystem && dst.activeTransition && dst.activeTransition.daysRemaining <= 7);
               // Calculate responsive text size based on grid height
               const titleSize = isFs ? (rows >= 3 ? 14 : 16) : 18;
               const subTitleSize = isFs ? 10 : 11;
@@ -547,18 +619,32 @@ export default function WorldClock() {
                       <AnalogFace h={data.h} m={data.m} s={data.s} size={isFs ? (rows >= 3 ? 75 : rows === 2 ? 100 : 135) : 150} />
                     ) : (
                       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: isFs ? "8px 0" : "20px 0" }}>
-                        <span
-                          style={{
-                            fontFamily: "var(--font-mono)",
-                            fontSize: digitalTimeSize,
-                            fontWeight: 700,
-                            color: "var(--text-primary)",
-                            letterSpacing: "0.02em",
-                            lineHeight: 1,
-                          }}
-                        >
-                          {data.timeString}
-                        </span>
+                        <div style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
+                          <span
+                            style={{
+                              fontFamily: "var(--font-mono)",
+                              fontSize: digitalTimeSize,
+                              fontWeight: 700,
+                              color: "var(--text-primary)",
+                              letterSpacing: "0.02em",
+                              lineHeight: 1,
+                            }}
+                          >
+                            {data.timeString}
+                          </span>
+                          {data.ampm && (
+                            <span
+                              style={{
+                                fontFamily: "var(--font-mono)",
+                                fontSize: digitalDateSize + 2,
+                                fontWeight: 700,
+                                color: "var(--text-muted)",
+                              }}
+                            >
+                              {data.ampm}
+                            </span>
+                          )}
+                        </div>
                         <span
                           style={{
                             fontFamily: "var(--font-mono)",
@@ -626,6 +712,24 @@ export default function WorldClock() {
                       >
                         {data.isBusinessHours ? "💼 WORK" : "🏠 OFF"}
                       </span>
+
+                      {/* DST transition heads-up */}
+                      {dstSoon && dst?.activeTransition && (
+                        <span
+                          style={{
+                            fontFamily: "var(--font-mono)",
+                            fontSize: 9,
+                            fontWeight: 700,
+                            padding: "2px 6px",
+                            border: "1.5px solid var(--border)",
+                            borderRadius: 4,
+                            background: "var(--accent-utility-d)",
+                            color: "var(--section-clocks-text-on-accent)",
+                          }}
+                        >
+                          ⏰ {dst.activeTransition.typeOfShift === "forward" ? "SPRINGS FWD" : "FALLS BACK"} {dst.activeTransition.daysRemaining}D
+                        </span>
+                      )}
                     </div>
                   </div>
 

@@ -37,7 +37,7 @@ export const ageCalculatorData: ToolPageData = {
     relatedToolSlugs: [
       "pet-age-translator",
       "vaccination-tracker",
-      "pregnancy-due-date"
+      "pregnancy-due-date-calculator"
     ],
     faqs: [
       {

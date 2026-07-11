@@ -92,7 +92,7 @@ const faqs = [
 ];
 
 const relatedLinks = [
-  { href: "/clocks/countdown", name: "Countdown Timer" },
+  { href: "/clocks/countdown-timer-online", name: "Countdown Timer" },
   { href: "/clocks/meeting-cost-clock-online", name: "Meeting Cost Clock" },
   { href: "/clocks/pomodoro-timer-online", name: "Pomodoro Timer Online" },
 ];

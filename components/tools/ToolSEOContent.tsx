@@ -6,6 +6,7 @@ interface ToolSEOContentProps {
   introText: string;
   howToTitle: string;
   howToSteps: string[];
+  sections?: { title: string; body: string }[];
   useCases: { title: string; content: string }[];
   faqs: { question: string; answer: string }[];
   relatedToolSlugs: string[];
@@ -16,6 +17,7 @@ export default function ToolSEOContent({
   introText,
   howToTitle,
   howToSteps,
+  sections,
   useCases,
   faqs,
   relatedToolSlugs,
@@ -79,6 +81,18 @@ export default function ToolSEOContent({
           </li>
         ))}
       </ol>
+
+      {/* 2b. ADDITIONAL CONTENT SECTIONS */}
+      {sections && sections.map((section, idx) => (
+        <div key={idx}>
+          <h2 className="seo-h2 text-[22px] font-semibold text-text-primary mt-12 mb-4 font-sans">
+            {section.title}
+          </h2>
+          <p className="seo-body text-base leading-relaxed text-text-primary mb-12 font-sans font-light">
+            {section.body}
+          </p>
+        </div>
+      ))}
 
       {/* 3. USE CASES */}
       {useCases.map((useCase, idx) => (

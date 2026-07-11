@@ -213,6 +213,36 @@ const nextConfig: NextConfig = {
         destination: "/clocks/math-speed-test-online",
         permanent: true,
       },
+      {
+        source: "/clocks/micro-break-strobe",
+        destination: "/clocks/20-20-20-timer",
+        permanent: true,
+      },
+      {
+        source: "/clocks/sunrise-sunset",
+        destination: "/clocks/sunrise-sunset-calculator",
+        permanent: true,
+      },
+      {
+        source: "/clocks/interval-timer",
+        destination: "/clocks/workout-timer-online-free",
+        permanent: true,
+      },
+      {
+        source: "/clocks/countdown",
+        destination: "/clocks/countdown-timer-online",
+        permanent: true,
+      },
+      {
+        source: "/clocks/stopwatch",
+        destination: "/clocks/stopwatch-online",
+        permanent: true,
+      },
+      {
+        source: "/tools/pregnancy-due-date",
+        destination: "/tools/pregnancy-due-date-calculator",
+        permanent: true,
+      },
     ];
   },
 };

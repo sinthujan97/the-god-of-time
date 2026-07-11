@@ -2033,3 +2033,50 @@ html.dark *:before,
 html.dark *:after {
   border-color: var(--border) !important;
 }
+
+/* ─── Global Floating Skyscraper Ad Rails ─── */
+.desktop-ad-rail-left {
+  position: fixed;
+  top: 90px;
+  right: calc(50% + 630px);
+  width: 160px;
+  height: 600px;
+  z-index: 40;
+}
+
+.desktop-ad-rail-right {
+  position: fixed;
+  top: 90px;
+  left: calc(50% + 630px);
+  width: 160px;
+  height: 600px;
+  z-index: 40;
+}
+
+.desktop-ad-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.desktop-ad-box {
+  width: 160px;
+  height: 600px;
+  background-color: var(--bg-card);
+  border: 1.5px dashed var(--border) !important;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 3px 3px 0 var(--shadow-color);
+  padding: 12px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 1579px) {
+  .desktop-ad-rail-left,
+  .desktop-ad-rail-right {
+    display: none !important;
+  }
+}

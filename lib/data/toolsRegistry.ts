@@ -618,7 +618,7 @@ export const toolsRegistry: ToolGroup[] = [
     tools: [
       {
         id: "pregnancy-due-date",
-        slug: "pregnancy-due-date",
+        slug: "pregnancy-due-date-calculator",
         name: "Pregnancy Due Date Calculator",
         description: "Calculate expected delivery date based on LMP, conception date, or IVF transfer.",
         group: "health-lifecycle"

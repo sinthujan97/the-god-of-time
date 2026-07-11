@@ -94,7 +94,7 @@ const faqs = [
 const relatedLinks = [
   { href: "/clocks/meditation-timer-online", name: "Meditation Timer Online" },
   { href: "/clocks/time-blindness-test-online-free", name: "Time Blindness Test" },
-  { href: "/clocks/interval-timer", name: "Interval Timer" },
+  { href: "/clocks/workout-timer-online-free", name: "Workout Timer Online Free" },
 ];
 
 export default function PomodoroTimerOnlinePage() {

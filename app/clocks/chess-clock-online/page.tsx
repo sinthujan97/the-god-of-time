@@ -89,9 +89,9 @@ const faqs = [
 ];
 
 const relatedLinks = [
-  { href: "/clocks/countdown", name: "Countdown Timer" },
+  { href: "/clocks/countdown-timer-online", name: "Countdown Timer" },
   { href: "/clocks/reaction-time-test", name: "Reaction Time Test" },
-  { href: "/clocks/stopwatch", name: "Stopwatch" },
+  { href: "/clocks/stopwatch-online", name: "Stopwatch" },
 ];
 
 export default function ChessClockOnlinePage() {

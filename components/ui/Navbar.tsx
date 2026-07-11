@@ -102,7 +102,7 @@ const EMOJI_MAP: Record<string, string> = {
   "ntp-time-tester-online": "📶",
   "leap-second-log": "📜",
   "solar-noon-tracker": "☀️",
-  "pregnancy-due-date": "👶",
+  "pregnancy-due-date-calculator": "👶",
   "trimester-calendar": "🤰",
   "age-calculator": "🎂",
   "sleep-calculator": "💤",

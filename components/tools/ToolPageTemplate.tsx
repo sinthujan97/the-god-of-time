@@ -110,6 +110,7 @@ export default function ToolPageTemplate({ data, InputsComponent }: ToolPageTemp
               introText={data.seo.introText}
               howToTitle={data.seo.howToTitle}
               howToSteps={data.seo.howToSteps}
+              sections={data.seo.sections}
               useCases={data.seo.useCases}
               faqs={data.seo.faqs}
               relatedToolSlugs={data.seo.relatedToolSlugs}

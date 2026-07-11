@@ -35,7 +35,7 @@ export const trimesterCalendarData: ToolPageData = {
     ],
     internalLinksText: "To calculate your due date from scratch, use the Pregnancy Due Date Calculator. To track pediatric schedules, check the Vaccination Tracker Timeline.",
     relatedToolSlugs: [
-      "pregnancy-due-date",
+      "pregnancy-due-date-calculator",
       "vaccination-tracker",
       "ovulation-calculator"
     ],

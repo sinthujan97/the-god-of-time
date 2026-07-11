@@ -86,7 +86,7 @@ const TOOL_ICONS: Record<string, string> = {
   "delivery-slip-risk": "📬",
   "downtime-uptime-calculator": "🖧",
   "age-calculator": "🎂",
-  "pregnancy-due-date": "🍼",
+  "pregnancy-due-date-calculator": "🍼",
   "trimester-calendar": "🤰",
   "ovulation-calculator": "🌸",
   "medication-scheduler": "💊",

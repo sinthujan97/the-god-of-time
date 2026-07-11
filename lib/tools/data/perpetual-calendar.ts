@@ -37,7 +37,7 @@ export const perpetualCalendarData: ToolPageData = {
     relatedToolSlugs: [
       "golden-hour-tracker",
       "age-calculator",
-      "pregnancy-due-date"
+      "pregnancy-due-date-calculator"
     ],
     faqs: [
       {

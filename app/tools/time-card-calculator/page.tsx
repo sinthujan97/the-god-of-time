@@ -19,11 +19,32 @@ export const metadata: Metadata = {
   },
 };
 
+const webAppSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  name: "Time Card Calculator",
+  url: `https://thegodoftime.com/tools/${timeCardCalculatorData.slug}`,
+  description: timeCardCalculatorData.description,
+  applicationCategory: "UtilityApplication",
+  operatingSystem: "Any",
+  offers: {
+    "@type": "Offer",
+    price: "0",
+    priceCurrency: "USD",
+  },
+};
+
 export default function ToolPage() {
   return (
-    <ToolPageTemplate
-      data={timeCardCalculatorData}
-      InputsComponent={TimeCardInputs}
-    />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppSchema) }}
+      />
+      <ToolPageTemplate
+        data={timeCardCalculatorData}
+        InputsComponent={TimeCardInputs}
+      />
+    </>
   );
 }

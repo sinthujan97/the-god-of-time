@@ -35,7 +35,7 @@ export const ovulationCalculatorData: ToolPageData = {
     ],
     internalLinksText: "To calculate pregnancy due dates once conceived, use the Pregnancy Due Date Calculator. To build a trimester calendar, check the Trimester Milestone Calendar.",
     relatedToolSlugs: [
-      "pregnancy-due-date",
+      "pregnancy-due-date-calculator",
       "trimester-calendar",
       "habit-streak-planner"
     ],

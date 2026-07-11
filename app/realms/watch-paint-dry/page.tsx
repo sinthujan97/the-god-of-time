@@ -60,7 +60,7 @@ export default function WatchPaintDryPage() {
                 Absurd Clocks
               </Link>{" "}
               collection for more oddly satisfying time measurements, and the{" "}
-              <Link href="/clocks/countdown" className="seo-internal-link transition-all" style={{ color: "#E09A3A" }}>
+              <Link href="/clocks/countdown-timer-online" className="seo-internal-link transition-all" style={{ color: "#E09A3A" }}>
                 Countdown Timer
               </Link>{" "}
               to use while waiting for real paint to dry.

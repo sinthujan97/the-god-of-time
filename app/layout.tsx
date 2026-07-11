@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Cormorant_Garamond, Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/ui/ThemeProvider";
 import Navbar from "@/components/ui/Navbar";
@@ -6,6 +7,10 @@ import Footer from "@/components/ui/Footer";
 import RegisterSW from "@/components/RegisterSW";
 import "../styles/globals.css";
 import { cn } from "@/lib/utils";
+
+// Set NEXT_PUBLIC_ADSENSE_CLIENT_ID (format "ca-pub-XXXXXXXXXXXXXXXX") once an
+// AdSense Publisher ID exists. Renders nothing until then.
+const ADSENSE_CLIENT_ID = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID;
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
@@ -71,6 +76,14 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col bg-bg-base text-text-primary" suppressHydrationWarning>
+        {ADSENSE_CLIENT_ID && (
+          <Script
+            async
+            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT_ID}`}
+            crossOrigin="anonymous"
+            strategy="afterInteractive"
+          />
+        )}
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
@@ -80,7 +93,31 @@ export default function RootLayout({
           <RegisterSW />
           <Navbar />
           <main className="flex-grow pt-14 md:pt-16">
+            {/* Left Floating Ad Skyscraper */}
+            <aside className="desktop-ad-rail-left">
+              <div className="desktop-ad-placeholder">
+                <span className="text-[9px] font-mono text-text-faint uppercase block text-center mb-1.5 tracking-wider">Advertisement</span>
+                <div className="desktop-ad-box text-center">
+                  <span className="text-xl mb-2">🎁</span>
+                  <span className="text-[10px] font-mono text-text-muted font-bold block mb-1">Skyscraper Ad</span>
+                  <span className="text-[9px] font-mono text-text-faint block">160 × 600 Slot</span>
+                </div>
+              </div>
+            </aside>
+
             {children}
+
+            {/* Right Floating Ad Skyscraper */}
+            <aside className="desktop-ad-rail-right">
+              <div className="desktop-ad-placeholder">
+                <span className="text-[9px] font-mono text-text-faint uppercase block text-center mb-1.5 tracking-wider">Advertisement</span>
+                <div className="desktop-ad-box text-center">
+                  <span className="text-xl mb-2">🎁</span>
+                  <span className="text-[10px] font-mono text-text-muted font-bold block mb-1">Skyscraper Ad</span>
+                  <span className="text-[9px] font-mono text-text-faint block">160 × 600 Slot</span>
+                </div>
+              </div>
+            </aside>
           </main>
           <Footer />
         </ThemeProvider>

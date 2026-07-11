@@ -89,7 +89,7 @@ const faqs = [
 ];
 
 const relatedLinks = [
-  { href: "/clocks/sunrise-sunset", name: "Sunrise Sunset Calculator" },
+  { href: "/clocks/sunrise-sunset-calculator", name: "Sunrise Sunset Calculator" },
   { href: "/clocks/circadian-rhythm-clock", name: "Circadian Rhythm Clock" },
   { href: "/clocks/night-clock-online", name: "Night Clock Online" },
 ];

@@ -84,8 +84,8 @@ const faqs = [
 ];
 
 const relatedLinks = [
-  { href: "/clocks/countdown", name: "Countdown Timer" },
-  { href: "/clocks/interval-timer", name: "Interval Timer" },
+  { href: "/clocks/countdown-timer-online", name: "Countdown Timer" },
+  { href: "/clocks/workout-timer-online-free", name: "Workout Timer Online Free" },
   { href: "/realms/absurd-clocks", name: "Absurd Clocks" },
 ];
 
