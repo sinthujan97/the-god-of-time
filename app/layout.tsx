@@ -7,6 +7,7 @@ import Footer from "@/components/ui/Footer";
 import RegisterSW from "@/components/RegisterSW";
 import "../styles/globals.css";
 import { cn } from "@/lib/utils";
+import { SITE_URL } from "@/lib/constants";
 
 // Set NEXT_PUBLIC_ADSENSE_CLIENT_ID (format "ca-pub-XXXXXXXXXXXXXXXX") once an
 // AdSense Publisher ID exists. Renders nothing until then.
@@ -39,8 +40,25 @@ const jetbrains = JetBrains_Mono({
   variable: "--font-mono",
 });
 
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "The God of Time",
+  url: SITE_URL,
+  logo: `${SITE_URL}/icon.svg`,
+  description: "A free hub of 100+ precision time and date calculators, clocks, cosmic realms, and daily games.",
+};
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "The God of Time",
+  url: SITE_URL,
+  description: "A free hub of 100+ precision time and date calculators, clocks, cosmic realms, and daily games.",
+};
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://thegodoftime.com"),
+  metadataBase: new URL(SITE_URL),
   title: "The God of Time",
   description: "A hub of utility time calculators and immersive relativistic cosmic experiences.",
   manifest: "/manifest.json",
@@ -78,6 +96,14 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col bg-bg-base text-text-primary" suppressHydrationWarning>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+        />
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
           strategy="afterInteractive"

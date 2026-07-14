@@ -2034,11 +2034,15 @@ html.dark *:after {
   border-color: var(--border) !important;
 }
 
-/* ─── Global Floating Skyscraper Ad Rails ─── */
+/* ─── Global Floating Skyscraper Ad Rails ───
+   Positioned as a gap-from-viewport-edge (not a gap-from-center) so a
+   guaranteed minimum outer margin can be enforced via max() — without this,
+   the rails sit flush against the browser edge right as they first become
+   visible at the ~1580px breakpoint below. */
 .desktop-ad-rail-left {
   position: fixed;
   top: 90px;
-  right: calc(50% + 630px);
+  left: max(16px, calc(50% - 790px));
   width: 160px;
   height: 600px;
   z-index: 40;
@@ -2047,7 +2051,7 @@ html.dark *:after {
 .desktop-ad-rail-right {
   position: fixed;
   top: 90px;
-  left: calc(50% + 630px);
+  right: max(16px, calc(50% - 790px));
   width: 160px;
   height: 600px;
   z-index: 40;

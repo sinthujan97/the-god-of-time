@@ -1,0 +1,271 @@
+{
+  "summary": {
+    "health_score": 62,
+    "business_type": "Free utility SaaS / content-tool hybrid (time & date calculators, clocks, novelty games) — no e-commerce, no local/brick-and-mortar signals",
+    "top_findings": [
+      "Every canonical URL, OG URL, sitemap entry, and JSON-LD url field points at the apex domain (thegodoftime.com), which itself 308-redirects to www.thegodoftime.com — confirmed independently by 5 of 9 audit agents (technical, schema, sitemap, geo, backlinks) as the single highest-confidence issue on the site",
+      "/tools, /clocks, and /realms — three of the site's four top-level hub pages — have no canonical tag at all",
+      "Click Per Second Test page's FAQ and WebApplication schema claim 'auto clicker detection' and 'live percentile comparison' features that do not exist in CpsTester.tsx — a factual accuracy defect live on the site right now",
+      "No sitewide Organization/WebSite schema and no llms.txt exist — the site has no structured brand-entity signal for either traditional SERP knowledge panels or AI/LLM retrieval",
+      "Homepage and World Clock measure Poor LCP (7.8s, mobile lab); Age Calculator and Countdown Timer measure severe Total Blocking Time (1.2-1.8s) — all four driven by main-thread JS/hydration cost, not network"
+    ],
+    "quick_wins": [
+      "Fix the apex→www domain mismatch in 3 files (app/layout.tsx metadataBase, app/sitemap.ts BASE_URL, app/robots.ts sitemap field) — highest leverage, lowest effort fix on the whole audit",
+      "Add alternates.canonical to app/tools/page.tsx, app/clocks/page.tsx, app/realms/page.tsx (3-line fix each, same pattern already used on app/games/page.tsx)",
+      "Regenerate icon-192.png/icon-512.png — currently byte-identical 562KB mislabeled files, confirmed as the single largest resource loaded on the homepage",
+      "Correct or remove the CPS-test page's false auto-clicker-detection / percentile-comparison claims",
+      "Delete the confirmed-dead app/tools/[slug]/page.tsx placeholder route (101/101 registry tools already have dedicated pages; this route is unreachable)"
+    ]
+  },
+  "categories": [
+    {
+      "name": "Technical SEO",
+      "score": 58,
+      "weight": "22%",
+      "what_works": [
+        "Redirect hygiene is otherwise clean: single-hop apex→www 308, trailing/double-slash normalization, ~46 legacy slugs correctly redirected via next.config.ts",
+        "Fully server-rendered content and internal links — no \"use client\" in any app/**/page.tsx, confirmed 101 tool links present in raw pre-JS /tools HTML",
+        "Structured data present and correctly typed (WebApplication, BreadcrumbList, FAQPage) on tool and realm pages",
+        "Dynamically generated 171-URL sitemap driven by the same content registries as routing — new pages auto-get sitemap coverage",
+        "Lightweight footprint: no next/image/<img> beyond small icons, self-hosted fonts, correct true-404 handling, unrestrictive mobile viewport"
+      ],
+      "findings": [
+        {"title": "Canonical/OG/sitemap all point to apex domain that 308-redirects to www", "severity": "Critical", "description": "metadataBase (app/layout.tsx), sitemap BASE_URL (app/sitemap.ts), and the robots.ts sitemap field all hardcode https://thegodoftime.com, but that host 308-redirects to https://www.thegodoftime.com — the only host that serves 200s. Every canonical tag, OG URL, and all 171 sitemap URLs point to a redirecting URL.", "recommendation": "Standardize on www everywhere (metadataBase, sitemap BASE_URL, robots.ts sitemap field); centralize into one exported SITE_URL constant so it can't drift again."},
+        {"title": "/tools, /clocks, /realms hub pages have no canonical tag", "severity": "High", "description": "Live checks confirm /tools, /clocks, /realms render no <link rel=\"canonical\">, while / and /games do. These are 3 of the site's 4 top-level hub pages.", "recommendation": "Add alternates: { canonical: \"/tools\" } (etc.) to each hub page's metadata export, matching app/games/page.tsx's existing pattern."},
+        {"title": "No security response headers beyond automatic HSTS", "severity": "High", "description": "Missing X-Content-Type-Options, X-Frame-Options/CSP frame-ancestors, Content-Security-Policy, Referrer-Policy, Permissions-Policy. No headers() in next.config.ts, no middleware.ts, no vercel.json.", "recommendation": "Add a headers() function in next.config.ts (nosniff, SAMEORIGIN, strict-origin-when-cross-origin, scoped Permissions-Policy). Defer full CSP until the inline GA4 bootstrap script is nonce'd/externalized."},
+        {"title": "No IndexNow protocol implementation", "severity": "Medium", "description": "No IndexNow key file or push integration exists despite daily-refreshing content (/games) and a growing set of pages.", "recommendation": "Generate an IndexNow key, host at public/<key>.txt, ping api.indexnow.org when registries change."},
+        {"title": "robots.txt Sitemap directive points to redirecting apex host", "severity": "Medium", "description": "robots.txt declares Sitemap: https://thegodoftime.com/sitemap.xml, itself 308-redirecting — an unnecessary hop.", "recommendation": "Fixed by the same code change as the top canonicalization finding."},
+        {"title": "ads.txt returns 404", "severity": "Info", "description": "Expected pre-monetization state — no AdSense publisher ID exists yet, so no placeholder file was created.", "recommendation": "Add ads.txt once AdSense approval issues a publisher ID."}
+      ]
+    },
+    {
+      "name": "Content Quality",
+      "score": 74,
+      "weight": "23%",
+      "what_works": [
+        "Hand-written, factually specific tool content (Naegele's Rule math, IVF transfer offsets, pay-differential benchmarks) rather than generic AI boilerplate",
+        "All 101 tool pages emit valid FAQPage JSON-LD with 3-8 genuine Q&A pairs each on a consistent intro → how-to → sections → FAQ hierarchy",
+        "Registry/folder integrity is excellent: 101/101 registry tools have dedicated pages; the feared [slug] fallback is confirmed unreachable dead code, not live thin content",
+        "Transparent Privacy Policy naming Google Analytics/AdSense with working opt-out links",
+        "Readability is consistent (~grade 9-11), no keyword stuffing observed"
+      ],
+      "findings": [
+        {"title": "/realms/absurd-clocks is a live near-duplicate of /realms/watch-paint-dry", "severity": "Medium", "description": "Reachable via the realms [slug] catch-all, absurd-clocks renders the identical PaintDrySimulator component but the unique SEO content already written for it in realmsRegistry.ts is never rendered by the catch-all route — that content is dead data.", "recommendation": "Give absurd-clocks its own static page rendering its already-written registry SEO content, or 301-redirect it to watch-paint-dry and remove from generateStaticParams."},
+        {"title": "No author/organization/named-entity E-E-A-T signal anywhere", "severity": "Medium-High", "description": "No Organization/Person schema, no named team, no visible 'not medical/legal advice' disclaimer on individual YMYL-adjacent tool pages (pregnancy, ovulation, medication, legal-deadline calculators) despite Terms covering it site-wide.", "recommendation": "Add a 'who makes this' section to /about, Organization JSON-LD site-wide, and visible per-page disclaimers on YMYL-adjacent calculators."},
+        {"title": "Support email is a known placeholder per source TODO", "severity": "Medium", "description": "Contact page hardcodes support@thegodoftime.com behind a TODO noting it should be replaced with a real form once the domain/email are fully set up, while user-facing copy claims 'we read every message.'", "recommendation": "Confirm the inbox is live/monitored before treating Contact as production-ready, or implement the referenced form integration."},
+        {"title": "~70% of tool pages are under ~400 words, well below the site's own benchmark pages", "severity": "Medium", "description": "Content ranges from ~147 words (vaccination-tracker) to ~866 words (time-card-calculator); ~71/101 pages lack the richer H2 sections block the site's best pages use.", "recommendation": "Backfill the sections block used on shift-differential-calculator/pregnancy-due-date-calculator to the thinnest ~40-50 pages, prioritizing high-value and YMYL-adjacent tools first."},
+        {"title": "No content freshness / last-updated signals", "severity": "Low", "description": "No dateModified/datePublished in any JSON-LD, no visible last-updated date anywhere.", "recommendation": "Add dateModified to ToolPageData and surface a reviewed date in schema/UI."},
+        {"title": "[slug] placeholder route confirmed unreachable dead code", "severity": "Low", "description": "Verified via generateStaticParams/folder cross-reference and a live 404 test — Next.js route precedence makes it permanently unreachable while registry/folder stay in sync.", "recommendation": "Delete app/tools/[slug]/page.tsx as cleanup, or add a build-time assertion guaranteeing sync."}
+      ]
+    },
+    {
+      "name": "On-Page SEO",
+      "score": 65,
+      "weight": "20%",
+      "what_works": [
+        "Title tags and meta descriptions are consistently unique, keyword-led, and within reasonable length across every page checked this audit and throughout the site's build history",
+        "Single H1 per page with logical H2/H3 hierarchy, verified consistently on sampled tool/clock/realm pages",
+        "Internal linking is dense and relevant (breadcrumbs, related-tool rails, cross-links between clocks/tools/realms)"
+      ],
+      "findings": [
+        {"title": "3 of 4 top-level hub pages missing canonical tags", "severity": "High", "description": "See Technical SEO — /tools, /clocks, /realms render no canonical tag.", "recommendation": "See Technical SEO recommendation."},
+        {"title": "Click Per Second Test page content overclaims unbuilt features", "severity": "High", "description": "The WebApplication featureList and an on-page FAQ claim auto-clicker detection (>16 CPS flagging) and 'percentile comparison against other testers.' Neither exists in components/clocks/experiences/CpsTester.tsx — no detection logic exists, and the score panel is a static hardcoded rank-tier lookup, not a live percentile.", "recommendation": "Either implement the two claimed features (a CPS threshold flag is trivial; percentile needs at least a static distribution table) or rewrite the schema/FAQ copy to only describe what the component actually does."},
+        {"title": "Comparison-shopper differentiator claims buried in prose instead of shown as scannable proof", "severity": "Medium", "description": "Real competitive differentiators (e.g. World Clock's multi-city-at-once view) are embedded mid-paragraph rather than presented as a scannable checklist for the comparison-shopping persona clearly present in multi-competitor SERPs.", "recommendation": "Pull 2-3 of these claims into a small visual 'why this tool' checklist near the top of the SEO content zone on high-competition pages."},
+        {"title": "World Clock ships with zero city times in server-rendered HTML", "severity": "High", "description": "WorldClock.tsx seeds city state as useState([]), populated only in a mount useEffect, so crawlers and first-paint see an empty widget with no content-parity against competitors' static reference tables (timeanddate.com, worldclock.com).", "recommendation": "Server-render a default table of ~10-15 major city times as real HTML for first-paint/crawl safety and competitive content parity."}
+      ]
+    },
+    {
+      "name": "Schema / Structured Data",
+      "score": 58,
+      "weight": "10%",
+      "what_works": [
+        "BreadcrumbList schema applied almost universally across clocks, tools, realms, and games via shared layout components",
+        "FAQPage generation is templatized and DRY across all three content-type SEO components, only rendering when an FAQ array is populated",
+        "No deprecated schema types found anywhere despite many step-based tools that would tempt a HowTo implementation",
+        "Existing WebApplication blocks are well-formed (correct @context, offers, applicationCategory, featureList) with no placeholder text in any sampled block"
+      ],
+      "findings": [
+        {"title": "No sitewide Organization or WebSite schema exists anywhere", "severity": "High", "description": "Zero matches for Organization/WebSite @type across the entire codebase. No structured entity/brand signal (name, logo, sameAs); not eligible for a Sitelinks Search Box.", "recommendation": "Add a single sitewide Organization + WebSite schema rendered once at the root with name, url, logo, description."},
+        {"title": "All JSON-LD url/item values use the redirecting apex domain", "severity": "High", "description": "Same root cause as the Technical SEO canonicalization finding, independently confirmed in every hand-written and auto-generated schema block.", "recommendation": "Fixed by the same centralized SITE_URL constant fix."},
+        {"title": "Only ~25% of tool pages (25/102) have WebApplication schema", "severity": "Medium", "description": "WebApplication was added ad hoc over time rather than being part of the shared ToolPageTemplate pattern.", "recommendation": "Move WebApplication generation into ToolSEOContent.tsx/ToolPageTemplate itself, deriving fields from lib/tools/data/<slug>.ts."},
+        {"title": "Only 4 of 25 built realm pages have WebApplication schema", "severity": "Medium", "description": "Same ad hoc pattern as tools, mirrored in the realms section.", "recommendation": "Lift WebApplication generation into RealmLayout.tsx using existing realmsRegistry.ts data."},
+        {"title": "global-shift-overlap clock page has zero structured data beyond BreadcrumbList", "severity": "Medium", "description": "The only outlier among 32 built clock pages — no WebApplication, no FAQPage.", "recommendation": "Add WebApplication schema and wire a populated FAQ array through ClockSEOContent, matching sibling pages."},
+        {"title": "Orphaned empty directory: app/clocks/split-flap-planner/", "severity": "Low", "description": "No page.tsx, no registry entry — a work-in-progress scaffold, not a live 404.", "recommendation": "Build it out or delete the directory."}
+      ]
+    },
+    {
+      "name": "Performance (Core Web Vitals)",
+      "score": 55,
+      "weight": "10%",
+      "what_works": [
+        "TTFB is genuinely good site-wide (70-194ms measured via real Lighthouse runs on 4 sampled pages) — Vercel hosting is not a bottleneck",
+        "Font loading is well-implemented: next/font self-hosts all 4 families, zero font-display issues flagged",
+        "CLS is essentially solved: 3 of 4 pages measured exactly 0, the 4th (Age Calculator) a comfortable 0.084",
+        "Third-party script hygiene is good: GA loads via correct afterInteractive strategy; AdSense loader confirmed correctly environment-gated and absent from every trace",
+        "DOM size well controlled (242-370 elements) on all sampled pages"
+      ],
+      "findings": [
+        {"title": "Homepage and World Clock LCP is Poor (7.8s mobile lab)", "severity": "High", "description": "Measured via real Lighthouse runs. Driven by 1.6s+ Script Evaluation and 1.0-1.1s Style & Layout work on main thread before the LCP text node paints — not a network issue (TTFB is good).", "recommendation": "Defer non-critical client-side hydration on the above-the-fold path; keep the LCP element and ancestors in Server Components where possible."},
+        {"title": "Age Calculator and Countdown Timer have severe Total Blocking Time (1.2-1.8s)", "severity": "High", "description": "TBT measured 1,767ms and 1,222ms respectively. Single tasks of 640ms/498ms from the page bundle, plus recurring tasks from a shared 72KB chunk (37.6% unused) and gtag.js during hydration.", "recommendation": "Code-split the shared vendor/app chunk; break large hydration tasks into smaller units via scheduler.yield()/requestIdleCallback."},
+        {"title": "icon-192.png and icon-512.png are identical, mislabeled, oversized (562KB each)", "severity": "Medium", "description": "Both are byte-for-byte identical 1024x1024 baseline JPEGs saved with a .png extension despite manifest.json declaring 192x192/512x512 PNGs. Confirmed as the single largest resource fetched on the homepage — bigger than all JS combined.", "recommendation": "Regenerate real, correctly-sized/encoded icon assets matching manifest.json's declarations."},
+        {"title": "World Clock's per-second tick does non-memoized Intl.DateTimeFormat work for every pinned city", "severity": "Medium", "description": "setInterval fires every 1000ms, instantiating 2-3 new Intl.DateTimeFormat objects per pinned clock (up to 10) every tick, none memoized. Real recurring main-thread cost not fully captured by a single load trace.", "recommendation": "Cache Intl.DateTimeFormat instances per timezone in a reused Map; reuse one shared AudioContext instead of creating one per split-flap character flip."},
+        {"title": "gtag.js is deferred correctly but still meaningfully sized/partially unused", "severity": "Medium", "description": "163.7KB transferred, 41.98% (67.4KB) unused per Lighthouse; appears in long-tasks on every page.", "recommendation": "Consider strategy=lazyOnload or manually delaying injection by 2-3s since GA events queue via dataLayer.push."},
+        {"title": "Global CSS bundle (~27KB) is render-blocking on every page", "severity": "Low", "description": "Flagged on all 4 pages tested, contributing an estimated 150-166ms blocking duration each.", "recommendation": "Audit for unused CSS per-route; lower priority than JS/LCP findings."}
+      ]
+    },
+    {
+      "name": "AI Search Readiness (GEO)",
+      "score": 61,
+      "weight": "10%",
+      "what_works": [
+        "Genuinely citable FAQ content at scale: hand-written, specific, number-anchored answers correctly wrapped in FAQPage JSON-LD, confirmed present in raw pre-JS HTML",
+        "Fully open robots.txt with no blocks on GPTBot, ClaudeBot, PerplexityBot, or OAI-SearchBot",
+        "Solid SSR foundation confirmed via X-Nextjs-Prerender header — even \"use client\" pages deliver full text and JSON-LD in initial HTML with no JS-execution dependency for crawlers",
+        "Clear, self-contained entity framing on the About page describing what the site is in plain extractable prose"
+      ],
+      "findings": [
+        {"title": "No llms.txt exists", "severity": "High", "description": "public/llms.txt returns 404. 171 sitemap URLs across 4 content types have no purpose-built index for LLM retrieval.", "recommendation": "Add public/llms.txt with a site description plus grouped Markdown link lists per section, generated at build time from the existing registries so it never drifts out of sync."},
+        {"title": "No sitewide Organization/WebSite schema and zero cross-platform brand signals", "severity": "High", "description": "No sameAs array anywhere in the codebase; Footer has zero outbound social links. YouTube and Reddit/Wikipedia mentions correlate most strongly with AI citation.", "recommendation": "Add sitewide Organization/WebSite JSON-LD with a sameAs array; prioritize establishing at least one off-site channel over further backlink building."},
+        {"title": "No authorship, content dates, or freshness signals anywhere", "severity": "Medium", "description": "Zero <lastmod> tags across all 171 sitemap URLs; no datePublished/dateModified metadata despite YMYL-adjacent content.", "recommendation": "Add <lastmod> to sitemap entries, dateModified to WebApplication schema, and a sitewide methodology note referencing named formulas already used in FAQ copy."},
+        {"title": "Near-zero multi-modal content", "severity": "Medium", "description": "No images/video/iframes inside SEO content components; no per-page OG image generation — every page falls back to the sitewide icon.svg.", "recommendation": "Add per-page dynamic OG images (Next.js ImageResponse) as a low-effort first step."},
+        {"title": "robots.txt has no explicit AI-crawler policy and its sitemap URL forces a redirect", "severity": "Low", "description": "Functionally open but undocumented; Sitemap: line points at the redirecting apex domain.", "recommendation": "Add explicit documented Allow rules for major AI crawlers; fix the Sitemap: line as part of the centralized domain fix."}
+      ]
+    },
+    {
+      "name": "Images",
+      "score": 40,
+      "weight": "5%",
+      "what_works": [
+        "No broken alt-text surface area to speak of, since the site deliberately uses almost no photographic/illustrative <img> content — mostly SVG icons and emoji"
+      ],
+      "findings": [
+        {"title": "Primary PWA icons are broken: identical, mislabeled, 562KB each", "severity": "Medium", "description": "See Performance category — confirmed the single largest resource on the homepage.", "recommendation": "Regenerate correctly-sized/encoded icon assets."},
+        {"title": "No per-page Open Graph images", "severity": "Medium", "description": "Every page shares one sitewide icon.svg as its social preview image, regardless of content — a missed differentiation/CTR opportunity on social shares.", "recommendation": "Generate per-page or per-category OG images via Next.js ImageResponse."},
+        {"title": "Near-zero illustrative/explanatory imagery site-wide", "severity": "Low", "description": "No diagrams, screenshots, or explanatory visuals anywhere in tool/clock content, flagged independently by the GEO audit as a multi-modal content gap.", "recommendation": "Longer-term: add explanatory diagrams with alt text to major tool pages."}
+      ]
+    },
+    {
+      "name": "Sitemap Structure (supplementary)",
+      "score": 80,
+      "weight": "not in core weighting — supplementary",
+      "what_works": [
+        "Fully dynamic and registry-driven (app/sitemap.ts) — zero manual maintenance, auto-updates with the registries",
+        "isExistingTool dedup logic verified correct live: zero duplicate URLs across all 171 entries",
+        "Registry-to-route arithmetic reconciles exactly (9 static + 32 clocks + 101 tools + 26 realms + 3 games = 171) with zero orphaned page.tsx files",
+        "Valid XML throughout, well under the 50,000-URL limit, correctly omits deprecated priority/changefreq tags"
+      ],
+      "findings": [
+        {"title": "Every sitemap URL points to the redirecting apex domain", "severity": "High", "description": "Same root cause as the Technical SEO finding, independently reconfirmed here with live 200-vs-308 verification.", "recommendation": "Same centralized SITE_URL fix."},
+        {"title": "No lastmod field on any entry", "severity": "Low", "description": "Deliberate and reasonable given no real per-page timestamp data exists — but a missed weak recrawl signal.", "recommendation": "Wire in a genuine lastUpdated field if/when registries gain one. Do not fabricate fake dates."}
+      ]
+    },
+    {
+      "name": "Visual & Mobile (supplementary)",
+      "score": 84,
+      "weight": "not in core weighting — supplementary",
+      "what_works": [
+        "Strong above-the-fold desktop and mobile homepage: H1, subhead, CTAs, and live widget visible without scrolling",
+        "Well-built mobile navigation overlay reproducing the full categorized mega-menu",
+        "Consistent neo-brutalist dark theme and typography hierarchy across all page types tested",
+        "Ad placeholders are clearly labeled, non-intrusive, never overlap calculator inputs/results",
+        "Zero console errors and zero horizontal overflow across all pages tested at desktop and mobile viewports"
+      ],
+      "findings": [
+        {"title": "World Clock card controls fail minimum touch-target size on mobile", "severity": "Medium", "description": "Per-clock prev/next/remove icon buttons measure 22x22px (guideline ~44-48px); the remove (✕) button sits directly beside navigation with no spacing buffer, risking accidental deletion.", "recommendation": "Increase tappable hit area to at least 44x44px via padding; add spacing/confirm step around the remove action."},
+        {"title": "Floating ad rails render flush against the browser edge at ~1600px viewport width", "severity": "Medium", "description": "At the common 1600x900 laptop resolution, both ad boxes touch the viewport edge with 0px margin, unlike the ~170px gutter at 1920px.", "recommendation": "Add a guaranteed minimum outer margin or raise the hide breakpoint to ~1650px."},
+        {"title": "Mobile breadcrumb/H1 truncation on long tool names", "severity": "Low", "description": "On narrow viewports, breadcrumbs and H1s for long tool names truncate/wrap awkwardly, pushing the calculator further down the fold.", "recommendation": "Drop the current-page breadcrumb crumb on mobile or apply graceful ellipsis; consider shorter H1s for long-named tools."},
+        {"title": "Live stat widget awkwardly bisected by the fold on mobile homepage", "severity": "Low", "description": "The live clock/stats card is only ~10% visible at the bottom edge at 375x812, looking like an accidental crop.", "recommendation": "Reposition above the CTA stack as a trust signal, or push fully below the fold with adequate margin."}
+      ]
+    },
+    {
+      "name": "Search Experience (SXO, supplementary)",
+      "score": 58,
+      "weight": "not in core weighting — supplementary",
+      "what_works": [
+        "Tool-first layout matches the dominant SERP pattern for transactional/utility queries — every top competitor also puts the calculator above the fold before prose",
+        "Time Card Calculator's content depth and default grid closely mirror category leaders, including specific FLSA rules",
+        "Pregnancy Due Date Calculator correctly covers all three real calculation methods with appropriate medical hedging",
+        "Click Per Second Test's double-click hardware diagnostic mode is a genuine working differentiator most competitors lack"
+      ],
+      "findings": [
+        {"title": "YMYL E-E-A-T signals missing on pregnancy-due-date-calculator", "severity": "Critical", "description": "Top SERP results (APA, NHS, UpToDate, hospitals) all carry reviewer credentials, last-revised dates, and citation networks. This page has good depth but zero author/reviewedBy/dateModified and no outbound authoritative citations, for a query bordering on medical advice.", "recommendation": "Add a 'reviewed against ACOG/NHS guidelines' line with a real date, dateModified/author in schema, and 1-2 outbound citations to ACOG/NHS/Mayo. Extend to the whole Health & Lifecycle group."},
+        {"title": "Click-per-second-test schema/FAQ claim features that don't exist in the code", "severity": "High", "description": "Cross-referenced with the On-Page SEO finding above.", "recommendation": "See On-Page SEO recommendation."},
+        {"title": "World Clock renders empty on first paint and lacks a static reference table", "severity": "High", "description": "Cross-referenced with the On-Page SEO finding above.", "recommendation": "See On-Page SEO recommendation."},
+        {"title": "Time Card Calculator has no export/print, the one feature every top competitor offers", "severity": "Medium", "description": "Zero print/export/CSV/download functionality anywhere on the site, while category leaders offer PDF/CSV export or printable reports.", "recommendation": "Add a lightweight print stylesheet or 'copy summary' action to HR/Payroll tools."},
+        {"title": "CPS test has the mechanics of a challenge but not the social hook the intent implies", "severity": "Low", "description": "\"Click per second test\" intent is social/competitive per SERP language, but the world-record comparison only exists as FAQ prose, never surfaced live next to the user's own score, and there's no share action.", "recommendation": "Surface 'You: X CPS — World record: 14.1 CPS' live in the results panel and add a one-tap share/copy action."}
+      ]
+    },
+    {
+      "name": "Backlinks (supplementary)",
+      "score": 10,
+      "weight": "not in core weighting — supplementary, expected baseline for a brand-new site",
+      "what_works": [
+        "No technical blockers to future backlink accumulation: robots.txt open, sitemap live and well-formed",
+        "No evidence anywhere of a toxic, spammy, or penalized domain history — the one legacy Wayback snapshot (2018 robots.txt) is benign",
+        "Genuinely link-worthy content foundation: 100+ free, working interactive calculators/clocks/games is exactly the content type that attracts organic listicle/directory/forum links"
+      ],
+      "findings": [
+        {"title": "Domain has zero footprint in Common Crawl's index", "severity": "Info", "description": "Expected for site age (weeks-old content, no outreach run yet) — not a defect.", "recommendation": "Submit the sitemap to Google Search Console and Bing Webmaster Tools; pursue scoped link-building (Product Hunt launch, free-tool directories, targeted per-calculator subreddit posts, listicle outreach)."},
+        {"title": "Zero referring domains found via any free public source", "severity": "Info", "description": "Consistent zero-backlink baseline across Common Crawl, Wayback Machine, and Hacker News search.", "recommendation": "Treat as a starting line, not a problem."}
+      ]
+    }
+  ],
+  "action_plan": {
+    "phases": [
+      {
+        "name": "Phase 1: Critical Fixes",
+        "timeframe": "Week 1",
+        "items": [
+          "Centralize the domain: update metadataBase (app/layout.tsx), BASE_URL (app/sitemap.ts), and the sitemap field (app/robots.ts) to https://www.thegodoftime.com — fixes canonical tags, OG URLs, sitemap URLs, and JSON-LD url fields in one coordinated change (confirmed by 5 of 9 agents as the top issue)",
+          "Add alternates.canonical to app/tools/page.tsx, app/clocks/page.tsx, app/realms/page.tsx",
+          "Fix or remove the false 'auto-clicker detection' / 'percentile comparison' claims on the Click Per Second Test page's FAQ and WebApplication schema",
+          "Add real author/reviewed-date/citation signals to pregnancy-due-date-calculator specifically (highest YMYL exposure on the site)"
+        ]
+      },
+      {
+        "name": "Phase 2: High-Impact Improvements",
+        "timeframe": "Weeks 2-3",
+        "items": [
+          "Add sitewide Organization + WebSite JSON-LD schema with a sameAs array",
+          "Add public/llms.txt generated from the existing content registries",
+          "Regenerate icon-192.png and icon-512.png (currently identical mislabeled 562KB files, largest resource on the homepage)",
+          "Add security headers via next.config.ts headers() (nosniff, frame-ancestors, Referrer-Policy, Permissions-Policy)",
+          "Server-render a default city-times table on World Clock instead of an empty first paint",
+          "Investigate and reduce LCP on Home/World Clock and TBT on Age Calculator/Countdown Timer (code-split the shared 72KB chunk, defer non-critical hydration)",
+          "Memoize Intl.DateTimeFormat instances in WorldClock.tsx's per-second tick; reuse one AudioContext instead of creating one per split-flap flip",
+          "Fix World Clock's mobile touch targets (22px → 44px minimum) and add spacing around the remove button",
+          "Fix the ad-rail edge-flush layout at ~1600px viewport width"
+        ]
+      },
+      {
+        "name": "Phase 3: Content & Authority",
+        "timeframe": "Month 2",
+        "items": [
+          "Backfill the H2 'sections' content block to the ~40-50 thinnest tool pages (currently under ~400 words), prioritizing YMYL-adjacent tools",
+          "Add WebApplication schema to the ~77 tool pages and ~21 realm pages currently missing it, by lifting it into the shared template components",
+          "Fix /realms/absurd-clocks to render its own unique registry content instead of duplicating watch-paint-dry",
+          "Add dateModified/lastmod signals sitewide (sitemap entries + schema)",
+          "Add per-page/per-category Open Graph images",
+          "Confirm the support@thegodoftime.com inbox is actually live and monitored, or ship the planned support form",
+          "Add print/export functionality to Time Card Calculator and related HR/Payroll tools",
+          "Delete the confirmed-dead app/tools/[slug]/page.tsx placeholder route"
+        ]
+      },
+      {
+        "name": "Phase 4: Monitoring & Iteration",
+        "timeframe": "Ongoing",
+        "items": [
+          "Set up Google Search Console and Bing Webmaster Tools, submit the sitemap",
+          "Begin scoped link-building appropriate to a new free-tool site: Product Hunt launch, free-tool directories, relevant per-calculator subreddit posts, 'best free tools' listicle outreach",
+          "Establish at least one off-site brand channel (YouTube demo clips or genuine Reddit participation) to support AI citation signals",
+          "Re-run this audit's Performance category once AdSense goes live with a real publisher ID (ad rail containers should be pre-sized to the eventual ad slot dimensions to avoid new CLS)",
+          "Add an IndexNow key and push integration"
+        ]
+      }
+    ]
+  },
+  "artifacts": {
+    "findings_dir": "findings/",
+    "screenshots_dir": "screenshots/"
+  }
+}

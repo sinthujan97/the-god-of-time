@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import CpsTester from "@/components/clocks/experiences/CpsTester";
 import ClockSEOContent from "@/components/clocks/ClockSEOContent";
+import { SITE_URL } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "Click Per Second Test | Free CPS Speed Test",
@@ -21,9 +22,9 @@ const webAppSchema = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
   name: "Click Per Second Test",
-  url: "https://thegodoftime.com/clocks/click-per-second-test",
+  url: `${SITE_URL}/clocks/click-per-second-test`,
   description:
-    "Free clicks per second (CPS) test with 5, 10, and 30 second trials, plus a mouse double-click hardware diagnostic.",
+    "Free clicks per second (CPS) test with 5, 10, and 15 second trials, plus a mouse double-click hardware diagnostic.",
   applicationCategory: "UtilityApplication",
   operatingSystem: "Any",
   offers: {
@@ -32,10 +33,10 @@ const webAppSchema = {
     priceCurrency: "USD",
   },
   featureList: [
-    "5, 10, and 30 second CPS trials",
-    "Percentile comparison against other testers",
+    "5, 10, and 15 second CPS trials",
+    "Speed rank tier from Sloth to Cheetah",
     "Mouse double-click hardware diagnostic",
-    "Auto clicker detection",
+    "Switch chatter event log",
   ],
 };
 
@@ -59,7 +60,7 @@ const faqs = [
   {
     question: "What is a clicks per second test?",
     answer:
-      "A clicks per second test measures how quickly you can click a mouse button within a fixed time window, expressed as clicks per second (CPS). You click a target zone as fast as possible for the test duration, then receive your CPS score and a percentile comparison against other users. It is used by gamers to benchmark PvP performance and by hardware enthusiasts to test mouse responsiveness."
+      "A clicks per second test measures how quickly you can click a mouse button within a fixed time window, expressed as clicks per second (CPS). You click a target zone as fast as possible for the test duration, then receive your CPS score and a speed rank from Sloth up to Cheetah. It is used by gamers to benchmark PvP performance and by hardware enthusiasts to test mouse responsiveness."
   },
   {
     question: "How can I improve my clicks per second score?",
@@ -79,12 +80,12 @@ const faqs = [
   {
     question: "Can I use an auto clicker for the test?",
     answer:
-      "Auto clickers produce unrealistically high scores (100+ CPS) that are detectable by comparison to known human limits. The test includes basic detection that flags results significantly above the human maximum of approximately 16 CPS with regular technique. Auto clicker scores are not meaningful as a measure of your actual speed and are excluded from any leaderboard or percentile ranking."
+      "You can, but the resulting number won't mean anything as a measure of your actual clicking speed — an auto clicker can easily produce 100+ CPS, far beyond the human maximum of roughly 16 CPS with regular technique. The test simply counts clicks in the time window; it doesn't try to detect or flag automated input, so an auto-clicker score is just not a meaningful result to compare against real human benchmarks."
   },
   {
     question: "What are the different test durations available?",
     answer:
-      "The test supports 5-second, 10-second, and 30-second modes. The 5-second test is most commonly used for CPS benchmarking as it is long enough to show your sustained speed but short enough to avoid significant muscle fatigue. The 30-second test measures your endurance clicking rate as fatigue sets in."
+      "The test supports 5-second, 10-second, and 15-second modes. The 5-second test is most commonly used for CPS benchmarking as it is long enough to show your sustained speed but short enough to avoid significant muscle fatigue. The 15-second test is a better read on your endurance clicking rate as fatigue starts to set in."
   },
   {
     question: "Can this tool also diagnose mouse hardware problems?",

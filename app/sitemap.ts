@@ -3,8 +3,9 @@ import { clocksRegistry } from "@/lib/data/clocksRegistry";
 import { toolsRegistry } from "@/lib/data/toolsRegistry";
 import { realmsRegistry } from "@/lib/data/realmsRegistry";
 import { gamesRegistry } from "@/lib/data/gamesRegistry";
+import { SITE_URL } from "@/lib/constants";
 
-const BASE_URL = "https://thegodoftime.com";
+const BASE_URL = SITE_URL;
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = [

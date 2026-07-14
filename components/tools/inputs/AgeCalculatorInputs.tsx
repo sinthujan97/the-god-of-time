@@ -9,8 +9,14 @@ interface AgeCalculatorInputsProps {
   groupAccent: string;
 }
 
+// Fixed placeholder seed (not new Date()) so the "Live Age Chronometer" block
+// renders on the very first paint instead of popping in after a mount effect —
+// that pop-in was causing both a measurable layout shift and a delayed LCP.
+// The mount effect below replaces it with a real "30 years ago" date.
+const DEFAULT_BIRTH_DATE_SEED = new Date(1996, 0, 1, 12, 0, 0);
+
 export default function AgeCalculatorInputs({ groupAccent }: AgeCalculatorInputsProps) {
-  const [birthDate, setBirthDate] = useState<Date | undefined>(undefined);
+  const [birthDate, setBirthDate] = useState<Date | undefined>(DEFAULT_BIRTH_DATE_SEED);
   const [birthTime, setBirthTime] = useState<string>("12:00");
 
   const [isLoading, setIsLoading] = useState(false);

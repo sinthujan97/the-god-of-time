@@ -6,6 +6,9 @@ export const metadata: Metadata = {
   title: "Clocks & Timers | Free Online Clocks | The God of Time",
   description:
     "Free online clocks and timers: stopwatch, countdown timer, Pomodoro, chess clock, world clock, meditation bells, ambient clock collection, and more.",
+  alternates: {
+    canonical: "/clocks",
+  },
   openGraph: {
     title: "Clocks & Timers | The God of Time",
     description:
